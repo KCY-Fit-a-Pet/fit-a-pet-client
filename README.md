@@ -22,12 +22,8 @@
 - Rxswift
 
 ### Architecture
-- MVC
+- MVC     
 
-## ERD
-
-
-## Projcet Board
 
 (재서님꺼 줍줍)
 ## Branch Convention
