@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4A15F2072AA641910098F2F7 /* SignUpNextBtn.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A15F2062AA641910098F2F7 /* SignUpNextBtn.swift */; };
+		4A15F2092AA790D60098F2F7 /* SignUpProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A15F2082AA790D60098F2F7 /* SignUpProgressBar.swift */; };
+		4A15F20B2AA799C50098F2F7 /* SignUpConstomLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A15F20A2AA799C50098F2F7 /* SignUpConstomLabel.swift */; };
 		4A567A3E2A9A73AD0015B00D /* SignUpVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A567A3D2A9A73AD0015B00D /* SignUpVC.swift */; };
 		4AA999922A8485A500E495FA /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AA999912A8485A500E495FA /* AppDelegate.swift */; };
 		4AA999942A8485A500E495FA /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AA999932A8485A500E495FA /* SceneDelegate.swift */; };
@@ -19,6 +22,9 @@
 
 /* Begin PBXFileReference section */
 		1BE018CCB6881B4EFC5C6D84 /* Pods-fit-a-pet-client.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-fit-a-pet-client.release.xcconfig"; path = "Target Support Files/Pods-fit-a-pet-client/Pods-fit-a-pet-client.release.xcconfig"; sourceTree = "<group>"; };
+		4A15F2062AA641910098F2F7 /* SignUpNextBtn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpNextBtn.swift; sourceTree = "<group>"; };
+		4A15F2082AA790D60098F2F7 /* SignUpProgressBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpProgressBar.swift; sourceTree = "<group>"; };
+		4A15F20A2AA799C50098F2F7 /* SignUpConstomLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpConstomLabel.swift; sourceTree = "<group>"; };
 		4A567A3D2A9A73AD0015B00D /* SignUpVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpVC.swift; sourceTree = "<group>"; };
 		4AA9998E2A8485A500E495FA /* fit-a-pet-client.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "fit-a-pet-client.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		4AA999912A8485A500E495FA /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -115,6 +121,9 @@
 		4ABE585D2A85E91600E22C5F /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				4A15F2062AA641910098F2F7 /* SignUpNextBtn.swift */,
+				4A15F2082AA790D60098F2F7 /* SignUpProgressBar.swift */,
+				4A15F20A2AA799C50098F2F7 /* SignUpConstomLabel.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -265,10 +274,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4A15F2092AA790D60098F2F7 /* SignUpProgressBar.swift in Sources */,
+				4A15F20B2AA799C50098F2F7 /* SignUpConstomLabel.swift in Sources */,
 				4A567A3E2A9A73AD0015B00D /* SignUpVC.swift in Sources */,
 				4AA999962A8485A500E495FA /* MainVC.swift in Sources */,
 				4AA999922A8485A500E495FA /* AppDelegate.swift in Sources */,
 				4AA999942A8485A500E495FA /* SceneDelegate.swift in Sources */,
+				4A15F2072AA641910098F2F7 /* SignUpNextBtn.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

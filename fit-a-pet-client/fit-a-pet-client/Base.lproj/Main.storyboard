@@ -54,7 +54,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="JiC-Xa-lbo" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="718" y="-939"/>
+            <point key="canvasLocation" x="716.79389312977094" y="-939.43661971830988"/>
         </scene>
         <!--Input Auth NumVC-->
         <scene sceneID="0Fj-AU-dBo">
@@ -84,7 +84,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="SZp-32-3xo" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2207" y="-939"/>
+            <point key="canvasLocation" x="2206.8702290076335" y="-939.43661971830988"/>
         </scene>
         <!--Input PwVC-->
         <scene sceneID="MOI-TS-usS">
