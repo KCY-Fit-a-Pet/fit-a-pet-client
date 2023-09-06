@@ -10,7 +10,11 @@
 		4A15F2072AA641910098F2F7 /* SignUpNextBtn.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A15F2062AA641910098F2F7 /* SignUpNextBtn.swift */; };
 		4A15F2092AA790D60098F2F7 /* SignUpProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A15F2082AA790D60098F2F7 /* SignUpProgressBar.swift */; };
 		4A15F20B2AA799C50098F2F7 /* SignUpConstomLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A15F20A2AA799C50098F2F7 /* SignUpConstomLabel.swift */; };
-		4A567A3E2A9A73AD0015B00D /* SignUpVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A567A3D2A9A73AD0015B00D /* SignUpVC.swift */; };
+		4A15F20E2AA8B4150098F2F7 /* InputPhoneNumVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A15F20D2AA8B4150098F2F7 /* InputPhoneNumVC.swift */; };
+		4A15F2102AA8B45A0098F2F7 /* InputAuthNumVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A15F20F2AA8B45A0098F2F7 /* InputAuthNumVC.swift */; };
+		4A15F2122AA8B4880098F2F7 /* InputIdVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A15F2112AA8B4880098F2F7 /* InputIdVC.swift */; };
+		4A15F2142AA8B4A50098F2F7 /* InputPwVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A15F2132AA8B4A50098F2F7 /* InputPwVC.swift */; };
+		4A15F2162AA8B4CA0098F2F7 /* InputNickVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A15F2152AA8B4CA0098F2F7 /* InputNickVC.swift */; };
 		4AA999922A8485A500E495FA /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AA999912A8485A500E495FA /* AppDelegate.swift */; };
 		4AA999942A8485A500E495FA /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AA999932A8485A500E495FA /* SceneDelegate.swift */; };
 		4AA999962A8485A500E495FA /* MainVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AA999952A8485A500E495FA /* MainVC.swift */; };
@@ -25,7 +29,11 @@
 		4A15F2062AA641910098F2F7 /* SignUpNextBtn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpNextBtn.swift; sourceTree = "<group>"; };
 		4A15F2082AA790D60098F2F7 /* SignUpProgressBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpProgressBar.swift; sourceTree = "<group>"; };
 		4A15F20A2AA799C50098F2F7 /* SignUpConstomLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpConstomLabel.swift; sourceTree = "<group>"; };
-		4A567A3D2A9A73AD0015B00D /* SignUpVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpVC.swift; sourceTree = "<group>"; };
+		4A15F20D2AA8B4150098F2F7 /* InputPhoneNumVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputPhoneNumVC.swift; sourceTree = "<group>"; };
+		4A15F20F2AA8B45A0098F2F7 /* InputAuthNumVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputAuthNumVC.swift; sourceTree = "<group>"; };
+		4A15F2112AA8B4880098F2F7 /* InputIdVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputIdVC.swift; sourceTree = "<group>"; };
+		4A15F2132AA8B4A50098F2F7 /* InputPwVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputPwVC.swift; sourceTree = "<group>"; };
+		4A15F2152AA8B4CA0098F2F7 /* InputNickVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputNickVC.swift; sourceTree = "<group>"; };
 		4AA9998E2A8485A500E495FA /* fit-a-pet-client.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "fit-a-pet-client.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		4AA999912A8485A500E495FA /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		4AA999932A8485A500E495FA /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -50,6 +58,18 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		4A15F20C2AA8B3FB0098F2F7 /* SignUpVC */ = {
+			isa = PBXGroup;
+			children = (
+				4A15F20D2AA8B4150098F2F7 /* InputPhoneNumVC.swift */,
+				4A15F20F2AA8B45A0098F2F7 /* InputAuthNumVC.swift */,
+				4A15F2112AA8B4880098F2F7 /* InputIdVC.swift */,
+				4A15F2132AA8B4A50098F2F7 /* InputPwVC.swift */,
+				4A15F2152AA8B4CA0098F2F7 /* InputNickVC.swift */,
+			);
+			path = SignUpVC;
+			sourceTree = "<group>";
+		};
 		4AA999852A8485A500E495FA = {
 			isa = PBXGroup;
 			children = (
@@ -91,8 +111,8 @@
 		4ABE58582A85E8B400E22C5F /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				4A15F20C2AA8B3FB0098F2F7 /* SignUpVC */,
 				4AA999952A8485A500E495FA /* MainVC.swift */,
-				4A567A3D2A9A73AD0015B00D /* SignUpVC.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -274,11 +294,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4A15F2122AA8B4880098F2F7 /* InputIdVC.swift in Sources */,
 				4A15F2092AA790D60098F2F7 /* SignUpProgressBar.swift in Sources */,
+				4A15F2162AA8B4CA0098F2F7 /* InputNickVC.swift in Sources */,
 				4A15F20B2AA799C50098F2F7 /* SignUpConstomLabel.swift in Sources */,
-				4A567A3E2A9A73AD0015B00D /* SignUpVC.swift in Sources */,
+				4A15F2102AA8B45A0098F2F7 /* InputAuthNumVC.swift in Sources */,
+				4A15F20E2AA8B4150098F2F7 /* InputPhoneNumVC.swift in Sources */,
 				4AA999962A8485A500E495FA /* MainVC.swift in Sources */,
 				4AA999922A8485A500E495FA /* AppDelegate.swift in Sources */,
+				4A15F2142AA8B4A50098F2F7 /* InputPwVC.swift in Sources */,
 				4AA999942A8485A500E495FA /* SceneDelegate.swift in Sources */,
 				4A15F2072AA641910098F2F7 /* SignUpNextBtn.swift in Sources */,
 			);
