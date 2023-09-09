@@ -18,9 +18,9 @@ class InputPwVC : UIViewController, UITextFieldDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-    
+        
         initView()
-    
+        
         nextNickBtn.addTarget(self, action: #selector(changeInputNickVC(_:)), for: .touchUpInside)
         
         //navigation back 버튼 스타일
@@ -41,18 +41,18 @@ class InputPwVC : UIViewController, UITextFieldDelegate {
         }
         let text = "로그인에 사용할\n비밀번호를 입력해주세요."
         let attributedText = NSMutableAttributedString(string: text)
-
+        
         let boldFont = UIFont.boldSystemFont(ofSize: 20)
         let range = (text as NSString).range(of: "비밀번호")
-
+        
         attributedText.addAttribute(.font, value: boldFont, range: range)
-
+        
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.lineBreakMode = .byWordWrapping
         paragraphStyle.lineSpacing = 8
         
         attributedText.addAttribute(.paragraphStyle, value: paragraphStyle, range: NSRange(location: 0, length: attributedText.length))
-
+        
         customLabel.setAttributedText(attributedText)
         
         customLabel.snp.makeConstraints{make in
@@ -112,19 +112,35 @@ class InputPwVC : UIViewController, UITextFieldDelegate {
     @objc func changeInputNickVC(_ sender: UIButton){
         guard let nextVC = self.storyboard?.instantiateViewController(identifier: "InputNickVC") else { return }
         self.navigationController?.pushViewController(nextVC, animated: true)
-       // progressBar.setProgress(1.0, animated: true)
+        // progressBar.setProgress(1.0, animated: true)
     }
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-
+        
         if textField == inputPwCheck {
             //inputPw에 text 값이 있어야만 inputPwText에 입력할 수 있다.
             if let inputPwText = inputPw.text, !inputPwText.isEmpty {
                 let updatedText = (inputPwCheck.text as! NSString).replacingCharacters(in: range, with: string)
                 nextNickBtn.updateButtonColor(with: updatedText)
+                
+                if updatedText.isEmpty{
+                    inputPwCheck.layer.borderColor = UIColor(named: "Gray2")?.cgColor
+                }else{
+                    inputPwCheck.layer.borderColor = UIColor(named: "PrimaryColor")?.cgColor
+                }
+                
                 return true
             } else {
                 return false
+            }
+        } else{
+            let updatedText = (inputPw.text as! NSString).replacingCharacters(in: range, with: string)
+            
+            if updatedText.isEmpty {
+                inputPw.layer.borderColor = UIColor(named: "Gray2")?.cgColor
+                
+            } else {
+                inputPw.layer.borderColor = UIColor(named: "PrimaryColor")?.cgColor
             }
         }
         return true

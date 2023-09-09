@@ -65,6 +65,11 @@ class InputPhoneNumVC : UIViewController, UITextFieldDelegate {
         inputPhoneNum.layer.borderWidth = 1
         inputPhoneNum.layer.cornerRadius = 5
         inputPhoneNum.layer.borderColor = UIColor(named: "Gray2")?.cgColor
+        inputPhoneNum.placeholder = "010-2345-6789"
+        inputPhoneNum.font = .systemFont(ofSize:14)
+        
+        inputPhoneNum.leftView = UIView(frame: CGRect(x: 0.0, y: 0.0, width: 16.0, height: 0.0))
+        inputPhoneNum.leftViewMode = .always
         
         inputPhoneNum.snp.makeConstraints{make in
             make.height.equalTo(55)
@@ -96,10 +101,16 @@ class InputPhoneNumVC : UIViewController, UITextFieldDelegate {
     
     // 입력값이 변경되면 버튼의 색상을 업데이트
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-
-        //문자열을 NSString 값으로 변환, replacingCharacters() 메소드 사용하여 문자열의 일부를 변경
+        
         let updatedText = (inputPhoneNum.text as! NSString).replacingCharacters(in: range, with: string)
         nextAutnNumBtn.updateButtonColor(with: updatedText)
+        if updatedText.isEmpty{
+            inputPhoneNum.layer.borderColor = UIColor(named: "Gray2")?.cgColor
+        }else{
+            inputPhoneNum.layer.borderColor = UIColor(named: "PrimaryColor")?.cgColor
+        }
+        
+     
         return true
     }
     

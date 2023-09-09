@@ -101,6 +101,13 @@ class InputIdVC : UIViewController, UITextFieldDelegate {
         //문자열을 NSString 값으로 변환, replacingCharacters() 메소드 사용하여 문자열의 일부를 변경
         let updatedText = (inputId.text as! NSString).replacingCharacters(in: range, with: string)
         nextPwBtn.updateButtonColor(with: updatedText)
+        
+        if updatedText.isEmpty{
+            inputId.layer.borderColor = UIColor(named: "Gray2")?.cgColor
+        }else{
+            inputId.layer.borderColor = UIColor(named: "PrimaryColor")?.cgColor
+        }
+        
         return true
     }
 }
