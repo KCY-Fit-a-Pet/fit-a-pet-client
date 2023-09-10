@@ -21,6 +21,7 @@
 		4AA999992A8485A500E495FA /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4AA999972A8485A500E495FA /* Main.storyboard */; };
 		4AA9999B2A8485A600E495FA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4AA9999A2A8485A600E495FA /* Assets.xcassets */; };
 		4AA9999E2A8485A600E495FA /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4AA9999C2A8485A600E495FA /* LaunchScreen.storyboard */; };
+		4AD354152AACD390004A47B3 /* LoginVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AD354142AACD390004A47B3 /* LoginVC.swift */; };
 		5F3351521D53411AE096AE11 /* Pods_fit_a_pet_client.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB1D3740B0C5A796E5D597B2 /* Pods_fit_a_pet_client.framework */; };
 /* End PBXBuildFile section */
 
@@ -42,6 +43,7 @@
 		4AA9999A2A8485A600E495FA /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		4AA9999D2A8485A600E495FA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		4AA9999F2A8485A600E495FA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		4AD354142AACD390004A47B3 /* LoginVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginVC.swift; sourceTree = "<group>"; };
 		A8CCF3AF04A53824C263132B /* Pods-fit-a-pet-client.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-fit-a-pet-client.debug.xcconfig"; path = "Target Support Files/Pods-fit-a-pet-client/Pods-fit-a-pet-client.debug.xcconfig"; sourceTree = "<group>"; };
 		AB1D3740B0C5A796E5D597B2 /* Pods_fit_a_pet_client.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_fit_a_pet_client.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -113,6 +115,7 @@
 			children = (
 				4A15F20C2AA8B3FB0098F2F7 /* SignUpVC */,
 				4AA999952A8485A500E495FA /* MainVC.swift */,
+				4AD354142AACD390004A47B3 /* LoginVC.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -296,6 +299,7 @@
 			files = (
 				4A15F2122AA8B4880098F2F7 /* InputIdVC.swift in Sources */,
 				4A15F2092AA790D60098F2F7 /* SignUpProgressBar.swift in Sources */,
+				4AD354152AACD390004A47B3 /* LoginVC.swift in Sources */,
 				4A15F2162AA8B4CA0098F2F7 /* InputNickVC.swift in Sources */,
 				4A15F20B2AA799C50098F2F7 /* SignUpConstomLabel.swift in Sources */,
 				4A15F2102AA8B45A0098F2F7 /* InputAuthNumVC.swift in Sources */,

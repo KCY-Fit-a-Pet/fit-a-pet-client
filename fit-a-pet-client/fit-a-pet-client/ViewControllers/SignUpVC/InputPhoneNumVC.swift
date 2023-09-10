@@ -12,7 +12,7 @@ class InputPhoneNumVC : UIViewController, UITextFieldDelegate {
     
     let nextAutnNumBtn = SignUpNextBtn(title: "다음")
     let inputPhoneNum = UITextField()
-    let progressBar = SignUpProgressBar()
+    let progressBar = SignUpProgressBar.shared
     let customLabel = SignUpConstomLabel()
     
     override func viewDidLoad() {
@@ -27,16 +27,10 @@ class InputPhoneNumVC : UIViewController, UITextFieldDelegate {
     private func initView(){
         
         self.view.addSubview(nextAutnNumBtn)
-        self.view.addSubview(progressBar)
-        self.view.addSubview(inputPhoneNum)
-        self.view.addSubview(customLabel)
         
-        progressBar.snp.makeConstraints{make in
-            make.top.equalTo(view.snp.top).offset(100)
-            make.height.equalTo(5)
-            make.left.equalTo(view.snp.left).offset(0)
-            make.right.equalTo(view.snp.right).offset(0)
-        }
+        self.view.addSubview(inputPhoneNum)
+        self.view.addSubview(customLabel)        
+       
         
         let text = "인증을 위해\n전화번호를 입력해주세요."
         let attributedText = NSMutableAttributedString(string: text)
@@ -55,9 +49,8 @@ class InputPhoneNumVC : UIViewController, UITextFieldDelegate {
         customLabel.setAttributedText(attributedText)
         
         customLabel.snp.makeConstraints{make in
-            make.top.equalTo(progressBar.snp.top).offset(64)
+            make.top.equalTo(view.snp.top).offset(164)
             make.left.equalTo(view.snp.left).offset(16)
-            make.right.equalTo(view.snp.right).offset(-160)
 
         }
         
@@ -74,8 +67,8 @@ class InputPhoneNumVC : UIViewController, UITextFieldDelegate {
         inputPhoneNum.snp.makeConstraints{make in
             make.height.equalTo(55)
             make.top.equalTo(view.snp.top).offset(255)
-            make.left.equalTo(view.snp.left).offset(20)
-            make.right.equalTo(view.snp.right).offset(-20)
+            make.left.equalTo(view.snp.left).offset(16)
+            make.right.equalTo(view.snp.right).offset(-16)
         }
         
         nextAutnNumBtn.addTarget(self, action: #selector(changeInputAuthNumVC(_:)), for: .touchUpInside)
@@ -87,12 +80,23 @@ class InputPhoneNumVC : UIViewController, UITextFieldDelegate {
         }
         
     }
+    private func progressBarInit(){
+        self.view.addSubview(progressBar)
+        progressBar.snp.makeConstraints{make in
+            make.top.equalTo(view.snp.top).offset(100)
+            make.height.equalTo(5)
+            make.left.equalTo(view.snp.left).offset(0)
+            make.right.equalTo(view.snp.right).offset(0)
+        }
+    }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-  
-        progressBar.setProgress(0.2, animated: true)
+        
+        progressBarInit()
+        self.progressBar.setProgress(0.2) // 0.6은 ProgressBar의 새로운 위치입니다.
     }
+
     
     @objc func changeInputAuthNumVC(_ sender: UIButton){
         guard let nextVC = self.storyboard?.instantiateViewController(identifier: "InputAuthNumVC") else { return }

@@ -12,7 +12,7 @@ class InputIdVC : UIViewController, UITextFieldDelegate {
     
     let nextPwBtn = SignUpNextBtn(title: "다음")
     let inputId = UITextField()
-    let progressBar = SignUpProgressBar()
+    let progressBar = SignUpProgressBar.shared
     let customLabel = SignUpConstomLabel()
         
     override func viewDidLoad() {
@@ -29,15 +29,8 @@ class InputIdVC : UIViewController, UITextFieldDelegate {
     private func initView(){
         
         self.view.addSubview(nextPwBtn)
-        self.view.addSubview(progressBar)
         self.view.addSubview(inputId)
         self.view.addSubview(customLabel)
-        
-        progressBar.snp.makeConstraints{make in
-            make.top.equalTo(view.snp.top).offset(100)
-            make.left.equalTo(view.snp.left).offset(0)
-            make.right.equalTo(view.snp.right).offset(0)
-        }
         
         let text = "로그인에 사용할\n아이디를 입력해주세요."
         let attributedText = NSMutableAttributedString(string: text)
@@ -56,9 +49,9 @@ class InputIdVC : UIViewController, UITextFieldDelegate {
         customLabel.setAttributedText(attributedText)
         
         customLabel.snp.makeConstraints{make in
-            make.top.equalTo(progressBar.snp.top).offset(64)
+            make.top.equalTo(view.snp.top).offset(164)
             make.left.equalTo(view.snp.left).offset(16)
-            make.right.equalTo(view.snp.right).offset(-160)
+
         }
         
         inputId.delegate = self
@@ -75,8 +68,8 @@ class InputIdVC : UIViewController, UITextFieldDelegate {
         inputId.snp.makeConstraints{make in
             make.height.equalTo(55)
             make.top.equalTo(view.snp.top).offset(255)
-            make.left.equalTo(view.snp.left).offset(20)
-            make.right.equalTo(view.snp.right).offset(-20)
+            make.left.equalTo(view.snp.left).offset(16)
+            make.right.equalTo(view.snp.right).offset(-16)
         }
         
         nextPwBtn.snp.makeConstraints{make in
@@ -85,10 +78,23 @@ class InputIdVC : UIViewController, UITextFieldDelegate {
             make.right.equalTo(view.snp.right).offset(-16)
         }
     }
+    private func progressBarInit(){
+        self.view.addSubview(progressBar)
+        progressBar.snp.makeConstraints{make in
+            make.top.equalTo(view.snp.top).offset(100)
+            make.height.equalTo(5)
+            make.left.equalTo(view.snp.left).offset(0)
+            make.right.equalTo(view.snp.right).offset(0)
+        }
+    }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        progressBar.setProgress(0.6, animated: true)
+        
+        progressBarInit()
+        UIView.animate(withDuration: 0.5) {
+            self.progressBar.setProgress(0.6) // 0.6은 ProgressBar의 새로운 위치입니다.
+        }
     }
     
     @objc func changeInputPwVC(_ sender: UIButton){

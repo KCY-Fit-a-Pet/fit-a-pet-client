@@ -33,7 +33,7 @@ extension MainVC{
         mainTextLabel.text = "내 손안의 반려동물 케어 앱 핏어펫입니다"
         
         mainTextLabel.snp.makeConstraints{make in
-            make.top.equalTo(view.snp.top).offset(250)
+            make.top.equalTo(view.snp.top).offset(200)
             make.left.equalTo(view.snp.left).offset(16)
         }
         
@@ -49,7 +49,7 @@ extension MainVC{
         signUpBtn.addTarget(self, action: #selector(changeSignUpVC(_:)), for: .touchUpInside)
         
         signUpBtn.snp.makeConstraints{make in
-            make.top.equalTo(view.snp.top).offset(480)
+            make.top.equalTo(view.snp.top).offset(400)
             make.height.equalTo(50)
             make.width.equalTo(350)
             make.left.equalTo(view.snp.left).offset(16)
@@ -73,13 +73,20 @@ extension MainVC{
         loginBtn.layer.borderWidth = 1
         loginBtn.setTitleColor(UIColor(named: "PrimaryColor"), for: .normal)
         
+        loginBtn.addTarget(self, action: #selector(changeLoginVC(_:)), for: .touchUpInside)
+        
         loginBtn.snp.makeConstraints{ make in
-            make.top.equalTo(signUpBtn.snp.top).offset(60)
+            make.top.equalTo(signUpBtn.snp.bottom).offset(8)
             make.height.equalTo(50)
             make.width.equalTo(350)
             make.left.equalTo(view.snp.left).offset(16)
             make.right.equalTo(view.snp.right).offset(-16)
         }
+    }
+    
+    @objc func changeLoginVC(_ sender: UIButton){
+        guard let nextVC = self.storyboard?.instantiateViewController(identifier: "LoginVC") else { return }
+        self.navigationController?.pushViewController(nextVC, animated: true)
     }
     
 }

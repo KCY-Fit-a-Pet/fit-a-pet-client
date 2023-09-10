@@ -12,7 +12,7 @@ class InputAuthNumVC : UIViewController, UITextFieldDelegate {
     
     let nextIdBtn = SignUpNextBtn(title: "다음")
     let inputAuthNum = UITextField()
-    let progressBar = SignUpProgressBar()
+    let progressBar = SignUpProgressBar.shared
     let customLabel = SignUpConstomLabel()
     
     override func viewDidLoad() {
@@ -26,19 +26,14 @@ class InputAuthNumVC : UIViewController, UITextFieldDelegate {
         self.navigationController?.navigationBar.tintColor = .black
         self.navigationController?.navigationBar.topItem?.title = ""
         
+       
+        
     }
     private func initView(){
         
         self.view.addSubview(nextIdBtn)
-        self.view.addSubview(progressBar)
         self.view.addSubview(inputAuthNum)
         self.view.addSubview(customLabel)
-        
-        progressBar.snp.makeConstraints{make in
-            make.top.equalTo(view.snp.top).offset(100)
-            make.left.equalTo(view.snp.left).offset(0)
-            make.right.equalTo(view.snp.right).offset(0)
-        }
         
         let text = "전송받은 인증번호 6자리를\n입력해주세요."
         let attributedText = NSMutableAttributedString(string: text)
@@ -57,9 +52,8 @@ class InputAuthNumVC : UIViewController, UITextFieldDelegate {
         customLabel.setAttributedText(attributedText)
         
         customLabel.snp.makeConstraints{make in
-            make.top.equalTo(progressBar.snp.top).offset(64)
+            make.top.equalTo(view.snp.top).offset(164)
             make.left.equalTo(view.snp.left).offset(16)
-            make.right.equalTo(view.snp.right).offset(-160)
         }
         
         inputAuthNum.delegate = self
@@ -67,7 +61,7 @@ class InputAuthNumVC : UIViewController, UITextFieldDelegate {
         inputAuthNum.layer.cornerRadius = 5
         inputAuthNum.layer.borderColor = UIColor(named: "Gray2")?.cgColor
         inputAuthNum.placeholder = "인증번호 6자리 입력"
-        inputAuthNum.font = .systemFont(ofSize:14)
+        inputAuthNum.font = .systemFont(ofSize: 14)
         
         //textfield padding 주기
         inputAuthNum.leftView = UIView(frame: CGRect(x: 0.0, y: 0.0, width: 16.0, height: 0.0))
@@ -76,8 +70,8 @@ class InputAuthNumVC : UIViewController, UITextFieldDelegate {
         inputAuthNum.snp.makeConstraints{make in
             make.height.equalTo(55)
             make.top.equalTo(view.snp.top).offset(255)
-            make.left.equalTo(view.snp.left).offset(20)
-            make.right.equalTo(view.snp.right).offset(-20)
+            make.left.equalTo(view.snp.left).offset(16)
+            make.right.equalTo(view.snp.right).offset(-16)
         }
         
         nextIdBtn.snp.makeConstraints{make in
@@ -86,16 +80,31 @@ class InputAuthNumVC : UIViewController, UITextFieldDelegate {
             make.right.equalTo(view.snp.right).offset(-16)
         }
     }
+    private func progressBarInit(){
+        self.view.addSubview(progressBar)
+        progressBar.snp.makeConstraints{make in
+            make.top.equalTo(view.snp.top).offset(100)
+            make.height.equalTo(5)
+            make.left.equalTo(view.snp.left).offset(0)
+            make.right.equalTo(view.snp.right).offset(0)
+        }
+    }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-
-        progressBar.setProgress(0.4, animated: true)
+        
+        progressBarInit()
+        UIView.animate(withDuration: 0.5) {
+            self.progressBar.setProgress(0.4) // 0.6은 ProgressBar의 새로운 위치입니다.
+        }
+        
     }
+   
     
     @objc func changeInputIdVC(_ sender: UIButton){
         guard let nextVC = self.storyboard?.instantiateViewController(identifier: "InputIdVC") else { return }
         self.navigationController?.pushViewController(nextVC, animated: true)
+        
     }
     
     // 입력값이 변경되면 버튼의 색상을 업데이트

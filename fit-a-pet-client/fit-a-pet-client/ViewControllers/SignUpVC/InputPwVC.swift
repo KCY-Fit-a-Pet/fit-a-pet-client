@@ -11,7 +11,7 @@ import SnapKit
 class InputPwVC : UIViewController, UITextFieldDelegate {
     
     let nextNickBtn = SignUpNextBtn(title: "다음")
-    let progressBar = SignUpProgressBar()
+    let progressBar = SignUpProgressBar.shared
     let inputPw = UITextField()
     let inputPwCheck = UITextField()
     let customLabel = SignUpConstomLabel()
@@ -29,16 +29,10 @@ class InputPwVC : UIViewController, UITextFieldDelegate {
     }
     private func initView(){
         self.view.addSubview(nextNickBtn)
-        self.view.addSubview(progressBar)
         self.view.addSubview(inputPw)
         self.view.addSubview(inputPwCheck)
         self.view.addSubview(customLabel)
         
-        progressBar.snp.makeConstraints{make in
-            make.top.equalTo(view.snp.top).offset(100)
-            make.left.equalTo(view.snp.left).offset(0)
-            make.right.equalTo(view.snp.right).offset(0)
-        }
         let text = "로그인에 사용할\n비밀번호를 입력해주세요."
         let attributedText = NSMutableAttributedString(string: text)
         
@@ -56,9 +50,8 @@ class InputPwVC : UIViewController, UITextFieldDelegate {
         customLabel.setAttributedText(attributedText)
         
         customLabel.snp.makeConstraints{make in
-            make.top.equalTo(progressBar.snp.top).offset(64)
+            make.top.equalTo(view.snp.top).offset(164)
             make.left.equalTo(view.snp.left).offset(16)
-            make.right.equalTo(view.snp.right).offset(-160)
         }
         
         inputPw.delegate = self
@@ -75,8 +68,8 @@ class InputPwVC : UIViewController, UITextFieldDelegate {
         inputPw.snp.makeConstraints{make in
             make.height.equalTo(55)
             make.top.equalTo(view.snp.top).offset(255)
-            make.left.equalTo(view.snp.left).offset(20)
-            make.right.equalTo(view.snp.right).offset(-20)
+            make.left.equalTo(view.snp.left).offset(16)
+            make.right.equalTo(view.snp.right).offset(-16)
         }
         
         inputPwCheck.delegate = self
@@ -93,8 +86,8 @@ class InputPwVC : UIViewController, UITextFieldDelegate {
         inputPwCheck.snp.makeConstraints{make in
             make.height.equalTo(55)
             make.top.equalTo(inputPw.snp.bottom).offset(8)
-            make.left.equalTo(view.snp.left).offset(20)
-            make.right.equalTo(view.snp.right).offset(-20)
+            make.left.equalTo(view.snp.left).offset(16)
+            make.right.equalTo(view.snp.right).offset(-16)
         }
         
         nextNickBtn.snp.makeConstraints{make in
@@ -103,10 +96,23 @@ class InputPwVC : UIViewController, UITextFieldDelegate {
             make.right.equalTo(view.snp.right).offset(-16)
         }
     }
+    private func progressBarInit(){
+        self.view.addSubview(progressBar)
+        progressBar.snp.makeConstraints{make in
+            make.top.equalTo(view.snp.top).offset(100)
+            make.height.equalTo(5)
+            make.left.equalTo(view.snp.left).offset(0)
+            make.right.equalTo(view.snp.right).offset(0)
+        }
+    }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        progressBar.setProgress(0.8, animated: true)
+        
+        progressBarInit()
+        UIView.animate(withDuration: 0.5) {
+            self.progressBar.setProgress(0.8) // 0.6은 ProgressBar의 새로운 위치입니다.
+        }
     }
     
     @objc func changeInputNickVC(_ sender: UIButton){
@@ -128,11 +134,12 @@ class InputPwVC : UIViewController, UITextFieldDelegate {
                 }else{
                     inputPwCheck.layer.borderColor = UIColor(named: "PrimaryColor")?.cgColor
                 }
-                
                 return true
+                
             } else {
                 return false
             }
+            
         } else{
             let updatedText = (inputPw.text as! NSString).replacingCharacters(in: range, with: string)
             
