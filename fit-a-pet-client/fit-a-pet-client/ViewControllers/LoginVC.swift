@@ -8,7 +8,7 @@
 import UIKit
 import SnapKit
 
-class LoginVC: UIViewController {
+class LoginVC: UIViewController, UITextFieldDelegate{
     
     let loginLabel = UILabel()
     let inputId = UITextField()
@@ -29,6 +29,9 @@ class LoginVC: UIViewController {
         self.view.addSubview(inputId)
         self.view.addSubview(inputPw)
         self.view.addSubview(loginBtn)
+        
+        inputId.delegate = self
+        inputPw.delegate = self
         
         loginLabel.text = "로그인"
         loginLabel.font = .boldSystemFont(ofSize: 20)
@@ -123,6 +126,37 @@ class LoginVC: UIViewController {
                 make.centerX.equalToSuperview() // 수평 중앙 정렬
                 make.top.equalTo(loginBtn.snp.bottom).offset(30) // 원하는 위치로 조정
             }
+    }
+    
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        
+        if textField == inputPw {
+            //inputPw에 text 값이 있어야만 inputPwText에 입력할 수 있다.
+            if let inputPwText = inputId.text, !inputPwText.isEmpty {
+                let updatedText = (inputPw.text! as NSString).replacingCharacters(in: range, with: string)
+                
+                if updatedText.isEmpty{
+                    inputPw.layer.borderColor = UIColor(named: "Gray2")?.cgColor
+                }else{
+                    inputPw.layer.borderColor = UIColor(named: "PrimaryColor")?.cgColor
+                }
+                return true
+                
+            } else {
+                return false
+            }
+            
+        } else{
+            let updatedText = (inputId.text! as NSString).replacingCharacters(in: range, with: string)
+            
+            if updatedText.isEmpty {
+                inputId.layer.borderColor = UIColor(named: "Gray2")?.cgColor
+                
+            } else {
+                inputId.layer.borderColor = UIColor(named: "PrimaryColor")?.cgColor
+            }
+        }
+        return true
     }
 }
     

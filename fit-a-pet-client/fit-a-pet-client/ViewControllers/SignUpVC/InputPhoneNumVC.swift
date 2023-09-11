@@ -19,18 +19,14 @@ class InputPhoneNumVC : UIViewController, UITextFieldDelegate {
         super.viewDidLoad()
         
         initView()
-        
-        //navigation back 버튼 스타일
-        self.navigationController?.navigationBar.tintColor = .black
-        self.navigationController?.navigationBar.topItem?.title = ""
+
+        nextAutnNumBtn.addTarget(self, action: #selector(changeInputAuthNumVC(_:)), for: .touchUpInside)
     }
     private func initView(){
         
         self.view.addSubview(nextAutnNumBtn)
-        
         self.view.addSubview(inputPhoneNum)
-        self.view.addSubview(customLabel)        
-       
+        self.view.addSubview(customLabel)
         
         let text = "인증을 위해\n전화번호를 입력해주세요."
         let attributedText = NSMutableAttributedString(string: text)
@@ -70,8 +66,6 @@ class InputPhoneNumVC : UIViewController, UITextFieldDelegate {
             make.left.equalTo(view.snp.left).offset(16)
             make.right.equalTo(view.snp.right).offset(-16)
         }
-        
-        nextAutnNumBtn.addTarget(self, action: #selector(changeInputAuthNumVC(_:)), for: .touchUpInside)
 
         nextAutnNumBtn.snp.makeConstraints{make in
             make.bottom.equalTo(view.snp.bottom).offset(-65)
@@ -93,28 +87,32 @@ class InputPhoneNumVC : UIViewController, UITextFieldDelegate {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
+        self.navigationController?.navigationBar.tintColor = .black
+        self.navigationController?.navigationBar.topItem?.title = " "
+        
         progressBarInit()
         self.progressBar.setProgress(0.2) // 0.6은 ProgressBar의 새로운 위치입니다.
     }
-
     
     @objc func changeInputAuthNumVC(_ sender: UIButton){
         guard let nextVC = self.storyboard?.instantiateViewController(identifier: "InputAuthNumVC") else { return }
-        self.navigationController?.pushViewController(nextVC, animated: true)
+        
+        //if inputPhoneNum.text!.count>0{
+            self.navigationController?.pushViewController(nextVC, animated: false)
+        //}
+        
     }
     
     // 입력값이 변경되면 버튼의 색상을 업데이트
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         
-        let updatedText = (inputPhoneNum.text as! NSString).replacingCharacters(in: range, with: string)
+        let updatedText = (inputPhoneNum.text! as NSString).replacingCharacters(in: range, with: string)
         nextAutnNumBtn.updateButtonColor(with: updatedText)
         if updatedText.isEmpty{
             inputPhoneNum.layer.borderColor = UIColor(named: "Gray2")?.cgColor
         }else{
             inputPhoneNum.layer.borderColor = UIColor(named: "PrimaryColor")?.cgColor
         }
-        
-     
         return true
     }
     

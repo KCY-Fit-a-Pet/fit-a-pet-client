@@ -23,9 +23,7 @@ class InputPwVC : UIViewController, UITextFieldDelegate {
         
         nextNickBtn.addTarget(self, action: #selector(changeInputNickVC(_:)), for: .touchUpInside)
         
-        //navigation back 버튼 스타일
-        self.navigationController?.navigationBar.tintColor = .black
-        self.navigationController?.navigationBar.topItem?.title = ""
+    
     }
     private func initView(){
         self.view.addSubview(nextNickBtn)
@@ -109,6 +107,9 @@ class InputPwVC : UIViewController, UITextFieldDelegate {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
+        self.navigationController?.navigationBar.tintColor = .black
+        self.navigationController?.navigationBar.topItem?.title = " "
+        
         progressBarInit()
         UIView.animate(withDuration: 0.5) {
             self.progressBar.setProgress(0.8) // 0.6은 ProgressBar의 새로운 위치입니다.
@@ -117,7 +118,7 @@ class InputPwVC : UIViewController, UITextFieldDelegate {
     
     @objc func changeInputNickVC(_ sender: UIButton){
         guard let nextVC = self.storyboard?.instantiateViewController(identifier: "InputNickVC") else { return }
-        self.navigationController?.pushViewController(nextVC, animated: true)
+        self.navigationController?.pushViewController(nextVC, animated: false)
         // progressBar.setProgress(1.0, animated: true)
     }
     
@@ -126,7 +127,7 @@ class InputPwVC : UIViewController, UITextFieldDelegate {
         if textField == inputPwCheck {
             //inputPw에 text 값이 있어야만 inputPwText에 입력할 수 있다.
             if let inputPwText = inputPw.text, !inputPwText.isEmpty {
-                let updatedText = (inputPwCheck.text as! NSString).replacingCharacters(in: range, with: string)
+                let updatedText = (inputPwCheck.text! as NSString).replacingCharacters(in: range, with: string)
                 nextNickBtn.updateButtonColor(with: updatedText)
                 
                 if updatedText.isEmpty{
@@ -141,7 +142,7 @@ class InputPwVC : UIViewController, UITextFieldDelegate {
             }
             
         } else{
-            let updatedText = (inputPw.text as! NSString).replacingCharacters(in: range, with: string)
+            let updatedText = (inputPw.text! as NSString).replacingCharacters(in: range, with: string)
             
             if updatedText.isEmpty {
                 inputPw.layer.borderColor = UIColor(named: "Gray2")?.cgColor

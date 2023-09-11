@@ -22,9 +22,6 @@ class InputIdVC : UIViewController, UITextFieldDelegate {
         
         nextPwBtn.addTarget(self, action: #selector(changeInputPwVC(_:)), for: .touchUpInside)
         
-        //navigation back 버튼 스타일
-        self.navigationController?.navigationBar.tintColor = .black
-        self.navigationController?.navigationBar.topItem?.title = ""
     }
     private func initView(){
         
@@ -90,6 +87,8 @@ class InputIdVC : UIViewController, UITextFieldDelegate {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        self.navigationController?.navigationBar.tintColor = .black
+        self.navigationController?.navigationBar.topItem?.title = ""
         
         progressBarInit()
         UIView.animate(withDuration: 0.5) {
@@ -99,13 +98,13 @@ class InputIdVC : UIViewController, UITextFieldDelegate {
     
     @objc func changeInputPwVC(_ sender: UIButton){
         guard let nextVC = self.storyboard?.instantiateViewController(identifier: "InputPwVC") else { return }
-        self.navigationController?.pushViewController(nextVC, animated: true)
+        self.navigationController?.pushViewController(nextVC, animated: false)
     }
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
 
         //문자열을 NSString 값으로 변환, replacingCharacters() 메소드 사용하여 문자열의 일부를 변경
-        let updatedText = (inputId.text as! NSString).replacingCharacters(in: range, with: string)
+        let updatedText = (inputId.text! as NSString).replacingCharacters(in: range, with: string)
         nextPwBtn.updateButtonColor(with: updatedText)
         
         if updatedText.isEmpty{

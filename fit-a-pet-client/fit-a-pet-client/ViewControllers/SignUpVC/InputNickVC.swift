@@ -19,10 +19,6 @@ class InputNickVC : UIViewController, UITextFieldDelegate {
         super.viewDidLoad()
         
         initView()
-        
-        //navigation back 버튼 스타일
-        self.navigationController?.navigationBar.tintColor = .black
-        self.navigationController?.navigationBar.topItem?.title = ""
     }
     
     private func initView(){
@@ -92,6 +88,9 @@ class InputNickVC : UIViewController, UITextFieldDelegate {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
+        self.navigationController?.navigationBar.tintColor = .black
+        self.navigationController?.navigationBar.topItem?.title = " "
+        
         progressBarInit()
         UIView.animate(withDuration: 0.5) {
             self.progressBar.setProgress(1.0) // 0.6은 ProgressBar의 새로운 위치입니다.
@@ -101,7 +100,7 @@ class InputNickVC : UIViewController, UITextFieldDelegate {
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
 
         //문자열을 NSString 값으로 변환, replacingCharacters() 메소드 사용하여 문자열의 일부를 변경
-        let updatedText = (inputNick.text as! NSString).replacingCharacters(in: range, with: string)
+        let updatedText = (inputNick.text! as NSString).replacingCharacters(in: range, with: string)
         completeSignUpBtn.updateButtonColor(with: updatedText)
         
         if updatedText.isEmpty{

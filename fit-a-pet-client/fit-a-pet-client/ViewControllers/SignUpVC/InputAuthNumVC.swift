@@ -23,11 +23,6 @@ class InputAuthNumVC : UIViewController, UITextFieldDelegate {
         nextIdBtn.addTarget(self, action: #selector(changeInputIdVC(_:)), for: .touchUpInside)
         
         //navigation back 버튼 스타일
-        self.navigationController?.navigationBar.tintColor = .black
-        self.navigationController?.navigationBar.topItem?.title = ""
-        
-       
-        
     }
     private func initView(){
         
@@ -93,17 +88,18 @@ class InputAuthNumVC : UIViewController, UITextFieldDelegate {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
+        self.navigationController?.navigationBar.tintColor = .black
+        self.navigationController?.navigationBar.topItem?.title = " "
+        
         progressBarInit()
         UIView.animate(withDuration: 0.5) {
             self.progressBar.setProgress(0.4) // 0.6은 ProgressBar의 새로운 위치입니다.
         }
         
     }
-   
-    
     @objc func changeInputIdVC(_ sender: UIButton){
         guard let nextVC = self.storyboard?.instantiateViewController(identifier: "InputIdVC") else { return }
-        self.navigationController?.pushViewController(nextVC, animated: true)
+        self.navigationController?.pushViewController(nextVC, animated: false)
         
     }
     
@@ -111,7 +107,7 @@ class InputAuthNumVC : UIViewController, UITextFieldDelegate {
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
 
         //문자열을 NSString 값으로 변환, replacingCharacters() 메소드 사용하여 문자열의 일부를 변경
-        let updatedText = (inputAuthNum.text as! NSString).replacingCharacters(in: range, with: string)
+        let updatedText = (inputAuthNum.text! as NSString).replacingCharacters(in: range, with: string)
         nextIdBtn.updateButtonColor(with: updatedText)
         
         if updatedText.isEmpty{

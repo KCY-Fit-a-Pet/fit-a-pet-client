@@ -19,6 +19,9 @@ class MainVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         initView()
+        
+        self.navigationController?.navigationBar.tintColor = .black
+        self.navigationController?.navigationBar.topItem?.title = " "
     }
     private func initView(){
         setMainTextLabelStyle()
@@ -60,7 +63,7 @@ extension MainVC{
 
     @objc func changeSignUpVC(_ sender: UIButton){
         guard let nextVC = self.storyboard?.instantiateViewController(identifier: "InputPhoneNumVC") else { return }
-        self.navigationController?.pushViewController(nextVC, animated: true)
+        self.navigationController?.pushViewController(nextVC, animated: false)
     }
     
     private func setLoginBtnStyle(){
@@ -86,7 +89,7 @@ extension MainVC{
     
     @objc func changeLoginVC(_ sender: UIButton){
         guard let nextVC = self.storyboard?.instantiateViewController(identifier: "LoginVC") else { return }
-        self.navigationController?.pushViewController(nextVC, animated: true)
+        self.navigationController?.pushViewController(nextVC, animated: false)
     }
     
 }
