@@ -10,10 +10,10 @@ import SnapKit
 
 class InputAuthNumVC : UIViewController, UITextFieldDelegate {
     
-    let nextIdBtn = SignUpNextBtn(title: "다음")
+    let nextIdBtn = CustomNextBtn(title: "다음")
     let inputAuthNum = UITextField()
-    let progressBar = SignUpProgressBar.shared
-    let customLabel = SignUpConstomLabel()
+    let progressBar = CustomProgressBar.shared
+    let customLabel = ConstomLabel()
     
     override func viewDidLoad() {
         super.viewDidLoad()

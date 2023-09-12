@@ -21,6 +21,8 @@ class LoginVC: UIViewController, UITextFieldDelegate{
         initView()
         stackBtnView()
         
+        loginBtn.addTarget(self, action: #selector(changeTabBarVC(_:)), for: .touchUpInside)
+        
         self.navigationController?.navigationBar.tintColor = .black
         self.navigationController?.navigationBar.topItem?.title = ""
     }
@@ -126,6 +128,15 @@ class LoginVC: UIViewController, UITextFieldDelegate{
                 make.centerX.equalToSuperview() // 수평 중앙 정렬
                 make.top.equalTo(loginBtn.snp.bottom).offset(30) // 원하는 위치로 조정
             }
+    }
+    
+    @objc func changeTabBarVC(_ sender: UIButton){
+//        let tabBarController = TabBarController()
+//        addChild(tabBarController)
+//        view.addSubview(tabBarController.view)
+//        tabBarController.didMove(toParent: self)
+        guard let nextVC = self.storyboard?.instantiateViewController(identifier: "TabBarController") else { return }
+        self.navigationController?.pushViewController(nextVC, animated: false)
     }
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {

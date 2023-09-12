@@ -7,7 +7,7 @@
 
 import UIKit
 
-class SignUpConstomLabel: UIView {
+class ConstomLabel: UIView {
     private let label: UILabel = {
         let label = UILabel()
         //label.textAlignment = .center

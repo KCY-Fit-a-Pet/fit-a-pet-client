@@ -10,11 +10,11 @@ import SnapKit
 
 class InputPwVC : UIViewController, UITextFieldDelegate {
     
-    let nextNickBtn = SignUpNextBtn(title: "다음")
-    let progressBar = SignUpProgressBar.shared
+    let nextNickBtn = CustomNextBtn(title: "다음")
+    let progressBar = CustomProgressBar.shared
     let inputPw = UITextField()
     let inputPwCheck = UITextField()
-    let customLabel = SignUpConstomLabel()
+    let customLabel = ConstomLabel()
     
     override func viewDidLoad() {
         super.viewDidLoad()

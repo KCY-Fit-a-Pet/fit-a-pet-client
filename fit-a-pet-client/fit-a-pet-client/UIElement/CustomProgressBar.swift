@@ -1,7 +1,7 @@
 import UIKit
 
-class SignUpProgressBar: UIView {
-    static let shared = SignUpProgressBar()
+class CustomProgressBar: UIView {
+    static let shared = CustomProgressBar()
     
     let progressView: UIProgressView = {
         let view = UIProgressView()

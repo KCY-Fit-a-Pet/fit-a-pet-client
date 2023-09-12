@@ -10,10 +10,10 @@ import SnapKit
 
 class InputPhoneNumVC : UIViewController, UITextFieldDelegate {
     
-    let nextAutnNumBtn = SignUpNextBtn(title: "다음")
+    let nextAutnNumBtn = CustomNextBtn(title: "다음")
     let inputPhoneNum = UITextField()
-    let progressBar = SignUpProgressBar.shared
-    let customLabel = SignUpConstomLabel()
+    let progressBar = CustomProgressBar.shared
+    let customLabel = ConstomLabel()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -91,7 +91,9 @@ class InputPhoneNumVC : UIViewController, UITextFieldDelegate {
         self.navigationController?.navigationBar.topItem?.title = " "
         
         progressBarInit()
-        self.progressBar.setProgress(0.2) // 0.6은 ProgressBar의 새로운 위치입니다.
+        UIView.animate(withDuration: 0.5) {
+            self.progressBar.setProgress(0.2)
+        }
     }
     
     @objc func changeInputAuthNumVC(_ sender: UIButton){

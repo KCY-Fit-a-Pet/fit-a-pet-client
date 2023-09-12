@@ -10,10 +10,10 @@ import SnapKit
 
 class InputNickVC : UIViewController, UITextFieldDelegate {
     
-    let completeSignUpBtn = SignUpNextBtn(title: "회원가입")
-    let progressBar = SignUpProgressBar.shared
+    let completeSignUpBtn = CustomNextBtn(title: "회원가입")
+    let progressBar = CustomProgressBar.shared
     let inputNick = UITextField()
-    let customLabel = SignUpConstomLabel()
+    let customLabel = ConstomLabel()
     
     override func viewDidLoad() {
         super.viewDidLoad()

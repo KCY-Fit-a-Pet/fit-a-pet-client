@@ -10,7 +10,7 @@ import UIKit
 
 
 
-class SignUpNextBtn: UIButton {
+class CustomNextBtn: UIButton {
     
     var GRAY2 = UIColor(named: "Gray2")
     var GRAY3 = UIColor(named: "Gray3")

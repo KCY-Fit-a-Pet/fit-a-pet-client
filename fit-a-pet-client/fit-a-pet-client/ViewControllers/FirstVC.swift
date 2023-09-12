@@ -8,7 +8,7 @@
 import UIKit
 import SnapKit
 
-class MainVC: UIViewController {
+class FirstVC: UIViewController {
     
     var mainTextLabel = UILabel()
     var signUpBtn = UIButton()
@@ -29,7 +29,7 @@ class MainVC: UIViewController {
         setLoginBtnStyle()
     }
 }
-extension MainVC{
+extension FirstVC{
     
     private func setMainTextLabelStyle(){
         self.view.addSubview(mainTextLabel)
