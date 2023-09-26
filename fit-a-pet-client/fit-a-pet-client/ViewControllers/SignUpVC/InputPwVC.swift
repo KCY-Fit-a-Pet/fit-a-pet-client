@@ -128,7 +128,7 @@ class InputPwVC : UIViewController, UITextFieldDelegate {
             //inputPw에 text 값이 있어야만 inputPwText에 입력할 수 있다.
             if let inputPwText = inputPw.text, !inputPwText.isEmpty {
                 let updatedText = (inputPwCheck.text! as NSString).replacingCharacters(in: range, with: string)
-                nextNickBtn.updateButtonColor(with: updatedText)
+                nextNickBtn.updateButtonColor(updatedText, false)
                 
                 if updatedText.isEmpty{
                     inputPwCheck.layer.borderColor = UIColor(named: "Gray2")?.cgColor

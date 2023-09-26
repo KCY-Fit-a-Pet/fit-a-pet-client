@@ -109,7 +109,7 @@ class InputPhoneNumVC : UIViewController, UITextFieldDelegate {
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         
         let updatedText = (inputPhoneNum.text! as NSString).replacingCharacters(in: range, with: string)
-        nextAutnNumBtn.updateButtonColor(with: updatedText)
+        nextAutnNumBtn.updateButtonColor(updatedText, false)
         if updatedText.isEmpty{
             inputPhoneNum.layer.borderColor = UIColor(named: "Gray2")?.cgColor
         }else{

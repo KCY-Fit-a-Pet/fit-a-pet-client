@@ -2,65 +2,113 @@ import UIKit
 import SnapKit
 import PanModal
 
-//class MainVC: UIViewController{
-//    override func viewDidLoad() {
-//        super.viewDidLoad()
-//
-//        view.backgroundColor = UIColor(named: "PrimaryColor")
-//    }
-//}
 class MainVC: UIViewController {
+    
+    let layoutScrollView = UIScrollView()
+    let petDataView = UIView()
+    
+    let petCollectionView: UICollectionView = {
+        let layout = UICollectionViewFlowLayout()
+        layout.minimumLineSpacing = 10
+        
+        layout.scrollDirection = .vertical
+        layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+       
+        let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        
+        return cv
+    }()
+
+    let petCollect = ["전체","동물1", "동물2"]
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        petCollectionView.delegate = self
+        petCollectionView.dataSource = self
+        
+        initView()
+    }
+    private func initView(){
+        
+        let dataTitleLabel = UILabel()
+        
+        petDataView.addSubview(dataTitleLabel)
+        petDataView.addSubview(petCollectionView)
+        layoutScrollView.addSubview(petDataView)
+        view.addSubview(layoutScrollView)
+        
+        petDataView.backgroundColor = .white
+        petDataView.layer.cornerRadius = 20
+        
+        dataTitleLabel.text = "나의 반려동물 케어"
+        dataTitleLabel.font = .boldSystemFont(ofSize: 20)
+        
+        layoutScrollView.backgroundColor = UIColor(named: "PrimaryColor")
+        
+        layoutScrollView.snp.makeConstraints{ make in
+            make.top.equalTo(view.snp.top)
+            make.bottom.equalTo(view.snp.bottom)
+            make.leading.equalTo(view.snp.leading)
+            make.trailing.equalTo(view.snp.trailing)
+        }
+        
+        petDataView.snp.makeConstraints{ make in
+            make.bottom.equalTo(layoutScrollView.snp.bottom).offset(20)
+            make.leading.equalTo(layoutScrollView.snp.leading)
+            make.trailing.equalTo(layoutScrollView.snp.trailing)
+            make.width.equalTo(375)
+            make.height.equalTo(800)
+            make.top.equalTo(layoutScrollView.snp.top).offset(100)
+        }
+        
+        dataTitleLabel.snp.makeConstraints{make in
+            make.top.equalTo(petDataView.snp.top).offset(20)
+            make.leading.equalTo(petDataView.snp.leading).offset(20)
+            
+        }
+        petCollectionView.snp.makeConstraints{make in
+            make.top.equalTo(dataTitleLabel.snp.top).offset(10)
+            make.leading.equalTo(petDataView.snp.leading).offset(20)
+            make.trailing.equalTo(petDataView.snp.trailing).offset(-20)
+            make.height.equalTo(40)
 
-        
-        view.backgroundColor = UIColor(named: "PrimaryColor")
-        
-        let showModalButton = UIButton(type: .system)
-        showModalButton.setTitle("Show Modal", for: .normal)
-        showModalButton.tintColor = .black
-        showModalButton.addTarget(self, action: #selector(showModal), for: .touchUpInside)
-        view.addSubview(showModalButton)
-        
-        showModalButton.snp.makeConstraints{ make in
-            // 세로 중앙 정렬
-            make.centerY.equalTo(view.snp.centerY)
-            // 가로 중앙 정렬
-            make.centerX.equalTo(view.snp.centerX)
-            make.height.equalTo(50)
-            make.width.equalTo(350)
         }
     }
     
-    @objc func showModal() {
-        let modalViewController = ModalViewController()
-
-           self.presentPanModal(modalViewController)
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+    }
+}
+extension MainVC: UICollectionViewDataSource{
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return petCollect.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PetCollectViewCell", for: indexPath) as! PetCollectViewCell
+        let data = petCollect[indexPath.item]
+        print(data)
+        cell.configure(data)
+        
+        return cell
     }
 }
 
-class ModalViewController: UIViewController {
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        view.backgroundColor = .white
+extension MainVC: UICollectionViewDelegateFlowLayout {
 
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+        let spacing: CGFloat = 10.0 // 원하는 간격 값으로 수정
+        return UIEdgeInsets(top: spacing, left: spacing, bottom: spacing, right: spacing)
     }
 
-}
-extension ModalViewController: PanModalPresentable {
-
-    // 스크롤되는 tableview 나 collectionview 가 있다면 여기에 넣어주면 PanModal 이 모달과 스크롤 뷰 사이에서 팬 제스처를 원활하게 전환합니다.
-    var panScrollable: UIScrollView? {
-        return nil
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        return 20.0 // 원하는 줄 간격 값으로 수정
     }
 
-    var shortFormHeight: PanModalHeight {
-        return .contentHeight(280)
-    }
-
-    var longFormHeight: PanModalHeight {
-        return .maxHeightWithTopInset(0)
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+        return 10.0 // 원하는 항목 간격 값으로 수정
     }
 }
-
 

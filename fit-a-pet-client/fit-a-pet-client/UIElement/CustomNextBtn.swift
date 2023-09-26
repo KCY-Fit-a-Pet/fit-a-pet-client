@@ -61,11 +61,22 @@ class CustomNextBtn: UIButton {
        fatalError("init(coder:) has not been implemented")
    }
     
-    func updateButtonColor(with text: String) {
-        if text.isEmpty {
-            backgroundColor = GRAY2
-        } else {
-            backgroundColor = PRIMARYCOLOR // 텍스트가 있는 경우 다른 색상으로 변경
+    func updateButtonColor(_ text: String, _ authNum: Bool) {
+        if authNum == false  {
+            if !text.isEmpty{
+                backgroundColor = PRIMARYCOLOR
+            }
+            else{
+                backgroundColor = GRAY2
+            }
+            
+        } else if authNum == true{
+            if text.count == 6{
+                backgroundColor = PRIMARYCOLOR
+            }
+            else{
+                backgroundColor = GRAY2
+            }
         }
     }
 }

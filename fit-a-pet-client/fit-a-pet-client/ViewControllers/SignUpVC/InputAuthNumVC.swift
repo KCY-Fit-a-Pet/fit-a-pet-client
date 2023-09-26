@@ -108,7 +108,9 @@ class InputAuthNumVC : UIViewController, UITextFieldDelegate {
 
         //문자열을 NSString 값으로 변환, replacingCharacters() 메소드 사용하여 문자열의 일부를 변경
         let updatedText = (inputAuthNum.text! as NSString).replacingCharacters(in: range, with: string)
-        nextIdBtn.updateButtonColor(with: updatedText)
+       
+            nextIdBtn.updateButtonColor(updatedText, true)
+     
         
         if updatedText.isEmpty{
             inputAuthNum.layer.borderColor = UIColor(named: "Gray2")?.cgColor
