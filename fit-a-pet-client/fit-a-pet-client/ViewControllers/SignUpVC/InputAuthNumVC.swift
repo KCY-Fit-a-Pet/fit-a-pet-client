@@ -15,6 +15,8 @@ class InputAuthNumVC : UIViewController, UITextFieldDelegate {
     let progressBar = CustomProgressBar.shared
     let customLabel = ConstomLabel()
     
+    var phone: Int = 0
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -99,6 +101,7 @@ class InputAuthNumVC : UIViewController, UITextFieldDelegate {
     }
     @objc func changeInputIdVC(_ sender: UIButton){
         guard let nextVC = self.storyboard?.instantiateViewController(identifier: "InputIdVC") else { return }
+                        
         self.navigationController?.pushViewController(nextVC, animated: false)
         
     }

@@ -10,16 +10,17 @@ class MainVC: UIViewController {
     let petCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.minimumLineSpacing = 10
-        
-        layout.scrollDirection = .vertical
+        layout.scrollDirection = .horizontal
         layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
        
         let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        
+        cv.register(PetCollectViewCell.self, forCellWithReuseIdentifier: "PetCollectViewCell") // Cell 등록
         return cv
+        
     }()
 
-    let petCollect = ["전체","동물1", "동물2"]
+    let petCollect = ["전체","동물11111", "동물222","동물33", "동물4","동물5555","동물6"]
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -68,12 +69,12 @@ class MainVC: UIViewController {
             
         }
         petCollectionView.snp.makeConstraints{make in
-            make.top.equalTo(dataTitleLabel.snp.top).offset(10)
+            make.top.equalTo(dataTitleLabel.snp.bottom).offset(10)
             make.leading.equalTo(petDataView.snp.leading).offset(20)
             make.trailing.equalTo(petDataView.snp.trailing).offset(-20)
-            make.height.equalTo(40)
-
+            make.height.equalTo(50)
         }
+        
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -89,7 +90,6 @@ extension MainVC: UICollectionViewDataSource{
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PetCollectViewCell", for: indexPath) as! PetCollectViewCell
         let data = petCollect[indexPath.item]
-        print(data)
         cell.configure(data)
         
         return cell
@@ -97,18 +97,13 @@ extension MainVC: UICollectionViewDataSource{
 }
 
 extension MainVC: UICollectionViewDelegateFlowLayout {
-
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        let spacing: CGFloat = 10.0 // 원하는 간격 값으로 수정
-        return UIEdgeInsets(top: spacing, left: spacing, bottom: spacing, right: spacing)
-    }
-
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return 20.0 // 원하는 줄 간격 값으로 수정
-    }
-
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-        return 10.0 // 원하는 항목 간격 값으로 수정
+    
+    //텍스트의 크기에 따라 셀의 크기 지정
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        let cellWidth = petCollect[indexPath.item].size(withAttributes: [
+            NSAttributedString.Key.font: UIFont.systemFont(ofSize: 17) // 레이블 폰트에 맞게 조절
+        ]).width + 15 // 텍스트 너비에 여분의 여백을 추가하여 잘리지 않도록 함
+        return CGSize(width: cellWidth, height: 40) // 원하는 높이로 설정
     }
 }
 

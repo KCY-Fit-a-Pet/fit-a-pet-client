@@ -15,24 +15,8 @@
             <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                 <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                <subviews>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eQQ-bU-HX3">
-                        <rect key="frame" x="4" y="15" width="42" height="21"/>
-                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                        <nil key="textColor"/>
-                        <nil key="highlightedColor"/>
-                    </label>
-                </subviews>
             </view>
             <viewLayoutGuide key="safeArea" id="ZTg-uK-7eu"/>
-            <constraints>
-                <constraint firstItem="eQQ-bU-HX3" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="4" id="UYg-Vo-jqd"/>
-                <constraint firstItem="eQQ-bU-HX3" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" constant="15" id="cFw-M1-gw3"/>
-                <constraint firstAttribute="trailing" secondItem="eQQ-bU-HX3" secondAttribute="trailing" constant="4" id="jPW-qg-vwF"/>
-            </constraints>
-            <connections>
-                <outlet property="namee" destination="eQQ-bU-HX3" id="kGu-gg-iLY"/>
-            </connections>
             <point key="canvasLocation" x="48.854961832061065" y="19.718309859154932"/>
         </collectionViewCell>
     </objects>
