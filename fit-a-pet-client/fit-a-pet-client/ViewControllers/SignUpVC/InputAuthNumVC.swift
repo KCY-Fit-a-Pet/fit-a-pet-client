@@ -8,7 +8,7 @@
 import UIKit
 import SnapKit
 
-class InputAuthNumVC : UIViewController, UITextFieldDelegate {
+class InputAuthNumVC : UIViewController{
     
     let nextIdBtn = CustomNextBtn(title: "다음")
     let inputAuthNum = UITextField()
@@ -105,7 +105,9 @@ class InputAuthNumVC : UIViewController, UITextFieldDelegate {
         self.navigationController?.pushViewController(nextVC, animated: false)
         
     }
-    
+}
+
+extension InputAuthNumVC: UITextFieldDelegate{
     // 입력값이 변경되면 버튼의 색상을 업데이트
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
 
