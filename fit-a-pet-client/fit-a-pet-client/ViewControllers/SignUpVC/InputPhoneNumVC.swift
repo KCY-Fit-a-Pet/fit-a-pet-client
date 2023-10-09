@@ -101,10 +101,27 @@ class InputPhoneNumVC : UIViewController {
     
     @objc func changeInputAuthNumVC(_ sender: UIButton){
         guard let nextVC = self.storyboard?.instantiateViewController(identifier: "InputAuthNumVC") else { return }
-        
-        let url = "http://www.fitapet.co.kr:8080/api/v1/members/sms"
-        let params = ["phone": phone] as Dictionary
+       
 
+        RegistrationManager.shared.addInput(phone: phone)
+
+        AlamofireManager.shared.sendSms(phone){
+            result in
+            switch result {
+            case .success(let data):
+                // Handle success
+                if let responseData = data {
+                    // Process the data
+                    let object = try?JSONSerialization.jsonObject(with: responseData, options: []) as? NSDictionary
+                    guard let jsonObject = object else {return}
+                    print("respose jsonData: \(jsonObject)")
+                   // print("Received data: \(responseData)")
+                }
+            case .failure(let error):
+                // Handle failure
+                print("Error: \(error)")
+            }
+        }
         
 //        AF.request(url,
 //                   method: .get,
@@ -120,7 +137,6 @@ class InputPhoneNumVC : UIViewController {
 //            }
 //        }
         
-        //nextVC.phone = phone
         //if inputPhoneNum.text!.count>0{
             self.navigationController?.pushViewController(nextVC, animated: false)
         //}
@@ -134,63 +150,41 @@ extension InputPhoneNumVC: UITextFieldDelegate{
     // 입력값이 변경되면 버튼의 색상을 업데이트
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         
-        
         let updatedText = (inputPhoneNum.text! as NSString).replacingCharacters(in: range, with: string)
         nextAutnNumBtn.updateButtonColor(updatedText, false)
+    
         if updatedText.isEmpty{
             inputPhoneNum.layer.borderColor = UIColor(named: "Gray2")?.cgColor
         }else{
             inputPhoneNum.layer.borderColor = UIColor(named: "PrimaryColor")?.cgColor
         }
         
-        //JSPhoneFormat 라이브러리로 바꾸기!!!!!!!!!
-        
         if let text = inputPhoneNum.text {
-            // 입력된 문자열에서 하이픈을 제거하고 숫자만 남기기
+            print("[INFO] text : " + text)
             let strippedPhoneNumber = text.replacingOccurrences(of: "-", with: "")
+            print("[INFO] strippedPhoneNumber : " + strippedPhoneNumber)
+            var formattedText: String = ""
+            let hippen: Character = "-"
             
-            // 입력된 문자열에서 숫자만 추출
-            let digits = strippedPhoneNumber.components(separatedBy: CharacterSet.decimalDigits.inverted).joined()
-            
-            var formattedText = ""
-            
-            // 하이픈을 추가할 위치 계산
-            if digits.count >= 3 {
-                formattedText += String(digits.prefix(3)) + "-"
-                if digits.count >= 7 {
-                    formattedText += String(digits.prefix(6).suffix(4)) + "-"
-                    if digits.count >= 10 {
-                        formattedText += String(digits.prefix(10).suffix(4))
-                    } else {
-                        formattedText += String(digits.suffix(digits.count - 6))
-                    }
-                } else {
-                    formattedText += String(digits.suffix(digits.count - 3))
-                }
+            if strippedPhoneNumber.count == 11 {
+                formattedText = String(strippedPhoneNumber.prefix(10))
+                phone = Int(strippedPhoneNumber) ?? 0
+                print("phone: \(phone)")
+                return false
             } else {
-                formattedText = digits
+                formattedText = strippedPhoneNumber
+            }
+            
+            if strippedPhoneNumber.count >= 3 && text.count != 4 {
+                formattedText.insert(hippen, at: formattedText.index(formattedText.startIndex, offsetBy: 3))
+            }
+            if strippedPhoneNumber.count >= 7 && text.count != 9 {
+                formattedText.insert(hippen, at: formattedText.index(formattedText.startIndex, offsetBy: 8))
             }
             
             inputPhoneNum.text = formattedText
-            // 텍스트 필드에 포맷된 문자열을 표시
-           
-           // phone = Int(strippedPhoneNumber) ?? 0 // 하이픈이 제거된 문자열을 정수로 변환
-            
-//           // 하이픈을 추가할 위치 계산
-//           if formattedText.count == 3 {
-//               formattedText.insert("-", at: formattedText.index(formattedText.startIndex, offsetBy: 3))
-//           } else if formattedText.count == 8 {
-//               formattedText.insert("-", at: formattedText.index(formattedText.startIndex, offsetBy: 8))
-//           } else if formattedText.count == 14{
-//               formattedText = ""
-//               return false
-//           }
-           
-           // 텍스트 필드에 포맷된 문자열을 표시
-           // phone = Int(inputPhoneNum.text!.replacingOccurrences(of: "-", with: ""))!
-            
-            return true
         }
+
         return true
     }
 }

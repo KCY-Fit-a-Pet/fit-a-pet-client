@@ -16,12 +16,6 @@ class TabBarController: UITabBarController {
         let recordVC = RecordVC()
         let petVC = PetVC()
         let settingVC = SettingVC()
-        
-        
-
-//        homeVC.tabBarItem.image = UIImage.init(systemName: "house")
-//        searchVC.tabBarItem.image = UIImage.init(systemName: "magnifyingglass")
-//        libraryVC.tabBarItem.image = UIImage.init(systemName: "book")
       
         // navigationController의 root view 설정
         let navigationMain = UINavigationController(rootViewController: mainVC)
@@ -31,6 +25,10 @@ class TabBarController: UITabBarController {
         let navigationSetting = UINavigationController(rootViewController: settingVC)
         
         setViewControllers([navigationCalendar, navigationRecord, navigationMain, navigationPet, navigationSetting ], animated: false)
+        
+        navigationMain.tabBarItem.image = UIImage.init(systemName: "house")
+        
+        navigationMain.navigationBar.isHidden = true
         
         //각 tab bar의 viewcontroller 타이틀 설정
         navigationMain.title = "홈"
@@ -43,9 +41,5 @@ class TabBarController: UITabBarController {
         
         
     }
-    
-//    override func viewWillAppear(_ animated: Bool) {
-//        print("나와라ㅏㅏㅏㅏㅏㅏ")
-//    }
     
 }

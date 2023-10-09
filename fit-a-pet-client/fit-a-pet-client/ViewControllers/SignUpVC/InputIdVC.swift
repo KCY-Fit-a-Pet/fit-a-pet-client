@@ -8,7 +8,7 @@
 import UIKit
 import SnapKit
 
-class InputIdVC : UIViewController, UITextFieldDelegate {
+class InputIdVC : UIViewController {
     
     let nextPwBtn = CustomNextBtn(title: "다음")
     let inputId = UITextField()
@@ -97,9 +97,16 @@ class InputIdVC : UIViewController, UITextFieldDelegate {
     }
     
     @objc func changeInputPwVC(_ sender: UIButton){
+        
+        if let id = inputId.text {
+                RegistrationManager.shared.addInput(id: id)
+        }
+        
         guard let nextVC = self.storyboard?.instantiateViewController(identifier: "InputPwVC") else { return }
         self.navigationController?.pushViewController(nextVC, animated: false)
     }
+}
+extension InputIdVC: UITextFieldDelegate{
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
 

@@ -8,7 +8,7 @@
 import UIKit
 import SnapKit
 
-class InputPwVC : UIViewController, UITextFieldDelegate {
+class InputPwVC : UIViewController {
     
     let nextNickBtn = CustomNextBtn(title: "다음")
     let progressBar = CustomProgressBar.shared
@@ -117,11 +117,20 @@ class InputPwVC : UIViewController, UITextFieldDelegate {
     }
     
     @objc func changeInputNickVC(_ sender: UIButton){
+        
+        if let pw = inputPw.text {
+                RegistrationManager.shared.addInput(pw: pw)
+        }
+        
         guard let nextVC = self.storyboard?.instantiateViewController(identifier: "InputNickVC") else { return }
         self.navigationController?.pushViewController(nextVC, animated: false)
         // progressBar.setProgress(1.0, animated: true)
     }
     
+    
+}
+
+extension InputPwVC: UITextFieldDelegate{
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         
         if textField == inputPwCheck {

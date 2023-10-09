@@ -8,7 +8,7 @@
 import UIKit
 import SnapKit
 
-class InputNickVC : UIViewController, UITextFieldDelegate {
+class InputNickVC : UIViewController {
     
     let completeSignUpBtn = CustomNextBtn(title: "회원가입")
     let progressBar = CustomProgressBar.shared
@@ -88,6 +88,10 @@ class InputNickVC : UIViewController, UITextFieldDelegate {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
+        RegistrationManager.shared.addInput(nickname: "aa")
+        
+        RegistrationManager.shared.performRegistration()
+        
         self.navigationController?.navigationBar.tintColor = .black
         self.navigationController?.navigationBar.topItem?.title = " "
         
@@ -96,7 +100,15 @@ class InputNickVC : UIViewController, UITextFieldDelegate {
             self.progressBar.setProgress(1.0) // 0.6은 ProgressBar의 새로운 위치입니다.
         }
     }
+   
     
+//    @objc func changeCompleteSignUpVC(_ sender: UIButton){
+//        progressBar.setProgress(1.0, animated: true)
+//
+//    }
+}
+
+extension InputNickVC: UITextFieldDelegate{
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
 
         //문자열을 NSString 값으로 변환, replacingCharacters() 메소드 사용하여 문자열의 일부를 변경
@@ -111,11 +123,4 @@ class InputNickVC : UIViewController, UITextFieldDelegate {
         
         return true
     }
-    
-   
-    
-//    @objc func changeCompleteSignUpVC(_ sender: UIButton){
-//        progressBar.setProgress(1.0, animated: true)
-//
-//    }
 }

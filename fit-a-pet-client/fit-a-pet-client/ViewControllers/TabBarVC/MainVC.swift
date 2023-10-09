@@ -53,12 +53,10 @@ class MainVC: UIViewController {
             make.leading.equalTo(view.snp.leading)
             make.trailing.equalTo(view.snp.trailing)
         }
-        
         petDataView.snp.makeConstraints{ make in
-            make.bottom.equalTo(layoutScrollView.snp.bottom).offset(20)
-            make.leading.equalTo(layoutScrollView.snp.leading)
-            make.trailing.equalTo(layoutScrollView.snp.trailing)
-            make.width.equalTo(375)
+            make.bottom.equalTo(layoutScrollView.snp.bottom)
+            make.leading.equalTo(view.snp.leading)
+            make.trailing.equalTo(view.snp.trailing)
             make.height.equalTo(800)
             make.top.equalTo(layoutScrollView.snp.top).offset(100)
         }
@@ -77,11 +75,8 @@ class MainVC: UIViewController {
         
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        
-    }
 }
+
 extension MainVC: UICollectionViewDataSource{
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return petCollect.count

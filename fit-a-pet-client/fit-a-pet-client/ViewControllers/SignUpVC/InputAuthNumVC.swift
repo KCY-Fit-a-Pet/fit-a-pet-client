@@ -16,10 +16,12 @@ class InputAuthNumVC : UIViewController{
     let customLabel = ConstomLabel()
     
     var phone: Int = 0
+   
+    var code: Int = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         initView()
         
         nextIdBtn.addTarget(self, action: #selector(changeInputIdVC(_:)), for: .touchUpInside)
@@ -100,8 +102,29 @@ class InputAuthNumVC : UIViewController{
         
     }
     @objc func changeInputIdVC(_ sender: UIButton){
+        phone = RegistrationManager.shared.phone!
+       
+        
+        AlamofireManager.shared.checkSms(phone, code){
+            result in
+            switch result {
+            case .success(let data):
+                // Handle success
+                if let responseData = data {
+                    // Process the data
+                    let object = try?JSONSerialization.jsonObject(with: responseData, options: []) as? NSDictionary
+                    guard let jsonObject = object else {return}
+                    print("respose jsonData: \(jsonObject)")
+                   // print("Received data: \(responseData)")
+                }
+            case .failure(let error):
+                // Handle failure
+                print("Error: \(error)")
+            }
+        }
+        
         guard let nextVC = self.storyboard?.instantiateViewController(identifier: "InputIdVC") else { return }
-                        
+
         self.navigationController?.pushViewController(nextVC, animated: false)
         
     }
@@ -115,8 +138,9 @@ extension InputAuthNumVC: UITextFieldDelegate{
         let updatedText = (inputAuthNum.text! as NSString).replacingCharacters(in: range, with: string)
        
             nextIdBtn.updateButtonColor(updatedText, true)
-     
         
+        code = Int(updatedText)!
+     
         if updatedText.isEmpty{
             inputAuthNum.layer.borderColor = UIColor(named: "Gray2")?.cgColor
         }else{

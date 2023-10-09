@@ -7,6 +7,7 @@
 
 import UIKit
 import SnapKit
+import Alamofire
 
 class LoginVC: UIViewController, UITextFieldDelegate{
     
@@ -136,6 +137,69 @@ class LoginVC: UIViewController, UITextFieldDelegate{
 //        view.addSubview(tabBarController.view)
 //        tabBarController.didMove(toParent: self)
         guard let nextVC = self.storyboard?.instantiateViewController(identifier: "TabBarController") else { return }
+
+        let url = URL(string: "http://www.fitapet.co.kr:8080/api/v1/members/login")!
+        var request = URLRequest(url: url)
+        
+        //post body부분
+        let loginData = ["uid": "jayang", "password": "dkssudgktpdy"] as Dictionary
+        let jsonData = try! JSONSerialization.data(withJSONObject: loginData, options: [])
+            
+        request.httpMethod = "POST"
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.httpBody = jsonData
+      
+        AF.request(request)
+            .response { response in
+                switch response.result {
+                case .success(let res):
+                    if let httpURLResponse = response.response {
+                    // 응답 객체의 헤더 값을 출력
+                    let headers = httpURLResponse.allHeaderFields
+                    if let setCookieHeader = headers["Set-Cookie"] as? String {
+                        // Set-Cookie 헤더의 값을 가져와 출력
+                        print("Set-Cookie Header Value: \(setCookieHeader)")
+                        }
+                    }
+                    
+                    let object = try?JSONSerialization.jsonObject(with: res!, options: []) as? NSDictionary
+                    guard let jsonObject = object else {return}
+                    print("respose jsonData: \(jsonObject)")
+                    
+                    break
+                case .failure(let err):
+                    print(err)
+                    break
+                }
+            }
+
+        
+
+//        let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
+//            if let e = error {
+//                print("\(e.localizedDescription)")
+//                return
+//            }
+//
+//            //응답처리
+//            DispatchQueue.main.async {
+//
+//                do {
+//                    let object = try JSONSerialization.jsonObject(with: data!, options: []) as? NSDictionary
+//                    guard let jsonObject = object else {return}
+//
+//                    print("respose jsonData: \(jsonObject)")
+//                    print("--------------------------------------------------------------------------")
+//                    print("response Headers: \(response)")
+//
+//                }catch let e {
+//                    print("\(e.localizedDescription)")
+//                }
+//            }
+//
+//        }
+//        task.resume()
+        
         self.navigationController?.pushViewController(nextVC, animated: false)
     }
     
