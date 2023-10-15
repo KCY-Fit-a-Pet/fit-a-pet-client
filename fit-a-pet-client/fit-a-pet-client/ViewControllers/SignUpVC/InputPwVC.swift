@@ -1,14 +1,9 @@
-//
-//  InputPwVC.swift
-//  fit-a-pet-client
-//
-//  Created by 최희진 on 2023/09/06.
-//
+
 
 import UIKit
 import SnapKit
 
-class InputPwVC : UIViewController, UITextFieldDelegate {
+class InputPwVC : UIViewController {
     
     let nextNickBtn = CustomNextBtn(title: "다음")
     let progressBar = CustomProgressBar.shared
@@ -26,6 +21,9 @@ class InputPwVC : UIViewController, UITextFieldDelegate {
     
     }
     private func initView(){
+        
+        view.backgroundColor = .white
+        
         self.view.addSubview(nextNickBtn)
         self.view.addSubview(inputPw)
         self.view.addSubview(inputPwCheck)
@@ -117,11 +115,20 @@ class InputPwVC : UIViewController, UITextFieldDelegate {
     }
     
     @objc func changeInputNickVC(_ sender: UIButton){
-        guard let nextVC = self.storyboard?.instantiateViewController(identifier: "InputNickVC") else { return }
+        
+        if let pw = inputPw.text {
+                RegistrationManager.shared.addInput(pw: pw)
+        }
+        
+        let nextVC = InputNickVC()
         self.navigationController?.pushViewController(nextVC, animated: false)
         // progressBar.setProgress(1.0, animated: true)
     }
     
+    
+}
+
+extension InputPwVC: UITextFieldDelegate{
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         
         if textField == inputPwCheck {

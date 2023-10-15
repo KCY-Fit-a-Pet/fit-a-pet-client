@@ -1,14 +1,9 @@
-//
-//  InputAuthNumVC.swift
-//  fit-a-pet-client
-//
-//  Created by 최희진 on 2023/09/06.
-//
+
 
 import UIKit
 import SnapKit
 
-class InputAuthNumVC : UIViewController, UITextFieldDelegate {
+class InputAuthNumVC : UIViewController{
     
     let nextIdBtn = CustomNextBtn(title: "다음")
     let inputAuthNum = UITextField()
@@ -16,17 +11,18 @@ class InputAuthNumVC : UIViewController, UITextFieldDelegate {
     let customLabel = ConstomLabel()
     
     var phone: Int = 0
+    var code: Int = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         initView()
         
         nextIdBtn.addTarget(self, action: #selector(changeInputIdVC(_:)), for: .touchUpInside)
-        
-        //navigation back 버튼 스타일
     }
     private func initView(){
+        
+        view.backgroundColor = .white
         
         self.view.addSubview(nextIdBtn)
         self.view.addSubview(inputAuthNum)
@@ -100,12 +96,34 @@ class InputAuthNumVC : UIViewController, UITextFieldDelegate {
         
     }
     @objc func changeInputIdVC(_ sender: UIButton){
-        guard let nextVC = self.storyboard?.instantiateViewController(identifier: "InputIdVC") else { return }
-                        
+        phone = RegistrationManager.shared.phone!
+        
+        AlamofireManager.shared.checkSms(phone, code){
+            result in
+            switch result {
+            case .success(let data):
+                // Handle success
+                if let responseData = data {
+                    // Process the data
+                    let object = try?JSONSerialization.jsonObject(with: responseData, options: []) as? NSDictionary
+                    guard let jsonObject = object else {return}
+                    print("respose jsonData: \(jsonObject)")
+                   // print("Received data: \(responseData)")
+                }
+            case .failure(let error):
+                // Handle failure
+                print("Error: \(error)")
+            }
+        }
+        
+        let nextVC = InputIdVC()
+
         self.navigationController?.pushViewController(nextVC, animated: false)
         
     }
-    
+}
+
+extension InputAuthNumVC: UITextFieldDelegate{
     // 입력값이 변경되면 버튼의 색상을 업데이트
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
 
@@ -113,8 +131,9 @@ class InputAuthNumVC : UIViewController, UITextFieldDelegate {
         let updatedText = (inputAuthNum.text! as NSString).replacingCharacters(in: range, with: string)
        
             nextIdBtn.updateButtonColor(updatedText, true)
-     
         
+        code = Int(updatedText)!
+     
         if updatedText.isEmpty{
             inputAuthNum.layer.borderColor = UIColor(named: "Gray2")?.cgColor
         }else{

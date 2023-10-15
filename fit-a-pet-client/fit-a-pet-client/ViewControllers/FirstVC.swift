@@ -62,7 +62,7 @@ extension FirstVC{
     }
 
     @objc func changeSignUpVC(_ sender: UIButton){
-        guard let nextVC = self.storyboard?.instantiateViewController(identifier: "InputPhoneNumVC") else { return }
+        let nextVC = InputPhoneNumVC()
         self.navigationController?.pushViewController(nextVC, animated: false)
     }
     
@@ -88,7 +88,8 @@ extension FirstVC{
     }
     
     @objc func changeLoginVC(_ sender: UIButton){
-        guard let nextVC = self.storyboard?.instantiateViewController(identifier: "LoginVC") else { return }
+       let nextVC = LoginVC()
+        //guard let nextVC = self.storyboard?.instantiateViewController(identifier: "LoginVC") else { return }
         self.navigationController?.pushViewController(nextVC, animated: false)
     }
     

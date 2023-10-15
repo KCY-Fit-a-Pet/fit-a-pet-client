@@ -25,6 +25,8 @@ class MainVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+//        self.navigationItem.title = "반려동물 등록하기"
+        
         petCollectionView.delegate = self
         petCollectionView.dataSource = self
         
@@ -36,6 +38,7 @@ class MainVC: UIViewController {
         
         petDataView.addSubview(dataTitleLabel)
         petDataView.addSubview(petCollectionView)
+        stackView()
         layoutScrollView.addSubview(petDataView)
         view.addSubview(layoutScrollView)
         
@@ -53,12 +56,10 @@ class MainVC: UIViewController {
             make.leading.equalTo(view.snp.leading)
             make.trailing.equalTo(view.snp.trailing)
         }
-        
         petDataView.snp.makeConstraints{ make in
-            make.bottom.equalTo(layoutScrollView.snp.bottom).offset(20)
-            make.leading.equalTo(layoutScrollView.snp.leading)
-            make.trailing.equalTo(layoutScrollView.snp.trailing)
-            make.width.equalTo(375)
+            make.bottom.equalTo(layoutScrollView.snp.bottom)
+            make.leading.equalTo(view.snp.leading)
+            make.trailing.equalTo(view.snp.trailing)
             make.height.equalTo(800)
             make.top.equalTo(layoutScrollView.snp.top).offset(100)
         }
@@ -77,11 +78,59 @@ class MainVC: UIViewController {
         
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
+    private func stackView(){
+        let stackView = UIStackView()
+            stackView.axis = .vertical // 수직 정렬
+            stackView.spacing = 5 // 버튼 사이의 간격
+            stackView.alignment = .center // 중앙 정렬
+            stackView.distribution = .fillEqually // 버튼 사이즈를 동일하게 분배
+
+            // 버튼 3개 생성
+            let coment = UILabel()
+            coment.text = "아직 등록된 반려동물이 없어요"
+            coment.font = UIFont.systemFont(ofSize: 14)
+            
+            let registPet = UIButton(type: .system)
+            registPet.setTitle("반려동물 등록하기", for: .normal)
+            registPet.titleLabel?.font = UIFont.systemFont(ofSize: 14)
+            registPet.setTitleColor(.white, for: .normal)
+            registPet.backgroundColor = UIColor(named: "PrimaryColor")
+           
+            registPet.layer.cornerRadius = 10
         
+            registPet.titleEdgeInsets = UIEdgeInsets(top: 15,left: 10,bottom: 15,right: 10)
+            
+            registPet.snp.makeConstraints{make in
+                make.height.equalTo(50)
+                make.width.equalTo(150)
+            }
+        
+            registPet.addTarget(self, action: #selector(changeInputSpeciesVC(_:)), for: .touchUpInside)
+        
+            
+            // UIStackView에 버튼들 추가
+            stackView.addArrangedSubview(coment)
+            stackView.addArrangedSubview(registPet)
+
+            // UIStackView를 뷰에 추가
+            petDataView.addSubview(stackView)
+
+            // UIStackView의 제약 조건 설정
+            stackView.snp.makeConstraints { make in
+                make.centerX.equalToSuperview() // 수평 중앙 정렬
+                make.top.equalTo(petDataView.snp.top).offset(200) // 원하는 위치로 조정
+            }
+    }
+    
+    @objc func changeInputSpeciesVC(_ sender: UIButton){
+        self.navigationController?.navigationBar.topItem?.title = ""
+        
+        let nextVC = InputSpeciesVC()
+        nextVC.hidesBottomBarWhenPushed = true
+        self.navigationController?.pushViewController(nextVC, animated: false)
     }
 }
+
 extension MainVC: UICollectionViewDataSource{
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return petCollect.count

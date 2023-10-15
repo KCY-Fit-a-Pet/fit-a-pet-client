@@ -1,14 +1,9 @@
-//
-//  InputPhoneNumVC.swift
-//  fit-a-pet-client
-//
-//  Created by 최희진 on 2023/09/06.
-//
 
 import UIKit
 import SnapKit
+import Alamofire
 
-class InputPhoneNumVC : UIViewController, UITextFieldDelegate {
+class InputPhoneNumVC : UIViewController {
     
     let nextAutnNumBtn = CustomNextBtn(title: "다음")
     let inputPhoneNum = UITextField()
@@ -16,7 +11,6 @@ class InputPhoneNumVC : UIViewController, UITextFieldDelegate {
     let customLabel = ConstomLabel()
     
     var phone: Int = 0
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -26,6 +20,8 @@ class InputPhoneNumVC : UIViewController, UITextFieldDelegate {
         nextAutnNumBtn.addTarget(self, action: #selector(changeInputAuthNumVC(_:)), for: .touchUpInside)
     }
     private func initView(){
+        
+        view.backgroundColor = .white
         
         self.view.addSubview(nextAutnNumBtn)
         self.view.addSubview(inputPhoneNum)
@@ -100,55 +96,90 @@ class InputPhoneNumVC : UIViewController, UITextFieldDelegate {
     }
     
     @objc func changeInputAuthNumVC(_ sender: UIButton){
-        guard let nextVC = self.storyboard?.instantiateViewController(identifier: "InputAuthNumVC") else { return }
+        let nextVC = InputAuthNumVC()
+    
+        RegistrationManager.shared.addInput(phone: phone)
+
+        AlamofireManager.shared.sendSms(phone){
+            result in
+            switch result {
+            case .success(let data):
+                // Handle success
+                if let responseData = data {
+                    // Process the data
+                    let object = try?JSONSerialization.jsonObject(with: responseData, options: []) as? NSDictionary
+                    guard let jsonObject = object else {return}
+                    print("respose jsonData: \(jsonObject)")
+                   // print("Received data: \(responseData)")
+                }
+            case .failure(let error):
+                // Handle failure
+                print("Error: \(error)")
+            }
+        }
         
-        //nextVC.phone = phone
+//        AF.request(url,
+//                   method: .get,
+//                   parameters: params)
+//                   .response { response in
+//
+//        switch response.result{
+//            case .success(let data):
+//                print(data)
+//                break
+//            case .failure(let error):
+//                print(error)
+//            }
+//        }
+        
         //if inputPhoneNum.text!.count>0{
             self.navigationController?.pushViewController(nextVC, animated: false)
         //}
         
+        
     }
     
 }
-extension InputPhoneNumVC: UITextViewDelegate{
+
+extension InputPhoneNumVC: UITextFieldDelegate{
     // 입력값이 변경되면 버튼의 색상을 업데이트
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         
-        
         let updatedText = (inputPhoneNum.text! as NSString).replacingCharacters(in: range, with: string)
         nextAutnNumBtn.updateButtonColor(updatedText, false)
+    
         if updatedText.isEmpty{
             inputPhoneNum.layer.borderColor = UIColor(named: "Gray2")?.cgColor
         }else{
             inputPhoneNum.layer.borderColor = UIColor(named: "PrimaryColor")?.cgColor
         }
         
-        //JSPhoneFormat 라이브러리로 바꾸기!!!!!!!!!
-        
         if let text = inputPhoneNum.text {
-           var formattedText = text.replacingCharacters(in: Range(range, in: text)!, with: string)
+            print("[INFO] text : " + text)
+            let strippedPhoneNumber = text.replacingOccurrences(of: "-", with: "")
+            print("[INFO] strippedPhoneNumber : " + strippedPhoneNumber)
+            var formattedText: String = ""
+            let hippen: Character = "-"
             
-           // 하이픈을 추가할 위치 계산
-           if formattedText.count == 3 {
-               formattedText.insert("-", at: formattedText.index(formattedText.startIndex, offsetBy: 3))
-           } else if formattedText.count == 8 {
-               formattedText.insert("-", at: formattedText.index(formattedText.startIndex, offsetBy: 8))
-           } else if formattedText.count == 14{
-               formattedText = ""
-               return false
-           }
-           
-           // 텍스트 필드에 포맷된 문자열을 표시
+            if strippedPhoneNumber.count == 11 {
+                formattedText = String(strippedPhoneNumber.prefix(10))
+                phone = Int(strippedPhoneNumber) ?? 0
+                print("phone: \(phone)")
+                return false
+            } else {
+                formattedText = strippedPhoneNumber
+            }
+            
+            if strippedPhoneNumber.count >= 3 && text.count != 4 {
+                formattedText.insert(hippen, at: formattedText.index(formattedText.startIndex, offsetBy: 3))
+            }
+            if strippedPhoneNumber.count >= 7 && text.count != 9 {
+                formattedText.insert(hippen, at: formattedText.index(formattedText.startIndex, offsetBy: 8))
+            }
+            
             inputPhoneNum.text = formattedText
-           
-            phone = Int(inputPhoneNum.text!.replacingOccurrences(of: "-", with: ""))!
-            
-            return false
         }
-        
-        
+
         return true
     }
-
-        
 }

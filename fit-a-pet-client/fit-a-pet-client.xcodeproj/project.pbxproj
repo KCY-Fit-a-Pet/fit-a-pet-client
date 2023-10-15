@@ -16,14 +16,27 @@
 		4A15F2122AA8B4880098F2F7 /* InputIdVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A15F2112AA8B4880098F2F7 /* InputIdVC.swift */; };
 		4A15F2142AA8B4A50098F2F7 /* InputPwVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A15F2132AA8B4A50098F2F7 /* InputPwVC.swift */; };
 		4A15F2162AA8B4CA0098F2F7 /* InputNickVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A15F2152AA8B4CA0098F2F7 /* InputNickVC.swift */; };
+		4A4BFDCA2AD26B0F0062BDB8 /* RegistrationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A4BFDC92AD26B0F0062BDB8 /* RegistrationManager.swift */; };
+		4A8B9B462AD443C9009236EC /* AlamofireManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A8B9B452AD443C9009236EC /* AlamofireManager.swift */; };
+		4A8B9B482AD443D5009236EC /* BaseInterceptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A8B9B472AD443D5009236EC /* BaseInterceptor.swift */; };
+		4A8B9B4A2AD443E6009236EC /* ApiStatusLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A8B9B492AD443E6009236EC /* ApiStatusLogger.swift */; };
+		4A8B9B4C2AD443EE009236EC /* MyLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A8B9B4B2AD443EE009236EC /* MyLogger.swift */; };
+		4A8B9B4E2AD443FA009236EC /* MySearchRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A8B9B4D2AD443FA009236EC /* MySearchRouter.swift */; };
+		4A8B9B502AD444D0009236EC /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A8B9B4F2AD444D0009236EC /* Constants.swift */; };
 		4A9088772AC1681B000C7878 /* PetCollectViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A9088752AC1681B000C7878 /* PetCollectViewCell.swift */; };
-		4A9088782AC1681B000C7878 /* PetCollectViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4A9088762AC1681B000C7878 /* PetCollectViewCell.xib */; };
 		4AA999922A8485A500E495FA /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AA999912A8485A500E495FA /* AppDelegate.swift */; };
 		4AA999942A8485A500E495FA /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AA999932A8485A500E495FA /* SceneDelegate.swift */; };
 		4AA999962A8485A500E495FA /* FirstVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AA999952A8485A500E495FA /* FirstVC.swift */; };
 		4AA999992A8485A500E495FA /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4AA999972A8485A500E495FA /* Main.storyboard */; };
 		4AA9999B2A8485A600E495FA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4AA9999A2A8485A600E495FA /* Assets.xcassets */; };
 		4AA9999E2A8485A600E495FA /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4AA9999C2A8485A600E495FA /* LaunchScreen.storyboard */; };
+		4ACDD4952AD460BA00CD8F1A /* PetCollectViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4ACDD4932AD460BA00CD8F1A /* PetCollectViewCell.xib */; };
+		4ACDD49E2AD9ACC400CD8F1A /* PetModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ACDD49D2AD9ACC400CD8F1A /* PetModel.swift */; };
+		4ACDD4A12AD9B37E00CD8F1A /* InputSpeciesVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ACDD4A02AD9B37E00CD8F1A /* InputSpeciesVC.swift */; };
+		4ACDD4A32AD9B3A500CD8F1A /* InputPetNameVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ACDD4A22AD9B3A500CD8F1A /* InputPetNameVC.swift */; };
+		4ACDD4A52AD9B3DC00CD8F1A /* InputGenderVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ACDD4A42AD9B3DC00CD8F1A /* InputGenderVC.swift */; };
+		4ACDD4A72AD9B3F600CD8F1A /* CheckCareVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ACDD4A62AD9B3F600CD8F1A /* CheckCareVC.swift */; };
+		4ACDD4A92ADAFFD100CD8F1A /* InputPetBirthVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ACDD4A82ADAFFD100CD8F1A /* InputPetBirthVC.swift */; };
 		4AD354152AACD390004A47B3 /* LoginVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AD354142AACD390004A47B3 /* LoginVC.swift */; };
 		4AD354202AAF7CD6004A47B3 /* MainVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AD3541F2AAF7CD6004A47B3 /* MainVC.swift */; };
 		4AD354222AAF7E62004A47B3 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AD354212AAF7E62004A47B3 /* TabBarController.swift */; };
@@ -45,8 +58,14 @@
 		4A15F2112AA8B4880098F2F7 /* InputIdVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputIdVC.swift; sourceTree = "<group>"; };
 		4A15F2132AA8B4A50098F2F7 /* InputPwVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputPwVC.swift; sourceTree = "<group>"; };
 		4A15F2152AA8B4CA0098F2F7 /* InputNickVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputNickVC.swift; sourceTree = "<group>"; };
+		4A4BFDC92AD26B0F0062BDB8 /* RegistrationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationManager.swift; sourceTree = "<group>"; };
+		4A8B9B452AD443C9009236EC /* AlamofireManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlamofireManager.swift; sourceTree = "<group>"; };
+		4A8B9B472AD443D5009236EC /* BaseInterceptor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseInterceptor.swift; sourceTree = "<group>"; };
+		4A8B9B492AD443E6009236EC /* ApiStatusLogger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiStatusLogger.swift; sourceTree = "<group>"; };
+		4A8B9B4B2AD443EE009236EC /* MyLogger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyLogger.swift; sourceTree = "<group>"; };
+		4A8B9B4D2AD443FA009236EC /* MySearchRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MySearchRouter.swift; sourceTree = "<group>"; };
+		4A8B9B4F2AD444D0009236EC /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		4A9088752AC1681B000C7878 /* PetCollectViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PetCollectViewCell.swift; sourceTree = "<group>"; };
-		4A9088762AC1681B000C7878 /* PetCollectViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PetCollectViewCell.xib; sourceTree = "<group>"; };
 		4AA9998E2A8485A500E495FA /* fit-a-pet-client.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "fit-a-pet-client.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		4AA999912A8485A500E495FA /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		4AA999932A8485A500E495FA /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -55,6 +74,13 @@
 		4AA9999A2A8485A600E495FA /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		4AA9999D2A8485A600E495FA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		4AA9999F2A8485A600E495FA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		4ACDD4932AD460BA00CD8F1A /* PetCollectViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PetCollectViewCell.xib; sourceTree = "<group>"; };
+		4ACDD49D2AD9ACC400CD8F1A /* PetModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PetModel.swift; sourceTree = "<group>"; };
+		4ACDD4A02AD9B37E00CD8F1A /* InputSpeciesVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputSpeciesVC.swift; sourceTree = "<group>"; };
+		4ACDD4A22AD9B3A500CD8F1A /* InputPetNameVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputPetNameVC.swift; sourceTree = "<group>"; };
+		4ACDD4A42AD9B3DC00CD8F1A /* InputGenderVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputGenderVC.swift; sourceTree = "<group>"; };
+		4ACDD4A62AD9B3F600CD8F1A /* CheckCareVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckCareVC.swift; sourceTree = "<group>"; };
+		4ACDD4A82ADAFFD100CD8F1A /* InputPetBirthVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputPetBirthVC.swift; sourceTree = "<group>"; };
 		4AD354142AACD390004A47B3 /* LoginVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginVC.swift; sourceTree = "<group>"; };
 		4AD3541F2AAF7CD6004A47B3 /* MainVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainVC.swift; sourceTree = "<group>"; };
 		4AD354212AAF7E62004A47B3 /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
@@ -125,8 +151,6 @@
 				4AA9999A2A8485A600E495FA /* Assets.xcassets */,
 				4AA9999C2A8485A600E495FA /* LaunchScreen.storyboard */,
 				4AA9999F2A8485A600E495FA /* Info.plist */,
-				4A9088752AC1681B000C7878 /* PetCollectViewCell.swift */,
-				4A9088762AC1681B000C7878 /* PetCollectViewCell.xib */,
 			);
 			path = "fit-a-pet-client";
 			sourceTree = "<group>";
@@ -134,6 +158,8 @@
 		4ABE58582A85E8B400E22C5F /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				4ACDD49F2AD9B32400CD8F1A /* RegistPet */,
+				4ACDD49A2AD9A9F600CD8F1A /* FindAccountVC */,
 				4AD354232AAF7EB6004A47B3 /* TabBarVC */,
 				4A15F20C2AA8B3FB0098F2F7 /* SignUpVC */,
 				4AA999952A8485A500E495FA /* FirstVC.swift */,
@@ -145,6 +171,7 @@
 		4ABE58592A85E8C100E22C5F /* View */ = {
 			isa = PBXGroup;
 			children = (
+				4ACDD4932AD460BA00CD8F1A /* PetCollectViewCell.xib */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -153,6 +180,7 @@
 			isa = PBXGroup;
 			children = (
 				4A00A90B2AC66BDC007AEC8A /* UserModel.swift */,
+				4ACDD49D2AD9ACC400CD8F1A /* PetModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -160,6 +188,11 @@
 		4ABE585C2A85E90500E22C5F /* API */ = {
 			isa = PBXGroup;
 			children = (
+				4A8B9B452AD443C9009236EC /* AlamofireManager.swift */,
+				4A8B9B472AD443D5009236EC /* BaseInterceptor.swift */,
+				4A8B9B492AD443E6009236EC /* ApiStatusLogger.swift */,
+				4A8B9B4B2AD443EE009236EC /* MyLogger.swift */,
+				4A8B9B4D2AD443FA009236EC /* MySearchRouter.swift */,
 			);
 			path = API;
 			sourceTree = "<group>";
@@ -167,6 +200,8 @@
 		4ABE585D2A85E91600E22C5F /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				4A4BFDC92AD26B0F0062BDB8 /* RegistrationManager.swift */,
+				4A8B9B4F2AD444D0009236EC /* Constants.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -185,6 +220,25 @@
 			path = Resource;
 			sourceTree = "<group>";
 		};
+		4ACDD49A2AD9A9F600CD8F1A /* FindAccountVC */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = FindAccountVC;
+			sourceTree = "<group>";
+		};
+		4ACDD49F2AD9B32400CD8F1A /* RegistPet */ = {
+			isa = PBXGroup;
+			children = (
+				4ACDD4A02AD9B37E00CD8F1A /* InputSpeciesVC.swift */,
+				4ACDD4A22AD9B3A500CD8F1A /* InputPetNameVC.swift */,
+				4ACDD4A42AD9B3DC00CD8F1A /* InputGenderVC.swift */,
+				4ACDD4A82ADAFFD100CD8F1A /* InputPetBirthVC.swift */,
+				4ACDD4A62AD9B3F600CD8F1A /* CheckCareVC.swift */,
+			);
+			path = RegistPet;
+			sourceTree = "<group>";
+		};
 		4AD3541E2AAF7BA2004A47B3 /* UIElement */ = {
 			isa = PBXGroup;
 			children = (
@@ -199,6 +253,7 @@
 		4AD354232AAF7EB6004A47B3 /* TabBarVC */ = {
 			isa = PBXGroup;
 			children = (
+				4A9088752AC1681B000C7878 /* PetCollectViewCell.swift */,
 				4AD3541F2AAF7CD6004A47B3 /* MainVC.swift */,
 				4AD354262AAF7EF5004A47B3 /* CalendarVC.swift */,
 				4AD354282AAF7F55004A47B3 /* RecordVC.swift */,
@@ -286,8 +341,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				4AA9999E2A8485A600E495FA /* LaunchScreen.storyboard in Resources */,
-				4A9088782AC1681B000C7878 /* PetCollectViewCell.xib in Resources */,
 				4AA9999B2A8485A600E495FA /* Assets.xcassets in Resources */,
+				4ACDD4952AD460BA00CD8F1A /* PetCollectViewCell.xib in Resources */,
 				4AA999992A8485A500E495FA /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -341,26 +396,39 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4A8B9B4E2AD443FA009236EC /* MySearchRouter.swift in Sources */,
 				4AD3542B2AAF7F6A004A47B3 /* PetVC.swift in Sources */,
+				4ACDD4A32AD9B3A500CD8F1A /* InputPetNameVC.swift in Sources */,
 				4AD3542D2AAF7F83004A47B3 /* SettingVC.swift in Sources */,
 				4A15F2122AA8B4880098F2F7 /* InputIdVC.swift in Sources */,
 				4AD354292AAF7F55004A47B3 /* RecordVC.swift in Sources */,
 				4A15F2092AA790D60098F2F7 /* CustomProgressBar.swift in Sources */,
 				4A9088772AC1681B000C7878 /* PetCollectViewCell.swift in Sources */,
+				4A8B9B4A2AD443E6009236EC /* ApiStatusLogger.swift in Sources */,
+				4A8B9B4C2AD443EE009236EC /* MyLogger.swift in Sources */,
+				4ACDD4A52AD9B3DC00CD8F1A /* InputGenderVC.swift in Sources */,
 				4AD354152AACD390004A47B3 /* LoginVC.swift in Sources */,
 				4A15F2162AA8B4CA0098F2F7 /* InputNickVC.swift in Sources */,
+				4ACDD4A12AD9B37E00CD8F1A /* InputSpeciesVC.swift in Sources */,
+				4ACDD49E2AD9ACC400CD8F1A /* PetModel.swift in Sources */,
+				4A8B9B462AD443C9009236EC /* AlamofireManager.swift in Sources */,
 				4A15F20B2AA799C50098F2F7 /* ConstomLabel.swift in Sources */,
 				4A15F2102AA8B45A0098F2F7 /* InputAuthNumVC.swift in Sources */,
 				4A15F20E2AA8B4150098F2F7 /* InputPhoneNumVC.swift in Sources */,
 				4AA999962A8485A500E495FA /* FirstVC.swift in Sources */,
 				4AA999922A8485A500E495FA /* AppDelegate.swift in Sources */,
+				4ACDD4A92ADAFFD100CD8F1A /* InputPetBirthVC.swift in Sources */,
 				4A15F2142AA8B4A50098F2F7 /* InputPwVC.swift in Sources */,
 				4AA999942A8485A500E495FA /* SceneDelegate.swift in Sources */,
 				4AD354222AAF7E62004A47B3 /* TabBarController.swift in Sources */,
 				4A15F2072AA641910098F2F7 /* CustomNextBtn.swift in Sources */,
+				4A8B9B482AD443D5009236EC /* BaseInterceptor.swift in Sources */,
 				4AD354272AAF7EF5004A47B3 /* CalendarVC.swift in Sources */,
+				4A4BFDCA2AD26B0F0062BDB8 /* RegistrationManager.swift in Sources */,
 				4A00A90C2AC66BDC007AEC8A /* UserModel.swift in Sources */,
 				4AD354202AAF7CD6004A47B3 /* MainVC.swift in Sources */,
+				4ACDD4A72AD9B3F600CD8F1A /* CheckCareVC.swift in Sources */,
+				4A8B9B502AD444D0009236EC /* Constants.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

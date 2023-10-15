@@ -1,14 +1,8 @@
-//
-//  InputIdVC.swift
-//  fit-a-pet-client
-//
-//  Created by 최희진 on 2023/09/06.
-//
 
 import UIKit
 import SnapKit
 
-class InputIdVC : UIViewController, UITextFieldDelegate {
+class InputIdVC : UIViewController {
     
     let nextPwBtn = CustomNextBtn(title: "다음")
     let inputId = UITextField()
@@ -24,6 +18,8 @@ class InputIdVC : UIViewController, UITextFieldDelegate {
         
     }
     private func initView(){
+        
+        view.backgroundColor = .white
         
         self.view.addSubview(nextPwBtn)
         self.view.addSubview(inputId)
@@ -97,9 +93,16 @@ class InputIdVC : UIViewController, UITextFieldDelegate {
     }
     
     @objc func changeInputPwVC(_ sender: UIButton){
-        guard let nextVC = self.storyboard?.instantiateViewController(identifier: "InputPwVC") else { return }
+        
+        if let id = inputId.text {
+                RegistrationManager.shared.addInput(id: id)
+        }
+        
+        let nextVC = InputPwVC()
         self.navigationController?.pushViewController(nextVC, animated: false)
     }
+}
+extension InputIdVC: UITextFieldDelegate{
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
 

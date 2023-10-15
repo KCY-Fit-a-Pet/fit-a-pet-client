@@ -70,21 +70,6 @@
             </objects>
             <point key="canvasLocation" x="1655.7251908396945" y="328.16901408450707"/>
         </scene>
-        <!--View Controller-->
-        <scene sceneID="CAw-xs-ugV">
-            <objects>
-                <viewController id="QwJ-6j-5r5" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="jiS-wC-C48">
-                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <viewLayoutGuide key="safeArea" id="b1W-Cd-Srp"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                    </view>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="2Kk-BX-aZU" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="2527" y="332"/>
-        </scene>
         <!--Input Phone NumVC-->
         <scene sceneID="fha-GS-Nel">
             <objects>
