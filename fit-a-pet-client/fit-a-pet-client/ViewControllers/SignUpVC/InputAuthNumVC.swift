@@ -91,7 +91,7 @@ class InputAuthNumVC : UIViewController{
         
         progressBarInit()
         UIView.animate(withDuration: 0.5) {
-            self.progressBar.setProgress(0.4) // 0.6은 ProgressBar의 새로운 위치입니다.
+            self.progressBar.setProgress(0.4) 
         }
         
     }
@@ -108,7 +108,6 @@ class InputAuthNumVC : UIViewController{
                     let object = try?JSONSerialization.jsonObject(with: responseData, options: []) as? NSDictionary
                     guard let jsonObject = object else {return}
                     print("respose jsonData: \(jsonObject)")
-                   // print("Received data: \(responseData)")
                 }
             case .failure(let error):
                 // Handle failure

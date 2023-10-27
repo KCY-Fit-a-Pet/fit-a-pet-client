@@ -100,76 +100,64 @@ class LoginVC: UIViewController, UITextFieldDelegate{
     }
     private func stackBtnView(){
         let stackView = UIStackView()
-            stackView.axis = .horizontal // 수평 정렬
-            stackView.spacing = 32 // 버튼 사이의 간격
-            stackView.alignment = .center // 중앙 정렬
-            stackView.distribution = .fillEqually // 버튼 사이즈를 동일하게 분배
+        stackView.axis = .horizontal // 수평 정렬
+        stackView.spacing = 32 // 버튼 사이의 간격
+        stackView.alignment = .center // 중앙 정렬
+        stackView.distribution = .fillEqually // 버튼 사이즈를 동일하게 분배
 
-            // 버튼 3개 생성
-            let findIdBtn = UIButton(type: .system)
-            findIdBtn.setTitle("아이디 찾기", for: .normal)
-            findIdBtn.titleLabel?.font = UIFont.systemFont(ofSize: 14)
-            findIdBtn.setTitleColor(.black, for: .normal)
-            
-            let findPwBtn = UIButton(type: .system)
-            findPwBtn.setTitle("비밀번호 찾기", for: .normal)
-            findPwBtn.titleLabel?.font = UIFont.systemFont(ofSize: 14)
-            findPwBtn.setTitleColor(.black, for: .normal)
-            
-            let SignUpBtn = UIButton(type: .system)
-            SignUpBtn.setTitle("회원가입", for: .normal)
-            SignUpBtn.titleLabel?.font = UIFont.systemFont(ofSize: 14)
-            SignUpBtn.setTitleColor(.black, for: .normal)
+        // 버튼 3개 생성
+        let findIdBtn = UIButton(type: .system)
+        findIdBtn.setTitle("아이디 찾기", for: .normal)
+        findIdBtn.titleLabel?.font = UIFont.systemFont(ofSize: 14)
+        findIdBtn.setTitleColor(.black, for: .normal)
+        
+        let findPwBtn = UIButton(type: .system)
+        findPwBtn.setTitle("비밀번호 찾기", for: .normal)
+        findPwBtn.titleLabel?.font = UIFont.systemFont(ofSize: 14)
+        findPwBtn.setTitleColor(.black, for: .normal)
+        
+        let SignUpBtn = UIButton(type: .system)
+        SignUpBtn.setTitle("회원가입", for: .normal)
+        SignUpBtn.titleLabel?.font = UIFont.systemFont(ofSize: 14)
+        SignUpBtn.setTitleColor(.black, for: .normal)
 
-            // UIStackView에 버튼들 추가
-            stackView.addArrangedSubview(findIdBtn)
-            stackView.addArrangedSubview(findPwBtn)
-            stackView.addArrangedSubview(SignUpBtn)
+        // UIStackView에 버튼들 추가
+        stackView.addArrangedSubview(findIdBtn)
+        stackView.addArrangedSubview(findPwBtn)
+        stackView.addArrangedSubview(SignUpBtn)
 
-            // UIStackView를 뷰에 추가
-            view.addSubview(stackView)
+        // UIStackView를 뷰에 추가
+        view.addSubview(stackView)
 
-            // UIStackView의 제약 조건 설정
-            stackView.snp.makeConstraints { make in
-                make.centerX.equalToSuperview() // 수평 중앙 정렬
-                make.top.equalTo(loginBtn.snp.bottom).offset(30) // 원하는 위치로 조정
-            }
+        // UIStackView의 제약 조건 설정
+        stackView.snp.makeConstraints { make in
+            make.centerX.equalToSuperview() // 수평 중앙 정렬
+            make.top.equalTo(loginBtn.snp.bottom).offset(30) // 원하는 위치로 조정
+        }
     }
     
     @objc func changeTabBarVC(_ sender: UIButton){
-
-        //guard let nextVC = self.storyboard?.instantiateViewController(identifier: "TabBarController") else { return }
+        
         let nextVC = TabBarController()
         nextVC.modalPresentationStyle = .fullScreen
-        let url = URL(string: "http://www.fitapet.co.kr:8080/api/v1/members/login")!
-        var request = URLRequest(url: url)
 
-        //post body부분
-        let loginData = ["uid": "jayang", "password": "dkssudgktpdy"] as Dictionary
-        let jsonData = try! JSONSerialization.data(withJSONObject: loginData, options: [])
-            
-        request.httpMethod = "POST"
-        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-        request.httpBody = jsonData
-      
-        
-//        AlamofireManager.shared.login("jayang", "dkssudgktpdy"){
-//            result in
-//            switch result {
-//            case .success(let data):
-//                // Handle success
-//                if let responseData = data {
-//                    // Process the data
-//                    let object = try?JSONSerialization.jsonObject(with: responseData, options: []) as? NSDictionary
-//                    guard let jsonObject = object else {return}
-//                    print("respose jsonData: \(jsonObject)")
-//                   // print("Received data: \(responseData)")
-//                }
-//            case .failure(let error):
-//                // Handle failure
-//                print("Error: \(error)")
-//            }
-//        }
+        AlamofireManager.shared.login("heejin", "heejin123"){
+            result in
+            switch result {
+            case .success(let data):
+                // Handle success
+                if let responseData = data {
+                    // Process the data
+                    let object = try?JSONSerialization.jsonObject(with: responseData, options: []) as? NSDictionary
+                    guard let jsonObject = object else {return}
+                    print("respose jsonData: \(jsonObject)")
+                   // print("Received data: \(responseData)")
+                }
+            case .failure(let error):
+                // Handle failure
+                print("Error: \(error)")
+            }
+        }
         
         // 모달로 다음 뷰 컨트롤러를 표시
         self.present(nextVC, animated: false, completion: nil)

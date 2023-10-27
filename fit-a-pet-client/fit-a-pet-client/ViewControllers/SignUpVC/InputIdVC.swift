@@ -88,7 +88,7 @@ class InputIdVC : UIViewController {
         
         progressBarInit()
         UIView.animate(withDuration: 0.5) {
-            self.progressBar.setProgress(0.6) // 0.6은 ProgressBar의 새로운 위치입니다.
+            self.progressBar.setProgress(0.6)
         }
     }
     

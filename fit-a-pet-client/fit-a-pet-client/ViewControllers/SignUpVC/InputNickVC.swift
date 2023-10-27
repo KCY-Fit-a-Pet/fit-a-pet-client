@@ -67,7 +67,7 @@ class InputNickVC : UIViewController {
             make.left.equalTo(view.snp.left).offset(16)
             make.right.equalTo(view.snp.right).offset(-16)
         }
-//        completeSignUpBtn.addTarget(self, action: #selector(changeCompleteSignUpVC(_:)), for: .touchUpInside)
+        completeSignUpBtn.addTarget(self, action: #selector(changeCompleteSignUpVC(_:)), for: .touchUpInside)
         
     }
     
@@ -85,8 +85,7 @@ class InputNickVC : UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        RegistrationManager.shared.addInput(nickname: "aa")
-        
+        RegistrationManager.shared.addInput(nickname: "최희진")
         RegistrationManager.shared.performRegistration()
         
         self.navigationController?.navigationBar.tintColor = .black
@@ -94,15 +93,30 @@ class InputNickVC : UIViewController {
         
         progressBarInit()
         UIView.animate(withDuration: 0.5) {
-            self.progressBar.setProgress(1.0) // 0.6은 ProgressBar의 새로운 위치입니다.
+            self.progressBar.setProgress(1.0) 
         }
     }
    
     
-//    @objc func changeCompleteSignUpVC(_ sender: UIButton){
-//        progressBar.setProgress(1.0, animated: true)
-//
-//    }
+    @objc func changeCompleteSignUpVC(_ sender: UIButton){
+        AlamofireManager.shared.regist(RegistrationManager.shared.id!, RegistrationManager.shared.nickname!, RegistrationManager.shared.pw!, "", ""){
+            result in
+            switch result {
+            case .success(let data):
+                // Handle success
+                if let responseData = data {
+                    // Process the data
+                    let object = try?JSONSerialization.jsonObject(with: responseData, options: []) as? NSDictionary
+                    guard let jsonObject = object else {return}
+                    print("respose jsonData: \(jsonObject)")
+                }
+            case .failure(let error):
+                // Handle failure
+                print("Error: \(error)")
+            }
+        }
+
+    }
 }
 
 extension InputNickVC: UITextFieldDelegate{
