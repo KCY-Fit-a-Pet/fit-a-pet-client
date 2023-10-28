@@ -10,7 +10,7 @@ class InputAuthNumVC : UIViewController{
     let progressBar = CustomProgressBar.shared
     let customLabel = ConstomLabel()
     
-    var phone: Int = 0
+    var phone: String = ""
     var code: Int = 0
     
     override func viewDidLoad() {
