@@ -118,23 +118,9 @@ class InputPhoneNumVC : UIViewController {
             }
         }
         
-//        AF.request(url,
-//                   method: .get,
-//                   parameters: params)
-//                   .response { response in
-//
-//        switch response.result{
-//            case .success(let data):
-//                print(data)
-//                break
-//            case .failure(let error):
-//                print(error)
-//            }
-//        }
-        
-        //if inputPhoneNum.text!.count>0{
+        if inputPhoneNum.text!.count>0{
             self.navigationController?.pushViewController(nextVC, animated: false)
-        //}
+        }
         
         
     }

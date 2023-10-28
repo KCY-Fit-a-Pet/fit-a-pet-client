@@ -21,7 +21,7 @@ class AlamofireManager{
             
         self
             .session //세션 설정
-            .request(MySearchRouter.sendSms(phone: phone))
+            .request(MySearchRouter.sendSms(to: phone))
         //                .validate(statusCode: 200..<401)//200에서 401이전까지만
             .response { response in
                switch response.result {
@@ -35,22 +35,27 @@ class AlamofireManager{
     }
     
     func checkSms(_ phone: Int, _ code: Int, completion: @escaping(Result<Data?, Error>) -> Void) {
-        
+
         print("MyAlamofireManager - checkSms() called userInput : \(phone) ,, \(code) ")
-            
+
         self
-            .session //세션 설정
-            .request(MySearchRouter.checkSms(phone: phone, code: code))
-        //                .validate(statusCode: 200..<401)//200에서 401이전까지만
+            .session
+            .request(MySearchRouter.checkSms(to: phone, code: code))
             .response { response in
-               switch response.result {
-               case .success(let data):
-                   completion(.success(data))
-               case .failure(let error):
-                   completion(.failure(error))
-               }
-           }
-        
+                switch response.result {
+                case .success(let data):
+                    //액세스 토큰 저장
+                    if let responseHeaders = response.response?.allHeaderFields as? [String: String],
+                       let accessToken = responseHeaders["accessToken"] {
+                       UserDefaults.standard.set(accessToken, forKey: "accessToken")
+                       print("AccessToken: \(accessToken)")
+                    }
+                    
+                    completion(.success(data))
+                case .failure(let error):
+                    completion(.failure(error))
+                }
+            }
     }
     
     func login(_ uid: String, _ password: String, completion: @escaping(Result<Data?, Error>) -> Void){
@@ -60,6 +65,23 @@ class AlamofireManager{
         self
             .session
             .request(MySearchRouter.login(uid: uid, password: password))
+            .response{ response in
+                switch response.result{
+                case .success(let data):
+                    completion(.success(data))
+                case .failure(let error):
+                    completion(.failure(error))
+                }
+                
+            }
+    }
+    
+    func regist(_ uid: String, _ name: String, _ password: String, _ email: String, _ profileImg: String, completion: @escaping(Result<Data?, Error>) -> Void){
+        print("MyAlamofireManager - regist() called userInput : \(uid) ,, \(password) ,, \(name) ,, \(email) ,, \(profileImg) ")
+        
+        self
+            .session
+            .request(MySearchRouter.regist(uid: uid, name: name, password: password, email: email, profileImg: profileImg))
             .response{ response in
                 switch response.result{
                 case .success(let data):

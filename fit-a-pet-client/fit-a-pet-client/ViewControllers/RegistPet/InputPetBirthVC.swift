@@ -8,7 +8,11 @@ class InputPetBirthVC : UIViewController {
     let nextCheckCareBtn = CustomNextBtn(title: "다음")
     let birthDatePicker = UIDatePicker()
     let inputPetBirth = UITextField()
-    let doneButton = UIButton()
+    
+    let ageStackView = UIStackView()
+    let agecheckboxButton = UIButton()
+    let agecheckLabel = UILabel()
+    
     let progressBar = CustomProgressBar.shared
     let customLabel = ConstomLabel()
     
@@ -19,6 +23,7 @@ class InputPetBirthVC : UIViewController {
         setupDatePicker()
         setupTextField()
         setupTapGestureRecognizer()
+        setupAgeStakView()
 
         nextCheckCareBtn.addTarget(self, action: #selector(changeCheckCareVC(_:)), for: .touchUpInside)
     }
@@ -41,7 +46,7 @@ class InputPetBirthVC : UIViewController {
         
         view.backgroundColor = .white
         
-        let text = "반려동물의\n이름을 알려주세요."
+        let text = "반려동물의\n생일을 알려주세요."
         let attributedText = NSMutableAttributedString(string: text)
 
         let boldFont = UIFont.boldSystemFont(ofSize: 20)
@@ -102,6 +107,46 @@ class InputPetBirthVC : UIViewController {
         }
     }
     
+    private func setupAgeStakView(){
+        ageStackView.axis = .horizontal
+        ageStackView.spacing = 0
+        ageStackView.alignment = .center
+        ageStackView.distribution = .fillProportionally
+        
+        agecheckLabel.text = "나이로 입력하기"
+        agecheckLabel.font = UIFont.systemFont(ofSize: 14)
+        
+        agecheckboxButton.isSelected = false
+        
+        let checkedImage = UIImage(systemName: "checkmark.square.fill")
+        let uncheckedImage = UIImage(systemName: "checkmark.square")
+
+        agecheckboxButton.setImage(uncheckedImage, for: .normal)
+        agecheckboxButton.setImage(checkedImage, for: .selected)
+        
+        agecheckboxButton.tintColor = UIColor(named: "Gray9")
+        agecheckboxButton.addTarget(self, action: #selector(checkboxButtonTapped(_:)), for: .touchUpInside)
+        
+        ageStackView.addArrangedSubview(agecheckboxButton)
+        ageStackView.addArrangedSubview(agecheckLabel)
+        
+        view.addSubview(ageStackView)
+        
+        ageStackView.snp.makeConstraints{make in
+            make.top.equalTo(inputPetBirth.snp.bottom).offset(20)
+            make.left.equalTo(view.snp.left).offset(16)
+            make.right.equalTo(view.snp.right).offset(-16)
+        }
+        
+        agecheckboxButton.snp.makeConstraints{make in
+            make.height.equalTo(30)
+            make.width.equalTo(30)
+        }
+        agecheckLabel.snp.makeConstraints{make in
+            make.height.equalTo(30)
+        }
+    }
+    
     private func progressBarInit(){
         self.view.addSubview(progressBar)
         progressBar.snp.makeConstraints{make in
@@ -143,6 +188,20 @@ class InputPetBirthVC : UIViewController {
     @objc func dismissDatePicker() {
         // 화면을 터치하면 DatePicker를 닫음
         inputPetBirth.resignFirstResponder()
+    }
+    
+    @objc func checkboxButtonTapped(_ sender: UIButton) {
+        sender.isSelected = !sender.isSelected
+        birthDatePicker.isUserInteractionEnabled = !agecheckboxButton.isSelected // 선택 상태에 따라 DatePicker 활성화/비활성화
+        updateCheckboxColor()
+    }
+    
+    private func updateCheckboxColor(){
+        if agecheckboxButton.isSelected{
+            agecheckboxButton.tintColor = UIColor(named: "PrimaryColor")
+        }else {
+            agecheckboxButton.tintColor = UIColor(named: "Gray9")
+        }
     }
     
     @objc func changeCheckCareVC(_ sender: UIButton){

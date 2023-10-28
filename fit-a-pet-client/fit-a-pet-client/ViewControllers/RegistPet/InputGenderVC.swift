@@ -10,6 +10,10 @@ class InputGenderVC : UIViewController {
     let genderStackView = UIStackView()
     let femaleBtn = UIButton()
     let maleBtn = UIButton()
+    
+    let neuteringStackView = UIStackView()
+    let neuteringCheckboxButton = UIButton()
+    let neuteringCheckLabel = UILabel()
     let progressBar = CustomProgressBar.shared
     let customLabel = ConstomLabel()
     
@@ -17,7 +21,9 @@ class InputGenderVC : UIViewController {
         super.viewDidLoad()
         
         initView()
-        setupStackView()
+        setupGenderStackView()
+        setupNeuteringStakView()
+        //checkboxBtn()
 
         nextBirthBtn.addTarget(self, action: #selector(changeInputPetBirthVC(_:)), for: .touchUpInside)
     }
@@ -68,7 +74,7 @@ class InputGenderVC : UIViewController {
         }
         
     }
-    func setupStackView() {
+    private func setupGenderStackView() {
         
         genderStackView.axis = .horizontal
         genderStackView.spacing = 20
@@ -115,6 +121,46 @@ class InputGenderVC : UIViewController {
         }
     }
     
+    private func setupNeuteringStakView(){
+        neuteringStackView.axis = .horizontal
+        neuteringStackView.spacing = 0
+        neuteringStackView.alignment = .center
+        neuteringStackView.distribution = .fillProportionally
+        
+        neuteringCheckLabel.text = "중성화를 완료했어요"
+        neuteringCheckLabel.font = UIFont.systemFont(ofSize: 14)
+        
+        neuteringCheckboxButton.isSelected = false
+        
+        let checkedImage = UIImage(systemName: "checkmark.square.fill")
+        let uncheckedImage = UIImage(systemName: "checkmark.square")
+
+        neuteringCheckboxButton.setImage(uncheckedImage, for: .normal)
+        neuteringCheckboxButton.setImage(checkedImage, for: .selected)
+        
+        neuteringCheckboxButton.tintColor = UIColor(named: "Gray9")
+        neuteringCheckboxButton.addTarget(self, action: #selector(checkboxButtonTapped(_:)), for: .touchUpInside)
+        
+        neuteringStackView.addArrangedSubview(neuteringCheckboxButton)
+        neuteringStackView.addArrangedSubview(neuteringCheckLabel)
+        
+        view.addSubview(neuteringStackView)
+        
+        neuteringStackView.snp.makeConstraints{make in
+            make.top.equalTo(genderStackView.snp.bottom).offset(20)
+            make.left.equalTo(view.snp.left).offset(16)
+            make.right.equalTo(view.snp.right).offset(-16)
+        }
+        
+        neuteringCheckboxButton.snp.makeConstraints{make in
+            make.height.equalTo(30)
+            make.width.equalTo(30)
+        }
+        neuteringCheckLabel.snp.makeConstraints{make in
+            make.height.equalTo(30)
+        }
+    }
+    
     private func progressBarInit(){
         self.view.addSubview(progressBar)
         progressBar.snp.makeConstraints{make in
@@ -152,7 +198,7 @@ class InputGenderVC : UIViewController {
         print("male: \(maleBtn.isSelected)")
     }
     
-    func updateButtonColors() {
+    private func updateButtonColors() {
        if femaleBtn.isSelected {
            maleBtn.layer.borderColor = UIColor(named: "Gray2")?.cgColor
            maleBtn.backgroundColor = .white
@@ -164,6 +210,19 @@ class InputGenderVC : UIViewController {
            maleBtn.layer.borderColor = UIColor(named: "PrimaryColor")?.cgColor
            maleBtn.backgroundColor = UIColor(named: "Secondary")
        }
+    }
+    
+    @objc func checkboxButtonTapped(_ sender: UIButton) {
+        sender.isSelected = !sender.isSelected
+        updateCheckboxColor()
+    }
+    
+    private func updateCheckboxColor(){
+        if neuteringCheckboxButton.isSelected{
+            neuteringCheckboxButton.tintColor = UIColor(named: "PrimaryColor")
+        }else {
+            neuteringCheckboxButton.tintColor = UIColor(named: "Gray9")
+        }
     }
     
     @objc func changeInputPetBirthVC(_ sender: UIButton){

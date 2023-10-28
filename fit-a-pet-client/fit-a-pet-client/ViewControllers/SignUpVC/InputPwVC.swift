@@ -110,7 +110,7 @@ class InputPwVC : UIViewController {
         
         progressBarInit()
         UIView.animate(withDuration: 0.5) {
-            self.progressBar.setProgress(0.8) // 0.6은 ProgressBar의 새로운 위치입니다.
+            self.progressBar.setProgress(0.8) 
         }
     }
     
@@ -122,7 +122,6 @@ class InputPwVC : UIViewController {
         
         let nextVC = InputNickVC()
         self.navigationController?.pushViewController(nextVC, animated: false)
-        // progressBar.setProgress(1.0, animated: true)
     }
     
     

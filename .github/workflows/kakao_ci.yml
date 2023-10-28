@@ -1,4 +1,4 @@
-name: BE CI
+name: FE CI
 run-name: Deploy by @${{ github.actor }} 
 
 on: 

@@ -40,36 +40,6 @@
             </objects>
             <point key="canvasLocation" x="-234.35114503816794" y="-363.38028169014086"/>
         </scene>
-        <!--LoginVC-->
-        <scene sceneID="4BE-fL-oGs">
-            <objects>
-                <viewController storyboardIdentifier="LoginVC" id="g7F-W8-51Y" customClass="LoginVC" customModule="fit_a_pet_client" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="eAE-OV-Mea">
-                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <viewLayoutGuide key="safeArea" id="BTI-Cr-syS"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                    </view>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="zwb-2l-PPl" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="737" y="338"/>
-        </scene>
-        <!--Tab Bar Controller-->
-        <scene sceneID="8Qg-MK-2cE">
-            <objects>
-                <viewController storyboardIdentifier="TabBarController" id="Neb-om-Pq8" customClass="TabBarController" customModule="fit_a_pet_client" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="SVu-na-I2o">
-                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <viewLayoutGuide key="safeArea" id="mdb-zS-YaY"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                    </view>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="KJn-ti-sfT" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1655.7251908396945" y="328.16901408450707"/>
-        </scene>
         <!--Input Phone NumVC-->
         <scene sceneID="fha-GS-Nel">
             <objects>
