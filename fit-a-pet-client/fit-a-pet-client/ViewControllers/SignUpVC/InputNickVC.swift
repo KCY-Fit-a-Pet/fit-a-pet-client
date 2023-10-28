@@ -85,7 +85,7 @@ class InputNickVC : UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        RegistrationManager.shared.addInput(nickname: "최희진")
+        RegistrationManager.shared.addInput(nickname: "최희진2")
         RegistrationManager.shared.performRegistration()
         
         self.navigationController?.navigationBar.tintColor = .black

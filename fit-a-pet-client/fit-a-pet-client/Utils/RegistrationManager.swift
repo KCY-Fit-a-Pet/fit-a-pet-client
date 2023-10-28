@@ -4,13 +4,13 @@ struct RegistrationManager {
     var id: String?
     var pw: String?
     var nickname: String?
-    var phone: Int?
+    var phone: String?
 
     // Singleton 패턴을 위한 private 생성자
     private init() {}
 
     // 입력 값을 저장하는 메서드
-    mutating func addInput(id: String? = nil, pw: String? = nil, nickname: String? = nil, phone: Int? = nil) {
+    mutating func addInput(id: String? = nil, pw: String? = nil, nickname: String? = nil, phone: String? = nil) {
         if let id = id {
             self.id = id
         }

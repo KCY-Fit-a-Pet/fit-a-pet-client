@@ -5,8 +5,8 @@ import os.log
 
 enum MySearchRouter: URLRequestConvertible {
     
-    case sendSms(to: Int)
-    case checkSms(to: Int, code: Int)
+    case sendSms(to: String)
+    case checkSms(to: String, code: Int)
     case login(uid: String, password: String)
     case regist(uid: String, name: String, password: String, email: String, profileImg: String)
 
@@ -53,30 +53,35 @@ enum MySearchRouter: URLRequestConvertible {
             return ["uid": uid, "name": name, "password": password, "email": email, "profileImg": profileImg]
         }
     }
-
+    
     func asURLRequest() throws -> URLRequest {
         let url = baseURL.appendingPathComponent(path)
         var request: URLRequest
 
-        if case .checkSms(let to, let code) = self {
+        switch self {
+        case .checkSms(let to, let code):
             // checkSms 케이스에서 "to"는 바디로, "code"는 쿼리로 처리
             request = createURLRequestForBodyAndQuery(url: url, to: to, code: code)
-        } else if case .regist = self {
-            if let accessToken = UserDefaults.standard.string(forKey: "accessToken") {
-                // accesstoken 헤더로 보내기
+
+        case .regist:
+            // regist 케이스에만 Keychain 사용
+            if let accessToken = KeychainHelper.loadAccessToken() {
+                // accessToken을 Keychain에서 불러와서 헤더로 보내기
                 request = createURLRequestForBody(url: url)
                 request.setValue("Bearer \(accessToken)", forHTTPHeaderField: "Authorization")
             } else {
                 request = createURLRequestForBody(url: url)
             }
-        } else {
-            // sendSms 및 login 케이스에서 body로 처리
+
+        default:
+            // sendSms 케이스에서 body로 처리
             request = createURLRequestForBody(url: url)
         }
 
         return request
     }
 
+  
     private func createURLRequestForQuery(url: URL) -> URLRequest {
         var components = URLComponents(url: url, resolvingAgainstBaseURL: false)
         components?.queryItems = parameters.map { key, value in
@@ -105,7 +110,7 @@ enum MySearchRouter: URLRequestConvertible {
         return request
     }
 
-    private func createURLRequestForBodyAndQuery(url: URL, to: Int, code: Int) -> URLRequest {
+    private func createURLRequestForBodyAndQuery(url: URL, to: String, code: Int) -> URLRequest {
         var request = URLRequest(url: url)
         request.httpMethod = method.rawValue
         

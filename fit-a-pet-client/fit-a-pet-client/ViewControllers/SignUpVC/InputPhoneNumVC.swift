@@ -10,7 +10,7 @@ class InputPhoneNumVC : UIViewController {
     let progressBar = CustomProgressBar.shared
     let customLabel = ConstomLabel()
     
-    var phone: Int = 0
+    var phone: String = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -110,7 +110,6 @@ class InputPhoneNumVC : UIViewController {
                     let object = try?JSONSerialization.jsonObject(with: responseData, options: []) as? NSDictionary
                     guard let jsonObject = object else {return}
                     print("respose jsonData: \(jsonObject)")
-                   // print("Received data: \(responseData)")
                 }
             case .failure(let error):
                 // Handle failure
@@ -149,7 +148,7 @@ extension InputPhoneNumVC: UITextFieldDelegate{
             
             if strippedPhoneNumber.count == 11 {
                 formattedText = String(strippedPhoneNumber.prefix(10))
-                phone = Int(strippedPhoneNumber) ?? 0
+                phone = strippedPhoneNumber
                 print("phone: \(phone)")
                 return false
             } else {

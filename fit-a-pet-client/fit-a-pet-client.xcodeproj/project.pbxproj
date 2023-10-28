@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		4A00A90C2AC66BDC007AEC8A /* UserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A00A90B2AC66BDC007AEC8A /* UserModel.swift */; };
+		4A037FF22AED62E30073BB56 /* KeyChainHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A037FF12AED62E30073BB56 /* KeyChainHelper.swift */; };
 		4A15F2072AA641910098F2F7 /* CustomNextBtn.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A15F2062AA641910098F2F7 /* CustomNextBtn.swift */; };
 		4A15F2092AA790D60098F2F7 /* CustomProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A15F2082AA790D60098F2F7 /* CustomProgressBar.swift */; };
 		4A15F20B2AA799C50098F2F7 /* ConstomLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A15F20A2AA799C50098F2F7 /* ConstomLabel.swift */; };
@@ -49,6 +50,7 @@
 /* Begin PBXFileReference section */
 		1BE018CCB6881B4EFC5C6D84 /* Pods-fit-a-pet-client.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-fit-a-pet-client.release.xcconfig"; path = "Target Support Files/Pods-fit-a-pet-client/Pods-fit-a-pet-client.release.xcconfig"; sourceTree = "<group>"; };
 		4A00A90B2AC66BDC007AEC8A /* UserModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserModel.swift; sourceTree = "<group>"; };
+		4A037FF12AED62E30073BB56 /* KeyChainHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyChainHelper.swift; sourceTree = "<group>"; };
 		4A15F2062AA641910098F2F7 /* CustomNextBtn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomNextBtn.swift; sourceTree = "<group>"; };
 		4A15F2082AA790D60098F2F7 /* CustomProgressBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomProgressBar.swift; sourceTree = "<group>"; };
 		4A15F20A2AA799C50098F2F7 /* ConstomLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConstomLabel.swift; sourceTree = "<group>"; };
@@ -200,6 +202,7 @@
 			children = (
 				4A4BFDC92AD26B0F0062BDB8 /* RegistrationManager.swift */,
 				4A8B9B4F2AD444D0009236EC /* Constants.swift */,
+				4A037FF12AED62E30073BB56 /* KeyChainHelper.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -397,6 +400,7 @@
 				4ACDD4A32AD9B3A500CD8F1A /* InputPetNameVC.swift in Sources */,
 				4AD3542D2AAF7F83004A47B3 /* SettingVC.swift in Sources */,
 				4A15F2122AA8B4880098F2F7 /* InputIdVC.swift in Sources */,
+				4A037FF22AED62E30073BB56 /* KeyChainHelper.swift in Sources */,
 				4AD354292AAF7F55004A47B3 /* RecordVC.swift in Sources */,
 				4A15F2092AA790D60098F2F7 /* CustomProgressBar.swift in Sources */,
 				4A9088772AC1681B000C7878 /* PetCollectViewCell.swift in Sources */,
