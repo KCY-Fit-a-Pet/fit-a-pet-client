@@ -37,6 +37,7 @@
 		4ACDD4A52AD9B3DC00CD8F1A /* InputGenderVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ACDD4A42AD9B3DC00CD8F1A /* InputGenderVC.swift */; };
 		4ACDD4A72AD9B3F600CD8F1A /* CheckCareVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ACDD4A62AD9B3F600CD8F1A /* CheckCareVC.swift */; };
 		4ACDD4A92ADAFFD100CD8F1A /* InputPetBirthVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ACDD4A82ADAFFD100CD8F1A /* InputPetBirthVC.swift */; };
+		4AD0896A2AFBFD9400E79E52 /* CheckCareCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AD089692AFBFD9400E79E52 /* CheckCareCollectionViewCell.swift */; };
 		4AD354152AACD390004A47B3 /* LoginVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AD354142AACD390004A47B3 /* LoginVC.swift */; };
 		4AD354202AAF7CD6004A47B3 /* MainVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AD3541F2AAF7CD6004A47B3 /* MainVC.swift */; };
 		4AD354222AAF7E62004A47B3 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AD354212AAF7E62004A47B3 /* TabBarController.swift */; };
@@ -81,6 +82,7 @@
 		4ACDD4A42AD9B3DC00CD8F1A /* InputGenderVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputGenderVC.swift; sourceTree = "<group>"; };
 		4ACDD4A62AD9B3F600CD8F1A /* CheckCareVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckCareVC.swift; sourceTree = "<group>"; };
 		4ACDD4A82ADAFFD100CD8F1A /* InputPetBirthVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputPetBirthVC.swift; sourceTree = "<group>"; };
+		4AD089692AFBFD9400E79E52 /* CheckCareCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckCareCollectionViewCell.swift; sourceTree = "<group>"; };
 		4AD354142AACD390004A47B3 /* LoginVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginVC.swift; sourceTree = "<group>"; };
 		4AD3541F2AAF7CD6004A47B3 /* MainVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainVC.swift; sourceTree = "<group>"; };
 		4AD354212AAF7E62004A47B3 /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
@@ -172,6 +174,7 @@
 			isa = PBXGroup;
 			children = (
 				4A9088752AC1681B000C7878 /* PetCollectViewCell.swift */,
+				4AD089692AFBFD9400E79E52 /* CheckCareCollectionViewCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -410,6 +413,7 @@
 				4AD354152AACD390004A47B3 /* LoginVC.swift in Sources */,
 				4A15F2162AA8B4CA0098F2F7 /* InputNickVC.swift in Sources */,
 				4ACDD4A12AD9B37E00CD8F1A /* InputSpeciesVC.swift in Sources */,
+				4AD0896A2AFBFD9400E79E52 /* CheckCareCollectionViewCell.swift in Sources */,
 				4ACDD49E2AD9ACC400CD8F1A /* PetModel.swift in Sources */,
 				4A8B9B462AD443C9009236EC /* AlamofireManager.swift in Sources */,
 				4A15F20B2AA799C50098F2F7 /* ConstomLabel.swift in Sources */,

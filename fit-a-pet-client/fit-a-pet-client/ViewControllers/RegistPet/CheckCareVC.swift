@@ -3,23 +3,34 @@ import UIKit
 import SnapKit
 import Alamofire
 
-//TODO: CollectionView 추가
 class CheckCareVC : UIViewController {
     
-    let nextBirthBtn = CustomNextBtn(title: "반려동물 등록하기")
+    let registCompleteBtn = CustomNextBtn(title: "반려동물 등록하기")
     let progressBar = CustomProgressBar.shared
     let customLabel = ConstomLabel()
+    
+    let checkCareCollectionView: UICollectionView = {
+        let layout = UICollectionViewFlowLayout()
+        layout.minimumLineSpacing = 20
+        layout.scrollDirection = .vertical
+        layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+       
+        let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        cv.register(CheckCareCollectionViewCell.self, forCellWithReuseIdentifier: "CheckCareCollectionViewCell") // Cell 등록
+        return cv
+    }()
+    
+    let careList = ["밥", "목욕", "산책", "간식","약복용"]
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         initView()
+        collectionViewInit()
 
-        //nextBirthBtn.addTarget(self, action: #selector(changeInputPetBirthVC(_:)), for: .touchUpInside)
     }
     private func initView(){
         
-        //titleView 만들기
         let titleLabel = UILabel()
         titleLabel.text = "반려동물 등록하기"
         titleLabel.textColor = .black
@@ -31,7 +42,7 @@ class CheckCareVC : UIViewController {
     
         self.navigationItem.titleView = titleView
         
-        self.view.addSubview(nextBirthBtn)
+        self.view.addSubview(registCompleteBtn)
         self.view.addSubview(customLabel)
         
         view.backgroundColor = .white
@@ -57,12 +68,28 @@ class CheckCareVC : UIViewController {
             make.left.equalTo(view.snp.left).offset(16)
         }
 
-        nextBirthBtn.snp.makeConstraints{make in
+        registCompleteBtn.snp.makeConstraints{make in
             make.bottom.equalTo(view.snp.bottom).offset(-65)
             make.left.equalTo(view.snp.left).offset(16)
             make.right.equalTo(view.snp.right).offset(-16)
         }
         
+    }
+    
+    private func collectionViewInit(){
+        checkCareCollectionView.allowsMultipleSelection = true//여러개 선택 가능
+        
+        checkCareCollectionView.delegate = self
+        checkCareCollectionView.dataSource = self
+        
+        self.view.addSubview(checkCareCollectionView)
+        
+        checkCareCollectionView.snp.makeConstraints{make in
+            make.top.equalTo(customLabel.snp.bottom).offset(30)
+            make.left.equalTo(view.snp.left).offset(16)
+            make.right.equalTo(view.snp.right).offset(-16)
+            make.bottom.equalTo(registCompleteBtn.snp.top).offset(-10)
+        }
     }
    
     
@@ -88,12 +115,51 @@ class CheckCareVC : UIViewController {
         }
     }
     
-//    @objc func changeInputPetBirthVC(_ sender: UIButton){
-//        let nextVC = InputPetBirthVC()
-//        self.navigationController?.pushViewController(nextVC, animated: false)
-//    }
-    
+
 }
+
+extension CheckCareVC: UICollectionViewDataSource{
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return careList.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CheckCareCollectionViewCell", for: indexPath) as! CheckCareCollectionViewCell
+        let data = careList[indexPath.item]
+        cell.configure(data)
+        
+        cell.layer.borderWidth = 1
+        cell.layer.borderColor = UIColor(named: "Gray2")?.cgColor
+        cell.layer.cornerRadius = 5
+        
+        return cell
+    }
+}
+
+extension CheckCareVC: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let cell = collectionView.cellForItem(at: indexPath) as? CheckCareCollectionViewCell
+        cell?.isSelected = true
+        cell!.layer.borderColor = UIColor(named: "PrimaryColor")?.cgColor
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
+        let cell = collectionView.cellForItem(at: indexPath) as? CheckCareCollectionViewCell
+        cell?.isSelected = false
+        cell!.layer.borderColor = UIColor(named: "Gray2")?.cgColor
+    }
+}
+
+extension CheckCareVC: UICollectionViewDelegateFlowLayout {
+    
+    //텍스트의 크기에 따라 셀의 크기 지정
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        
+        return CGSize(width: 165, height: 55) // 원하는 높이로 설정
+    }
+}
+
+
 
 
 
