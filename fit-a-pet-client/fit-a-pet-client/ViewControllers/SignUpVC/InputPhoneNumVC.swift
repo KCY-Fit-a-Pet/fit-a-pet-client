@@ -127,44 +127,44 @@ class InputPhoneNumVC : UIViewController {
 }
 
 extension InputPhoneNumVC: UITextFieldDelegate{
-    // 입력값이 변경되면 버튼의 색상을 업데이트
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        
-        let updatedText = (inputPhoneNum.text! as NSString).replacingCharacters(in: range, with: string)
+        var updatedText = (inputPhoneNum.text! as NSString).replacingCharacters(in: range, with: string)
         nextAutnNumBtn.updateButtonColor(updatedText, false)
-    
-        if updatedText.isEmpty{
+        
+        if updatedText.isEmpty {
             inputPhoneNum.layer.borderColor = UIColor(named: "Gray2")?.cgColor
-        }else{
+        } else {
             inputPhoneNum.layer.borderColor = UIColor(named: "PrimaryColor")?.cgColor
         }
         
-        if let text = inputPhoneNum.text {
-            print("[INFO] text : " + text)
-            let strippedPhoneNumber = text.replacingOccurrences(of: "-", with: "")
+        if !updatedText.isEmpty {
+            print("[INFO] text : " + updatedText)
+            let strippedPhoneNumber = updatedText.replacingOccurrences(of: "-", with: "")
             print("[INFO] strippedPhoneNumber : " + strippedPhoneNumber)
             var formattedText: String = ""
             let hippen: Character = "-"
             
-            if strippedPhoneNumber.count == 11 {
-                formattedText = String(strippedPhoneNumber.prefix(10))
-                phone = strippedPhoneNumber
-                print("phone: \(phone)")
-                return false
-            } else {
-                formattedText = strippedPhoneNumber
-            }
+            formattedText = strippedPhoneNumber
             
-            if strippedPhoneNumber.count >= 3 && text.count != 4 {
+            if strippedPhoneNumber.count >= 3 && updatedText.count != 4 {
                 formattedText.insert(hippen, at: formattedText.index(formattedText.startIndex, offsetBy: 3))
             }
-            if strippedPhoneNumber.count >= 7 && text.count != 9 {
+            if strippedPhoneNumber.count >= 7 && updatedText.count != 9 {
                 formattedText.insert(hippen, at: formattedText.index(formattedText.startIndex, offsetBy: 8))
             }
             
-            inputPhoneNum.text = formattedText
+            if strippedPhoneNumber.count > 11 {
+                return false
+                
+            }else{
+                inputPhoneNum.text = formattedText
+                phone = formattedText.replacingOccurrences(of: "-", with: "")
+                print(phone)
+            }
         }
-
-        return true
+        
+        return false
     }
+
+
 }
