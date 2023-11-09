@@ -10,7 +10,7 @@ class KeychainHelper {
         ]
         
         let status = SecItemAdd(keychainQuery as CFDictionary, nil)
-        if status == errSecDuplicateItem {
+        if status == errSecDuplicateItem {//값이 존재한다면 새로운 값으로 업데이트
             SecItemUpdate(keychainQuery as CFDictionary, [kSecValueData: accessToken.data(using: .utf8)!] as CFDictionary)
         } else if status != noErr {
             print("Failed to save AccessToken to Keychain")

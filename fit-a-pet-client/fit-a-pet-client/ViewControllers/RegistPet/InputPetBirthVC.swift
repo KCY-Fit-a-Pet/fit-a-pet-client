@@ -13,6 +13,10 @@ class InputPetBirthVC : UIViewController {
     let agecheckboxButton = UIButton()
     let agecheckLabel = UILabel()
     
+    let ageInputStackView = UIStackView()
+    let ageInputField = UITextField()
+    let ageLabel = UILabel()
+    
     let progressBar = CustomProgressBar.shared
     let customLabel = ConstomLabel()
     
@@ -24,6 +28,7 @@ class InputPetBirthVC : UIViewController {
         setupTextField()
         setupTapGestureRecognizer()
         setupAgeStakView()
+        setupAgeInputStackView()
 
         nextCheckCareBtn.addTarget(self, action: #selector(changeCheckCareVC(_:)), for: .touchUpInside)
     }
@@ -147,6 +152,48 @@ class InputPetBirthVC : UIViewController {
         }
     }
     
+    private func setupAgeInputStackView(){
+        
+        ageInputStackView.axis = .horizontal
+        ageInputStackView.spacing = 20
+        ageInputStackView.alignment = .center
+        ageInputStackView.distribution = .fillProportionally
+        
+        ageInputField.placeholder = "1"
+        ageInputField.font = UIFont.systemFont(ofSize: 14)
+        ageInputField.layer.borderWidth = 1
+        ageInputField.layer.cornerRadius = 5
+        ageInputField.layer.borderColor = UIColor(named: "Gray2")?.cgColor
+        ageInputField.leftView = UIView(frame: CGRect(x: 0.0, y: 0.0, width: 16.0, height: 0.0))
+        ageInputField.leftViewMode = .always
+        
+        ageInputField.isEnabled = false
+        ageInputField.backgroundColor = UIColor(named: "Gray2")
+        
+        ageLabel.text = "살"
+        ageLabel.font = UIFont.systemFont(ofSize: 14)
+        
+    
+        ageInputStackView.addArrangedSubview(ageInputField)
+        ageInputStackView.addArrangedSubview(ageLabel)
+        
+        view.addSubview(ageInputStackView)
+        
+        ageInputStackView.snp.makeConstraints{make in
+            make.top.equalTo(ageStackView.snp.bottom).offset(20)
+            make.left.equalTo(view.snp.left).offset(16)
+            make.right.equalTo(view.snp.right).offset(-16)
+        }
+        
+        ageInputField.snp.makeConstraints{make in
+            make.height.equalTo(55)
+            make.width.equalTo(80)
+        }
+        ageLabel.snp.makeConstraints{make in
+            make.height.equalTo(55)
+        }
+    }
+    
     private func progressBarInit(){
         self.view.addSubview(progressBar)
         progressBar.snp.makeConstraints{make in
@@ -192,8 +239,22 @@ class InputPetBirthVC : UIViewController {
     
     @objc func checkboxButtonTapped(_ sender: UIButton) {
         sender.isSelected = !sender.isSelected
-        birthDatePicker.isUserInteractionEnabled = !agecheckboxButton.isSelected // 선택 상태에 따라 DatePicker 활성화/비활성화
+    
         updateCheckboxColor()
+        
+        if sender.isSelected {
+            inputPetBirth.isEnabled = false
+            ageInputField.isEnabled = true
+            inputPetBirth.backgroundColor = UIColor(named: "Gray2")
+            ageInputField.backgroundColor = UIColor.clear
+            
+        } else {
+            
+            inputPetBirth.isEnabled = true
+            ageInputField.isEnabled = false
+            inputPetBirth.backgroundColor = UIColor.clear
+            ageInputField.backgroundColor = UIColor(named: "Gray2")
+        }
     }
     
     private func updateCheckboxColor(){
