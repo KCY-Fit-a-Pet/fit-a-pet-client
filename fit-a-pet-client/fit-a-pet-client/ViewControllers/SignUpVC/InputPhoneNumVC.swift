@@ -138,9 +138,7 @@ extension InputPhoneNumVC: UITextFieldDelegate{
         }
         
         if !updatedText.isEmpty {
-            print("[INFO] text : " + updatedText)
             let strippedPhoneNumber = updatedText.replacingOccurrences(of: "-", with: "")
-            print("[INFO] strippedPhoneNumber : " + strippedPhoneNumber)
             var formattedText: String = ""
             let hippen: Character = "-"
             

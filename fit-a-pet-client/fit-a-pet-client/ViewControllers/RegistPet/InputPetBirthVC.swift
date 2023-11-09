@@ -55,7 +55,7 @@ class InputPetBirthVC : UIViewController {
         let attributedText = NSMutableAttributedString(string: text)
 
         let boldFont = UIFont.boldSystemFont(ofSize: 20)
-        let range = (text as NSString).range(of: "이름")
+        let range = (text as NSString).range(of: "생일")
 
         attributedText.addAttribute(.font, value: boldFont, range: range)
 
