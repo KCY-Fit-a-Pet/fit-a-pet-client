@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		4A00A90C2AC66BDC007AEC8A /* UserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A00A90B2AC66BDC007AEC8A /* UserModel.swift */; };
 		4A037FF22AED62E30073BB56 /* KeyChainHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A037FF12AED62E30073BB56 /* KeyChainHelper.swift */; };
+		4A0750D22B07D44000281A4C /* UploadPetPhotoVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A0750D12B07D44000281A4C /* UploadPetPhotoVC.swift */; };
 		4A15F2072AA641910098F2F7 /* CustomNextBtn.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A15F2062AA641910098F2F7 /* CustomNextBtn.swift */; };
 		4A15F2092AA790D60098F2F7 /* CustomProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A15F2082AA790D60098F2F7 /* CustomProgressBar.swift */; };
 		4A15F20B2AA799C50098F2F7 /* ConstomLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A15F20A2AA799C50098F2F7 /* ConstomLabel.swift */; };
@@ -52,6 +53,7 @@
 		1BE018CCB6881B4EFC5C6D84 /* Pods-fit-a-pet-client.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-fit-a-pet-client.release.xcconfig"; path = "Target Support Files/Pods-fit-a-pet-client/Pods-fit-a-pet-client.release.xcconfig"; sourceTree = "<group>"; };
 		4A00A90B2AC66BDC007AEC8A /* UserModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserModel.swift; sourceTree = "<group>"; };
 		4A037FF12AED62E30073BB56 /* KeyChainHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyChainHelper.swift; sourceTree = "<group>"; };
+		4A0750D12B07D44000281A4C /* UploadPetPhotoVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UploadPetPhotoVC.swift; sourceTree = "<group>"; };
 		4A15F2062AA641910098F2F7 /* CustomNextBtn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomNextBtn.swift; sourceTree = "<group>"; };
 		4A15F2082AA790D60098F2F7 /* CustomProgressBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomProgressBar.swift; sourceTree = "<group>"; };
 		4A15F20A2AA799C50098F2F7 /* ConstomLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConstomLabel.swift; sourceTree = "<group>"; };
@@ -239,6 +241,7 @@
 				4ACDD4A42AD9B3DC00CD8F1A /* InputGenderVC.swift */,
 				4ACDD4A82ADAFFD100CD8F1A /* InputPetBirthVC.swift */,
 				4ACDD4A62AD9B3F600CD8F1A /* CheckCareVC.swift */,
+				4A0750D12B07D44000281A4C /* UploadPetPhotoVC.swift */,
 			);
 			path = RegistPet;
 			sourceTree = "<group>";
@@ -408,6 +411,7 @@
 				4A15F2092AA790D60098F2F7 /* CustomProgressBar.swift in Sources */,
 				4A9088772AC1681B000C7878 /* PetCollectViewCell.swift in Sources */,
 				4A8B9B4A2AD443E6009236EC /* ApiStatusLogger.swift in Sources */,
+				4A0750D22B07D44000281A4C /* UploadPetPhotoVC.swift in Sources */,
 				4A8B9B4C2AD443EE009236EC /* MyLogger.swift in Sources */,
 				4ACDD4A52AD9B3DC00CD8F1A /* InputGenderVC.swift in Sources */,
 				4AD354152AACD390004A47B3 /* LoginVC.swift in Sources */,

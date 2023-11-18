@@ -9,22 +9,26 @@ enum MySearchRouter: URLRequestConvertible {
     case checkSms(to: String, code: Int)
     case login(uid: String, password: String)
     case regist(uid: String, name: String, password: String, email: String, profileImg: String)
+    case presignedurl(dirname: String, extensionType: String, result: Bool, blocking: Bool)
+    case uploadImage(image: UIImage)
 
     var baseURL: URL {
-        return URL(string: API.BASE_URL + "members/")! //여기서 나온 값이 baseURL이다.
+        switch self {
+        case .presignedurl:
+            return URL(string: API.PRESIGNEDURL)!
+        case .uploadImage:
+            return URL(string: PAYLOADURL.PAYLOAD)!
+        default:
+            return URL(string: API.BASE_URL + "members/")!
+        }
     }
 
     var method: HTTPMethod {
-        
-        switch self{
-        case .sendSms:
+        switch self {
+        case .sendSms, .checkSms, .login, .regist, .presignedurl:
             return .post
-        case .checkSms:
-            return .post
-        case .login:
-            return .post
-        case .regist:
-            return .post
+        case .uploadImage:
+            return .put
         }
     }
 
@@ -38,6 +42,10 @@ enum MySearchRouter: URLRequestConvertible {
             return "login"
         case .regist:
             return "register"
+        case .presignedurl:
+            return "C7QXbC20ti"
+        case .uploadImage:
+            return ""
         }
     }
     
@@ -45,12 +53,16 @@ enum MySearchRouter: URLRequestConvertible {
         switch self{
         case let .sendSms(phone)://enum으로 들어온 애를 사용하려면 let을 사용
             return ["to" : phone]
-        case let .checkSms(phone,code):
+        case let .checkSms(phone, code):
             return ["to": phone, "code": code]
         case let .login(uid, password):
             return ["uid": uid, "password": password]
         case let .regist(uid, name, password , email, profileImg):
             return ["uid": uid, "name": name, "password": password, "email": email, "profileImg": profileImg]
+        case let .presignedurl(dirname, extensionType, _, _):
+            return ["dirname": dirname, "extension": extensionType]
+        case let .uploadImage(_):
+            return [:]
         }
     }
     
@@ -61,7 +73,7 @@ enum MySearchRouter: URLRequestConvertible {
         switch self {
         case .checkSms(let to, let code):
             // checkSms 케이스에서 "to"는 바디로, "code"는 쿼리로 처리
-            request = createURLRequestForBodyAndQuery(url: url, to: to, code: code)
+            request = createURLRequestForBodyAndQuery(url: url, body: to, query: code)
 
         case .regist:
             // regist 케이스에만 Keychain 사용
@@ -71,6 +83,29 @@ enum MySearchRouter: URLRequestConvertible {
                 request.setValue("Bearer \(accessToken)", forHTTPHeaderField: "Authorization")
             } else {
                 request = createURLRequestForBody(url: url)
+            }
+            
+        case .presignedurl:
+            request = createURLRequestForBodyAndQuery(url: url, body: "", query: 0, isPresignedURL: true)
+            
+        case .uploadImage(let image):
+            request = createURLRequestForBody(url: baseURL, image: image)
+            // Add X-Amz-Algorithm query parameter
+            var components = URLComponents(url: baseURL, resolvingAgainstBaseURL: false)
+            components?.queryItems =
+                [URLQueryItem(name: "X-Amz-Algorithm", value: PAYLOADURL.algorithm),
+                 URLQueryItem(name: "X-Amz-Credential", value: PAYLOADURL.credential),
+                 URLQueryItem(name: "X-Amz-Date", value: PAYLOADURL.date),
+                 URLQueryItem(name: "X-Amz-Expires", value: PAYLOADURL.expires),
+                 URLQueryItem(name: "X-Amz-Signature", value: PAYLOADURL.signature),
+                 URLQueryItem(name: "X-Amz-SignedHeaders", value: PAYLOADURL.signedHeaders),
+                 URLQueryItem(name: "x-amz-acl", value: PAYLOADURL.acl)
+                ]
+
+            if let urlWithQuery = components?.url {
+                request.url = urlWithQuery
+                
+                print("requestURL: \(request.url)")
             }
 
         default:
@@ -93,44 +128,60 @@ enum MySearchRouter: URLRequestConvertible {
         return URLRequest(url: url)
     }
 
-    private func createURLRequestForBody(url: URL) -> URLRequest {
+    private func createURLRequestForBody(url: URL, image: UIImage? = nil) -> URLRequest {
         var request = URLRequest(url: url)
         request.httpMethod = method.rawValue
 
-        if let parameters = parameters as? [String: Any] {
-            do {
-                request.httpBody = try JSONSerialization.data(withJSONObject: parameters, options: [])
-                request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-            } catch {
-                let log = OSLog(subsystem: Bundle.main.bundleIdentifier!, category: "JSONEncoding")
-                os_log("JSON 인코딩에 실패했습니다. 오류: %@", log: log, type: .error, "\(error)")//JSON 인코딩 실패시
+        if let image = image {
+            if let imageData = image.jpegData(compressionQuality: 0.8) {
+                request.httpBody = imageData
+                request.setValue("image/jpeg", forHTTPHeaderField: "Content-Type")
+            }
+        } else {
+           
+            if let parameters = parameters as? [String: Any] {
+                do {
+                    request.httpBody = try JSONSerialization.data(withJSONObject: parameters, options: [])
+                    request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+                } catch {
+                    let log = OSLog(subsystem: Bundle.main.bundleIdentifier!, category: "JSONEncoding")
+                    os_log("JSON 인코딩에 실패했습니다. 오류: %@", log: log, type: .error, "\(error)")
+                }
             }
         }
+
 
         return request
     }
 
-    private func createURLRequestForBodyAndQuery(url: URL, to: String, code: Int) -> URLRequest {
+    private func createURLRequestForBodyAndQuery(url: URL, body: String, query: Int, isPresignedURL: Bool = false) -> URLRequest {
         var request = URLRequest(url: url)
         request.httpMethod = method.rawValue
-        
-        // "to"는 바디로 설정
-        var parametersWithTo = parameters
-        parametersWithTo["to"] = to
 
-        if let parameters = parametersWithTo as? [String: Any] {
+        // body parameter
+        var parametersWithBody = parameters
+        parametersWithBody["to"] = body
+
+        if let bodyParameters = parametersWithBody as? [String: Any] {
             do {
-                request.httpBody = try JSONSerialization.data(withJSONObject: parameters, options: [])
+                request.httpBody = try JSONSerialization.data(withJSONObject: bodyParameters, options: [])
                 request.setValue("application/json", forHTTPHeaderField: "Content-Type")
             } catch {
                 let log = OSLog(subsystem: Bundle.main.bundleIdentifier!, category: "JSONEncoding")
-                os_log("JSON 인코딩에 실패했습니다. 오류: %@", log: log, type: .error, "\(error)")//JSON 인코딩 실패시
+                os_log("JSON 인코딩에 실패했습니다. 오류: %@", log: log, type: .error, "\(error)")
             }
         }
 
-        // "code"는 쿼리로 설정
+        // query parameters
         var components = URLComponents(url: url, resolvingAgainstBaseURL: false)
-        components?.queryItems = [URLQueryItem(name: "code", value: "\(code)")]
+        components?.queryItems = [URLQueryItem(name: "code", value: "\(query)")]
+
+        if isPresignedURL {
+            components?.queryItems?.append(contentsOf: [
+                URLQueryItem(name: "result", value: "true"),
+                URLQueryItem(name: "blocking", value: "true")
+            ])
+        }
 
         if let urlWithQuery = components?.url {
             request.url = urlWithQuery

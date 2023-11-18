@@ -85,5 +85,38 @@ class AlamofireManager {
                 }
         }
     }
+    
+    func presignedURL(_ dirname: String, _ extensionType: String, completion: @escaping(Result<Data?, Error>) -> Void){
+        os_log("MyAlamofireManager - presignedURL() called : %@ ,, %@ ", log: .default, type: .info, dirname, extensionType)
+        
+        self
+            .session
+            .request(MySearchRouter.presignedurl(dirname: dirname, extensionType: extensionType, result: true, blocking: true))
+            .response { response in
+                switch response.result{
+                case .success(let data):
+                    completion(.success(data))
+                case .failure(let error):
+                    completion(.failure(error))
+                }
+        }
+    }
+    
+    func uploadImage(_ image: UIImage, completion: @escaping(Result<Data?, Error>) -> Void){
+        
+        os_log("MyAlamofireManager - uploadImage() called ", log: .default, type: .info)
+        
+        self
+            .session
+            .request(MySearchRouter.uploadImage(image: image))
+            .response { response in
+                switch response.result{
+                case .success(let data):
+                    completion(.success(data))
+                case .failure(let error):
+                    completion(.failure(error))
+                }
+        }
+    }
 }
 

@@ -5,7 +5,7 @@ import Alamofire
 
 class CheckCareVC : UIViewController {
     
-    let registCompleteBtn = CustomNextBtn(title: "반려동물 등록하기")
+    let nextUploadPetPhotoBtn = CustomNextBtn(title: "다음")
     let progressBar = CustomProgressBar.shared
     let customLabel = ConstomLabel()
     
@@ -27,6 +27,8 @@ class CheckCareVC : UIViewController {
         
         initView()
         collectionViewInit()
+        
+        nextUploadPetPhotoBtn.addTarget(self, action: #selector(changeUploadPetPhotoVC(_:)), for: .touchUpInside)
 
     }
     private func initView(){
@@ -42,7 +44,7 @@ class CheckCareVC : UIViewController {
     
         self.navigationItem.titleView = titleView
         
-        self.view.addSubview(registCompleteBtn)
+        self.view.addSubview(nextUploadPetPhotoBtn)
         self.view.addSubview(customLabel)
         
         view.backgroundColor = .white
@@ -68,7 +70,7 @@ class CheckCareVC : UIViewController {
             make.left.equalTo(view.snp.left).offset(16)
         }
 
-        registCompleteBtn.snp.makeConstraints{make in
+        nextUploadPetPhotoBtn.snp.makeConstraints{make in
             make.bottom.equalTo(view.snp.bottom).offset(-65)
             make.left.equalTo(view.snp.left).offset(16)
             make.right.equalTo(view.snp.right).offset(-16)
@@ -88,7 +90,7 @@ class CheckCareVC : UIViewController {
             make.top.equalTo(customLabel.snp.bottom).offset(30)
             make.left.equalTo(view.snp.left).offset(16)
             make.right.equalTo(view.snp.right).offset(-16)
-            make.bottom.equalTo(registCompleteBtn.snp.top).offset(-10)
+            make.bottom.equalTo(nextUploadPetPhotoBtn.snp.top).offset(-10)
         }
     }
    
@@ -113,6 +115,11 @@ class CheckCareVC : UIViewController {
         UIView.animate(withDuration: 0.5) {
             self.progressBar.setProgress(1.0)
         }
+    }
+    
+    @objc func changeUploadPetPhotoVC(_ sender: UIButton){
+        let nextVC = UploadPetPhotoVC()
+        self.navigationController?.pushViewController(nextVC, animated: false)
     }
     
 
