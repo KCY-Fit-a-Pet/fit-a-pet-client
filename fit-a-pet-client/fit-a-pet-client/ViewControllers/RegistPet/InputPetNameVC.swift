@@ -2,7 +2,7 @@ import UIKit
 import SnapKit
 import Alamofire
 
-class InputPetNameVC : UIViewController {
+class InputPetNameVC: CustomNavigationBar {
     
     let nextGenderBtn = CustomNextBtn(title: "다음")
     let inputPetName = UITextField()
@@ -17,18 +17,7 @@ class InputPetNameVC : UIViewController {
         nextGenderBtn.addTarget(self, action: #selector(changeInputGenderVC(_:)), for: .touchUpInside)
     }
     private func initView(){
-        
-        //titleView 만들기
-        let titleLabel = UILabel()
-        titleLabel.text = "반려동물 등록하기"
-        titleLabel.textColor = .black
-        titleLabel.font = UIFont.boldSystemFont(ofSize: 16.0)
-        titleLabel.sizeToFit()
-        
-        let titleView = UIView(frame: CGRect(x: 0, y: 0, width: titleLabel.frame.width, height: titleLabel.frame.height))
-        titleView.addSubview(titleLabel)
-    
-        self.navigationItem.titleView = titleView
+      
         
         self.view.addSubview(nextGenderBtn)
         self.view.addSubview(inputPetName)

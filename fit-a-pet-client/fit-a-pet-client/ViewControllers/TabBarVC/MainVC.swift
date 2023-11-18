@@ -30,6 +30,8 @@ class MainVC: UIViewController {
         petCollectionView.delegate = self
         petCollectionView.dataSource = self
         
+        layoutScrollView.delegate = self
+        
         initView()
     }
     private func initView(){
@@ -38,7 +40,9 @@ class MainVC: UIViewController {
         
         petDataView.addSubview(dataTitleLabel)
         petDataView.addSubview(petCollectionView)
+        
         stackView()
+        
         layoutScrollView.addSubview(petDataView)
         view.addSubview(layoutScrollView)
         
@@ -57,10 +61,10 @@ class MainVC: UIViewController {
             make.trailing.equalTo(view.snp.trailing)
         }
         petDataView.snp.makeConstraints{ make in
-            make.bottom.equalTo(layoutScrollView.snp.bottom)
             make.leading.equalTo(view.snp.leading)
             make.trailing.equalTo(view.snp.trailing)
             make.height.equalTo(800)
+            make.bottom.equalTo(layoutScrollView.snp.bottom)
             make.top.equalTo(layoutScrollView.snp.top).offset(100)
         }
         
@@ -156,3 +160,14 @@ extension MainVC: UICollectionViewDelegateFlowLayout {
     }
 }
 
+
+extension MainVC: UIScrollViewDelegate{
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        // Hide the navigation bar
+        navigationController?.setNavigationBarHidden(true, animated: true)
+        
+        //keep the tab bar white
+        tabBarController?.tabBar.barTintColor = .white
+           
+    }
+}

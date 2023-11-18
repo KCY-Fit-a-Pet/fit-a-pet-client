@@ -19,7 +19,6 @@
 - Alamofire
 - SwiftyJSON
 - Snapkit
-- Rxswift
 
 ### Architecture
 - MVC     
