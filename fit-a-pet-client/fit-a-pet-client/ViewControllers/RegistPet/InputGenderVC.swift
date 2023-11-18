@@ -3,8 +3,7 @@ import UIKit
 import SnapKit
 import Alamofire
 
-//TODO: checkbox 추가 
-class InputGenderVC : UIViewController {
+class InputGenderVC: CustomNavigationBar {
     
     let nextBirthBtn = CustomNextBtn(title: "다음")
     let genderStackView = UIStackView()
@@ -28,18 +27,6 @@ class InputGenderVC : UIViewController {
         nextBirthBtn.addTarget(self, action: #selector(changeInputPetBirthVC(_:)), for: .touchUpInside)
     }
     private func initView(){
-        
-        //titleView 만들기
-        let titleLabel = UILabel()
-        titleLabel.text = "반려동물 등록하기"
-        titleLabel.textColor = .black
-        titleLabel.font = UIFont.boldSystemFont(ofSize: 16.0)
-        titleLabel.sizeToFit()
-        
-        let titleView = UIView(frame: CGRect(x: 0, y: 0, width: titleLabel.frame.width, height: titleLabel.frame.height))
-        titleView.addSubview(titleLabel)
-    
-        self.navigationItem.titleView = titleView
         
         self.view.addSubview(nextBirthBtn)
         self.view.addSubview(customLabel)

@@ -3,7 +3,7 @@ import UIKit
 import SnapKit
 import Alamofire
 
-class CheckCareVC : UIViewController {
+class CheckCareVC : CustomNavigationBar {
     
     let nextUploadPetPhotoBtn = CustomNextBtn(title: "다음")
     let progressBar = CustomProgressBar.shared
@@ -32,17 +32,6 @@ class CheckCareVC : UIViewController {
 
     }
     private func initView(){
-        
-        let titleLabel = UILabel()
-        titleLabel.text = "반려동물 등록하기"
-        titleLabel.textColor = .black
-        titleLabel.font = UIFont.boldSystemFont(ofSize: 16.0)
-        titleLabel.sizeToFit()
-        
-        let titleView = UIView(frame: CGRect(x: 0, y: 0, width: titleLabel.frame.width, height: titleLabel.frame.height))
-        titleView.addSubview(titleLabel)
-    
-        self.navigationItem.titleView = titleView
         
         self.view.addSubview(nextUploadPetPhotoBtn)
         self.view.addSubview(customLabel)

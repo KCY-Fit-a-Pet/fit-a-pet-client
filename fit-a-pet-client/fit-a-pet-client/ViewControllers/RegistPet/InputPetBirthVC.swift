@@ -1,9 +1,8 @@
 import UIKit
 import SnapKit
 import Alamofire
-
-//TODO: 나이 입력 checkbox 
-class InputPetBirthVC : UIViewController {
+ 
+class InputPetBirthVC : CustomNavigationBar {
     
     let nextCheckCareBtn = CustomNextBtn(title: "다음")
     let birthDatePicker = UIDatePicker()
@@ -33,18 +32,6 @@ class InputPetBirthVC : UIViewController {
         nextCheckCareBtn.addTarget(self, action: #selector(changeCheckCareVC(_:)), for: .touchUpInside)
     }
     private func initView(){
-        
-        //titleView 만들기
-        let titleLabel = UILabel()
-        titleLabel.text = "반려동물 등록하기"
-        titleLabel.textColor = .black
-        titleLabel.font = UIFont.boldSystemFont(ofSize: 16.0)
-        titleLabel.sizeToFit()
-        
-        let titleView = UIView(frame: CGRect(x: 0, y: 0, width: titleLabel.frame.width, height: titleLabel.frame.height))
-        titleView.addSubview(titleLabel)
-    
-        self.navigationItem.titleView = titleView
         
         self.view.addSubview(nextCheckCareBtn)
         self.view.addSubview(customLabel)
