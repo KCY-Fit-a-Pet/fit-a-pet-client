@@ -96,6 +96,10 @@ class InputSpeciesVC: CustomNavigationBar {
     
     @objc func changeInputPetNameVC(_ sender: UIButton){
         let nextVC = InputPetNameVC()
+        if let species = inputPetSpecies.text {
+            PetRegistrationManager.shared.addInput(species: species)
+        }
+        
         self.navigationController?.pushViewController(nextVC, animated: false)
     }
     

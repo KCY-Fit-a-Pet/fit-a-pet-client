@@ -20,7 +20,7 @@ class CheckCareVC : CustomNavigationBar {
         return cv
     }()
     
-    let careList = ["밥", "목욕", "산책", "간식","약복용"]
+    let careList = ["밥", "목욕", "산책", "간식","약 복용"]
     
     override func viewDidLoad() {
         super.viewDidLoad()

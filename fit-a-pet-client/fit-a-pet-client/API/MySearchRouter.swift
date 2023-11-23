@@ -11,6 +11,7 @@ enum MySearchRouter: URLRequestConvertible {
     case regist(uid: String, name: String, password: String, email: String, profileImg: String)
     case presignedurl(dirname: String, extensionType: String, result: Bool, blocking: Bool)
     case uploadImage(image: UIImage)
+    case registPet(petName: String, species: String, gender: String, neutralization: Bool, birthDate: String)
 
     var baseURL: URL {
         switch self {
@@ -19,13 +20,13 @@ enum MySearchRouter: URLRequestConvertible {
         case .uploadImage:
             return URL(string: PAYLOADURL.PAYLOAD)!
         default:
-            return URL(string: API.BASE_URL + "members/")!
+            return URL(string: API.BASE_URL)!
         }
     }
 
     var method: HTTPMethod {
         switch self {
-        case .sendSms, .checkSms, .login, .regist, .presignedurl:
+        case .sendSms, .checkSms, .login, .regist, .presignedurl, .registPet:
             return .post
         case .uploadImage:
             return .put
@@ -34,18 +35,18 @@ enum MySearchRouter: URLRequestConvertible {
 
     var path: String {
         switch self {
-        case .sendSms:
-            return "sms"
-        case .checkSms:
-            return "sms"
+        case .sendSms, .checkSms:
+            return "members/sms"
         case .login:
-            return "login"
+            return "members/login"
         case .regist:
-            return "register"
+            return "members/register"
         case .presignedurl:
-            return "C7QXbC20ti"
+            return "members/C7QXbC20ti"
         case .uploadImage:
             return ""
+        case .registPet:
+            return "pets"
         }
     }
     
@@ -63,6 +64,8 @@ enum MySearchRouter: URLRequestConvertible {
             return ["dirname": dirname, "extension": extensionType]
         case let .uploadImage(_):
             return [:]
+        case let .registPet(petName , species , gender , neutralization , birthDate):
+            return ["petName": petName, "species": species, "gender": gender, "neutralization": neutralization, "birthDate": birthDate]
         }
     }
     
@@ -73,7 +76,7 @@ enum MySearchRouter: URLRequestConvertible {
         switch self {
         case .checkSms(let to, let code):
             // checkSms 케이스에서 "to"는 바디로, "code"는 쿼리로 처리
-            request = createURLRequestForBodyAndQuery(url: url, body: to, query: code)
+            request = try createURLRequestForBodyAndQuery(url: url, body: to, query: code)
 
         case .regist:
             // regist 케이스에만 Keychain 사용
@@ -86,7 +89,7 @@ enum MySearchRouter: URLRequestConvertible {
             }
             
         case .presignedurl:
-            request = createURLRequestForBodyAndQuery(url: url, body: "", query: 0, isPresignedURL: true)
+            request = try createURLRequestForBodyAndQuery(url: url, body: "", query: 0, isPresignedURL: true)
             
         case .uploadImage(let image):
             request = createURLRequestForBody(url: baseURL, image: image)
@@ -107,7 +110,16 @@ enum MySearchRouter: URLRequestConvertible {
                 
                 print("requestURL: \(request.url)")
             }
-
+            
+        case .registPet:
+        
+            if let accessToken = KeychainHelper.loadAccessToken() {
+                request = createURLRequestForBody(url: url)
+                request.setValue("Bearer \(accessToken)", forHTTPHeaderField: "Authorization")
+            } else {
+                request = createURLRequestForBody(url: url)
+            }
+            
         default:
             // sendSms 케이스에서 body로 처리
             request = createURLRequestForBody(url: url)
@@ -138,7 +150,6 @@ enum MySearchRouter: URLRequestConvertible {
                 request.setValue("image/jpeg", forHTTPHeaderField: "Content-Type")
             }
         } else {
-           
             if let parameters = parameters as? [String: Any] {
                 do {
                     request.httpBody = try JSONSerialization.data(withJSONObject: parameters, options: [])
@@ -149,12 +160,17 @@ enum MySearchRouter: URLRequestConvertible {
                 }
             }
         }
-
-
+        
+        // os_log
+        let log = OSLog(subsystem: Bundle.main.bundleIdentifier!, category: "AlamofireRequest")
+        os_log("Request URL: %@", log: log, type: .debug, "\(String(describing: request.url))")
+        os_log("Request Headers: %@", log: log, type: .debug, "\(request.allHTTPHeaderFields ?? [:])")
+        os_log("Request Body: %@", log: log, type: .debug, "\(String(data: request.httpBody ?? Data(), encoding: .utf8) ?? "Body not available")")
+        
         return request
     }
 
-    private func createURLRequestForBodyAndQuery(url: URL, body: String, query: Int, isPresignedURL: Bool = false) -> URLRequest {
+    private func createURLRequestForBodyAndQuery(url: URL, body: String, query: Int, isPresignedURL: Bool = false) throws -> URLRequest {
         var request = URLRequest(url: url)
         request.httpMethod = method.rawValue
 
@@ -168,7 +184,7 @@ enum MySearchRouter: URLRequestConvertible {
                 request.setValue("application/json", forHTTPHeaderField: "Content-Type")
             } catch {
                 let log = OSLog(subsystem: Bundle.main.bundleIdentifier!, category: "JSONEncoding")
-                os_log("JSON 인코딩에 실패했습니다. 오류: %@", log: log, type: .error, "\(error)")
+                os_log("JSON encoding failed. Error: %@", log: log, type: .error, "\(error)")
             }
         }
 

@@ -95,6 +95,11 @@ class InputPetNameVC: CustomNavigationBar {
     
     @objc func changeInputGenderVC(_ sender: UIButton){
         let nextVC = InputGenderVC()
+        
+        if let petName = inputPetName.text {
+            PetRegistrationManager.shared.addInput(petName: petName)
+        }
+        
         self.navigationController?.pushViewController(nextVC, animated: false)
     }
     
