@@ -191,11 +191,13 @@ class InputGenderVC: CustomNavigationBar {
            maleBtn.backgroundColor = .white
            femaleBtn.layer.borderColor = UIColor(named: "PrimaryColor")?.cgColor
            femaleBtn.backgroundColor = UIColor(named: "Secondary")
+           PetRegistrationManager.shared.addInput(gender: "FEMALE")
        } else if maleBtn.isSelected {
            femaleBtn.layer.borderColor = UIColor(named: "Gray2")?.cgColor
            femaleBtn.backgroundColor = .white
            maleBtn.layer.borderColor = UIColor(named: "PrimaryColor")?.cgColor
            maleBtn.backgroundColor = UIColor(named: "Secondary")
+           PetRegistrationManager.shared.addInput(gender: "MALE")
        }
     }
     
@@ -207,13 +209,16 @@ class InputGenderVC: CustomNavigationBar {
     private func updateCheckboxColor(){
         if neuteringCheckboxButton.isSelected{
             neuteringCheckboxButton.tintColor = UIColor(named: "PrimaryColor")
+            PetRegistrationManager.shared.addInput(neutralization: true)
         }else {
             neuteringCheckboxButton.tintColor = UIColor(named: "Gray9")
+            PetRegistrationManager.shared.addInput(neutralization: false)
         }
     }
     
     @objc func changeInputPetBirthVC(_ sender: UIButton){
         let nextVC = InputPetBirthVC()
+        
         self.navigationController?.pushViewController(nextVC, animated: false)
     }
     

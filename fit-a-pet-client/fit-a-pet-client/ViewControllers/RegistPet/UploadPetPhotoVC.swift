@@ -18,6 +18,7 @@ class UploadPetPhotoVC : CustomNavigationBar {
         petImagePicker.delegate = self
         
         choosePhotoBtn.addTarget(self, action: #selector(choosePhoto), for: .touchUpInside)
+        registCompleteBtn.addTarget(self, action: #selector(changeCompleteRegistPetVC), for: .touchUpInside)
         
         initView()
     }
@@ -138,7 +139,26 @@ class UploadPetPhotoVC : CustomNavigationBar {
     }
     @objc func choosePhoto() {
            presentImagePicker()
-       }
+    }
+    
+    @objc func changeCompleteRegistPetVC(_ sender: UIButton){
+        AlamofireManager.shared.registPet(PetRegistrationManager.shared.petName!, PetRegistrationManager.shared.species!, PetRegistrationManager.shared.gender!, false, PetRegistrationManager.shared.birthDate!){
+            result in
+            switch result {
+            case .success(let data):
+                // Handle success
+                if let responseData = data {
+                    // Process the data
+                    let object = try?JSONSerialization.jsonObject(with: responseData, options: []) as? NSDictionary
+                    guard let jsonObject = object else {return}
+                    print("respose jsonData: \(jsonObject)")
+                }
+            case .failure(let error):
+                // Handle failure
+                print("Error: \(error)")
+            }
+        }
+    }
 
     func presentImagePicker() {
         if UIImagePickerController.isSourceTypeAvailable(.photoLibrary) {

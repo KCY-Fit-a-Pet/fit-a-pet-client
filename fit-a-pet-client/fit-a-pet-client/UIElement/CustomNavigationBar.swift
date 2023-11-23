@@ -10,7 +10,7 @@ class CustomNavigationBar: UIViewController {
     }
     
     func setupNavigationBar() {
-        // Add custom "X" button to the right side of the navigation bar
+        //X button
         let closeButton = UIButton(type: .system)
         closeButton.setTitle("X", for: .normal)
         closeButton.titleLabel?.font = UIFont.systemFont(ofSize: 16.0)

@@ -95,7 +95,7 @@ class InputIdVC : UIViewController {
     @objc func changeInputPwVC(_ sender: UIButton){
         
         if let id = inputId.text {
-                RegistrationManager.shared.addInput(id: id)
+            RegistrationManager.shared.addInput(id: id)
         }
         
         let nextVC = InputPwVC()

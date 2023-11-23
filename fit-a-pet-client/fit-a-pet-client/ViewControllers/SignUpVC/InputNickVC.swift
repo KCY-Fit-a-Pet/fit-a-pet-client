@@ -86,7 +86,7 @@ class InputNickVC : UIViewController {
         super.viewWillAppear(animated)
         
         RegistrationManager.shared.addInput(nickname: "최희진2")
-        RegistrationManager.shared.performRegistration()
+       // RegistrationManager.shared.performRegistration()
         
         self.navigationController?.navigationBar.tintColor = .black
         self.navigationController?.navigationBar.topItem?.title = " "

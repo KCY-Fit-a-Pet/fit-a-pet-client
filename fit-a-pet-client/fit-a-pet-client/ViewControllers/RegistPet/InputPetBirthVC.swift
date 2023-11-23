@@ -207,6 +207,7 @@ class InputPetBirthVC : CustomNavigationBar {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd" // 원하는 날짜 형식으로 변경
         inputPetBirth.text = dateFormatter.string(from: birthDatePicker.date)
+        PetRegistrationManager.shared.addInput(birthDate: dateFormatter.string(from: birthDatePicker.date))
     }
     
     @objc func textFieldEditingDidBegin() {

@@ -62,6 +62,7 @@ class AlamofireManager {
                        let accessToken = responseHeaders["accessToken"] {
                         KeychainHelper.saveAccessToken(accessToken: accessToken)
                         os_log("login token: %@", log: .default, type: .info, accessToken)
+//                        print(KeychainHelper.loadAccessToken()!)
                     }
                     completion(.success(data))
                 case .failure(let error):
@@ -109,6 +110,22 @@ class AlamofireManager {
         self
             .session
             .request(MySearchRouter.uploadImage(image: image))
+            .response { response in
+                switch response.result{
+                case .success(let data):
+                    completion(.success(data))
+                case .failure(let error):
+                    completion(.failure(error))
+                }
+        }
+    }
+    
+    func registPet(_ petName: String, _ species: String, _ gender: String, _ neutralization: Bool, _ birthDate: String, completion: @escaping(Result<Data?, Error>) -> Void){
+        os_log("MyAlamofireManager - registPet() called userInput : %@ ,, %@ ,, %@ ,, %@ ,, %@", log: .default, type: .info, petName, species, gender, neutralization, birthDate)
+        
+        self
+            .session
+            .request(MySearchRouter.registPet(petName: petName, species: species, gender: gender, neutralization: neutralization, birthDate: birthDate))
             .response { response in
                 switch response.result{
                 case .success(let data):
