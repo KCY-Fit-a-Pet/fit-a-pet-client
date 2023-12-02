@@ -2,24 +2,30 @@ import UIKit
 
 class CustomNavigationBar: UIViewController {
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        navigationController?.setNavigationBarHidden(false, animated: false)
-        setupNavigationBar()
+    private var titleLabel: UILabel!
+    private var closeButton: UIButton!
+    private var currentTitle = ""
+
+    init(title: String) {
+        super.init(nibName: nil, bundle: nil)
+        setupNavigationBar(title: title)
+        currentTitle = title
     }
     
-    func setupNavigationBar() {
-        //X button
-        let closeButton = UIButton(type: .system)
-        closeButton.setTitle("X", for: .normal)
-        closeButton.titleLabel?.font = UIFont.systemFont(ofSize: 16.0)
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+    }
+    
+    private func setupNavigationBar(title: String) {
+        // X button
+        closeButton = UIButton(type: .system)
+        closeButton.setImage(UIImage(named: "close_icon"), for: .normal)
         closeButton.addTarget(self, action: #selector(closeButtonTapped), for: .touchUpInside)
         navigationItem.rightBarButtonItem = UIBarButtonItem(customView: closeButton)
         
-        //titleView 만들기
-        let titleLabel = UILabel()
-        titleLabel.text = "반려동물 등록하기"
+        // TitleView
+        titleLabel = UILabel()
+        titleLabel.text = title
         titleLabel.textColor = .black
         titleLabel.font = UIFont.boldSystemFont(ofSize: 16.0)
         titleLabel.sizeToFit()
@@ -31,13 +37,27 @@ class CustomNavigationBar: UIViewController {
     }
     
     @objc func closeButtonTapped() {
-        navigationController?.popToRootViewController(animated: true)
+        if currentTitle == "반려동물 등록하기" {
+            navigationController?.popToRootViewController(animated: true)
+        } else {
+            if let loginVC = navigationController?.viewControllers.first(where: { $0 is LoginVC }) {
+                navigationController?.popToViewController(loginVC, animated: true)
+            }
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
         self.navigationController?.navigationBar.tintColor = .black
+        
+        if currentTitle == "반려동물 등록하기" {
+            self.navigationItem.hidesBackButton = false
+        } else {
+            self.navigationItem.hidesBackButton = true
+        }
+        
         self.navigationController?.navigationBar.topItem?.title = " "
     }
 }
+

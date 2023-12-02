@@ -5,16 +5,16 @@ import Alamofire
 
 class InputGenderVC: CustomNavigationBar {
     
-    let nextBirthBtn = CustomNextBtn(title: "다음")
-    let genderStackView = UIStackView()
-    let femaleBtn = UIButton()
-    let maleBtn = UIButton()
+    private let nextBirthBtn = CustomNextBtn(title: "다음")
+    private let genderStackView = UIStackView()
+    private let femaleBtn = UIButton()
+    private let maleBtn = UIButton()
     
-    let neuteringStackView = UIStackView()
-    let neuteringCheckboxButton = UIButton()
-    let neuteringCheckLabel = UILabel()
-    let progressBar = CustomProgressBar.shared
-    let customLabel = ConstomLabel()
+    private let neuteringStackView = UIStackView()
+    private let neuteringCheckboxButton = UIButton()
+    private let neuteringCheckLabel = UILabel()
+    private let progressBar = CustomProgressBar.shared
+    private let customLabel = ConstomLabel()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -34,20 +34,9 @@ class InputGenderVC: CustomNavigationBar {
         view.backgroundColor = .white
         
         let text = "반려동물의\n성별을 선택해주세요."
-        let attributedText = NSMutableAttributedString(string: text)
+        let range = "성별"
 
-        let boldFont = UIFont.boldSystemFont(ofSize: 20)
-        let range = (text as NSString).range(of: "성별")
-
-        attributedText.addAttribute(.font, value: boldFont, range: range)
-
-        let paragraphStyle = NSMutableParagraphStyle()
-        paragraphStyle.lineBreakMode = .byWordWrapping
-        paragraphStyle.lineSpacing = 8
-        
-        attributedText.addAttribute(.paragraphStyle, value: paragraphStyle, range: NSRange(location: 0, length: attributedText.length))
-
-        customLabel.setAttributedText(attributedText)
+        customLabel.setAttributedText(text, range)
         
         customLabel.snp.makeConstraints{make in
             make.top.equalTo(view.snp.top).offset(164)
@@ -217,7 +206,7 @@ class InputGenderVC: CustomNavigationBar {
     }
     
     @objc func changeInputPetBirthVC(_ sender: UIButton){
-        let nextVC = InputPetBirthVC()
+        let nextVC = InputPetBirthVC(title: "반려동물 등록하기")
         
         self.navigationController?.pushViewController(nextVC, animated: false)
     }

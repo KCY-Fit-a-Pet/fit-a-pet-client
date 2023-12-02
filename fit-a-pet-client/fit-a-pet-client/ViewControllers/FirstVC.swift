@@ -5,12 +5,12 @@ import KakaoSDKUser
 
 class FirstVC: UIViewController {
     
-    var mainTextLabel = UILabel()
-    var signUpBtn = UIButton()
-    var loginBtn = UIButton()
-    var loginView = UIView()
+    private let mainTextLabel = UILabel()
+    private let signUpBtn = UIButton()
+    private let loginBtn = UIButton()
+    private let loginView = UIView()
     
-    var PRYMARYCOLOR = UIColor(named: "PrimaryColor")
+    let PRYMARYCOLOR = UIColor(named: "PrimaryColor")
     
     override func viewDidLoad() {
         super.viewDidLoad()

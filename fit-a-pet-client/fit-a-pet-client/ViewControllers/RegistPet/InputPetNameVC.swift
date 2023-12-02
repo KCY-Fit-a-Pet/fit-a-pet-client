@@ -4,10 +4,10 @@ import Alamofire
 
 class InputPetNameVC: CustomNavigationBar {
     
-    let nextGenderBtn = CustomNextBtn(title: "다음")
-    let inputPetName = UITextField()
-    let progressBar = CustomProgressBar.shared
-    let customLabel = ConstomLabel()
+    private let nextGenderBtn = CustomNextBtn(title: "다음")
+    private let inputPetName = UITextField()
+    private let progressBar = CustomProgressBar.shared
+    private let customLabel = ConstomLabel()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -15,6 +15,7 @@ class InputPetNameVC: CustomNavigationBar {
         initView()
 
         nextGenderBtn.addTarget(self, action: #selector(changeInputGenderVC(_:)), for: .touchUpInside)
+        
     }
     private func initView(){
       
@@ -26,20 +27,9 @@ class InputPetNameVC: CustomNavigationBar {
         view.backgroundColor = .white
         
         let text = "반려동물의\n이름을 알려주세요."
-        let attributedText = NSMutableAttributedString(string: text)
+        let range = "이름"
 
-        let boldFont = UIFont.boldSystemFont(ofSize: 20)
-        let range = (text as NSString).range(of: "이름")
-
-        attributedText.addAttribute(.font, value: boldFont, range: range)
-
-        let paragraphStyle = NSMutableParagraphStyle()
-        paragraphStyle.lineBreakMode = .byWordWrapping
-        paragraphStyle.lineSpacing = 8
-        
-        attributedText.addAttribute(.paragraphStyle, value: paragraphStyle, range: NSRange(location: 0, length: attributedText.length))
-
-        customLabel.setAttributedText(attributedText)
+        customLabel.setAttributedText(text, range)
         
         customLabel.snp.makeConstraints{make in
             make.top.equalTo(view.snp.top).offset(164)
@@ -94,7 +84,7 @@ class InputPetNameVC: CustomNavigationBar {
     }
     
     @objc func changeInputGenderVC(_ sender: UIButton){
-        let nextVC = InputGenderVC()
+        let nextVC = InputGenderVC(title: "반려동물 등록하기")
         
         if let petName = inputPetName.text {
             PetRegistrationManager.shared.addInput(petName: petName)

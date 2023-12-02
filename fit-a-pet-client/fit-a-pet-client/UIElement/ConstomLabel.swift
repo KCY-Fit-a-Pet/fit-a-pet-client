@@ -34,7 +34,20 @@ class ConstomLabel: UIView {
         }
     }
     
-    func setAttributedText(_ attributedText: NSAttributedString) {
+    func setAttributedText(_ text: String,_ range: String ) {
+        let attributedText = NSMutableAttributedString(string: text)
+        
+        let boldFont = UIFont.boldSystemFont(ofSize: 20)
+        let rangeText = (text as NSString).range(of: range)
+        
+        attributedText.addAttribute(.font, value: boldFont, range: rangeText)
+        
+        let paragraphStyle = NSMutableParagraphStyle()
+        paragraphStyle.lineBreakMode = .byWordWrapping
+        paragraphStyle.lineSpacing = 8
+        
+        attributedText.addAttribute(.paragraphStyle, value: paragraphStyle, range: NSRange(location: 0, length: attributedText.length))
+        
         label.attributedText = attributedText
     }
 }

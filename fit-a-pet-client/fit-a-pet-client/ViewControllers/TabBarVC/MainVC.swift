@@ -4,10 +4,10 @@ import PanModal
 
 class MainVC: UIViewController {
     
-    let layoutScrollView = UIScrollView()
-    let petDataView = UIView()
+    private let layoutScrollView = UIScrollView()
+    private let petDataView = UIView()
     
-    let petCollectionView: UICollectionView = {
+    private let petCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.minimumLineSpacing = 10
         layout.scrollDirection = .horizontal
@@ -129,7 +129,7 @@ class MainVC: UIViewController {
     @objc func changeInputSpeciesVC(_ sender: UIButton){
         self.navigationController?.navigationBar.topItem?.title = ""
         
-        let nextVC = InputSpeciesVC()
+        let nextVC = InputSpeciesVC(title: "반려동물 등록하기")
         nextVC.hidesBottomBarWhenPushed = true
         self.navigationController?.pushViewController(nextVC, animated: false)
     }

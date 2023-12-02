@@ -4,20 +4,20 @@ import Alamofire
  
 class InputPetBirthVC : CustomNavigationBar {
     
-    let nextCheckCareBtn = CustomNextBtn(title: "다음")
-    let birthDatePicker = UIDatePicker()
-    let inputPetBirth = UITextField()
+    private let nextCheckCareBtn = CustomNextBtn(title: "다음")
+    private let birthDatePicker = UIDatePicker()
+    private let inputPetBirth = UITextField()
     
-    let ageStackView = UIStackView()
-    let agecheckboxButton = UIButton()
-    let agecheckLabel = UILabel()
+    private let ageStackView = UIStackView()
+    private let agecheckboxButton = UIButton()
+    private let agecheckLabel = UILabel()
     
-    let ageInputStackView = UIStackView()
-    let ageInputField = UITextField()
-    let ageLabel = UILabel()
+    private let ageInputStackView = UIStackView()
+    private let ageInputField = UITextField()
+    private let ageLabel = UILabel()
     
-    let progressBar = CustomProgressBar.shared
-    let customLabel = ConstomLabel()
+    private let progressBar = CustomProgressBar.shared
+    private let customLabel = ConstomLabel()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -38,21 +38,10 @@ class InputPetBirthVC : CustomNavigationBar {
         
         view.backgroundColor = .white
         
-        let text = "반려동물의\n생일을 알려주세요."
-        let attributedText = NSMutableAttributedString(string: text)
+        let text = "반려동물의\n생일을 선택해주세요."
+        let range = "생일"
 
-        let boldFont = UIFont.boldSystemFont(ofSize: 20)
-        let range = (text as NSString).range(of: "생일")
-
-        attributedText.addAttribute(.font, value: boldFont, range: range)
-
-        let paragraphStyle = NSMutableParagraphStyle()
-        paragraphStyle.lineBreakMode = .byWordWrapping
-        paragraphStyle.lineSpacing = 8
-        
-        attributedText.addAttribute(.paragraphStyle, value: paragraphStyle, range: NSRange(location: 0, length: attributedText.length))
-
-        customLabel.setAttributedText(attributedText)
+        customLabel.setAttributedText(text, range)
         
         customLabel.snp.makeConstraints{make in
             make.top.equalTo(view.snp.top).offset(164)
@@ -254,7 +243,7 @@ class InputPetBirthVC : CustomNavigationBar {
     }
     
     @objc func changeCheckCareVC(_ sender: UIButton){
-        let nextVC = CheckCareVC()
+        let nextVC = UploadPetPhotoVC(title: "반려동물 등록하기")
         self.navigationController?.pushViewController(nextVC, animated: false)
     }
 }

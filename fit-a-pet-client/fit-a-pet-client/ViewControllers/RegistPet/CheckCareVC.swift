@@ -5,11 +5,11 @@ import Alamofire
 
 class CheckCareVC : CustomNavigationBar {
     
-    let nextUploadPetPhotoBtn = CustomNextBtn(title: "다음")
-    let progressBar = CustomProgressBar.shared
-    let customLabel = ConstomLabel()
+    private let nextUploadPetPhotoBtn = CustomNextBtn(title: "다음")
+    private let progressBar = CustomProgressBar.shared
+    private let customLabel = ConstomLabel()
     
-    let checkCareCollectionView: UICollectionView = {
+    private let checkCareCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.minimumLineSpacing = 20
         layout.scrollDirection = .vertical
@@ -52,7 +52,7 @@ class CheckCareVC : CustomNavigationBar {
         
         attributedText.addAttribute(.paragraphStyle, value: paragraphStyle, range: NSRange(location: 0, length: attributedText.length))
 
-        customLabel.setAttributedText(attributedText)
+        //customLabel.setAttributedText(attributedText)
         
         customLabel.snp.makeConstraints{make in
             make.top.equalTo(view.snp.top).offset(164)
@@ -107,7 +107,7 @@ class CheckCareVC : CustomNavigationBar {
     }
     
     @objc func changeUploadPetPhotoVC(_ sender: UIButton){
-        let nextVC = UploadPetPhotoVC()
+        let nextVC = UploadPetPhotoVC(title: "반려동물 등록하기")
         self.navigationController?.pushViewController(nextVC, animated: false)
     }
     

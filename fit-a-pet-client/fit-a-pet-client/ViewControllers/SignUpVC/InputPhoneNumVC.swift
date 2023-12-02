@@ -5,10 +5,10 @@ import Alamofire
 
 class InputPhoneNumVC : UIViewController {
     
-    let nextAutnNumBtn = CustomNextBtn(title: "다음")
-    let inputPhoneNum = UITextField()
-    let progressBar = CustomProgressBar.shared
-    let customLabel = ConstomLabel()
+    private let nextAutnNumBtn = CustomNextBtn(title: "다음")
+    private let inputPhoneNum = UITextField()
+    private let progressBar = CustomProgressBar.shared
+    private let customLabel = ConstomLabel()
     
     var phone: String = ""
     
@@ -26,22 +26,11 @@ class InputPhoneNumVC : UIViewController {
         self.view.addSubview(nextAutnNumBtn)
         self.view.addSubview(inputPhoneNum)
         self.view.addSubview(customLabel)
-        
+
         let text = "인증을 위해\n전화번호를 입력해주세요."
-        let attributedText = NSMutableAttributedString(string: text)
+        let range = "전화번호"
 
-        let boldFont = UIFont.boldSystemFont(ofSize: 20)
-        let range = (text as NSString).range(of: "전화번호")
-
-        attributedText.addAttribute(.font, value: boldFont, range: range)
-
-        let paragraphStyle = NSMutableParagraphStyle()
-        paragraphStyle.lineBreakMode = .byWordWrapping
-        paragraphStyle.lineSpacing = 8
-        
-        attributedText.addAttribute(.paragraphStyle, value: paragraphStyle, range: NSRange(location: 0, length: attributedText.length))
-
-        customLabel.setAttributedText(attributedText)
+        customLabel.setAttributedText(text, range)
         
         customLabel.snp.makeConstraints{make in
             make.top.equalTo(view.snp.top).offset(164)
