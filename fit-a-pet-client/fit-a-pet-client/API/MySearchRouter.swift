@@ -112,7 +112,6 @@ enum MySearchRouter: URLRequestConvertible {
             }
             
         case .registPet:
-        
             if let accessToken = KeychainHelper.loadAccessToken() {
                 request = createURLRequestForBody(url: url)
                 request.setValue("Bearer \(accessToken)", forHTTPHeaderField: "Authorization")

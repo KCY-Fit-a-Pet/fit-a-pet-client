@@ -13,6 +13,7 @@ class FirstVC: UIViewController {
     var mainTextLabel = UILabel()
     var signUpBtn = UIButton()
     var loginBtn = UIButton()
+    var loginView = UIView()
     
     var PRYMARYCOLOR = UIColor(named: "PrimaryColor")
     
@@ -24,9 +25,12 @@ class FirstVC: UIViewController {
         self.navigationController?.navigationBar.topItem?.title = " "
     }
     private func initView(){
+        self.view.backgroundColor = .white
+        
         setMainTextLabelStyle()
         setSignUpBtnStyle()
         setLoginBtnStyle()
+        setLoginViewStyle()
     }
 }
 extension FirstVC{
@@ -52,7 +56,7 @@ extension FirstVC{
         signUpBtn.addTarget(self, action: #selector(changeSignUpVC(_:)), for: .touchUpInside)
         
         signUpBtn.snp.makeConstraints{make in
-            make.top.equalTo(view.snp.top).offset(400)
+            make.top.equalTo(view.snp.bottom).offset(-350)
             make.height.equalTo(50)
             make.width.equalTo(350)
             make.left.equalTo(view.snp.left).offset(16)
@@ -92,6 +96,76 @@ extension FirstVC{
         //guard let nextVC = self.storyboard?.instantiateViewController(identifier: "LoginVC") else { return }
         self.navigationController?.pushViewController(nextVC, animated: false)
     }
+    
+    private func setLoginViewStyle() {
+        let loginLabel = UILabel()
+        loginLabel.text = "혹은 간편 로그인"
+        loginLabel.textColor = UIColor(named: "Gray5")
+        
+        let dividerLeft = UIView()
+        dividerLeft.backgroundColor = UIColor(named: "Gray5")
+        
+        let dividerRight = UIView()
+        dividerRight.backgroundColor = UIColor(named: "Gray5")
+        
+        let naverLogin = UIButton()
+        let kakaoLogin = UIButton()
+        let googleLogin = UIButton()
+        let appleLogin = UIButton()
+        
+        naverLogin.setImage(UIImage(named: "naver_icon"), for: .normal)
+        kakaoLogin.setImage(UIImage(named: "kakao_icon"), for: .normal)
+        googleLogin.setImage(UIImage(named: "google_icon"), for: .normal)
+        appleLogin.setImage(UIImage(named: "apple_icon"), for: .normal)
+        
+        let loginButtons = [naverLogin, kakaoLogin, googleLogin, appleLogin]
+        
+        let loginIcon = UIStackView(arrangedSubviews: loginButtons)
+        
+        loginIcon.axis = .horizontal
+        loginIcon.distribution = .fillEqually
+        loginIcon.spacing = 16
+        
+        loginView.addSubview(loginLabel)
+        loginView.addSubview(dividerLeft)
+        loginView.addSubview(dividerRight)
+        loginView.addSubview(loginIcon)
+        
+        self.view.addSubview(loginView)
+        
+        loginView.snp.makeConstraints { make in
+            make.top.equalTo(loginBtn.snp.bottom).offset(24)
+            make.leading.equalTo(view.snp.leading)
+            make.trailing.equalTo(view.snp.trailing)
+        }
+        
+        loginLabel.snp.makeConstraints { make in
+            make.top.equalTo(loginView.snp.top).offset(16)
+            make.centerX.equalTo(loginView.snp.centerX)
+        }
+        
+        dividerLeft.snp.makeConstraints { make in
+            make.centerY.equalTo(loginLabel.snp.centerY)
+            make.height.equalTo(1)
+            make.width.equalTo(loginLabel.snp.width).multipliedBy(0.4)
+            make.trailing.equalTo(loginLabel.snp.leading).offset(-8)
+        }
+        
+        dividerRight.snp.makeConstraints { make in
+            make.centerY.equalTo(loginLabel.snp.centerY)
+            make.height.equalTo(1)
+            make.width.equalTo(loginLabel.snp.width).multipliedBy(0.4)
+            make.leading.equalTo(loginLabel.snp.trailing).offset(8)
+        }
+        
+        loginIcon.snp.makeConstraints { make in
+            make.top.equalTo(loginLabel.snp.bottom).offset(24)
+            make.left.equalTo(loginView.snp.left).offset(52)
+            make.right.equalTo(loginView.snp.right).offset(-52)
+            make.height.equalTo(60) 
+        }
+    }
+
     
 }
 

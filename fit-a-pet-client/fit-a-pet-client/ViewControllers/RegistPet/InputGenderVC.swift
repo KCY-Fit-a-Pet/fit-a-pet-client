@@ -71,8 +71,8 @@ class InputGenderVC: CustomNavigationBar {
         femaleBtn.setTitle("암컷", for: .normal)
         maleBtn.setTitle("수컷", for: .normal)
 
-        femaleBtn.setTitleColor(UIColor(named: "Gray6"), for: .normal)
-        maleBtn.setTitleColor(UIColor(named: "Gray6"), for: .normal)
+        femaleBtn.setTitleColor(UIColor(named: "Gray5"), for: .normal)
+        maleBtn.setTitleColor(UIColor(named: "Gray5"), for: .normal)
     
         femaleBtn.layer.borderWidth = 1
         femaleBtn.layer.cornerRadius = 5
@@ -120,7 +120,7 @@ class InputGenderVC: CustomNavigationBar {
         neuteringCheckboxButton.isSelected = false
         
         let checkedImage = UIImage(systemName: "checkmark.square.fill")
-        let uncheckedImage = UIImage(systemName: "checkmark.square")
+        let uncheckedImage = UIImage(systemName: "square")
 
         neuteringCheckboxButton.setImage(uncheckedImage, for: .normal)
         neuteringCheckboxButton.setImage(checkedImage, for: .selected)

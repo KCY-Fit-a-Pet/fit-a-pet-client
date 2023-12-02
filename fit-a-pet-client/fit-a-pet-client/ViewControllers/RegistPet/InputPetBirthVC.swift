@@ -111,7 +111,7 @@ class InputPetBirthVC : CustomNavigationBar {
         agecheckboxButton.isSelected = false
         
         let checkedImage = UIImage(systemName: "checkmark.square.fill")
-        let uncheckedImage = UIImage(systemName: "checkmark.square")
+        let uncheckedImage = UIImage(systemName: "square")
 
         agecheckboxButton.setImage(uncheckedImage, for: .normal)
         agecheckboxButton.setImage(checkedImage, for: .selected)
