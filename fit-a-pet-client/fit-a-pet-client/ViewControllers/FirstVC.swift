@@ -1,12 +1,7 @@
-//
-//  ViewController.swift
-//  fit-a-pet-client
-//
-//  Created by 최희진 on 2023/08/10.
-//
-
 import UIKit
 import SnapKit
+import KakaoSDKAuth
+import KakaoSDKUser
 
 class FirstVC: UIViewController {
     
@@ -118,6 +113,9 @@ extension FirstVC{
         googleLogin.setImage(UIImage(named: "google_icon"), for: .normal)
         appleLogin.setImage(UIImage(named: "apple_icon"), for: .normal)
         
+        
+        kakaoLogin.addTarget(self, action: #selector(kakaoLoginBtnTapped(_:)), for: .touchUpInside)
+        
         let loginButtons = [naverLogin, kakaoLogin, googleLogin, appleLogin]
         
         let loginIcon = UIStackView(arrangedSubviews: loginButtons)
@@ -135,6 +133,7 @@ extension FirstVC{
         
         loginView.snp.makeConstraints { make in
             make.top.equalTo(loginBtn.snp.bottom).offset(24)
+            make.bottom.equalTo(view.snp.bottom)
             make.leading.equalTo(view.snp.leading)
             make.trailing.equalTo(view.snp.trailing)
         }
@@ -166,6 +165,22 @@ extension FirstVC{
         }
     }
 
+    @objc func kakaoLoginBtnTapped(_ sender: UIButton){
+        print("touch")
+        
+        UserApi.shared.loginWithKakaoAccount {(oauthToken, error) in
+           
+            if let error = error {
+                print(error)
+            }
+            else {
+                print("loginWithKakaoAccount() success.")
+                
+                //do something
+                _ = oauthToken
+            }
+        }
+    }
     
 }
 
