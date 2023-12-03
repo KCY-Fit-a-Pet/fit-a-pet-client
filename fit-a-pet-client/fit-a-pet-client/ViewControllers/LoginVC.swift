@@ -11,13 +11,13 @@ import Alamofire
 
 class LoginVC: UIViewController, UITextFieldDelegate{
     
-    let loginLabel = UILabel()
-    let inputId = UITextField()
-    let inputPw = UITextField()
-    let loginBtn = UIButton()
+    private let loginLabel = UILabel()
+    private let inputId = UITextField()
+    private let inputPw = UITextField()
+    private let loginBtn = UIButton()
     
-    var uid = ""
-    var password = ""
+    private var uid = ""
+    private var password = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -45,7 +45,7 @@ class LoginVC: UIViewController, UITextFieldDelegate{
         loginLabel.font = .boldSystemFont(ofSize: 20)
         
         loginLabel.snp.makeConstraints{ make in
-            make.top.equalToSuperview().offset(200)
+            make.top.equalToSuperview().offset(240)
             
             //수평 중앙정렬
             make.centerX.equalToSuperview()
@@ -111,6 +111,8 @@ class LoginVC: UIViewController, UITextFieldDelegate{
         findIdBtn.titleLabel?.font = UIFont.systemFont(ofSize: 14)
         findIdBtn.setTitleColor(.black, for: .normal)
         
+        findIdBtn.addTarget(self, action: #selector(changeFindIdVC(_:)), for: .touchUpInside)
+        
         let findPwBtn = UIButton(type: .system)
         findPwBtn.setTitle("비밀번호 찾기", for: .normal)
         findPwBtn.titleLabel?.font = UIFont.systemFont(ofSize: 14)
@@ -138,8 +140,8 @@ class LoginVC: UIViewController, UITextFieldDelegate{
     
     @objc func changeTabBarVC(_ sender: UIButton){
         
-        let nextVC = TabBarController()
-        nextVC.modalPresentationStyle = .fullScreen
+        let mainVC = TabBarController()
+        mainVC.modalPresentationStyle = .fullScreen
 
         AlamofireManager.shared.login("heejin", "heejin123"){
             result in
@@ -160,7 +162,12 @@ class LoginVC: UIViewController, UITextFieldDelegate{
         }
         
         // 모달로 다음 뷰 컨트롤러를 표시
-        self.present(nextVC, animated: false, completion: nil)
+        self.present(mainVC, animated: false, completion: nil)
+    }
+    
+    @objc func changeFindIdVC(_ sender: UIButton){
+        let findVC = FindInputPhoneNum(title: "아이디 찾기")
+        self.navigationController?.pushViewController(findVC, animated: false)
     }
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {

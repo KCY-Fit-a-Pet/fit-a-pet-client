@@ -36,13 +36,13 @@ enum MySearchRouter: URLRequestConvertible {
     var path: String {
         switch self {
         case .sendSms, .checkSms:
-            return "members/sms"
+            return "auth/sms"
         case .login:
-            return "members/login"
+            return "auth/login"
         case .regist:
-            return "members/register"
+            return "auth/register"
         case .presignedurl:
-            return "members/C7QXbC20ti"
+            return "C7QXbC20ti"
         case .uploadImage:
             return ""
         case .registPet:
@@ -112,7 +112,6 @@ enum MySearchRouter: URLRequestConvertible {
             }
             
         case .registPet:
-        
             if let accessToken = KeychainHelper.loadAccessToken() {
                 request = createURLRequestForBody(url: url)
                 request.setValue("Bearer \(accessToken)", forHTTPHeaderField: "Authorization")

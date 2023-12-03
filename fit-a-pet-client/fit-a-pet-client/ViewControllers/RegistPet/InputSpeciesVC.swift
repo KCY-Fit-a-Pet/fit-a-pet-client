@@ -4,19 +4,19 @@ import Alamofire
 
 class InputSpeciesVC: CustomNavigationBar {
     
-    let nextPetNameBtn = CustomNextBtn(title: "다음")
-    let inputPetSpecies = UITextField()
-    let progressBar = CustomProgressBar.shared
-    let customLabel = ConstomLabel()
+    private let nextPetNameBtn = CustomNextBtn(title: "다음")
+    private let inputPetSpecies = UITextField()
+    private let progressBar = CustomProgressBar.shared
+    private let customLabel = ConstomLabel()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        navigationController?.setNavigationBarHidden(false, animated: false)
-        
         initView()
-
+        
         nextPetNameBtn.addTarget(self, action: #selector(changeInputPetNameVC(_:)), for: .touchUpInside)
+        navigationController?.setNavigationBarHidden(false, animated: false)
+
     }
 
     private func initView(){
@@ -28,20 +28,9 @@ class InputSpeciesVC: CustomNavigationBar {
         view.backgroundColor = .white
         
         let text = "반려동물의\n종을 알려주세요."
-        let attributedText = NSMutableAttributedString(string: text)
+        let range = "종"
 
-        let boldFont = UIFont.boldSystemFont(ofSize: 20)
-        let range = (text as NSString).range(of: "종")
-
-        attributedText.addAttribute(.font, value: boldFont, range: range)
-
-        let paragraphStyle = NSMutableParagraphStyle()
-        paragraphStyle.lineBreakMode = .byWordWrapping
-        paragraphStyle.lineSpacing = 8
-        
-        attributedText.addAttribute(.paragraphStyle, value: paragraphStyle, range: NSRange(location: 0, length: attributedText.length))
-
-        customLabel.setAttributedText(attributedText)
+        customLabel.setAttributedText(text, range)
         
         customLabel.snp.makeConstraints{make in
             make.top.equalTo(view.snp.top).offset(164)
@@ -95,7 +84,7 @@ class InputSpeciesVC: CustomNavigationBar {
     }
     
     @objc func changeInputPetNameVC(_ sender: UIButton){
-        let nextVC = InputPetNameVC()
+        let nextVC = InputPetNameVC(title: "반려동물 등록하기")
         if let species = inputPetSpecies.text {
             PetRegistrationManager.shared.addInput(species: species)
         }

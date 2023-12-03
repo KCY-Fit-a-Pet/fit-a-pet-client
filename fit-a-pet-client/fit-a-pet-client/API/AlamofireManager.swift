@@ -62,7 +62,6 @@ class AlamofireManager {
                        let accessToken = responseHeaders["accessToken"] {
                         KeychainHelper.saveAccessToken(accessToken: accessToken)
                         os_log("login token: %@", log: .default, type: .info, accessToken)
-//                        print(KeychainHelper.loadAccessToken()!)
                     }
                     completion(.success(data))
                 case .failure(let error):

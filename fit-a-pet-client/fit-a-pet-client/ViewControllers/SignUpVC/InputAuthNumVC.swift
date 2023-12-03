@@ -5,10 +5,10 @@ import SnapKit
 
 class InputAuthNumVC : UIViewController{
     
-    let nextIdBtn = CustomNextBtn(title: "다음")
-    let inputAuthNum = UITextField()
-    let progressBar = CustomProgressBar.shared
-    let customLabel = ConstomLabel()
+    private let nextIdBtn = CustomNextBtn(title: "다음")
+    private let inputAuthNum = UITextField()
+    private let progressBar = CustomProgressBar.shared
+    private let customLabel = ConstomLabel()
     
     var phone: String = ""
     var code: Int = 0
@@ -27,22 +27,12 @@ class InputAuthNumVC : UIViewController{
         self.view.addSubview(nextIdBtn)
         self.view.addSubview(inputAuthNum)
         self.view.addSubview(customLabel)
-        
+       
         let text = "전송받은 인증번호 6자리를\n입력해주세요."
-        let attributedText = NSMutableAttributedString(string: text)
+        let range = "인증번호 6자리"
 
-        let boldFont = UIFont.boldSystemFont(ofSize: 20)
-        let range = (text as NSString).range(of: "인증번호 6자리")
-
-        attributedText.addAttribute(.font, value: boldFont, range: range)
-
-        let paragraphStyle = NSMutableParagraphStyle()
-        paragraphStyle.lineBreakMode = .byWordWrapping
-        paragraphStyle.lineSpacing = 8
+        customLabel.setAttributedText(text, range)
         
-        attributedText.addAttribute(.paragraphStyle, value: paragraphStyle, range: NSRange(location: 0, length: attributedText.length))
-
-        customLabel.setAttributedText(attributedText)
         
         customLabel.snp.makeConstraints{make in
             make.top.equalTo(view.snp.top).offset(164)

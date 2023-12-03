@@ -4,10 +4,10 @@ import SnapKit
 
 class InputIdVC : UIViewController {
     
-    let nextPwBtn = CustomNextBtn(title: "다음")
-    let inputId = UITextField()
-    let progressBar = CustomProgressBar.shared
-    let customLabel = ConstomLabel()
+    private let nextPwBtn = CustomNextBtn(title: "다음")
+    private let inputId = UITextField()
+    private let progressBar = CustomProgressBar.shared
+    private let customLabel = ConstomLabel()
         
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -24,22 +24,11 @@ class InputIdVC : UIViewController {
         self.view.addSubview(nextPwBtn)
         self.view.addSubview(inputId)
         self.view.addSubview(customLabel)
-        
+    
         let text = "로그인에 사용할\n아이디를 입력해주세요."
-        let attributedText = NSMutableAttributedString(string: text)
+        let range = "아이디"
 
-        let boldFont = UIFont.boldSystemFont(ofSize: 20)
-        let range = (text as NSString).range(of: "아이디")
-
-        attributedText.addAttribute(.font, value: boldFont, range: range)
-
-        let paragraphStyle = NSMutableParagraphStyle()
-        paragraphStyle.lineBreakMode = .byWordWrapping
-        paragraphStyle.lineSpacing = 8
-        
-        attributedText.addAttribute(.paragraphStyle, value: paragraphStyle, range: NSRange(location: 0, length: attributedText.length))
-
-        customLabel.setAttributedText(attributedText)
+        customLabel.setAttributedText(text, range)        
         
         customLabel.snp.makeConstraints{make in
             make.top.equalTo(view.snp.top).offset(164)

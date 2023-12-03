@@ -5,12 +5,12 @@ import Alamofire
 
 class UploadPetPhotoVC : CustomNavigationBar {
     
-    let registCompleteBtn = CustomNextBtn(title: "반려동물 등록하기")
-    let progressBar = CustomProgressBar.shared
-    let customLabel = ConstomLabel()
-    let choosePhotoBtn = UIButton()
+    private let registCompleteBtn = CustomNextBtn(title: "반려동물 등록하기")
+    private let progressBar = CustomProgressBar.shared
+    private let customLabel = ConstomLabel()
+    private let choosePhotoBtn = UIButton()
     
-    let petImagePicker = UIImagePickerController()
+    private let petImagePicker = UIImagePickerController()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -31,23 +31,12 @@ class UploadPetPhotoVC : CustomNavigationBar {
         
         view.backgroundColor = .white
         
-        let text = "반려동물의\n프로필사진을 올려주세요."
-        let attributedText = NSMutableAttributedString(string: text)
-        
-        let boldFont = UIFont.boldSystemFont(ofSize: 20)
-        let range = (text as NSString).range(of: "프로필사진")
-        
-        attributedText.addAttribute(.font, value: boldFont, range: range)
-        
-        let paragraphStyle = NSMutableParagraphStyle()
-        paragraphStyle.lineBreakMode = .byWordWrapping
-        paragraphStyle.lineSpacing = 8
-        
-        attributedText.addAttribute(.paragraphStyle, value: paragraphStyle, range: NSRange(location: 0, length: attributedText.length))
-        
         choosePhotoBtn.setImage(UIImage(named: "uploadPhoto"), for: .normal)
         
-        customLabel.setAttributedText(attributedText)
+        let text = "반려동물의\n프로필사진을 올려주세요."
+        let range = "프로필사진"
+
+        customLabel.setAttributedText(text, range)
         
         customLabel.snp.makeConstraints{make in
             make.top.equalTo(view.snp.top).offset(164)
@@ -146,15 +135,12 @@ class UploadPetPhotoVC : CustomNavigationBar {
             result in
             switch result {
             case .success(let data):
-                // Handle success
                 if let responseData = data {
-                    // Process the data
                     let object = try?JSONSerialization.jsonObject(with: responseData, options: []) as? NSDictionary
                     guard let jsonObject = object else {return}
                     print("respose jsonData: \(jsonObject)")
                 }
             case .failure(let error):
-                // Handle failure
                 print("Error: \(error)")
             }
         }
@@ -186,7 +172,6 @@ extension UploadPetPhotoVC : UIImagePickerControllerDelegate, UINavigationContro
             AlamofireManager.shared.uploadImage(pickedImage) { result in
                switch result {
                case .success(let data):
-                   // Handle success
                    if let unwrappedData = data,
                       let resultString = String(data: unwrappedData, encoding: .utf8) {
                        print("Success: \(resultString)")
@@ -195,7 +180,6 @@ extension UploadPetPhotoVC : UIImagePickerControllerDelegate, UINavigationContro
                    }
 
                case .failure(let error):
-                   // Handle failure
                    print("Error: \(error)")
                }
            }
