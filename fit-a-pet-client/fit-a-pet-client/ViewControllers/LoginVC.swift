@@ -9,7 +9,7 @@ import UIKit
 import SnapKit
 import Alamofire
 
-class LoginVC: UIViewController, UITextFieldDelegate{
+class LoginVC: UIViewController{
     
     private let loginLabel = UILabel()
     private let inputId = UITextField()
@@ -25,6 +25,9 @@ class LoginVC: UIViewController, UITextFieldDelegate{
         initView()
         stackBtnView()
         
+        inputId.delegate = self
+        inputPw.delegate = self
+        
         loginBtn.addTarget(self, action: #selector(changeTabBarVC(_:)), for: .touchUpInside)
         
         self.navigationController?.navigationBar.tintColor = .black
@@ -37,9 +40,6 @@ class LoginVC: UIViewController, UITextFieldDelegate{
         self.view.addSubview(inputId)
         self.view.addSubview(inputPw)
         self.view.addSubview(loginBtn)
-        
-        inputId.delegate = self
-        inputPw.delegate = self
         
         loginLabel.text = "로그인"
         loginLabel.font = .boldSystemFont(ofSize: 20)
@@ -118,6 +118,8 @@ class LoginVC: UIViewController, UITextFieldDelegate{
         findPwBtn.titleLabel?.font = UIFont.systemFont(ofSize: 14)
         findPwBtn.setTitleColor(.black, for: .normal)
         
+        findPwBtn.addTarget(self, action: #selector(changeFindPwVC(_:)), for: .touchUpInside)
+        
         let SignUpBtn = UIButton(type: .system)
         SignUpBtn.setTitle("회원가입", for: .normal)
         SignUpBtn.titleLabel?.font = UIFont.systemFont(ofSize: 14)
@@ -166,10 +168,21 @@ class LoginVC: UIViewController, UITextFieldDelegate{
     }
     
     @objc func changeFindIdVC(_ sender: UIButton){
-        let findVC = FindInputPhoneNum(title: "아이디 찾기")
-        self.navigationController?.pushViewController(findVC, animated: false)
+        FindIdPwSwitch.findAuth = "아이디 찾기"
+        FindIdPwSwitch.findtype = "uid"
+        let findIdVC = FindInputPhoneNumVC(title: FindIdPwSwitch.findAuth)
+        self.navigationController?.pushViewController(findIdVC, animated: false)
     }
     
+    @objc func changeFindPwVC(_ sender: UIButton){
+        FindIdPwSwitch.findAuth = "비밀번호 찾기"
+        FindIdPwSwitch.findtype = "password"
+        let findPwVC = FindInputPhoneNumVC(title: FindIdPwSwitch.findAuth)
+        self.navigationController?.pushViewController(findPwVC, animated: false)
+    }
+}
+    
+extension LoginVC: UITextFieldDelegate{
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         
         if textField == inputPw {
@@ -202,5 +215,4 @@ class LoginVC: UIViewController, UITextFieldDelegate{
         return true
     }
 }
-    
 

@@ -27,3 +27,8 @@ enum QueryParameter: String {
     case signedHeaders
     case acl
 }
+
+enum FindIdPwSwitch{
+    static var findAuth = ""
+    static var findtype = ""
+}

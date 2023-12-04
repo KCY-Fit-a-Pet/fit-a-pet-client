@@ -11,7 +11,7 @@ class InputAuthNumVC : UIViewController{
     private let customLabel = ConstomLabel()
     
     var phone: String = ""
-    var code: Int = 0
+    var code: String = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -118,11 +118,11 @@ extension InputAuthNumVC: UITextFieldDelegate{
 
         //문자열을 NSString 값으로 변환, replacingCharacters() 메소드 사용하여 문자열의 일부를 변경
         let updatedText = (inputAuthNum.text! as NSString).replacingCharacters(in: range, with: string)
-       
-            nextIdBtn.updateButtonColor(updatedText, true)
         
-        code = Int(updatedText)!
-     
+        nextIdBtn.updateButtonColor(updatedText, true)
+        
+        code = updatedText
+        
         if updatedText.isEmpty{
             inputAuthNum.layer.borderColor = UIColor(named: "Gray2")?.cgColor
         }else{

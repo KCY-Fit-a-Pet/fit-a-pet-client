@@ -10,7 +10,7 @@ class InputPhoneNumVC : UIViewController {
     private let progressBar = CustomProgressBar.shared
     private let customLabel = ConstomLabel()
     
-    var phone: String = ""
+    private var phone: String = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -117,7 +117,7 @@ class InputPhoneNumVC : UIViewController {
 
 extension InputPhoneNumVC: UITextFieldDelegate{
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        var updatedText = (inputPhoneNum.text! as NSString).replacingCharacters(in: range, with: string)
+        let updatedText = (inputPhoneNum.text! as NSString).replacingCharacters(in: range, with: string)
         nextAutnNumBtn.updateButtonColor(updatedText, false)
         
         if updatedText.isEmpty {
@@ -152,6 +152,4 @@ extension InputPhoneNumVC: UITextFieldDelegate{
         
         return false
     }
-
-
 }

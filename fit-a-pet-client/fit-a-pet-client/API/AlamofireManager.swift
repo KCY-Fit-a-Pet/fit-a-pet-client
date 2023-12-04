@@ -31,7 +31,7 @@ class AlamofireManager {
         }
     }
 
-    func checkSms(_ phone: String, _ code: Int, completion: @escaping(Result<Data?, Error>) -> Void) {
+    func checkSms(_ phone: String, _ code: String, completion: @escaping(Result<Data?, Error>) -> Void) {
         os_log("MyAlamofireManager - checkSms() called userInput : %@ ,, %d", log: .default, type: .info, phone, code)
 
         self.session.request(MySearchRouter.checkSms(to: phone, code: code))
@@ -127,6 +127,45 @@ class AlamofireManager {
             .request(MySearchRouter.registPet(petName: petName, species: species, gender: gender, neutralization: neutralization, birthDate: birthDate))
             .response { response in
                 switch response.result{
+                case .success(let data):
+                    completion(.success(data))
+                case .failure(let error):
+                    completion(.failure(error))
+                }
+        }
+    }
+    func sendAuthSms(_ phone: String, completion: @escaping(Result<Data?, Error>) -> Void) {
+        os_log("MyAlamofireManager - sendAuthSms() called userInput : %@ ", log: .default, type: .info, phone)
+
+        self.session.request(MySearchRouter.sendAuthSms(to: phone))
+            .response { response in
+                switch response.result {
+                case .success(let data):
+                    completion(.success(data))
+                case .failure(let error):
+                    completion(.failure(error))
+                }
+        }
+    }
+    func checkAuthSms(_ phone: String, _ code: String, completion: @escaping(Result<Data?, Error>) -> Void) {
+        os_log("MyAlamofireManager - checkAuthSms() called userInput : %@ ,, %@", log: .default, type: .info, phone, code)
+
+        self.session.request(MySearchRouter.checkAuthSms(to: phone, code: code))
+            .response { response in
+                switch response.result {
+                case .success(let data):
+                    completion(.success(data))
+                case .failure(let error):
+                    completion(.failure(error))
+                }
+        }
+    }
+    func findId(_ phone: String, _ code: String, completion: @escaping(Result<Data?, Error>) -> Void) {
+        os_log("MyAlamofireManager - findId() called userInput : %@ ,, %@", log: .default, type: .info, phone, code)
+
+        self.session.request(MySearchRouter.findId(phone: phone, code: code))
+            .response { response in
+                switch response.result {
                 case .success(let data):
                     completion(.success(data))
                 case .failure(let error):
