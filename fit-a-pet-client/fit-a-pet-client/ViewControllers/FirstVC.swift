@@ -176,7 +176,6 @@ extension FirstVC{
             else {
                 print("loginWithKakaoAccount() success.")
                 
-                //do something
                 _ = oauthToken
             }
         }

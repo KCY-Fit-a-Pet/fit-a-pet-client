@@ -35,6 +35,7 @@
 		4AA999962A8485A500E495FA /* FirstVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AA999952A8485A500E495FA /* FirstVC.swift */; };
 		4AA9999B2A8485A600E495FA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4AA9999A2A8485A600E495FA /* Assets.xcassets */; };
 		4AA9999E2A8485A600E495FA /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4AA9999C2A8485A600E495FA /* LaunchScreen.storyboard */; };
+		4AB6178E2B1CFAF300CED98E /* FindIdCheckVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AB6178D2B1CFAF300CED98E /* FindIdCheckVC.swift */; };
 		4ACDD49E2AD9ACC400CD8F1A /* PetModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ACDD49D2AD9ACC400CD8F1A /* PetModel.swift */; };
 		4ACDD4A12AD9B37E00CD8F1A /* InputSpeciesVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ACDD4A02AD9B37E00CD8F1A /* InputSpeciesVC.swift */; };
 		4ACDD4A32AD9B3A500CD8F1A /* InputPetNameVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ACDD4A22AD9B3A500CD8F1A /* InputPetNameVC.swift */; };
@@ -84,6 +85,7 @@
 		4AA9999A2A8485A600E495FA /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		4AA9999D2A8485A600E495FA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		4AA9999F2A8485A600E495FA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		4AB6178D2B1CFAF300CED98E /* FindIdCheckVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindIdCheckVC.swift; sourceTree = "<group>"; };
 		4ACDD49D2AD9ACC400CD8F1A /* PetModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PetModel.swift; sourceTree = "<group>"; };
 		4ACDD4A02AD9B37E00CD8F1A /* InputSpeciesVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputSpeciesVC.swift; sourceTree = "<group>"; };
 		4ACDD4A22AD9B3A500CD8F1A /* InputPetNameVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputPetNameVC.swift; sourceTree = "<group>"; };
@@ -237,6 +239,7 @@
 			children = (
 				4A0FEA482B1B5F6F0084CA6C /* FindInputPhoneNumVC.swift */,
 				4A0FEA4A2B1B5F820084CA6C /* FindInputAuthNumVC.swift */,
+				4AB6178D2B1CFAF300CED98E /* FindIdCheckVC.swift */,
 			);
 			path = FindAccountVC;
 			sourceTree = "<group>";
@@ -434,6 +437,7 @@
 				4A15F2102AA8B45A0098F2F7 /* InputAuthNumVC.swift in Sources */,
 				4A15F20E2AA8B4150098F2F7 /* InputPhoneNumVC.swift in Sources */,
 				4AA999962A8485A500E495FA /* FirstVC.swift in Sources */,
+				4AB6178E2B1CFAF300CED98E /* FindIdCheckVC.swift in Sources */,
 				4A0750D82B0D130F00281A4C /* PetRegistrationManager.swift in Sources */,
 				4AA999922A8485A500E495FA /* AppDelegate.swift in Sources */,
 				4ACDD4A92ADAFFD100CD8F1A /* InputPetBirthVC.swift in Sources */,
