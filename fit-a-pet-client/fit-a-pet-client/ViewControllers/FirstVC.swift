@@ -3,6 +3,8 @@ import SnapKit
 import KakaoSDKAuth
 import KakaoSDKUser
 
+import Alamofire
+
 class FirstVC: UIViewController {
     
     private let mainTextLabel = UILabel()
@@ -28,6 +30,7 @@ class FirstVC: UIViewController {
         setLoginViewStyle()
     }
 }
+
 extension FirstVC{
     
     private func setMainTextLabelStyle(){
@@ -59,11 +62,6 @@ extension FirstVC{
             
         }
     }
-
-    @objc func changeSignUpVC(_ sender: UIButton){
-        let nextVC = InputPhoneNumVC()
-        self.navigationController?.pushViewController(nextVC, animated: false)
-    }
     
     private func setLoginBtnStyle(){
         self.view.addSubview(loginBtn)
@@ -84,12 +82,6 @@ extension FirstVC{
             make.left.equalTo(view.snp.left).offset(16)
             make.right.equalTo(view.snp.right).offset(-16)
         }
-    }
-    
-    @objc func changeLoginVC(_ sender: UIButton){
-       let nextVC = LoginVC()
-        //guard let nextVC = self.storyboard?.instantiateViewController(identifier: "LoginVC") else { return }
-        self.navigationController?.pushViewController(nextVC, animated: false)
     }
     
     private func setLoginViewStyle() {
@@ -164,22 +156,32 @@ extension FirstVC{
             make.height.equalTo(60) 
         }
     }
+}
 
+extension FirstVC{
     @objc func kakaoLoginBtnTapped(_ sender: UIButton){
-        print("touch")
         
         UserApi.shared.loginWithKakaoAccount {(oauthToken, error) in
-           
+
             if let error = error {
                 print(error)
             }
             else {
                 print("loginWithKakaoAccount() success.")
-                
+
                 _ = oauthToken
             }
         }
     }
     
+    @objc func changeSignUpVC(_ sender: UIButton){
+        let nextVC = InputPhoneNumVC()
+        self.navigationController?.pushViewController(nextVC, animated: false)
+    }
+    
+    @objc func changeLoginVC(_ sender: UIButton){
+       let nextVC = LoginVC()
+        self.navigationController?.pushViewController(nextVC, animated: false)
+    }
+    
 }
-

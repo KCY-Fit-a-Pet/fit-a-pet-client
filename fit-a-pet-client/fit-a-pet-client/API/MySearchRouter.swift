@@ -15,6 +15,7 @@ enum MySearchRouter: URLRequestConvertible {
     case sendAuthSms(to: String)
     case checkAuthSms(to: String, code: String)
     case findId(phone: String, code: String)
+    case kakaoCode
     
     var baseURL: URL {
         switch self {
@@ -22,6 +23,8 @@ enum MySearchRouter: URLRequestConvertible {
             return URL(string: API.PRESIGNEDURL)!
         case .uploadImage:
             return URL(string: PAYLOADURL.PAYLOAD)!
+        case .kakaoCode:
+            return URL(string: "https://kauth.kakao.com/oauth/authorize")!
         default:
             return URL(string: API.BASE_URL)!
         }
@@ -31,6 +34,8 @@ enum MySearchRouter: URLRequestConvertible {
         switch self {
         case .sendSms, .checkSms, .login, .regist, .presignedurl, .registPet,.sendAuthSms, .checkAuthSms, .findId:
             return .post
+        case .kakaoCode:
+            return .get
         case .uploadImage:
             return .put
         }
@@ -46,8 +51,8 @@ enum MySearchRouter: URLRequestConvertible {
             return "auth/register"
         case .presignedurl:
             return "C7QXbC20ti"
-        case .uploadImage:
-            return ""
+        case .uploadImage, .kakaoCode:
+            return " "
         case .registPet:
             return "pets"
         case .sendAuthSms, .checkAuthSms:
@@ -71,7 +76,7 @@ enum MySearchRouter: URLRequestConvertible {
             return ["uid": uid, "name": name, "password": password, "email": email, "profileImg": profileImg]
         case let .presignedurl(dirname, extensionType, _, _):
             return ["dirname": dirname, "extension": extensionType]
-        case .uploadImage(_):
+        case .uploadImage(_), .kakaoCode:
             return [:]
         case let .registPet(petName , species , gender , neutralization , birthDate):
             return ["petName": petName, "species": species, "gender": gender, "neutralization": neutralization, "birthDate": birthDate]
@@ -150,6 +155,10 @@ enum MySearchRouter: URLRequestConvertible {
             
             request = createURLRequestWithBodyAndQuery(url: url, bodyParameters: bodyParameters, queryParameters: queryParameters)
             
+        case .kakaoCode:
+            let queryParameters = [URLQueryItem(name: "client_id", value: "bbe38742c0998fecfaaaaaef6856fc32"),URLQueryItem(name: "redirect_uri", value: "kakaobbe38742c0998fecfaaaaaef6856fc32://oauth"), URLQueryItem(name: "response_type", value: "code")]
+            
+            request = createURLRequestWithQuery(url: baseURL, queryParameters: queryParameters)
         default:
             request = createURLRequestWithBody(url: url)
         }
