@@ -2,7 +2,7 @@ import UIKit
 import SnapKit
 import KakaoSDKAuth
 import KakaoSDKUser
-import GoogleSignIn
+
 import Alamofire
 
 class FirstVC: UIViewController {
@@ -107,7 +107,6 @@ extension FirstVC{
         
         
         kakaoLogin.addTarget(self, action: #selector(kakaoLoginBtnTapped(_:)), for: .touchUpInside)
-        googleLogin.addTarget(self, action: #selector(googleLoginBtnTapped(_ :)), for:  .touchUpInside)
         
         let loginButtons = [naverLogin, kakaoLogin, googleLogin, appleLogin]
         
@@ -173,32 +172,6 @@ extension FirstVC{
                 _ = oauthToken
             }
         }
-    }
-    @objc func googleLoginBtnTapped(_ sender: UIButton){
-        GIDSignIn.sharedInstance.signIn(
-            withPresenting: self) { signInResult, error in
-                guard error == nil else { return }
-                guard let signInResult = signInResult else { return }
-                
-                let user = signInResult.user
-                let emailAddress = user.profile?.email
-                let fullName = user.profile?.name
-                let profilePicUrl = user.profile?.imageURL(withDimension: 320)
-                
-                print("user: \(user)")
-                print("emailAddress: \(String(describing: emailAddress))")
-                print("fullName: \(String(describing: fullName))")
-                print("profileUrl: \(String(describing: profilePicUrl))")
-                
-                signInResult.user.refreshTokensIfNeeded { user, error in
-                    guard error == nil else { return }
-                    guard let user = user else { return }
-                    
-                    let idToken = user.idToken
-                    
-                    print("idToken: \(String(describing: idToken))")
-                }
-            }
     }
     
     @objc func changeSignUpVC(_ sender: UIButton){
