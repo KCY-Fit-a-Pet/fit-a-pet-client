@@ -7,15 +7,21 @@
 
 import UIKit
 import KakaoSDKCommon
+import GoogleSignIn
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
-        KakaoSDK.initSDK(appKey: "cb3b8424b15113ff21c17cb00a1299d1")
+        KakaoSDK.initSDK(appKey: "bbe38742c0998fecfaaaaaef6856fc32")
         
         return true
+    }
+    
+    
+    func application(_ application: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey: Any]) -> Bool {
+        return GIDSignIn.sharedInstance.handle(url)
     }
 
     // MARK: UISceneSession Lifecycle

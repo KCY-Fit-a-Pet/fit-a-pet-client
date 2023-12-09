@@ -173,5 +173,18 @@ class AlamofireManager {
                 }
         }
     }
+    func kakaoCodeGet(completion: @escaping(Result<Data?, Error>) -> Void){
+        os_log("MyAlamofireManager - kakaoCodeGet() called userInput : ", log: .default, type: .info)
+
+        self.session.request(MySearchRouter.kakaoCode)
+            .response { response in
+                switch response.result {
+                case .success(let data):
+                    completion(.success(data))
+                case .failure(let error):
+                    completion(.failure(error))
+                }
+        }
+    }
 }
 

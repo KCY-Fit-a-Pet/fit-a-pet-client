@@ -2,6 +2,8 @@ import UIKit
 import SnapKit
 import KakaoSDKAuth
 import KakaoSDKUser
+import GoogleSignIn
+import Alamofire
 
 class FirstVC: UIViewController {
     
@@ -28,6 +30,7 @@ class FirstVC: UIViewController {
         setLoginViewStyle()
     }
 }
+
 extension FirstVC{
     
     private func setMainTextLabelStyle(){
@@ -59,11 +62,6 @@ extension FirstVC{
             
         }
     }
-
-    @objc func changeSignUpVC(_ sender: UIButton){
-        let nextVC = InputPhoneNumVC()
-        self.navigationController?.pushViewController(nextVC, animated: false)
-    }
     
     private func setLoginBtnStyle(){
         self.view.addSubview(loginBtn)
@@ -84,12 +82,6 @@ extension FirstVC{
             make.left.equalTo(view.snp.left).offset(16)
             make.right.equalTo(view.snp.right).offset(-16)
         }
-    }
-    
-    @objc func changeLoginVC(_ sender: UIButton){
-       let nextVC = LoginVC()
-        //guard let nextVC = self.storyboard?.instantiateViewController(identifier: "LoginVC") else { return }
-        self.navigationController?.pushViewController(nextVC, animated: false)
     }
     
     private func setLoginViewStyle() {
@@ -115,6 +107,7 @@ extension FirstVC{
         
         
         kakaoLogin.addTarget(self, action: #selector(kakaoLoginBtnTapped(_:)), for: .touchUpInside)
+        googleLogin.addTarget(self, action: #selector(googleLoginBtnTapped(_ :)), for:  .touchUpInside)
         
         let loginButtons = [naverLogin, kakaoLogin, googleLogin, appleLogin]
         
@@ -164,22 +157,58 @@ extension FirstVC{
             make.height.equalTo(60) 
         }
     }
+}
 
+extension FirstVC{
     @objc func kakaoLoginBtnTapped(_ sender: UIButton){
-        print("touch")
         
         UserApi.shared.loginWithKakaoAccount {(oauthToken, error) in
-           
+
             if let error = error {
                 print(error)
             }
             else {
                 print("loginWithKakaoAccount() success.")
-                
+
                 _ = oauthToken
             }
         }
     }
+    @objc func googleLoginBtnTapped(_ sender: UIButton){
+        GIDSignIn.sharedInstance.signIn(
+            withPresenting: self) { signInResult, error in
+                guard error == nil else { return }
+                guard let signInResult = signInResult else { return }
+                
+                let user = signInResult.user
+                let emailAddress = user.profile?.email
+                let fullName = user.profile?.name
+                let profilePicUrl = user.profile?.imageURL(withDimension: 320)
+                
+                print("user: \(user)")
+                print("emailAddress: \(String(describing: emailAddress))")
+                print("fullName: \(String(describing: fullName))")
+                print("profileUrl: \(String(describing: profilePicUrl))")
+                
+                signInResult.user.refreshTokensIfNeeded { user, error in
+                    guard error == nil else { return }
+                    guard let user = user else { return }
+                    
+                    let idToken = user.idToken
+                    
+                    print("idToken: \(String(describing: idToken))")
+                }
+            }
+    }
+    
+    @objc func changeSignUpVC(_ sender: UIButton){
+        let nextVC = InputPhoneNumVC()
+        self.navigationController?.pushViewController(nextVC, animated: false)
+    }
+    
+    @objc func changeLoginVC(_ sender: UIButton){
+       let nextVC = LoginVC()
+        self.navigationController?.pushViewController(nextVC, animated: false)
+    }
     
 }
-
