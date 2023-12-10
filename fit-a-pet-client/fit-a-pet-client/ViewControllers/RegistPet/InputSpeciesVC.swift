@@ -41,7 +41,7 @@ class InputSpeciesVC: CustomNavigationBar {
         inputPetSpecies.delegate = self
         inputPetSpecies.layer.borderWidth = 1
         inputPetSpecies.layer.cornerRadius = 5
-        inputPetSpecies.layer.borderColor = UIColor(named: "Gray2")?.cgColor
+        inputPetSpecies.layer.borderColor = UIColor(named: "Gray3")?.cgColor
         inputPetSpecies.placeholder = "개, 고양이, 햄스터 등"
         inputPetSpecies.font = .systemFont(ofSize:14)
         
@@ -102,7 +102,7 @@ extension InputSpeciesVC: UITextFieldDelegate{
         nextPetNameBtn.updateButtonColor(updatedText, false)
     
         if updatedText.isEmpty{
-            inputPetSpecies.layer.borderColor = UIColor(named: "Gray2")?.cgColor
+            inputPetSpecies.layer.borderColor = UIColor(named: "Gray3www")?.cgColor
         }else{
             inputPetSpecies.layer.borderColor = UIColor(named: "PrimaryColor")?.cgColor
         }

@@ -40,7 +40,7 @@ class InputPetNameVC: CustomNavigationBar {
         inputPetName.delegate = self
         inputPetName.layer.borderWidth = 1
         inputPetName.layer.cornerRadius = 5
-        inputPetName.layer.borderColor = UIColor(named: "Gray2")?.cgColor
+        inputPetName.layer.borderColor = UIColor(named: "Gray3")?.cgColor
         inputPetName.placeholder = "반려동물 이름"
         inputPetName.font = .systemFont(ofSize:14)
         
@@ -103,7 +103,7 @@ extension InputPetNameVC: UITextFieldDelegate{
         nextGenderBtn.updateButtonColor(updatedText, false)
     
         if updatedText.isEmpty{
-            inputPetName.layer.borderColor = UIColor(named: "Gray2")?.cgColor
+            inputPetName.layer.borderColor = UIColor(named: "Gray3")?.cgColor
         }else{
             inputPetName.layer.borderColor = UIColor(named: "PrimaryColor")?.cgColor
         }

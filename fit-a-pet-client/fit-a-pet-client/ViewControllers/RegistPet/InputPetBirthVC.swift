@@ -69,7 +69,7 @@ class InputPetBirthVC : CustomNavigationBar {
         inputPetBirth.inputView = birthDatePicker
         inputPetBirth.layer.borderWidth = 1
         inputPetBirth.layer.cornerRadius = 5
-        inputPetBirth.layer.borderColor = UIColor(named: "Gray2")?.cgColor
+        inputPetBirth.layer.borderColor = UIColor(named: "Gray3")?.cgColor
         inputPetBirth.font = .systemFont(ofSize:14)
         
         inputPetBirth.leftView = UIView(frame: CGRect(x: 0.0, y: 0.0, width: 16.0, height: 0.0))
@@ -139,12 +139,12 @@ class InputPetBirthVC : CustomNavigationBar {
         ageInputField.font = UIFont.systemFont(ofSize: 14)
         ageInputField.layer.borderWidth = 1
         ageInputField.layer.cornerRadius = 5
-        ageInputField.layer.borderColor = UIColor(named: "Gray2")?.cgColor
+        ageInputField.layer.borderColor = UIColor(named: "Gray3")?.cgColor
         ageInputField.leftView = UIView(frame: CGRect(x: 0.0, y: 0.0, width: 16.0, height: 0.0))
         ageInputField.leftViewMode = .always
         
         ageInputField.isEnabled = false
-        ageInputField.backgroundColor = UIColor(named: "Gray2")
+        ageInputField.backgroundColor = UIColor(named: "Gray3")
         
         ageLabel.text = "살"
         ageLabel.font = UIFont.systemFont(ofSize: 14)
@@ -222,7 +222,7 @@ class InputPetBirthVC : CustomNavigationBar {
         if sender.isSelected {
             inputPetBirth.isEnabled = false
             ageInputField.isEnabled = true
-            inputPetBirth.backgroundColor = UIColor(named: "Gray2")
+            inputPetBirth.backgroundColor = UIColor(named: "Gray3")
             ageInputField.backgroundColor = UIColor.clear
             
         } else {
@@ -230,7 +230,7 @@ class InputPetBirthVC : CustomNavigationBar {
             inputPetBirth.isEnabled = true
             ageInputField.isEnabled = false
             inputPetBirth.backgroundColor = UIColor.clear
-            ageInputField.backgroundColor = UIColor(named: "Gray2")
+            ageInputField.backgroundColor = UIColor(named: "Gray3")
         }
     }
     

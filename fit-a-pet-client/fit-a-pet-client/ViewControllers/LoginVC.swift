@@ -53,7 +53,7 @@ class LoginVC: UIViewController{
         
         inputId.layer.borderWidth = 1
         inputId.layer.cornerRadius = 5
-        inputId.layer.borderColor = UIColor(named: "Gray2")?.cgColor
+        inputId.layer.borderColor = UIColor(named: "Gray3")?.cgColor
         inputId.placeholder = "아이디"
         inputId.font = .systemFont(ofSize:14)
         
@@ -69,7 +69,7 @@ class LoginVC: UIViewController{
         
         inputPw.layer.borderWidth = 1
         inputPw.layer.cornerRadius = 5
-        inputPw.layer.borderColor = UIColor(named: "Gray2")?.cgColor
+        inputPw.layer.borderColor = UIColor(named: "Gray3")?.cgColor
         inputPw.placeholder = "비밀번호"
         inputPw.font = .systemFont(ofSize:14)
         
@@ -177,7 +177,7 @@ class LoginVC: UIViewController{
     @objc func changeFindPwVC(_ sender: UIButton){
         FindIdPwSwitch.findAuth = "비밀번호 찾기"
         FindIdPwSwitch.findtype = "password"
-        let findPwVC = FindInputPhoneNumVC(title: FindIdPwSwitch.findAuth)
+        let findPwVC = FindInputIdVC(title: FindIdPwSwitch.findAuth)
         self.navigationController?.pushViewController(findPwVC, animated: false)
     }
 }
@@ -192,7 +192,7 @@ extension LoginVC: UITextFieldDelegate{
                 password = updatedText
                 
                 if updatedText.isEmpty{
-                    inputPw.layer.borderColor = UIColor(named: "Gray2")?.cgColor
+                    inputPw.layer.borderColor = UIColor(named: "Gray3")?.cgColor
                 }else{
                     inputPw.layer.borderColor = UIColor(named: "PrimaryColor")?.cgColor
                 }
@@ -206,7 +206,7 @@ extension LoginVC: UITextFieldDelegate{
             let updatedText = (inputId.text! as NSString).replacingCharacters(in: range, with: string)
             uid = updatedText
             if updatedText.isEmpty {
-                inputId.layer.borderColor = UIColor(named: "Gray2")?.cgColor
+                inputId.layer.borderColor = UIColor(named: "Gray3")?.cgColor
                 
             } else {
                 inputId.layer.borderColor = UIColor(named: "PrimaryColor")?.cgColor

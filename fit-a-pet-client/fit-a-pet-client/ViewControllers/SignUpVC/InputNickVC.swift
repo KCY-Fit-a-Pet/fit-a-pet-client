@@ -36,7 +36,7 @@ class InputNickVC : UIViewController {
         inputNick.delegate = self
         inputNick.layer.borderWidth = 1
         inputNick.layer.cornerRadius = 5
-        inputNick.layer.borderColor = UIColor(named: "Gray2")?.cgColor
+        inputNick.layer.borderColor = UIColor(named: "Gray3")?.cgColor
         inputNick.placeholder = "닉네임 입력"
         inputNick.font = .systemFont(ofSize:14)
         
@@ -116,7 +116,7 @@ extension InputNickVC: UITextFieldDelegate{
         completeSignUpBtn.updateButtonColor(updatedText,false)
         
         if updatedText.isEmpty{
-            inputNick.layer.borderColor = UIColor(named: "Gray2")?.cgColor
+            inputNick.layer.borderColor = UIColor(named: "Gray3")?.cgColor
         }else{
             inputNick.layer.borderColor = UIColor(named: "PrimaryColor")?.cgColor
         }

@@ -43,7 +43,7 @@ class InputPwVC : UIViewController {
         inputPw.delegate = self
         inputPw.layer.borderWidth = 1
         inputPw.layer.cornerRadius = 5
-        inputPw.layer.borderColor = UIColor(named: "Gray2")?.cgColor
+        inputPw.layer.borderColor = UIColor(named: "Gray3")?.cgColor
         inputPw.placeholder = "영어 소문자, 숫자 조합 8자리 이상"
         inputPw.font = .systemFont(ofSize:14)
         
@@ -61,7 +61,7 @@ class InputPwVC : UIViewController {
         inputPwCheck.delegate = self
         inputPwCheck.layer.borderWidth = 1
         inputPwCheck.layer.cornerRadius = 5
-        inputPwCheck.layer.borderColor = UIColor(named: "Gray2")?.cgColor
+        inputPwCheck.layer.borderColor = UIColor(named: "Gray3")?.cgColor
         inputPwCheck.placeholder = "비밀번호 확인"
         inputPwCheck.font = .systemFont(ofSize:14)
         
@@ -127,7 +127,7 @@ extension InputPwVC: UITextFieldDelegate{
                 nextNickBtn.updateButtonColor(updatedText, false)
                 
                 if updatedText.isEmpty{
-                    inputPwCheck.layer.borderColor = UIColor(named: "Gray2")?.cgColor
+                    inputPwCheck.layer.borderColor = UIColor(named: "Gray3")?.cgColor
                 }else{
                     inputPwCheck.layer.borderColor = UIColor(named: "PrimaryColor")?.cgColor
                 }
@@ -141,7 +141,7 @@ extension InputPwVC: UITextFieldDelegate{
             let updatedText = (inputPw.text! as NSString).replacingCharacters(in: range, with: string)
             
             if updatedText.isEmpty {
-                inputPw.layer.borderColor = UIColor(named: "Gray2")?.cgColor
+                inputPw.layer.borderColor = UIColor(named: "Gray3")?.cgColor
                 
             } else {
                 inputPw.layer.borderColor = UIColor(named: "PrimaryColor")?.cgColor
