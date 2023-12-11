@@ -7,7 +7,7 @@ class AlarmTableViewCell: UITableViewCell {
     let cellTitle = UILabel()
     let cellSubTitle = UILabel()
     
-    let alarmSegmentControl = UISegmentedControl()
+    let alarmSegmentControl = CustomSegmentedControl(items: [" ", " "])
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -20,15 +20,6 @@ class AlarmTableViewCell: UITableViewCell {
         cellTitle.font = .systemFont(ofSize: 14)
         cellSubTitle.font = .systemFont(ofSize: 12)
         cellSubTitle.textColor = UIColor(named: "Gray5")
-        
-        alarmSegmentControl.insertSegment(withTitle: " ", at: 0, animated: true)
-        alarmSegmentControl.insertSegment(withTitle: " ", at: 1, animated: true)
-        
-        alarmSegmentControl.backgroundColor = UIColor(named: "PrimaryColor")
-        
-        alarmSegmentControl.layer.cornerRadius = 15
-        alarmSegmentControl.clipsToBounds = true
-        alarmSegmentControl.layer.masksToBounds = true
         
         cellTitle.snp.makeConstraints { make in
             make.top.equalTo(contentView.snp.top).offset(10)
@@ -64,3 +55,39 @@ class AlarmTableViewCell: UITableViewCell {
     }
 }
 
+class CustomSegmentedControl: UISegmentedControl {
+    
+    override init(items: [Any]?) {
+           super.init(items: items)
+           selectedSegmentIndex = 0
+       }
+       
+   required init?(coder: NSCoder) {
+       super.init(coder: coder)
+   }
+    
+    override func layoutSubviews(){
+        super.layoutSubviews()
+        
+        backgroundColor = UIColor(named: "PrimaryColor")
+        
+        layer.cornerRadius = 15
+        clipsToBounds = true
+        layer.masksToBounds = true
+        
+        let selectedImageViewIndex = numberOfSegments
+        if let selectedImageView = subviews[selectedImageViewIndex] as? UIImageView
+        {
+            selectedImageView.backgroundColor = .white
+            selectedImageView.image = nil
+            
+            selectedImageView.bounds = selectedImageView.bounds.insetBy(dx: 6, dy: 7)
+                
+            selectedImageView.layer.masksToBounds = true
+            selectedImageView.layer.cornerRadius = selectedImageView.bounds.width / 2.0
+            
+            selectedImageView.layer.removeAnimation(forKey: "SelectionBounds")//animation 제거
+        }
+        
+    }
+}
