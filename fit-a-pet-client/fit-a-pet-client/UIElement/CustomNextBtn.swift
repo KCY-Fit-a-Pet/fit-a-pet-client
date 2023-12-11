@@ -10,8 +10,8 @@ import UIKit
 
 class CustomNextBtn: UIButton {
     
-    var GRAY2 = UIColor(named: "Gray2")
     var GRAY3 = UIColor(named: "Gray3")
+    var GRAY0 = UIColor(named: "Gray0")
     var PRIMARYCOLOR = UIColor(named: "PrimaryColor")
 
     init(title: String) {
@@ -20,7 +20,7 @@ class CustomNextBtn: UIButton {
         setTitle(title, for: .normal)
         titleLabel?.font = UIFont.systemFont(ofSize: 14)
         setTitleColor(.white, for: .normal)
-        backgroundColor = GRAY2
+        backgroundColor = GRAY3
         layer.cornerRadius = 5
        
        snp.makeConstraints { make in
@@ -39,7 +39,7 @@ class CustomNextBtn: UIButton {
                 backgroundColor = PRIMARYCOLOR
             }
             else{
-                backgroundColor = GRAY2
+                backgroundColor = GRAY3
             }
             
         } else if authNum == true{
@@ -47,7 +47,7 @@ class CustomNextBtn: UIButton {
                 backgroundColor = PRIMARYCOLOR
             }
             else{
-                backgroundColor = GRAY2
+                backgroundColor = GRAY3
             }
         }
     }

@@ -39,7 +39,7 @@ class InputIdVC : UIViewController {
         inputId.delegate = self
         inputId.layer.borderWidth = 1
         inputId.layer.cornerRadius = 5
-        inputId.layer.borderColor = UIColor(named: "Gray2")?.cgColor
+        inputId.layer.borderColor = UIColor(named: "Gray3")?.cgColor
         inputId.placeholder = "영어 소문자, 숫자 조합 아이디"
         inputId.font = .systemFont(ofSize:14)
         
@@ -100,7 +100,7 @@ extension InputIdVC: UITextFieldDelegate{
         nextPwBtn.updateButtonColor(updatedText, false)
         
         if updatedText.isEmpty{
-            inputId.layer.borderColor = UIColor(named: "Gray2")?.cgColor
+            inputId.layer.borderColor = UIColor(named: "Gray3")?.cgColor
         }else{
             inputId.layer.borderColor = UIColor(named: "PrimaryColor")?.cgColor
         }

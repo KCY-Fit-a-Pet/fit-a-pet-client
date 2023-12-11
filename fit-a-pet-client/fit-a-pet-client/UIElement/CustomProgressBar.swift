@@ -5,7 +5,7 @@ class CustomProgressBar: UIView {
     
     let progressView: UIProgressView = {
         let view = UIProgressView()
-        view.trackTintColor = UIColor(named: "Gray3")
+        view.trackTintColor = UIColor(named: "Gray0")
         view.progressTintColor = UIColor(named: "PrimaryColor")
         return view
     }()

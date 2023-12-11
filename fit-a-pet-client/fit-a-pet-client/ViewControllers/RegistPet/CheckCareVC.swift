@@ -125,7 +125,7 @@ extension CheckCareVC: UICollectionViewDataSource{
         cell.configure(data)
         
         cell.layer.borderWidth = 1
-        cell.layer.borderColor = UIColor(named: "Gray2")?.cgColor
+        cell.layer.borderColor = UIColor(named: "Gray3")?.cgColor
         cell.layer.cornerRadius = 5
         
         return cell
@@ -142,7 +142,7 @@ extension CheckCareVC: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
         let cell = collectionView.cellForItem(at: indexPath) as? CheckCareCollectionViewCell
         cell?.isSelected = false
-        cell!.layer.borderColor = UIColor(named: "Gray2")?.cgColor
+        cell!.layer.borderColor = UIColor(named: "Gray3")?.cgColor
     }
 }
 

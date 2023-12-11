@@ -41,7 +41,7 @@ class InputPhoneNumVC : UIViewController {
         inputPhoneNum.delegate = self
         inputPhoneNum.layer.borderWidth = 1
         inputPhoneNum.layer.cornerRadius = 5
-        inputPhoneNum.layer.borderColor = UIColor(named: "Gray2")?.cgColor
+        inputPhoneNum.layer.borderColor = UIColor(named: "Gray3")?.cgColor
         inputPhoneNum.placeholder = "010-2345-6789"
         inputPhoneNum.font = .systemFont(ofSize:14)
         
@@ -121,7 +121,7 @@ extension InputPhoneNumVC: UITextFieldDelegate{
         nextAutnNumBtn.updateButtonColor(updatedText, false)
         
         if updatedText.isEmpty {
-            inputPhoneNum.layer.borderColor = UIColor(named: "Gray2")?.cgColor
+            inputPhoneNum.layer.borderColor = UIColor(named: "Gray3")?.cgColor
         } else {
             inputPhoneNum.layer.borderColor = UIColor(named: "PrimaryColor")?.cgColor
         }

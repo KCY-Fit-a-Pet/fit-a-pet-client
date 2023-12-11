@@ -10,9 +10,9 @@ class FindInputAuthNumVC: CustomNavigationBar{
     var code: String = ""
     
     init(title: String, phone: String) {
-       self.phone = phone
-       super.init(title: title)
-   }
+        self.phone = phone
+        super.init(title: title)
+    }
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -48,10 +48,10 @@ class FindInputAuthNumVC: CustomNavigationBar{
         self.view.addSubview(titleStackView)
         self.view.addSubview(inputAuthNum)
         self.view.addSubview(nextIdCheckBtn)
-    
+        
         inputAuthNum.layer.borderWidth = 1
         inputAuthNum.layer.cornerRadius = 5
-        inputAuthNum.layer.borderColor = UIColor(named: "Gray2")?.cgColor
+        inputAuthNum.layer.borderColor = UIColor(named: "Gray3")?.cgColor
         inputAuthNum.placeholder = "인증번호 6자리 입력"
         inputAuthNum.font = .systemFont(ofSize:14)
         
@@ -79,51 +79,59 @@ class FindInputAuthNumVC: CustomNavigationBar{
     
     @objc func changeFindIdCheckVC(_ sender: UIButton){
         
-        let nextVC = FindIdCheckVC(title: FindIdPwSwitch.findAuth)
-        self.navigationController?.pushViewController(nextVC, animated: false)
-        
-        AlamofireManager.shared.checkAuthSms(phone, code){
-            result in
-            switch result {
-            case .success(let data):
-                // Handle success
-                if let responseData = data {
-                    // Process the data
-                    let object = try?JSONSerialization.jsonObject(with: responseData, options: []) as? NSDictionary
-                    guard let jsonObject = object else {return}
-                    print("respose jsonData: \(jsonObject)")
+        if  FindIdPwSwitch.findAuth == "아이디 찾기"{
+            let nextVC = FindIdCheckVC(title: FindIdPwSwitch.findAuth)
+            self.navigationController?.pushViewController(nextVC, animated: false)
+            AlamofireManager.shared.checkAuthSms(phone, code){
+                result in
+                switch result {
+                case .success(let data):
+                    // Handle success
+                    if let responseData = data {
+                        // Process the data
+                        let object = try?JSONSerialization.jsonObject(with: responseData, options: []) as? NSDictionary
+                        guard let jsonObject = object else {return}
+                        print("respose jsonData: \(jsonObject)")
+                    }
+                case .failure(let error):
+                    // Handle failure
+                    print("Error: \(error)")
                 }
-            case .failure(let error):
-                // Handle failure
-                print("Error: \(error)")
             }
-        }
-        
-        AlamofireManager.shared.findId(phone, code){
-            result in
-            switch result {
-            case .success(let data):
-                // Handle success
-                if let responseData = data {
-                    do {
-                        if let json = try JSONSerialization.jsonObject(with: responseData, options: []) as? [String: Any] {
-                            if let dataDict = json["data"] as? [String: Any] {
-                                if let memberDict = dataDict["member"] as? [String: Any] {
-                                    if let uid = memberDict["uid"] as? String {
-                                        nextVC.idCheckLabel.text = uid
+            
+            AlamofireManager.shared.findId(phone, code){
+                result in
+                switch result {
+                case .success(let data):
+                    // Handle success
+                    if let responseData = data {
+                        do {
+                            if let json = try JSONSerialization.jsonObject(with: responseData, options: []) as? [String: Any] {
+                                if let dataDict = json["data"] as? [String: Any] {
+                                    if let memberDict = dataDict["member"] as? [String: Any] {
+                                        if let uid = memberDict["uid"] as? String {
+                                            nextVC.idCheckLabel.text = uid
+                                        }
                                     }
                                 }
                             }
+                        } catch {
+                            print("Error parsing JSON: \(error)")
                         }
-                    } catch {
-                        print("Error parsing JSON: \(error)")
                     }
+                case .failure(let error):
+                    // Handle failure
+                    print("Error: \(error)")
                 }
-            case .failure(let error):
-                // Handle failure
-                print("Error: \(error)")
             }
         }
+        else{
+            let nextVC = ResetPwVC(title: FindIdPwSwitch.findAuth)
+            self.navigationController?.pushViewController(nextVC, animated: false)
+        }
+        
+        
+        
     }
 }
 
@@ -139,7 +147,7 @@ extension FindInputAuthNumVC: UITextFieldDelegate{
         code = updatedText
      
         if updatedText.isEmpty{
-            inputAuthNum.layer.borderColor = UIColor(named: "Gray2")?.cgColor
+            inputAuthNum.layer.borderColor = UIColor(named: "Gray3")?.cgColor
         }else{
             inputAuthNum.layer.borderColor = UIColor(named: "PrimaryColor")?.cgColor
         }

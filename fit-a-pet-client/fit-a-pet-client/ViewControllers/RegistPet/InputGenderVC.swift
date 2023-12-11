@@ -65,7 +65,7 @@ class InputGenderVC: CustomNavigationBar {
     
         femaleBtn.layer.borderWidth = 1
         femaleBtn.layer.cornerRadius = 5
-        femaleBtn.layer.borderColor = UIColor(named: "Gray2")?.cgColor
+        femaleBtn.layer.borderColor = UIColor(named: "Gray3")?.cgColor
         femaleBtn.backgroundColor = .white
         femaleBtn.titleLabel?.font = UIFont.systemFont(ofSize: 14)
         
@@ -176,13 +176,13 @@ class InputGenderVC: CustomNavigationBar {
     
     private func updateButtonColors() {
        if femaleBtn.isSelected {
-           maleBtn.layer.borderColor = UIColor(named: "Gray2")?.cgColor
+           maleBtn.layer.borderColor = UIColor(named: "Gray3")?.cgColor
            maleBtn.backgroundColor = .white
            femaleBtn.layer.borderColor = UIColor(named: "PrimaryColor")?.cgColor
            femaleBtn.backgroundColor = UIColor(named: "Secondary")
            PetRegistrationManager.shared.addInput(gender: "FEMALE")
        } else if maleBtn.isSelected {
-           femaleBtn.layer.borderColor = UIColor(named: "Gray2")?.cgColor
+           femaleBtn.layer.borderColor = UIColor(named: "Gray3")?.cgColor
            femaleBtn.backgroundColor = .white
            maleBtn.layer.borderColor = UIColor(named: "PrimaryColor")?.cgColor
            maleBtn.backgroundColor = UIColor(named: "Secondary")

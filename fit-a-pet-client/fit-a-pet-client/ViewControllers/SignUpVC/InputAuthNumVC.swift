@@ -42,7 +42,7 @@ class InputAuthNumVC : UIViewController{
         inputAuthNum.delegate = self
         inputAuthNum.layer.borderWidth = 1
         inputAuthNum.layer.cornerRadius = 5
-        inputAuthNum.layer.borderColor = UIColor(named: "Gray2")?.cgColor
+        inputAuthNum.layer.borderColor = UIColor(named: "Gray3")?.cgColor
         inputAuthNum.placeholder = "인증번호 6자리 입력"
         inputAuthNum.font = .systemFont(ofSize: 14)
         
@@ -124,7 +124,7 @@ extension InputAuthNumVC: UITextFieldDelegate{
         code = updatedText
         
         if updatedText.isEmpty{
-            inputAuthNum.layer.borderColor = UIColor(named: "Gray2")?.cgColor
+            inputAuthNum.layer.borderColor = UIColor(named: "Gray3")?.cgColor
         }else{
             inputAuthNum.layer.borderColor = UIColor(named: "PrimaryColor")?.cgColor
         }

@@ -1,6 +1,7 @@
 import UIKit
 import SnapKit
 
+
 class FindInputPhoneNumVC: CustomNavigationBar{
     
     private let nextInputAuthNumBtn = CustomNextBtn(title: "인증번호 전송")
@@ -41,7 +42,7 @@ class FindInputPhoneNumVC: CustomNavigationBar{
     
         inputPhoneNum.layer.borderWidth = 1
         inputPhoneNum.layer.cornerRadius = 5
-        inputPhoneNum.layer.borderColor = UIColor(named: "Gray2")?.cgColor
+        inputPhoneNum.layer.borderColor = UIColor(named: "Gray3")?.cgColor
         inputPhoneNum.placeholder = "010-1234-1234"
         inputPhoneNum.font = .systemFont(ofSize:14)
         
@@ -97,7 +98,7 @@ extension FindInputPhoneNumVC: UITextFieldDelegate{
         nextInputAuthNumBtn.updateButtonColor(updatedText, false)
         
         if updatedText.isEmpty {
-            inputPhoneNum.layer.borderColor = UIColor(named: "Gray2")?.cgColor
+            inputPhoneNum.layer.borderColor = UIColor(named: "Gray3w")?.cgColor
         } else {
             inputPhoneNum.layer.borderColor = UIColor(named: "PrimaryColor")?.cgColor
         }

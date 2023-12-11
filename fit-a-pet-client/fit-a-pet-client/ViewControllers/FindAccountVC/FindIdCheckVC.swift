@@ -1,11 +1,14 @@
 
 import UIKit
 import SnapKit
+import SwiftUI
 
 class FindIdCheckVC: CustomNavigationBar{
     
     private let returnLoginVCBtn = CustomNextBtn(title: "로그인하러 가기")
     let idCheckLabel = UILabel()
+    var titleStackView = UIStackView()
+    var findPwStackView = UIStackView()
     
     
     override func viewDidLoad() {
@@ -19,6 +22,32 @@ class FindIdCheckVC: CustomNavigationBar{
     
     private func initView(){
         
+        setTitleStackView()
+        setFindPwStckView()
+        
+        idCheckLabel.layer.borderWidth = 1
+        idCheckLabel.layer.cornerRadius = 5
+        idCheckLabel.layer.borderColor = UIColor(named: "Gray3")?.cgColor
+        idCheckLabel.textAlignment = .center
+        
+        self.view.addSubview(idCheckLabel)
+        self.view.addSubview(returnLoginVCBtn)
+        
+        idCheckLabel.snp.makeConstraints{make in
+            make.top.equalTo(titleStackView.snp.bottom).offset(35)
+            make.leading.equalTo(view.snp.leading).offset(16)
+            make.trailing.equalTo(view.snp.trailing).offset(-16)
+            make.height.equalTo(55)
+        }
+        
+        returnLoginVCBtn.snp.makeConstraints{make in
+            make.bottom.equalTo(findPwStackView.snp.top).offset(-20)
+            make.left.equalTo(view.snp.left).offset(16)
+            make.right.equalTo(view.snp.right).offset(-16)
+        }
+    }
+    
+    private func setTitleStackView(){
         let titleLabel = UILabel()
         titleLabel.text = "아이디 찾기"
         titleLabel.font = .boldSystemFont(ofSize: 18)
@@ -30,40 +59,61 @@ class FindIdCheckVC: CustomNavigationBar{
         subtitleLabel.numberOfLines = 2
         subtitleLabel.textAlignment = .center
         
-        let titleStackView = UIStackView(arrangedSubviews: [titleLabel, subtitleLabel])
+        titleStackView = UIStackView(arrangedSubviews: [titleLabel, subtitleLabel])
         titleStackView.axis = .vertical
         titleStackView.spacing = 12
         
-        idCheckLabel.layer.borderWidth = 1
-        idCheckLabel.layer.cornerRadius = 5
-        idCheckLabel.layer.borderColor = UIColor(named: "Gray2")?.cgColor
-        idCheckLabel.textAlignment = .center
-        
-        self.view.addSubview(idCheckLabel)
         self.view.addSubview(titleStackView)
-        self.view.addSubview(returnLoginVCBtn)
-       
+        
         titleStackView.snp.makeConstraints { make in
-            make.top.equalTo(view.snp.top).offset(130)
+            make.top.equalTo(view.snp.top).offset(160)
             make.centerX.equalToSuperview()
         }
+    }
+    
+    private func setFindPwStckView(){
+        let findPwLabel = UILabel()
+        findPwLabel.text = "비밀번호를 잊었다면?"
+        findPwLabel.font = .systemFont(ofSize: 14)
+        findPwLabel.textAlignment = .center
         
-        idCheckLabel.snp.makeConstraints{make in
-            make.top.equalTo(titleStackView.snp.bottom).offset(35)
-            make.leading.equalTo(view.snp.leading).offset(16)
-            make.trailing.equalTo(view.snp.trailing).offset(-16)
-            make.height.equalTo(55)
-        }
+        let findPwBtn = UIButton()
+        findPwBtn.setTitle("비밀번호 찾기", for: .normal)
+        findPwBtn.setTitleColor(UIColor(named: "PrimaryColor"), for: .normal)
+        findPwBtn.titleLabel?.font = UIFont.systemFont(ofSize: 14)
         
-        returnLoginVCBtn.snp.makeConstraints{make in
-            make.bottom.equalTo(view.snp.bottom).offset(-65)
-            make.left.equalTo(view.snp.left).offset(16)
-            make.right.equalTo(view.snp.right).offset(-16)
+        
+        findPwStackView = UIStackView(arrangedSubviews: [findPwLabel, findPwBtn])
+        findPwStackView.axis = .horizontal
+        findPwStackView.spacing = 12
+        
+        self.view.addSubview(findPwStackView)
+        
+        findPwStackView.snp.makeConstraints { make in
+            make.top.equalTo(view.snp.bottom).offset(-60)
+            make.centerX.equalToSuperview()
         }
     }
     
     @objc func returnLoginVC(_ sender: UIButton){
-        
+
     }
     
+}
+
+// MARK: - Preview
+
+struct ViewController_Previews: PreviewProvider {
+  static var previews: some View {
+    Container().edgesIgnoringSafeArea(.all)
+  }
+  
+  struct Container: UIViewControllerRepresentable {
+    func makeUIViewController(context: Context) -> UIViewController {
+        let rootViewController = FindIdCheckVC(title: "아이디 찾기")
+      return UINavigationController(rootViewController: rootViewController)
+    }
+    func updateUIViewController(_ uiViewController: UIViewControllerType, context: Context) {}
+    typealias UIViewControllerType = UIViewController
+  }
 }
