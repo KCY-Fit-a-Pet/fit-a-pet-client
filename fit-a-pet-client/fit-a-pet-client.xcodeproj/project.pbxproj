@@ -23,6 +23,9 @@
 		4A15F2142AA8B4A50098F2F7 /* InputPwVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A15F2132AA8B4A50098F2F7 /* InputPwVC.swift */; };
 		4A15F2162AA8B4CA0098F2F7 /* InputNickVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A15F2152AA8B4CA0098F2F7 /* InputNickVC.swift */; };
 		4A4BFDCA2AD26B0F0062BDB8 /* RegistrationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A4BFDC92AD26B0F0062BDB8 /* RegistrationManager.swift */; };
+		4A8662D42B26299F00D8DDE8 /* EditUserPwVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A8662D32B26299F00D8DDE8 /* EditUserPwVC.swift */; };
+		4A8662D62B2629F500D8DDE8 /* EditUserNameVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A8662D52B2629F500D8DDE8 /* EditUserNameVC.swift */; };
+		4A8662D82B262DA200D8DDE8 /* CustomEditNavigationBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A8662D72B262DA200D8DDE8 /* CustomEditNavigationBar.swift */; };
 		4A8B9B462AD443C9009236EC /* AlamofireManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A8B9B452AD443C9009236EC /* AlamofireManager.swift */; };
 		4A8B9B482AD443D5009236EC /* BaseInterceptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A8B9B472AD443D5009236EC /* BaseInterceptor.swift */; };
 		4A8B9B4A2AD443E6009236EC /* ApiStatusLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A8B9B492AD443E6009236EC /* ApiStatusLogger.swift */; };
@@ -76,6 +79,9 @@
 		4A15F2132AA8B4A50098F2F7 /* InputPwVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputPwVC.swift; sourceTree = "<group>"; };
 		4A15F2152AA8B4CA0098F2F7 /* InputNickVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputNickVC.swift; sourceTree = "<group>"; };
 		4A4BFDC92AD26B0F0062BDB8 /* RegistrationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationManager.swift; sourceTree = "<group>"; };
+		4A8662D32B26299F00D8DDE8 /* EditUserPwVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditUserPwVC.swift; sourceTree = "<group>"; };
+		4A8662D52B2629F500D8DDE8 /* EditUserNameVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditUserNameVC.swift; sourceTree = "<group>"; };
+		4A8662D72B262DA200D8DDE8 /* CustomEditNavigationBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomEditNavigationBar.swift; sourceTree = "<group>"; };
 		4A8B9B452AD443C9009236EC /* AlamofireManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlamofireManager.swift; sourceTree = "<group>"; };
 		4A8B9B472AD443D5009236EC /* BaseInterceptor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseInterceptor.swift; sourceTree = "<group>"; };
 		4A8B9B492AD443E6009236EC /* ApiStatusLogger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiStatusLogger.swift; sourceTree = "<group>"; };
@@ -179,6 +185,7 @@
 		4ABE58582A85E8B400E22C5F /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				4AF0C8572B2627BE00A45EEE /* EditUserVC */,
 				4ACDD49F2AD9B32400CD8F1A /* RegistPet */,
 				4ACDD49A2AD9A9F600CD8F1A /* FindAccountVC */,
 				4AD354232AAF7EB6004A47B3 /* TabBarVC */,
@@ -280,6 +287,7 @@
 				4A15F20A2AA799C50098F2F7 /* ConstomLabel.swift */,
 				4AD354212AAF7E62004A47B3 /* TabBarController.swift */,
 				4A0750D32B0892B900281A4C /* CustomNavigationBar.swift */,
+				4A8662D72B262DA200D8DDE8 /* CustomEditNavigationBar.swift */,
 			);
 			path = UIElement;
 			sourceTree = "<group>";
@@ -294,6 +302,15 @@
 				4AD3542C2AAF7F83004A47B3 /* SettingVC.swift */,
 			);
 			path = TabBarVC;
+			sourceTree = "<group>";
+		};
+		4AF0C8572B2627BE00A45EEE /* EditUserVC */ = {
+			isa = PBXGroup;
+			children = (
+				4A8662D32B26299F00D8DDE8 /* EditUserPwVC.swift */,
+				4A8662D52B2629F500D8DDE8 /* EditUserNameVC.swift */,
+			);
+			path = EditUserVC;
 			sourceTree = "<group>";
 		};
 		5AE5601D3B3B4D5737E25482 /* Frameworks */ = {
@@ -427,6 +444,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4A8662D82B262DA200D8DDE8 /* CustomEditNavigationBar.swift in Sources */,
 				4A0FEA492B1B5F6F0084CA6C /* FindInputPhoneNumVC.swift in Sources */,
 				4A8B9B4E2AD443FA009236EC /* MySearchRouter.swift in Sources */,
 				4AD3542B2AAF7F6A004A47B3 /* PetVC.swift in Sources */,
@@ -437,6 +455,7 @@
 				4A037FF22AED62E30073BB56 /* KeyChainHelper.swift in Sources */,
 				4A0750D42B0892B900281A4C /* CustomNavigationBar.swift in Sources */,
 				4AD354292AAF7F55004A47B3 /* RecordVC.swift in Sources */,
+				4A8662D42B26299F00D8DDE8 /* EditUserPwVC.swift in Sources */,
 				4A15F2092AA790D60098F2F7 /* CustomProgressBar.swift in Sources */,
 				4A9088772AC1681B000C7878 /* PetCollectViewCell.swift in Sources */,
 				4A8B9B4A2AD443E6009236EC /* ApiStatusLogger.swift in Sources */,
@@ -472,6 +491,7 @@
 				4A00A90C2AC66BDC007AEC8A /* UserModel.swift in Sources */,
 				4AD354202AAF7CD6004A47B3 /* MainVC.swift in Sources */,
 				4ACDD4A72AD9B3F600CD8F1A /* CheckCareVC.swift in Sources */,
+				4A8662D62B2629F500D8DDE8 /* EditUserNameVC.swift in Sources */,
 				4A8B9B502AD444D0009236EC /* Constants.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

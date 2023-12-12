@@ -37,7 +37,7 @@ class SettingVC: UIViewController {
     private func configureNavigationBar() {
         navigationController?.navigationBar.barTintColor = .white
         let leftBarButtonItem = UIBarButtonItem(title: "설정", style: .plain, target: nil, action: nil)
-            leftBarButtonItem.tintColor = .black
+        leftBarButtonItem.tintColor = .black
 
         if let font = UIFont(name: "Helvetica-Bold", size: 18) {
             leftBarButtonItem.setTitleTextAttributes([.font: font], for: .normal)
@@ -45,8 +45,11 @@ class SettingVC: UIViewController {
     
         navigationItem.leftBarButtonItem = leftBarButtonItem
     }
+    
     private func configureProfileView() {
         profilUserNameEditBtn.setImage(UIImage(named: "userNameEdit"), for: .normal)
+        profilUserNameEditBtn.addTarget(self, action: #selector(changeEditUserNameVC(_:)), for: .touchUpInside)
+        
         profileUserId.text = "@34444"
         profileUserId.font = .systemFont(ofSize: 14)
         profileUserName.text = "이름"
@@ -100,10 +103,12 @@ class SettingVC: UIViewController {
     
     private func configureTableViewScrollView() {
         myInfoTableView.dataSource = self
+        myInfoTableView.delegate = self
         myInfoTableView.isScrollEnabled = false
         myInfoTableView.register(MyInfoTableViewCell.self, forCellReuseIdentifier: "MyInfoTableViewCell")
 
         alarmSegmentTableView.dataSource = self
+        alarmSegmentTableView.delegate = self
         alarmSegmentTableView.isScrollEnabled = false
         alarmSegmentTableView.register(AlarmTableViewCell.self, forCellReuseIdentifier: "AlarmTableViewCell")
 
@@ -123,6 +128,11 @@ class SettingVC: UIViewController {
             make.trailing.equalTo(view.snp.trailing)
             make.height.equalTo(230)
         }
+    }
+    @objc func changeEditUserNameVC(_ sender: UIButton){
+        let nextVC = EditUserNameVC(title: "이름 변경하기")
+        nextVC.hidesBottomBarWhenPushed = true
+        self.navigationController?.pushViewController(nextVC, animated: false)
     }
 }
 
@@ -161,5 +171,31 @@ extension SettingVC: UITableViewDelegate{
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return tableView == myInfoTableView ? 52 : 56
     }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if tableView == myInfoTableView {
+            if indexPath.row == 2 {
+                let nextVC = EditUserPwVC(title: "비밀번호 변경")
+                nextVC.hidesBottomBarWhenPushed = true
+                navigationController?.pushViewController(nextVC, animated: true)
+            }
+        }
+        tableView.deselectRow(at: indexPath, animated: true)
+    }
 }
 
+
+struct MainViewController_Previews: PreviewProvider {
+  static var previews: some View {
+    Container().edgesIgnoringSafeArea(.all)
+  }
+  
+  struct Container: UIViewControllerRepresentable {
+    func makeUIViewController(context: Context) -> UIViewController {
+      let rootViewController = SettingVC()
+      return UINavigationController(rootViewController: rootViewController)
+    }
+    func updateUIViewController(_ uiViewController: UIViewControllerType, context: Context) {}
+    typealias UIViewControllerType = UIViewController
+  }
+}
