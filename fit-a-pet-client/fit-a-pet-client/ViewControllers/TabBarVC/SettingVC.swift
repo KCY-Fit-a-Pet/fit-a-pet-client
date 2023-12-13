@@ -27,6 +27,12 @@ class SettingVC: UIViewController {
         initView()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        
+    }
+    
     private func initView() {
 
         configureProfileView()

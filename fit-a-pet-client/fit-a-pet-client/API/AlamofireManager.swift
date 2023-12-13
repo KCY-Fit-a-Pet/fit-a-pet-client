@@ -134,10 +134,10 @@ class AlamofireManager {
                 }
         }
     }
-    func sendAuthSms(_ phone: String, completion: @escaping(Result<Data?, Error>) -> Void) {
-        os_log("MyAlamofireManager - sendAuthSms() called userInput : %@ ", log: .default, type: .info, phone)
+    func sendAuthSms(_ phone: String, _ uid: String, completion: @escaping(Result<Data?, Error>) -> Void) {
+        os_log("MyAlamofireManager - sendAuthSms() called userInput : %@ ,, %@  ", log: .default, type: .info, phone, uid)
 
-        self.session.request(MySearchRouter.sendAuthSms(to: phone))
+        self.session.request(MySearchRouter.sendAuthSms(to: phone, uid: uid))
             .response { response in
                 switch response.result {
                 case .success(let data):
@@ -173,6 +173,34 @@ class AlamofireManager {
                 }
         }
     }
+    
+    func findPw(_ phone: String, _ newPassword: String, _ code: String, completion: @escaping(Result<Data?, Error>) -> Void) {
+        os_log("MyAlamofireManager - findPw() called userInput : %@ ,, %@ ,, %@", log: .default, type: .info, phone,newPassword, code)
+
+        self.session.request(MySearchRouter.findPw(phone: phone, newPassword: newPassword, code: code))
+            .response { response in
+                switch response.result {
+                case .success(let data):
+                    completion(.success(data))
+                case .failure(let error):
+                    completion(.failure(error))
+                }
+        }
+    }
+    func existId(_ uid: String, completion: @escaping(Result<Data?, Error>) -> Void){
+        os_log("MyAlamofireManager - existId() called userInput : %@", log: .default, type: .info, uid)
+        
+        self.session.request(MySearchRouter.existId(uid: uid))
+            .response { response in
+                switch response.result {
+                case .success(let data):
+                    completion(.success(data))
+                case .failure(let error):
+                    completion(.failure(error))
+                }
+        }
+    }
+    
     func kakaoCodeGet(completion: @escaping(Result<Data?, Error>) -> Void){
         os_log("MyAlamofireManager - kakaoCodeGet() called userInput : ", log: .default, type: .info)
 
@@ -186,5 +214,6 @@ class AlamofireManager {
                 }
         }
     }
+    
 }
 

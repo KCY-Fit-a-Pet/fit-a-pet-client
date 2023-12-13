@@ -145,7 +145,7 @@ class LoginVC: UIViewController{
         let mainVC = TabBarController()
         mainVC.modalPresentationStyle = .fullScreen
 
-        AlamofireManager.shared.login("heejin", "heejin123"){
+        AlamofireManager.shared.login("heejin", "heejin1234"){
             result in
             switch result {
             case .success(let data):

@@ -3,12 +3,13 @@ import SnapKit
 
 class ResetPwVC: CustomNavigationBar{
     
-    private let nextInputPhoneNumBtn = CustomNextBtn(title: "비밀번호 재설정")
+    private let resetPwCompleteBtn = CustomNextBtn(title: "비밀번호 재설정")
     private var titleStackView = UIStackView()
     private let titleLabel = UILabel()
     private let inputPw = UITextField()
     private let inputPwCheck = UITextField()
     
+    private var newPw = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -16,7 +17,7 @@ class ResetPwVC: CustomNavigationBar{
         self.navigationController?.navigationBar.topItem?.title = ""
         self.view.backgroundColor = .white
         initView()
-       // nextInputPhoneNumBtn.addTarget(self, action: #selector(changeFindInputPhoneNumVC(_ :)), for: .touchUpInside)
+        resetPwCompleteBtn.addTarget(self, action: #selector(resetPwCompleteBtnTapped(_ :)), for: .touchUpInside)
     }
     
     private func initView(){
@@ -25,7 +26,7 @@ class ResetPwVC: CustomNavigationBar{
         
         self.view.addSubview(inputPw)
         self.view.addSubview(inputPwCheck)
-        self.view.addSubview(nextInputPhoneNumBtn)
+        self.view.addSubview(resetPwCompleteBtn)
        
         //inputPw.delegate = self
         inputPw.layer.borderWidth = 1
@@ -37,6 +38,8 @@ class ResetPwVC: CustomNavigationBar{
         //textfield padding 주기
         inputPw.leftView = UIView(frame: CGRect(x: 0.0, y: 0.0, width: 16.0, height: 0.0))
         inputPw.leftViewMode = .always
+        
+        inputPw.delegate = self
         
         inputPw.snp.makeConstraints{make in
             make.height.equalTo(55)
@@ -56,6 +59,8 @@ class ResetPwVC: CustomNavigationBar{
         inputPwCheck.leftView = UIView(frame: CGRect(x: 0.0, y: 0.0, width: 16.0, height: 0.0))
         inputPwCheck.leftViewMode = .always
         
+        inputPwCheck.delegate = self
+        
         inputPwCheck.snp.makeConstraints{make in
             make.height.equalTo(55)
             make.top.equalTo(inputPw.snp.bottom).offset(8)
@@ -63,7 +68,7 @@ class ResetPwVC: CustomNavigationBar{
             make.right.equalTo(view.snp.right).offset(-16)
         }
     
-        nextInputPhoneNumBtn.snp.makeConstraints{make in
+        resetPwCompleteBtn.snp.makeConstraints{make in
             make.bottom.equalTo(view.snp.bottom).offset(-65)
             make.left.equalTo(view.snp.left).offset(16)
             make.right.equalTo(view.snp.right).offset(-16)
@@ -90,17 +95,69 @@ class ResetPwVC: CustomNavigationBar{
         self.view.addSubview(titleStackView)
         
         titleStackView.snp.makeConstraints { make in
-            make.top.equalTo(view.snp.top).offset(160)
+            make.top.equalTo(view.snp.top).offset(150)
             make.centerX.equalToSuperview()
         }
     }
 
-//    @objc func changeFindInputPhoneNumVC(_ sender: UIButton){
-//        let nextVC = FindInputPhoneNumVC(title: FindIdPwSwitch.findAuth)
-//        self.navigationController?.pushViewController(nextVC, animated: false)
-//
-//    }
+    @objc func resetPwCompleteBtnTapped(_ sender: UIButton){
+        if let loginVC = navigationController?.viewControllers.first(where: { $0 is LoginVC }) {
+            navigationController?.popToViewController(loginVC, animated: true)
+        }
+        
+        AlamofireManager.shared.findPw(FindIdPwSwitch.phoneNum, newPw, FindIdPwSwitch.code){
+            result in
+            switch result {
+            case .success(let data):
+                // Handle success
+                if let responseData = data {
+                    // Process the data
+                    let object = try?JSONSerialization.jsonObject(with: responseData, options: []) as? NSDictionary
+                    guard let jsonObject = object else {return}
+                    print("respose jsonData: \(jsonObject)")
+                }
+            case .failure(let error):
+                // Handle failure
+                print("Error: \(error)")
+            }
+        }
+    }
     
 }
 
+extension ResetPwVC: UITextFieldDelegate{
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        
+        if textField == inputPwCheck {
+            //inputPw에 text 값이 있어야만 inputPwText에 입력할 수 있다.
+            if let inputPwText = inputPw.text, !inputPwText.isEmpty {
+                let updatedText = (inputPwCheck.text! as NSString).replacingCharacters(in: range, with: string)
+                
+                newPw = updatedText
+                resetPwCompleteBtn.updateButtonColor(updatedText, false)
+                
+                if updatedText.isEmpty{
+                    inputPwCheck.layer.borderColor = UIColor(named: "Gray3")?.cgColor
+                }else{
+                    inputPwCheck.layer.borderColor = UIColor(named: "PrimaryColor")?.cgColor
+                }
+                return true
+                
+            } else {
+                return false
+            }
+            
+        } else{
+            let updatedText = (inputPw.text! as NSString).replacingCharacters(in: range, with: string)
+            
+            if updatedText.isEmpty {
+                inputPw.layer.borderColor = UIColor(named: "Gray3")?.cgColor
+                
+            } else {
+                inputPw.layer.borderColor = UIColor(named: "PrimaryColor")?.cgColor
+            }
+        }
+        return true
+    }
+}
 

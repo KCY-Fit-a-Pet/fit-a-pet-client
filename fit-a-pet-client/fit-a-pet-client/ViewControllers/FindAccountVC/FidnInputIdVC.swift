@@ -42,8 +42,7 @@ class FindInputIdVC: CustomNavigationBar{
     
         titleLabel.snp.makeConstraints { make in
             make.top.equalTo(view.snp.top).offset(160)
-            make.leading.equalTo(view.snp.leading).offset(72)
-            make.trailing.equalTo(view.snp.trailing).offset(-72)
+            make.centerX.equalToSuperview()
         }
         
         nextInputPhoneNumBtn.snp.makeConstraints{make in
@@ -87,6 +86,23 @@ class FindInputIdVC: CustomNavigationBar{
         let nextVC = FindInputPhoneNumVC(title: FindIdPwSwitch.findAuth)
         self.navigationController?.pushViewController(nextVC, animated: false)
         
+        AlamofireManager.shared.existId(FindIdPwSwitch.userUid){
+            result in
+            switch result {
+            case .success(let data):
+                // Handle success
+                if let responseData = data {
+                    // Process the data
+                    let object = try?JSONSerialization.jsonObject(with: responseData, options: []) as? NSDictionary
+                    guard let jsonObject = object else {return}
+                    print("respose jsonData: \(jsonObject)")
+                }
+            case .failure(let error):
+                // Handle failure
+                print("Error: \(error)")
+            }
+        }
+        
     }
     
 }
@@ -96,7 +112,11 @@ extension FindInputIdVC: UITextFieldDelegate{
         
         let updatedText = (findInputId.text! as NSString).replacingCharacters(in: range, with: string)
         nextInputPhoneNumBtn.updateButtonColor(updatedText, false)
+        
+        FindIdPwSwitch.userUid = updatedText
     
+        print(updatedText)
+        
         if updatedText.isEmpty{
             findInputId.layer.borderColor = UIColor(named: "Gray3")?.cgColor
         }else{

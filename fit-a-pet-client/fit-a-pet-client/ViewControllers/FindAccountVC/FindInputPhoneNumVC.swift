@@ -6,7 +6,6 @@ class FindInputPhoneNumVC: CustomNavigationBar{
     
     private let nextInputAuthNumBtn = CustomNextBtn(title: "인증번호 전송")
     private let inputPhoneNum = UITextField()
-    private var phone:String = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -68,10 +67,10 @@ class FindInputPhoneNumVC: CustomNavigationBar{
         }
     }
     @objc func changeFindInputAuthNumVC(_ sender: UIButton){
-        let nextVC = FindInputAuthNumVC(title: FindIdPwSwitch.findAuth, phone: phone)
+        let nextVC = FindInputAuthNumVC(title: FindIdPwSwitch.findAuth, phone: FindIdPwSwitch.phoneNum)
         self.navigationController?.pushViewController(nextVC, animated: false)
         
-        AlamofireManager.shared.sendAuthSms(phone){
+        AlamofireManager.shared.sendAuthSms(FindIdPwSwitch.phoneNum, FindIdPwSwitch.userUid){
             result in
             switch result {
             case .success(let data):
@@ -122,8 +121,7 @@ extension FindInputPhoneNumVC: UITextFieldDelegate{
                 
             }else{
                 inputPhoneNum.text = formattedText
-                phone = formattedText.replacingOccurrences(of: "-", with: "")
-                print(phone)
+                FindIdPwSwitch.phoneNum = formattedText.replacingOccurrences(of: "-", with: "")
             }
         }
         
