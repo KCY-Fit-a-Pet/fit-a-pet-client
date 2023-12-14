@@ -12,9 +12,11 @@ enum MySearchRouter: URLRequestConvertible {
     case presignedurl(dirname: String, extensionType: String, result: Bool, blocking: Bool)
     case uploadImage(image: UIImage)
     case registPet(petName: String, species: String, gender: String, neutralization: Bool, birthDate: String)
-    case sendAuthSms(to: String)
+    case sendAuthSms(to: String, uid: String)
     case checkAuthSms(to: String, code: String)
     case findId(phone: String, code: String)
+    case findPw(phone: String, newPassword: String, code: String)
+    case existId(uid: String)
     case kakaoCode
     
     var baseURL: URL {
@@ -32,9 +34,9 @@ enum MySearchRouter: URLRequestConvertible {
     
     var method: HTTPMethod {
         switch self {
-        case .sendSms, .checkSms, .login, .regist, .presignedurl, .registPet,.sendAuthSms, .checkAuthSms, .findId:
+        case .sendSms, .checkSms, .login, .regist, .presignedurl, .registPet,.sendAuthSms, .checkAuthSms, .findId, .findPw:
             return .post
-        case .kakaoCode:
+        case .kakaoCode, .existId:
             return .get
         case .uploadImage:
             return .put
@@ -57,16 +59,19 @@ enum MySearchRouter: URLRequestConvertible {
             return "pets"
         case .sendAuthSms, .checkAuthSms:
             return "auth/search-sms"
-        case .findId:
+        case .findId, .findPw:
             return "accounts/search"
+        case .existId:
+            return "accounts/exists"
         }
     }
     
     var parameters : Parameters {
         switch self{
-        case let .sendSms(phone),
-            let .sendAuthSms(phone) ://enum으로 들어온 애를 사용하려면 let을 사용
+        case let .sendSms(phone):
             return ["to" : phone]
+        case let .sendAuthSms(phone, uid):
+            return ["to" : phone, "uid": uid]
         case let .checkSms(phone, code),
             let .checkAuthSms(phone, code):
             return ["to": phone, "code": code]
@@ -82,6 +87,10 @@ enum MySearchRouter: URLRequestConvertible {
             return ["petName": petName, "species": species, "gender": gender, "neutralization": neutralization, "birthDate": birthDate]
         case let .findId(phone, code):
             return ["phone":phone, "code": code]
+        case let .findPw(phone, newPassword, code):
+            return ["phone": phone, "newPassword": newPassword, "code": code]
+        case let .existId(uid):
+            return ["uid": uid]
         }
     }
     
@@ -137,10 +146,15 @@ enum MySearchRouter: URLRequestConvertible {
                 request = createURLRequestWithBody(url: url)
             }
             
-        case .sendAuthSms(let to):
-            let bodyParameters = ["to": to]
-            let queryParameters = [URLQueryItem(name: "type", value: FindIdPwSwitch.findtype)]
+        case .sendAuthSms(let to, let uid):
+            var bodyParameters: [String: String] = [:]
             
+            if  FindIdPwSwitch.findtype == uid{
+                bodyParameters = ["to": to]
+            }else{
+                bodyParameters = ["to": to, "uid": uid]
+            }
+            let queryParameters = [URLQueryItem(name: "type", value: FindIdPwSwitch.findtype)]
             request = createURLRequestWithBodyAndQuery(url: url, bodyParameters: bodyParameters, queryParameters: queryParameters)
 
         
@@ -149,12 +163,23 @@ enum MySearchRouter: URLRequestConvertible {
             let queryParameters = [URLQueryItem(name: "type", value: FindIdPwSwitch.findtype),URLQueryItem(name: "code", value: "\(code)")]
             
             request = createURLRequestWithBodyAndQuery(url: url, bodyParameters: bodyParameters, queryParameters: queryParameters)
-        case . findId(let phone, let code):
+        case .findId(let phone, let code):
             let bodyParameters = ["phone": phone]
             let queryParameters = [URLQueryItem(name: "type", value: FindIdPwSwitch.findtype),URLQueryItem(name: "code", value: "\(code)")]
             
             request = createURLRequestWithBodyAndQuery(url: url, bodyParameters: bodyParameters, queryParameters: queryParameters)
+        
+        case .findPw(let phone, let newPassword, let code):
+            let bodyParameters = ["phone": phone, "newPassword": newPassword]
+            let queryParameters = [URLQueryItem(name: "type", value: FindIdPwSwitch.findtype),URLQueryItem(name: "code", value: "\(code)")]
             
+            request = createURLRequestWithBodyAndQuery(url: url, bodyParameters: bodyParameters, queryParameters: queryParameters)
+        
+        case .existId(let uid):
+            let queryParameters = [URLQueryItem(name: "uid", value: "\(uid)")]
+            
+            request = createURLRequestWithQuery(url: url, queryParameters: queryParameters)
+        
         case .kakaoCode:
             let queryParameters = [URLQueryItem(name: "client_id", value: "bbe38742c0998fecfaaaaaef6856fc32"),URLQueryItem(name: "redirect_uri", value: "kakaobbe38742c0998fecfaaaaaef6856fc32://oauth"), URLQueryItem(name: "response_type", value: "code")]
             

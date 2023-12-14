@@ -31,4 +31,7 @@ enum QueryParameter: String {
 enum FindIdPwSwitch{
     static var findAuth = ""
     static var findtype = ""
+    static var phoneNum = ""
+    static var code = ""
+    static var userUid = ""
 }

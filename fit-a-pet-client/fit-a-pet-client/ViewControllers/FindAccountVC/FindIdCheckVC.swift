@@ -6,9 +6,9 @@ import SwiftUI
 class FindIdCheckVC: CustomNavigationBar{
     
     private let returnLoginVCBtn = CustomNextBtn(title: "로그인하러 가기")
-    let idCheckLabel = UILabel()
-    var titleStackView = UIStackView()
-    var findPwStackView = UIStackView()
+    private let idCheckLabel = UILabel()
+    private var titleStackView = UIStackView()
+    private var findPwStackView = UIStackView()
     
     
     override func viewDidLoad() {
@@ -17,7 +17,7 @@ class FindIdCheckVC: CustomNavigationBar{
         self.navigationController?.navigationBar.topItem?.title = ""
         self.view.backgroundColor = .white
         initView()
-        //returnLoginVCBtn.addTarget(self, action: #selector(<#T##@objc method#>), for: .touchUpInside)
+        returnLoginVCBtn.addTarget(self, action: #selector(returnLoginVC(_:)), for: .touchUpInside)
     }
     
     private func initView(){
@@ -44,6 +44,35 @@ class FindIdCheckVC: CustomNavigationBar{
             make.bottom.equalTo(findPwStackView.snp.top).offset(-20)
             make.left.equalTo(view.snp.left).offset(16)
             make.right.equalTo(view.snp.right).offset(-16)
+        }
+    }
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        AlamofireManager.shared.findId(FindIdPwSwitch.phoneNum, FindIdPwSwitch.code){
+            result in
+            switch result {
+            case .success(let data):
+                // Handle success
+                if let responseData = data {
+                    do {
+                        if let json = try JSONSerialization.jsonObject(with: responseData, options: []) as? [String: Any] {
+                            if let dataDict = json["data"] as? [String: Any] {
+                                if let memberDict = dataDict["member"] as? [String: Any] {
+                                    if let uid = memberDict["uid"] as? String {
+                                        self.idCheckLabel.text = uid
+                                    }
+                                }
+                            }
+                        }
+                    } catch {
+                        print("Error parsing JSON: \(error)")
+                    }
+                }
+            case .failure(let error):
+                // Handle failure
+                print("Error: \(error)")
+            }
         }
     }
     
