@@ -3,15 +3,18 @@ import SnapKit
 
 class EditUserPwVC: CustomEditNavigationBar {
 
-    private var currentPasswordTextField: UITextField!
-    private var newPasswordTextField: UITextField!
-    private var confirmPasswordTextField: UITextField!
+    private var currentPasswordTextField = UITextField()
+    private var newPasswordTextField = UITextField()
+    private var confirmPasswordTextField = UITextField()
+    
+    private var prePassword = ""
+    private var newPassword = ""
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
         self.view.backgroundColor = .white
-
+        
         currentPasswordTextField = createTextField(with: "현재 비밀번호", placeholder: "현재 비밀번호")
         newPasswordTextField = createTextField(with: "새 비밀번호", placeholder: "새 비밀번호")
         confirmPasswordTextField = createTextField(with: "새 비밀번호 확인", placeholder: "비밀번호 재입력")
@@ -26,8 +29,7 @@ class EditUserPwVC: CustomEditNavigationBar {
             make.top.equalTo(view.safeAreaLayoutGuide).offset(20)
             make.leading.trailing.equalToSuperview().inset(16)
         }
-
-        // Add text change observers
+//
         currentPasswordTextField.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
         newPasswordTextField.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
         confirmPasswordTextField.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
@@ -57,13 +59,20 @@ class EditUserPwVC: CustomEditNavigationBar {
 
         return textField
     }
+    
 
     @objc private func textFieldDidChange() {
         let allFieldsFilled = !(currentPasswordTextField.text?.isEmpty ?? true) &&
                               !(newPasswordTextField.text?.isEmpty ?? true) &&
                               !(confirmPasswordTextField.text?.isEmpty ?? true)
-
+        
+        prePassword = currentPasswordTextField.text!
+        newPassword = newPasswordTextField.text!
+        
+        userPwData = ["prePassword": prePassword, "newPassword": newPassword]
+        
         saveButton.tintColor = allFieldsFilled ? UIColor(named: "PrimaryColor") : UIColor(named: "Gray3")
     }
 }
+
 

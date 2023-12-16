@@ -2,6 +2,7 @@ import Foundation
 import Security
 
 class KeychainHelper {
+    
     static func saveAccessToken(accessToken: String) {
         let keychainQuery: [CFString: Any] = [
             kSecClass: kSecClassGenericPassword,
@@ -21,7 +22,7 @@ class KeychainHelper {
         let query: [CFString: Any] = [
             kSecClass: kSecClassGenericPassword,
             kSecAttrAccount: "accessToken",
-            kSecReturnData: kCFBooleanTrue,
+            kSecReturnData: kCFBooleanTrue!,
         ]
 
         var item: CFTypeRef?
@@ -29,6 +30,38 @@ class KeychainHelper {
 
         if status == noErr, let data = item as? Data, let token = String(data: data, encoding: .utf8) {
             return token
+        } else {
+            return nil
+        }
+    }
+    
+    static func savePassword(password: String) {
+        let passwordQuery: [CFString: Any] = [
+            kSecClass: kSecClassGenericPassword,
+            kSecAttrAccount: "password",
+            kSecValueData: password.data(using: .utf8)!,
+        ]
+        
+        let status = SecItemAdd(passwordQuery as CFDictionary, nil)
+        if status == errSecDuplicateItem {
+            SecItemUpdate(passwordQuery as CFDictionary, [kSecValueData: password.data(using: .utf8)!] as CFDictionary)
+        } else if status != noErr {
+            print("Failed to save password to Keychain")
+        }
+    }
+    
+    static func loadPassword() -> String? {
+        let query: [CFString: Any] = [
+            kSecClass: kSecClassGenericPassword,
+            kSecAttrAccount: "password",
+            kSecReturnData: kCFBooleanTrue!,
+        ]
+
+        var item: CFTypeRef?
+        let status = SecItemCopyMatching(query as CFDictionary, &item)
+
+        if status == noErr, let data = item as? Data, let password = String(data: data, encoding: .utf8) {
+            return password
         } else {
             return nil
         }

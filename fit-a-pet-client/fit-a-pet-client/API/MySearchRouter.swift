@@ -17,6 +17,10 @@ enum MySearchRouter: URLRequestConvertible {
     case findId(phone: String, code: String)
     case findPw(phone: String, newPassword: String, code: String)
     case existId(uid: String)
+    case userProfileInfo
+    case userNotifyType(type: String)
+    case editUserPw(type: String, prePassword: String, newPassword: String)
+    case editUserName(type: String, name: String)
     case kakaoCode
     
     var baseURL: URL {
@@ -36,9 +40,9 @@ enum MySearchRouter: URLRequestConvertible {
         switch self {
         case .sendSms, .checkSms, .login, .regist, .presignedurl, .registPet,.sendAuthSms, .checkAuthSms, .findId, .findPw:
             return .post
-        case .kakaoCode, .existId:
+        case .kakaoCode, .existId, .userProfileInfo, .userNotifyType:
             return .get
-        case .uploadImage:
+        case .uploadImage, .editUserPw, .editUserName:
             return .put
         }
     }
@@ -63,6 +67,10 @@ enum MySearchRouter: URLRequestConvertible {
             return "accounts/search"
         case .existId:
             return "accounts/exists"
+        case .userProfileInfo, .editUserPw, .editUserName:
+            return "accounts"
+        case .userNotifyType:
+            return "accounts/notify"
         }
     }
     
@@ -81,8 +89,6 @@ enum MySearchRouter: URLRequestConvertible {
             return ["uid": uid, "name": name, "password": password, "email": email, "profileImg": profileImg]
         case let .presignedurl(dirname, extensionType, _, _):
             return ["dirname": dirname, "extension": extensionType]
-        case .uploadImage(_), .kakaoCode:
-            return [:]
         case let .registPet(petName , species , gender , neutralization , birthDate):
             return ["petName": petName, "species": species, "gender": gender, "neutralization": neutralization, "birthDate": birthDate]
         case let .findId(phone, code):
@@ -91,6 +97,14 @@ enum MySearchRouter: URLRequestConvertible {
             return ["phone": phone, "newPassword": newPassword, "code": code]
         case let .existId(uid):
             return ["uid": uid]
+        case let .userNotifyType(type):
+            return ["type": type]
+        case let .editUserPw(type, prePassword, newPassword):
+            return ["type": type, "prePassword": prePassword, "newPassword": newPassword]
+        case let .editUserName(type, name):
+            return ["type": type, "name": name]
+        case .uploadImage(_), .kakaoCode, .userProfileInfo:
+            return [:]
         }
     }
     
@@ -180,10 +194,50 @@ enum MySearchRouter: URLRequestConvertible {
             
             request = createURLRequestWithQuery(url: url, queryParameters: queryParameters)
         
+        case .userProfileInfo:
+            request = URLRequest(url: url)
+            if let accessToken = KeychainHelper.loadAccessToken() {
+                request.httpMethod = method.rawValue
+                request.setValue("Bearer \(accessToken)", forHTTPHeaderField: "Authorization")
+            }
+        case .userNotifyType(let type):
+            
+            let queryParameters = [URLQueryItem(name: "type", value: type)]
+            
+            if let accessToken = KeychainHelper.loadAccessToken() {
+                request = createURLRequestWithQuery(url: url, queryParameters: queryParameters)
+                request.setValue("Bearer \(accessToken)", forHTTPHeaderField: "Authorization")
+            } else {
+                request = createURLRequestWithQuery(url: url, queryParameters: queryParameters)
+            }
+            
+        case .editUserPw(let type, let prePassword, let newPassword):
+            let bodyParameters = ["prePassword": prePassword, "newPassword": newPassword]
+            let queryParameters = [URLQueryItem(name: "type", value: type)]
+            
+            if let accessToken = KeychainHelper.loadAccessToken() {
+                request = createURLRequestWithBodyAndQuery(url: url, bodyParameters: bodyParameters, queryParameters: queryParameters)
+                request.setValue("Bearer \(accessToken)", forHTTPHeaderField: "Authorization")
+            } else {
+                request = createURLRequestWithBodyAndQuery(url: url, bodyParameters: bodyParameters, queryParameters: queryParameters)
+            }
+        
+        case .editUserName(let type, let name):
+            let bodyParameters = ["name": name]
+            let queryParameters = [URLQueryItem(name: "type", value: type)]
+            
+            if let accessToken = KeychainHelper.loadAccessToken() {
+                request = createURLRequestWithBodyAndQuery(url: url, bodyParameters: bodyParameters, queryParameters: queryParameters)
+                request.setValue("Bearer \(accessToken)", forHTTPHeaderField: "Authorization")
+            } else {
+                request = createURLRequestWithBodyAndQuery(url: url, bodyParameters: bodyParameters, queryParameters: queryParameters)
+            }
+        
         case .kakaoCode:
             let queryParameters = [URLQueryItem(name: "client_id", value: "bbe38742c0998fecfaaaaaef6856fc32"),URLQueryItem(name: "redirect_uri", value: "kakaobbe38742c0998fecfaaaaaef6856fc32://oauth"), URLQueryItem(name: "response_type", value: "code")]
             
             request = createURLRequestWithQuery(url: baseURL, queryParameters: queryParameters)
+            
         default:
             request = createURLRequestWithBody(url: url)
         }

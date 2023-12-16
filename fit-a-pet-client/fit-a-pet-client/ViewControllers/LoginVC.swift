@@ -140,32 +140,75 @@ class LoginVC: UIViewController{
         }
     }
     
-    @objc func changeTabBarVC(_ sender: UIButton){
-        
+    @objc func changeTabBarVC(_ sender: UIButton) {
         let mainVC = TabBarController()
         mainVC.modalPresentationStyle = .fullScreen
+        
+        let dispatchGroup = DispatchGroup()
 
-        AlamofireManager.shared.login("heejin", "heejin1234"){
-            result in
+        dispatchGroup.enter()
+        AlamofireManager.shared.login("heejin", "heejin123") { result in
+            defer { dispatchGroup.leave() }
+            
             switch result {
             case .success(let data):
-                // Handle success
+                // Handle login success
                 if let responseData = data {
-                    // Process the data
-                    let object = try?JSONSerialization.jsonObject(with: responseData, options: []) as? NSDictionary
-                    guard let jsonObject = object else {return}
-                    print("respose jsonData: \(jsonObject)")
-                   // print("Received data: \(responseData)")
+                    do {
+                        let jsonObject = try JSONSerialization.jsonObject(with: responseData, options: []) as? [String: Any] ?? [:]
+                        print("Login Response JSON Data: \(jsonObject)")
+
+                        // Enter the dispatch group for userProfileInfo only if login is successful
+                        dispatchGroup.enter()
+
+                    } catch {
+                        print("Error parsing login JSON: \(error)")
+                    }
                 }
+
             case .failure(let error):
-                // Handle failure
+                // Handle login failure
                 print("Error: \(error)")
             }
         }
-        
-        // 모달로 다음 뷰 컨트롤러를 표시
-        self.present(mainVC, animated: false, completion: nil)
+
+        AlamofireManager.shared.userProfileInfo { result in
+            defer { dispatchGroup.leave() }
+
+            switch result {
+            case .success(let data):
+                // Handle user profile info success
+                if let responseData = data {
+                    do {
+                        let jsonObject = try JSONSerialization.jsonObject(with: responseData, options: []) as? [String: Any] ?? [:]
+
+                        if let dataDict = jsonObject["data"] as? [String: Any],
+                           let memberDict = dataDict["member"] as? [String: Any] {
+
+                            for (key, value) in memberDict {
+                                print("\(key): \(value)")
+                                UserDefaults.standard.set(value, forKey: key)
+                            }
+
+                            UserDefaults.standard.synchronize()
+                        }
+                    } catch {
+                        print("Error parsing user profile JSON: \(error)")
+                    }
+                }
+
+            case .failure(let profileError):
+                // Handle user profile info failure
+                print("Error fetching user profile info: \(profileError)")
+            }
+        }
+
+        dispatchGroup.notify(queue: .main) {
+            // Both login and user profile info tasks are completed
+            self.present(mainVC, animated: false, completion: nil)
+        }
     }
+
     
     @objc func changeFindIdVC(_ sender: UIButton){
         FindIdPwSwitch.findAuth = "아이디 찾기"

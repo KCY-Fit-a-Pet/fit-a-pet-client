@@ -30,7 +30,16 @@ class SettingVC: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
+        profileUserName.text = UserDefaults.standard.string(forKey: "name")!
         
+        if let allValues = UserDefaults.standard.dictionaryRepresentation() as? [String: Any] {
+            print("All Values in UserDefaults:")
+            for (key, value) in allValues {
+                print("\(key): \(value)")
+            }
+        } else {
+            print("Unable to retrieve all values from UserDefaults")
+        }
     }
     
     private func initView() {
@@ -56,9 +65,9 @@ class SettingVC: UIViewController {
         profilUserNameEditBtn.setImage(UIImage(named: "userNameEdit"), for: .normal)
         profilUserNameEditBtn.addTarget(self, action: #selector(changeEditUserNameVC(_:)), for: .touchUpInside)
         
-        profileUserId.text = "@34444"
+        profileUserId.text = "@\(UserDefaults.standard.string(forKey: "uid")!)"
         profileUserId.font = .systemFont(ofSize: 14)
-        profileUserName.text = "이름"
+        profileUserName.text = UserDefaults.standard.string(forKey: "name")!
         profileUserName.font = .boldSystemFont(ofSize: 16)
         
         profileView.backgroundColor = .white
@@ -166,7 +175,7 @@ extension SettingVC: UITableViewDataSource{
         } else {
             let alarmCell = alarmSegmentTableView.dequeueReusableCell(withIdentifier: "AlarmTableViewCell", for: indexPath) as! AlarmTableViewCell
             let alarmCellData = alarmCellData[indexPath.row]
-            alarmCell.configure(alarmCellData.cellTitle, alarmCellData.cellSubTitie)
+            alarmCell.configure(alarmCellData.cellTitle, alarmCellData.cellSubTitie, indexPath.row)
             alarmCell.configureSegmentControl(alarmCellData.alarmToggle)
             return alarmCell
         }

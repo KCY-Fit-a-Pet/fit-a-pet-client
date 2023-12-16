@@ -8,6 +8,9 @@ class AlarmTableViewCell: UITableViewCell {
     let cellSubTitle = UILabel()
     
     let alarmSegmentControl = CustomSegmentedControl(items: [" ", " "])
+    
+    var cellIndex: Int = 0
+    var type = ""
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -16,6 +19,8 @@ class AlarmTableViewCell: UITableViewCell {
         contentView.addSubview(cellTitle)
         contentView.addSubview(cellSubTitle)
         contentView.addSubview(alarmSegmentControl)
+        
+        alarmSegmentControl.addTarget(self, action: #selector(segmentedControlValueChanged(_:)), for: .valueChanged)
         
         cellTitle.font = .systemFont(ofSize: 14)
         cellSubTitle.font = .systemFont(ofSize: 12)
@@ -45,13 +50,49 @@ class AlarmTableViewCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func configure(_ title: String, _ subTitle: String) {
+    func configure(_ title: String, _ subTitle: String, _ index: Int) {
+        cellIndex = index
         cellTitle.text = title
         cellSubTitle.text = subTitle
     }
     
-    func configureSegmentControl(_ index: Int) {
-        alarmSegmentControl.selectedSegmentIndex = index
+    func configureSegmentControl(_ selected: Bool) {
+        alarmSegmentControl.selectedSegmentIndex = (selected == false ? 0 : 1)
+        print(alarmSegmentControl.selectedSegmentIndex)
+    }
+    
+    @objc private func segmentedControlValueChanged(_ sender: UISegmentedControl) {
+        let selectedIndex = sender.selectedSegmentIndex
+        print("Cell Index: \(cellIndex), Selected Index: \(selectedIndex)")
+        
+        if cellIndex == 0{
+            type = "care"
+            UserDefaults.standard.set(selectedIndex, forKey: "isCare")
+        }else if cellIndex == 1{
+            type = "memo"
+            UserDefaults.standard.set(selectedIndex, forKey: "isMemo")
+        }else{
+            type = "schedule"
+            UserDefaults.standard.set(selectedIndex, forKey: "isSchedule")
+        }
+        
+        AlamofireManager.shared.userNotifyType(type){
+            result in
+            switch result {
+            case .success(let data):
+                // Handle success
+                if let responseData = data {
+                    // Process the data
+                    let object = try?JSONSerialization.jsonObject(with: responseData, options: []) as? NSDictionary
+                    guard let jsonObject = object else {return}
+                    print("respose jsonData: \(jsonObject)")
+                }
+            case .failure(let error):
+                // Handle failure
+                print("Error: \(error)")
+            }
+        }
+        
     }
 }
 
