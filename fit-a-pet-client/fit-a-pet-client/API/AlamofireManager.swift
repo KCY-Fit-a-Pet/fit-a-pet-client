@@ -38,10 +38,6 @@ class AlamofireManager {
             .response { response in
                 switch response.result {
                 case .success(let data):
-                    if let responseHeaders = response.response?.allHeaderFields as? [String: String],
-                       let accessToken = responseHeaders["accessToken"] {
-                        KeychainHelper.saveAccessToken(accessToken: accessToken)
-                    }
                     completion(.success(data))
                 case .failure(let error):
                     completion(.failure(error))
@@ -201,8 +197,62 @@ class AlamofireManager {
         }
     }
     
+    func userProfileInfo(completion: @escaping(Result<Data?, Error>) -> Void){
+        os_log("MyAlamofireManager - userProfileInfo() called ", log: .default, type: .info)
+        
+        self.session.request(MySearchRouter.userProfileInfo)
+            .response { response in
+                switch response.result {
+                case .success(let data):
+                    completion(.success(data))
+                case .failure(let error):
+                    completion(.failure(error))
+                }
+        }
+    }
+    func userNotifyType(_ type: String, completion: @escaping(Result<Data?, Error>) -> Void){
+        os_log("MyAlamofireManager - userNotifyType() called userInput: %@", log: .default, type: .info, type)
+        
+        self.session.request(MySearchRouter.userNotifyType(type: type))
+            .response { response in
+                switch response.result {
+                case .success(let data):
+                    completion(.success(data))
+                case .failure(let error):
+                    completion(.failure(error))
+            }
+        }
+    }
+    
+    func editUserPw(_ type: String, _ prePassword: String, _ newPassword: String, completion: @escaping(Result<Data?, Error>) -> Void){
+        os_log("MyAlamofireManager - editUserPw() called userInput: %@", log: .default, type: .info, type)
+        
+        self.session.request(MySearchRouter.editUserPw(type: type, prePassword: prePassword, newPassword: newPassword))
+            .response { response in
+                switch response.result {
+                case .success(let data):
+                    completion(.success(data))
+                case .failure(let error):
+                    completion(.failure(error))
+            }
+        }
+    }
+    func editUserName(_ type: String, _ name: String, completion: @escaping(Result<Data?, Error>) -> Void){
+        os_log("MyAlamofireManager - editUserName() called userInput: %@", log: .default, type: .info, type)
+        
+        self.session.request(MySearchRouter.editUserName(type: type, name: name))
+            .response { response in
+                switch response.result {
+                case .success(let data):
+                    completion(.success(data))
+                case .failure(let error):
+                    completion(.failure(error))
+            }
+        }
+    }
+    
     func kakaoCodeGet(completion: @escaping(Result<Data?, Error>) -> Void){
-        os_log("MyAlamofireManager - kakaoCodeGet() called userInput : ", log: .default, type: .info)
+        os_log("MyAlamofireManager - kakaoCodeGet() called ", log: .default, type: .info)
 
         self.session.request(MySearchRouter.kakaoCode)
             .response { response in

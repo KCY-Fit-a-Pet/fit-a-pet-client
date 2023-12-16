@@ -144,21 +144,59 @@ class LoginVC: UIViewController{
         
         let mainVC = TabBarController()
         mainVC.modalPresentationStyle = .fullScreen
+        
+        let dispatchGroup = DispatchGroup()
 
-        AlamofireManager.shared.login("heejin", "heejin1234"){
-            result in
+        AlamofireManager.shared.login("heejin", "heejin123") { result in
             switch result {
             case .success(let data):
-                // Handle success
+                // Handle login success
                 if let responseData = data {
-                    // Process the data
-                    let object = try?JSONSerialization.jsonObject(with: responseData, options: []) as? NSDictionary
-                    guard let jsonObject = object else {return}
-                    print("respose jsonData: \(jsonObject)")
-                   // print("Received data: \(responseData)")
+                    do {
+                        let jsonObject = try JSONSerialization.jsonObject(with: responseData, options: []) as? [String: Any] ?? [:]
+                        print("Login Response JSON Data: \(jsonObject)")
+                        //KeychainHelper.savePassword(password: "heejin123")
+                        // Enter the dispatch group
+                        dispatchGroup.enter()
+
+                        // Perform the user profile info request
+                        AlamofireManager.shared.userProfileInfo { profileResult in
+                            switch profileResult {
+                            case .success(let data):
+                                // Handle user profile info success
+                                if let responseData = data {
+                                    do {
+                                        if let jsonObject = try JSONSerialization.jsonObject(with: responseData, options: []) as? [String: Any],
+                                           let dataDict = jsonObject["data"] as? [String: Any],
+                                           let memberDict = dataDict["member"] as? [String: Any] {
+                                            
+                                            for (key, value) in memberDict  {
+                                                print("\(key): \(value)")
+                                                UserDefaults.standard.set(value, forKey: key)
+                                            }
+                                            
+                                            UserDefaults.standard.synchronize()
+                                        }
+                                    } catch {
+                                        print("Error parsing JSON: \(error)")
+                                    }
+                                }
+                            case .failure(let profileError):
+                                // Handle user profile info failure
+                                print("Error fetching user profile info: \(profileError)")
+                            }
+
+                            // Leave the dispatch group
+                            dispatchGroup.leave()
+                        }
+                        
+                    } catch {
+                        print("Error parsing login JSON: \(error)")
+                    }
                 }
+
             case .failure(let error):
-                // Handle failure
+                // Handle login failure
                 print("Error: \(error)")
             }
         }

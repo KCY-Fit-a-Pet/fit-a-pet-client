@@ -53,7 +53,7 @@ class EditUserNameVC: CustomEditNavigationBar {
 
     @objc private func textFieldDidChange() {
         let fieldsFilled = !(currentUserNameTextField.text?.isEmpty ?? true)
-
+        userName = currentUserNameTextField.text!
         saveButton.tintColor = fieldsFilled ? UIColor(named: "PrimaryColor") : UIColor(named: "Gray3")
     }
 }
