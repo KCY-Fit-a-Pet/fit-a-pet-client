@@ -146,9 +146,9 @@ class LoginVC: UIViewController{
         
         let dispatchGroup = DispatchGroup()
 
-        dispatchGroup.enter() //dispatchGroup에 넣기
+        dispatchGroup.enter()
         AlamofireManager.shared.login("heejin", "heejin123") { result in
-            defer { dispatchGroup.leave() }//defer: 함수 종료시 실행,dispatchGroup 나가기
+            defer { dispatchGroup.leave() }
             
             switch result {
             case .success(let data):
@@ -157,6 +157,10 @@ class LoginVC: UIViewController{
                     do {
                         let jsonObject = try JSONSerialization.jsonObject(with: responseData, options: []) as? [String: Any] ?? [:]
                         print("Login Response JSON Data: \(jsonObject)")
+
+                        // Enter the dispatch group for userProfileInfo only if login is successful
+                        dispatchGroup.enter()
+
                     } catch {
                         print("Error parsing login JSON: \(error)")
                     }
@@ -168,7 +172,6 @@ class LoginVC: UIViewController{
             }
         }
 
-        dispatchGroup.enter()
         AlamofireManager.shared.userProfileInfo { result in
             defer { dispatchGroup.leave() }
 
@@ -183,7 +186,7 @@ class LoginVC: UIViewController{
                            let memberDict = dataDict["member"] as? [String: Any] {
 
                             for (key, value) in memberDict {
-                                //print("\(key): \(value)")
+                                print("\(key): \(value)")
                                 UserDefaults.standard.set(value, forKey: key)
                             }
 
@@ -201,10 +204,11 @@ class LoginVC: UIViewController{
         }
 
         dispatchGroup.notify(queue: .main) {
-            // 로그인과 유저 정보 불러오기가 끝나면
+            // Both login and user profile info tasks are completed
             self.present(mainVC, animated: false, completion: nil)
         }
     }
+
     
     @objc func changeFindIdVC(_ sender: UIButton){
         FindIdPwSwitch.findAuth = "아이디 찾기"
