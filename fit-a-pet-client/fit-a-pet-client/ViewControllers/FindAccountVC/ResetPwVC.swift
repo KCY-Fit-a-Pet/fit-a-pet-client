@@ -10,6 +10,7 @@ class ResetPwVC: CustomNavigationBar{
     private let inputPwCheck = UITextField()
     
     private var newPw = ""
+    private var newPwCheck = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -101,26 +102,40 @@ class ResetPwVC: CustomNavigationBar{
     }
 
     @objc func resetPwCompleteBtnTapped(_ sender: UIButton){
-        if let loginVC = navigationController?.viewControllers.first(where: { $0 is LoginVC }) {
-            navigationController?.popToViewController(loginVC, animated: true)
-        }
         
-        AlamofireManager.shared.findPw(FindIdPwSwitch.phoneNum, newPw, FindIdPwSwitch.code){
-            result in
-            switch result {
-            case .success(let data):
-                // Handle success
-                if let responseData = data {
-                    // Process the data
-                    let object = try?JSONSerialization.jsonObject(with: responseData, options: []) as? NSDictionary
-                    guard let jsonObject = object else {return}
-                    print("respose jsonData: \(jsonObject)")
+        if newPw == newPwCheck{
+            
+            AlamofireManager.shared.findPw(FindIdPwSwitch.phoneNum, newPwCheck, FindIdPwSwitch.code){
+                result in
+                switch result {
+                case .success(let data):
+                    // Handle success
+                    if let responseData = data {
+                        let object = try?JSONSerialization.jsonObject(with: responseData, options: []) as? NSDictionary
+                        if let status = object?["status"] as? String {
+                            print("status: \(status)")
+                            
+                            if status == "success" {
+                                if let loginVC = self.navigationController?.viewControllers.first(where: { $0 is LoginVC }) {
+                                    self.navigationController?.popToViewController(loginVC, animated: true)
+                                }
+                            }
+                        }
+                    }
+                case .failure(let error):
+                    // Handle failure
+                    print("Error: \(error)")
                 }
-            case .failure(let error):
-                // Handle failure
-                print("Error: \(error)")
             }
+        }else{
+            print(newPwCheck)
+            print(newPw)
+            let customPopupVC = CustomPopupViewController()
+            customPopupVC.modalPresentationStyle = .overFullScreen
+            customPopupVC.messageText = "새 비밀번호와 비밀번호 확인이\n 일치하지 않습니다."
+            self.present(customPopupVC, animated: false, completion: nil)
         }
+       
     }
     
 }
@@ -133,7 +148,8 @@ extension ResetPwVC: UITextFieldDelegate{
             if let inputPwText = inputPw.text, !inputPwText.isEmpty {
                 let updatedText = (inputPwCheck.text! as NSString).replacingCharacters(in: range, with: string)
                 
-                newPw = updatedText
+                newPw = inputPw.text!
+                newPwCheck = updatedText
                 resetPwCompleteBtn.updateButtonColor(updatedText, false)
                 
                 if updatedText.isEmpty{

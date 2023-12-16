@@ -35,3 +35,4 @@ enum FindIdPwSwitch{
     static var code = ""
     static var userUid = ""
 }
+

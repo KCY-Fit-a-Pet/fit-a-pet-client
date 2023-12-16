@@ -148,6 +148,8 @@ extension InputPhoneNumVC: UITextFieldDelegate{
                 phone = formattedText.replacingOccurrences(of: "-", with: "")
                 print(phone)
             }
+        }else{
+            inputPhoneNum.text = ""
         }
         
         return false

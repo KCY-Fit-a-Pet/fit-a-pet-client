@@ -92,7 +92,6 @@ class AlarmTableViewCell: UITableViewCell {
                 print("Error: \(error)")
             }
         }
-        
     }
 }
 
