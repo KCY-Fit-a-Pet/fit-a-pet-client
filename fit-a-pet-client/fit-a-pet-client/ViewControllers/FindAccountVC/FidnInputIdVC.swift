@@ -84,18 +84,30 @@ class FindInputIdVC: CustomNavigationBar{
     }
     @objc func changeFindInputPhoneNumVC(_ sender: UIButton){
         let nextVC = FindInputPhoneNumVC(title: FindIdPwSwitch.findAuth)
-        self.navigationController?.pushViewController(nextVC, animated: false)
         
-        AlamofireManager.shared.existId(FindIdPwSwitch.userUid){
-            result in
+        AlamofireManager.shared.existId(FindIdPwSwitch.userUid) { result in
             switch result {
             case .success(let data):
                 // Handle success
                 if let responseData = data {
-                    // Process the data
-                    let object = try?JSONSerialization.jsonObject(with: responseData, options: []) as? NSDictionary
-                    guard let jsonObject = object else {return}
-                    print("respose jsonData: \(jsonObject)")
+                    do {
+                        if let json = try JSONSerialization.jsonObject(with: responseData, options: []) as? [String: Any],
+                           let dataDict = json["data"] as? [String: Any],
+                           let valid = dataDict["valid"] as? Bool {
+                            print("valid: \(valid)")
+                            
+                            if valid == true{
+                                self.navigationController?.pushViewController(nextVC, animated: false)
+                            }else{
+                                let customPopupVC = CustomPopupViewController()
+                                customPopupVC.modalPresentationStyle = .overFullScreen
+                                customPopupVC.messageText = "입력하신 아이디를\n찾을 수 없습니다."
+                                self.present(customPopupVC, animated: false, completion: nil)
+                            }
+                        }
+                    } catch let error {
+                        print("Error decoding JSON: \(error)")
+                    }
                 }
             case .failure(let error):
                 // Handle failure
@@ -110,11 +122,10 @@ extension FindInputIdVC: UITextFieldDelegate{
     // 입력값이 변경되면 버튼의 색상을 업데이트
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         
-        let updatedText = (findInputId.text! as NSString).replacingCharacters(in: range, with: string)
+        let updatedText = (textField.text! as NSString).replacingCharacters(in: range, with: string)
         nextInputPhoneNumBtn.updateButtonColor(updatedText, false)
         
         FindIdPwSwitch.userUid = updatedText
-    
         print(updatedText)
         
         if updatedText.isEmpty{

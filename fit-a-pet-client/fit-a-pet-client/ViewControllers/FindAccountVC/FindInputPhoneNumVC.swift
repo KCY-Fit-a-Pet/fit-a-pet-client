@@ -68,22 +68,27 @@ class FindInputPhoneNumVC: CustomNavigationBar{
     }
     @objc func changeFindInputAuthNumVC(_ sender: UIButton){
         let nextVC = FindInputAuthNumVC(title: FindIdPwSwitch.findAuth, phone: FindIdPwSwitch.phoneNum)
-        self.navigationController?.pushViewController(nextVC, animated: false)
         
         AlamofireManager.shared.sendAuthSms(FindIdPwSwitch.phoneNum, FindIdPwSwitch.userUid){
             result in
             switch result {
             case .success(let data):
-                // Handle success
+                
                 if let responseData = data {
-                    // Process the data
                     let object = try?JSONSerialization.jsonObject(with: responseData, options: []) as? NSDictionary
                     guard let jsonObject = object else {return}
                     print("respose jsonData: \(jsonObject)")
                 }
+                
+                self.navigationController?.pushViewController(nextVC, animated: false)
+                     
             case .failure(let error):
-                // Handle failure
                 print("Error: \(error)")
+                
+                let customPopupVC = CustomPopupViewController()
+                customPopupVC.modalPresentationStyle = .overFullScreen
+                customPopupVC.messageText = "해당 전화번호가 사용된\n아이디가 없습니다."
+                self.present(customPopupVC, animated: false, completion: nil)
             }
         }
         
@@ -123,6 +128,8 @@ extension FindInputPhoneNumVC: UITextFieldDelegate{
                 inputPhoneNum.text = formattedText
                 FindIdPwSwitch.phoneNum = formattedText.replacingOccurrences(of: "-", with: "")
             }
+        }else{
+            inputPhoneNum.text = ""
         }
         
         return false

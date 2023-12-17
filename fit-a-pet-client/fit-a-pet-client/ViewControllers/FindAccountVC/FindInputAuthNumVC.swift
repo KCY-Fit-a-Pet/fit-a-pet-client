@@ -78,32 +78,35 @@ class FindInputAuthNumVC: CustomNavigationBar{
     }
     
     @objc func changeFindIdCheckVC(_ sender: UIButton){
+        let nextVC = ResetPwVC(title: FindIdPwSwitch.findAuth)
+        
+        if  FindIdPwSwitch.findAuth == "아이디 찾기"{
+            let nextVC = FindIdCheckVC(title: FindIdPwSwitch.findAuth)
+        }
         
         AlamofireManager.shared.checkAuthSms(FindIdPwSwitch.phoneNum, FindIdPwSwitch.code){
             result in
             switch result {
             case .success(let data):
-                // Handle success
+                
                 if let responseData = data {
-                    // Process the data
                     let object = try?JSONSerialization.jsonObject(with: responseData, options: []) as? NSDictionary
                     guard let jsonObject = object else {return}
                     print("respose jsonData: \(jsonObject)")
                 }
+                
+                self.navigationController?.pushViewController(nextVC, animated: false)
+                     
             case .failure(let error):
-                // Handle failure
                 print("Error: \(error)")
+                
+                let customPopupVC = CustomPopupViewController()
+                customPopupVC.modalPresentationStyle = .overFullScreen
+                customPopupVC.messageText = "인증번호가 일치하지 않습니다."
+                self.present(customPopupVC, animated: false, completion: nil)
             }
         }
         
-        if  FindIdPwSwitch.findAuth == "아이디 찾기"{
-            let nextVC = FindIdCheckVC(title: FindIdPwSwitch.findAuth)
-            self.navigationController?.pushViewController(nextVC, animated: false)
-        }
-        else{
-            let nextVC = ResetPwVC(title: FindIdPwSwitch.findAuth)
-            self.navigationController?.pushViewController(nextVC, animated: false)
-        }
     }
 }
 

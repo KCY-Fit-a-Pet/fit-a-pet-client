@@ -21,6 +21,7 @@ class AlamofireManager {
         self
             .session // 세션 설정
             .request(MySearchRouter.sendSms(to: phone))
+            .validate(statusCode: 200..<300)
             .response { response in
                switch response.result {
                case .success(let data):
@@ -35,6 +36,7 @@ class AlamofireManager {
         os_log("MyAlamofireManager - checkSms() called userInput : %@ ,, %d", log: .default, type: .info, phone, code)
 
         self.session.request(MySearchRouter.checkSms(to: phone, code: code))
+            .validate(statusCode: 200..<300)
             .response { response in
                 switch response.result {
                 case .success(let data):
@@ -51,6 +53,7 @@ class AlamofireManager {
         self
             .session
             .request(MySearchRouter.login(uid: uid, password: password))
+            .validate(statusCode: 200..<300)
             .response { response in
                 switch response.result{
                 case .success(let data):
@@ -72,6 +75,7 @@ class AlamofireManager {
         self
             .session
             .request(MySearchRouter.regist(uid: uid, name: name, password: password, email: email, profileImg: profileImg))
+            .validate(statusCode: 200..<300)
             .response { response in
                 switch response.result{
                 case .success(let data):
@@ -88,6 +92,7 @@ class AlamofireManager {
         self
             .session
             .request(MySearchRouter.presignedurl(dirname: dirname, extensionType: extensionType, result: true, blocking: true))
+            .validate(statusCode: 200..<300)
             .response { response in
                 switch response.result{
                 case .success(let data):
@@ -105,6 +110,7 @@ class AlamofireManager {
         self
             .session
             .request(MySearchRouter.uploadImage(image: image))
+            .validate(statusCode: 200..<300)
             .response { response in
                 switch response.result{
                 case .success(let data):
@@ -121,6 +127,7 @@ class AlamofireManager {
         self
             .session
             .request(MySearchRouter.registPet(petName: petName, species: species, gender: gender, neutralization: neutralization, birthDate: birthDate))
+            .validate(statusCode: 200..<300)
             .response { response in
                 switch response.result{
                 case .success(let data):
@@ -134,6 +141,7 @@ class AlamofireManager {
         os_log("MyAlamofireManager - sendAuthSms() called userInput : %@ ,, %@  ", log: .default, type: .info, phone, uid)
 
         self.session.request(MySearchRouter.sendAuthSms(to: phone, uid: uid))
+            .validate(statusCode: 200..<300)
             .response { response in
                 switch response.result {
                 case .success(let data):
@@ -147,6 +155,7 @@ class AlamofireManager {
         os_log("MyAlamofireManager - checkAuthSms() called userInput : %@ ,, %@", log: .default, type: .info, phone, code)
 
         self.session.request(MySearchRouter.checkAuthSms(to: phone, code: code))
+            .validate(statusCode: 200..<300)
             .response { response in
                 switch response.result {
                 case .success(let data):
@@ -160,6 +169,7 @@ class AlamofireManager {
         os_log("MyAlamofireManager - findId() called userInput : %@ ,, %@", log: .default, type: .info, phone, code)
 
         self.session.request(MySearchRouter.findId(phone: phone, code: code))
+            .validate(statusCode: 200..<300)
             .response { response in
                 switch response.result {
                 case .success(let data):
@@ -174,6 +184,7 @@ class AlamofireManager {
         os_log("MyAlamofireManager - findPw() called userInput : %@ ,, %@ ,, %@", log: .default, type: .info, phone,newPassword, code)
 
         self.session.request(MySearchRouter.findPw(phone: phone, newPassword: newPassword, code: code))
+            .validate(statusCode: 200..<300)
             .response { response in
                 switch response.result {
                 case .success(let data):
@@ -187,6 +198,7 @@ class AlamofireManager {
         os_log("MyAlamofireManager - existId() called userInput : %@", log: .default, type: .info, uid)
         
         self.session.request(MySearchRouter.existId(uid: uid))
+            .validate(statusCode: 200..<300)
             .response { response in
                 switch response.result {
                 case .success(let data):
@@ -201,6 +213,7 @@ class AlamofireManager {
         os_log("MyAlamofireManager - userProfileInfo() called ", log: .default, type: .info)
         
         self.session.request(MySearchRouter.userProfileInfo)
+            .validate(statusCode: 200..<300)
             .response { response in
                 switch response.result {
                 case .success(let data):
@@ -214,6 +227,7 @@ class AlamofireManager {
         os_log("MyAlamofireManager - userNotifyType() called userInput: %@", log: .default, type: .info, type)
         
         self.session.request(MySearchRouter.userNotifyType(type: type))
+            .validate(statusCode: 200..<300)
             .response { response in
                 switch response.result {
                 case .success(let data):
@@ -228,6 +242,7 @@ class AlamofireManager {
         os_log("MyAlamofireManager - editUserPw() called userInput: %@", log: .default, type: .info, type)
         
         self.session.request(MySearchRouter.editUserPw(type: type, prePassword: prePassword, newPassword: newPassword))
+            .validate(statusCode: 200..<300)
             .response { response in
                 switch response.result {
                 case .success(let data):
@@ -241,6 +256,7 @@ class AlamofireManager {
         os_log("MyAlamofireManager - editUserName() called userInput: %@", log: .default, type: .info, type)
         
         self.session.request(MySearchRouter.editUserName(type: type, name: name))
+            .validate(statusCode: 200..<300)
             .response { response in
                 switch response.result {
                 case .success(let data):

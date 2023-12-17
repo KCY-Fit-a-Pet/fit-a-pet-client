@@ -1,7 +1,6 @@
 
 import UIKit
 import SnapKit
-import SwiftUI
 
 class FindIdCheckVC: CustomNavigationBar{
     
@@ -128,21 +127,4 @@ class FindIdCheckVC: CustomNavigationBar{
 
     }
     
-}
-
-// MARK: - Preview
-
-struct ViewController_Previews: PreviewProvider {
-  static var previews: some View {
-    Container().edgesIgnoringSafeArea(.all)
-  }
-  
-  struct Container: UIViewControllerRepresentable {
-    func makeUIViewController(context: Context) -> UIViewController {
-        let rootViewController = FindIdCheckVC(title: "아이디 찾기")
-      return UINavigationController(rootViewController: rootViewController)
-    }
-    func updateUIViewController(_ uiViewController: UIViewControllerType, context: Context) {}
-    typealias UIViewControllerType = UIViewController
-  }
 }
