@@ -78,6 +78,7 @@
 		4A15F2112AA8B4880098F2F7 /* InputIdVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputIdVC.swift; sourceTree = "<group>"; };
 		4A15F2132AA8B4A50098F2F7 /* InputPwVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputPwVC.swift; sourceTree = "<group>"; };
 		4A15F2152AA8B4CA0098F2F7 /* InputNickVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputNickVC.swift; sourceTree = "<group>"; };
+		4A24406F2B36A9D20086D2AB /* Secrets.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Secrets.xcconfig; sourceTree = "<group>"; };
 		4A4BFDC92AD26B0F0062BDB8 /* RegistrationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationManager.swift; sourceTree = "<group>"; };
 		4A8662D32B26299F00D8DDE8 /* EditUserPwVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditUserPwVC.swift; sourceTree = "<group>"; };
 		4A8662D52B2629F500D8DDE8 /* EditUserNameVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditUserNameVC.swift; sourceTree = "<group>"; };
@@ -180,6 +181,7 @@
 				4AA9999A2A8485A600E495FA /* Assets.xcassets */,
 				4AA9999C2A8485A600E495FA /* LaunchScreen.storyboard */,
 				4AA9999F2A8485A600E495FA /* Info.plist */,
+				4A24406F2B36A9D20086D2AB /* Secrets.xcconfig */,
 			);
 			path = "fit-a-pet-client";
 			sourceTree = "<group>";
@@ -516,6 +518,7 @@
 /* Begin XCBuildConfiguration section */
 		4AA999A02A8485A600E495FA /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 4A24406F2B36A9D20086D2AB /* Secrets.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -576,6 +579,7 @@
 		};
 		4AA999A12A8485A600E495FA /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 4A24406F2B36A9D20086D2AB /* Secrets.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -638,6 +642,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "fit-a-pet-client/Info.plist";
+				INFOPLIST_KEY_LSApplicationCategoryType = "";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
@@ -665,6 +670,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "fit-a-pet-client/Info.plist";
+				INFOPLIST_KEY_LSApplicationCategoryType = "";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";

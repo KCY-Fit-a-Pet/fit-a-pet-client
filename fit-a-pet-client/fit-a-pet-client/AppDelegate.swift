@@ -1,27 +1,49 @@
-//
-//  AppDelegate.swift
-//  fit-a-pet-client
-//
-//  Created by 최희진 on 2023/08/10.
-//
+
 
 import UIKit
 import KakaoSDKCommon
 import GoogleSignIn
+import NaverThirdPartyLogin
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
-        KakaoSDK.initSDK(appKey: "bbe38742c0998fecfaaaaaef6856fc32")
+        let kakaoAppKey = Bundle.main.infoDictionary?["KakaoAppKey"] as! String
+        let naverClientId = Bundle.main.infoDictionary?["NaverClientID"] as! String
+        let naverClientSecret = Bundle.main.infoDictionary?["NaverClientSecret"] as! String
+        
+        
+        KakaoSDK.initSDK(appKey: kakaoAppKey)
+        
+        let instance = NaverThirdPartyLoginConnection.getSharedInstance()
+        ///  네이버앱으로 로그인
+        instance!.isNaverAppOauthEnable = true
+        /// 사파리로 로그인
+        instance!.isInAppOauthEnable = true
+        
+        instance?.serviceUrlScheme = "naverlogin" // 앱을 등록할 때 입력한 URL Scheme
+        instance?.consumerKey = naverClientId // 상수 - client id
+        instance?.consumerSecret = naverClientSecret // pw
+        instance?.appName = "Fit a Pet" // app name
         
         return true
     }
     
-    
     func application(_ application: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey: Any]) -> Bool {
-        return GIDSignIn.sharedInstance.handle(url)
+        
+        NaverThirdPartyLoginConnection.getSharedInstance()?.application(application, open: url, options: options)
+        
+//        print("url: \(url), scheme: \(url.scheme)")  //url: yourapp://sendData, scheme: yourapp
+//        if url.scheme == "naverLogin" {
+//            let str = url.absoluteString  //"yourapp://sendData"
+//            let arr = str.split(separator: "/")  //["yourapp:", "sendData"]
+//            print("receiveData: \(arr[1])")  //receiveData: sendData
+//        }
+        //GIDSignIn.sharedInstance.handle(url)
+        
+        return true
     }
 
     // MARK: UISceneSession Lifecycle

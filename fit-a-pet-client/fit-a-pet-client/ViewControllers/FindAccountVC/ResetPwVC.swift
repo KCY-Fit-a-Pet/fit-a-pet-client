@@ -128,8 +128,7 @@ class ResetPwVC: CustomNavigationBar{
                 }
             }
         }else{
-            print(newPwCheck)
-            print(newPw)
+            
             let customPopupVC = CustomPopupViewController()
             customPopupVC.modalPresentationStyle = .overFullScreen
             customPopupVC.messageText = "새 비밀번호와 비밀번호 확인이\n 일치하지 않습니다."
