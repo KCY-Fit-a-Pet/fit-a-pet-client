@@ -1,3 +1,3 @@
-.DS_Store
-.xcconfig
+*.DS_Store
+*.xcconfig
 
