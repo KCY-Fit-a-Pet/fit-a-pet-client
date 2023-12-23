@@ -4,6 +4,7 @@ import KakaoSDKAuth
 import KakaoSDKUser
 import GoogleSignIn
 import Alamofire
+import NaverThirdPartyLogin
 
 class FirstVC: UIViewController {
     
@@ -13,6 +14,7 @@ class FirstVC: UIViewController {
     private let loginView = UIView()
     
     let PRYMARYCOLOR = UIColor(named: "PrimaryColor")
+    let loginInstance = NaverThirdPartyLoginConnection.getSharedInstance()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -20,6 +22,8 @@ class FirstVC: UIViewController {
         
         self.navigationController?.navigationBar.tintColor = .black
         self.navigationController?.navigationBar.topItem?.title = " "
+        
+        loginInstance?.delegate = self
     }
     private func initView(){
         self.view.backgroundColor = .white
@@ -108,6 +112,8 @@ extension FirstVC{
         
         kakaoLogin.addTarget(self, action: #selector(kakaoLoginBtnTapped(_:)), for: .touchUpInside)
         googleLogin.addTarget(self, action: #selector(googleLoginBtnTapped(_ :)), for:  .touchUpInside)
+        naverLogin.addTarget(self, action: #selector(naverLoginBtnTapped(_ :)), for:  .touchUpInside)
+        appleLogin.addTarget(self, action: #selector(naverLogoutBtnTapped(_ :)), for:  .touchUpInside)
         
         let loginButtons = [naverLogin, kakaoLogin, googleLogin, appleLogin]
         
@@ -160,17 +166,29 @@ extension FirstVC{
 }
 
 extension FirstVC{
+    
     @objc func kakaoLoginBtnTapped(_ sender: UIButton){
-        
-        UserApi.shared.loginWithKakaoAccount {(oauthToken, error) in
 
+        UserApi.shared.loginWithKakaoAccount(prompts:[.Login]) {(oauthToken, error) in
             if let error = error {
                 print(error)
             }
             else {
                 print("loginWithKakaoAccount() success.")
-
+                
+                print(oauthToken)
                 _ = oauthToken
+                
+                UserApi.shared.me() {(user, error) in
+                    if let error = error {
+                        print(error)
+                    }
+                    else {
+                        print("사용자 정보 가져오기 성공")
+                    
+                        print(user)
+                    }
+                }
             }
         }
     }
@@ -181,11 +199,15 @@ extension FirstVC{
                 guard let signInResult = signInResult else { return }
                 
                 let user = signInResult.user
+                let userId = user.userID
                 let emailAddress = user.profile?.email
                 let fullName = user.profile?.name
                 let profilePicUrl = user.profile?.imageURL(withDimension: 320)
                 
+                
+                
                 print("user: \(user)")
+                print("userId: \(userId)")
                 print("emailAddress: \(String(describing: emailAddress))")
                 print("fullName: \(String(describing: fullName))")
                 print("profileUrl: \(String(describing: profilePicUrl))")
@@ -201,6 +223,15 @@ extension FirstVC{
             }
     }
     
+    @objc func naverLoginBtnTapped(_ sender: UIButton){
+        loginInstance?.requestThirdPartyLogin()
+        
+    }
+    @objc func naverLogoutBtnTapped(_ sender: UIButton){
+        loginInstance?.requestDeleteToken()
+        
+    }
+    
     @objc func changeSignUpVC(_ sender: UIButton){
         let nextVC = InputPhoneNumVC()
         self.navigationController?.pushViewController(nextVC, animated: false)
@@ -211,4 +242,58 @@ extension FirstVC{
         self.navigationController?.pushViewController(nextVC, animated: false)
     }
     
+}
+
+extension FirstVC: NaverThirdPartyLoginConnectionDelegate{
+    func oauth20ConnectionDidFinishRequestACTokenWithRefreshToken() {
+        loginInstance?.accessToken
+    }
+    
+    func oauth20ConnectionDidFinishDeleteToken() {
+        print("log out")
+    }
+    
+    func oauth20Connection(_ oauthConnection: NaverThirdPartyLoginConnection!, didFailWithError error: Error!) {
+        print("error = \(error.localizedDescription)")
+    }
+    
+ 
+    // 로그인에 성공한 경우 호출
+    func oauth20ConnectionDidFinishRequestACTokenWithAuthCode() {
+        print("Success login")
+        getInfo()
+    }
+    
+    // RESTful API, id가져오기
+    func getInfo() {
+        guard let isValidAccessToken = loginInstance?.isValidAccessTokenExpireTimeNow() else { return }
+        
+        if !isValidAccessToken {
+            return
+        }
+        
+        guard let tokenType = loginInstance?.tokenType else { return }
+        guard let accessToken = loginInstance?.accessToken else { return }
+        
+        let urlStr = "https://openapi.naver.com/v1/nid/me"
+        let url = URL(string: urlStr)!
+        
+        let authorization = "\(tokenType) \(accessToken)"
+        
+        let req = AF.request(url, method: .get, parameters: nil, encoding: JSONEncoding.default, headers: ["Authorization": authorization])
+        
+        req.responseJSON { response in
+            guard let result = response.value as? [String: Any] else { return }
+            guard let object = result["response"] as? [String: Any] else { return }
+            guard let name = object["name"] as? String else { return }
+            guard let email = object["email"] as? String else { return }
+            guard let id = object["id"] as? String else {return}
+            
+            print("email: \(email)")
+            print("name: \(name)")
+            print("id: \(id)")
+            print("result: \(result)")
+         
+        }
+    }
 }
