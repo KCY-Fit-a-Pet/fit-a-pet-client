@@ -187,6 +187,7 @@ extension FirstVC{
                         print("사용자 정보 가져오기 성공")
                     
                         print(user)
+                        
                     }
                 }
             }
@@ -220,6 +221,11 @@ extension FirstVC{
                     
                     print("idToken: \(String(describing: idToken))")
                 }
+                let nonce = CryptoHelpers.randomNonceString()
+                print("nonce 값: \(nonce)")
+                let hashedString = CryptoHelpers.sha256(nonce)
+                print("hashedString 값: \(hashedString)")
+                //무작위로 생성된 nonce를 해싱하면 결과 해시가 예측 불가능하고 무작위로 표시되도록 할 수 있다.
             }
     }
     
