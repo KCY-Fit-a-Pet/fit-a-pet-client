@@ -33,15 +33,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(_ application: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey: Any]) -> Bool {
         
+        
         NaverThirdPartyLoginConnection.getSharedInstance()?.application(application, open: url, options: options)
         
-//        print("url: \(url), scheme: \(url.scheme)")  //url: yourapp://sendData, scheme: yourapp
-//        if url.scheme == "naverLogin" {
-//            let str = url.absoluteString  //"yourapp://sendData"
-//            let arr = str.split(separator: "/")  //["yourapp:", "sendData"]
-//            print("receiveData: \(arr[1])")  //receiveData: sendData
-//        }
-        //GIDSignIn.sharedInstance.handle(url)
+        GIDSignIn.sharedInstance.handle(url)
         
         return true
     }

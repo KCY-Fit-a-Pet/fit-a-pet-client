@@ -21,6 +21,7 @@
 		4A15F2122AA8B4880098F2F7 /* InputIdVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A15F2112AA8B4880098F2F7 /* InputIdVC.swift */; };
 		4A15F2142AA8B4A50098F2F7 /* InputPwVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A15F2132AA8B4A50098F2F7 /* InputPwVC.swift */; };
 		4A15F2162AA8B4CA0098F2F7 /* InputNickVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A15F2152AA8B4CA0098F2F7 /* InputNickVC.swift */; };
+		4A2440712B374C0F0086D2AB /* CryptoHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A2440702B374C0F0086D2AB /* CryptoHelpers.swift */; };
 		4A4BFDCA2AD26B0F0062BDB8 /* RegistrationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A4BFDC92AD26B0F0062BDB8 /* RegistrationManager.swift */; };
 		4A8662D42B26299F00D8DDE8 /* EditUserPwVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A8662D32B26299F00D8DDE8 /* EditUserPwVC.swift */; };
 		4A8662D62B2629F500D8DDE8 /* EditUserNameVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A8662D52B2629F500D8DDE8 /* EditUserNameVC.swift */; };
@@ -79,6 +80,7 @@
 		4A15F2132AA8B4A50098F2F7 /* InputPwVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputPwVC.swift; sourceTree = "<group>"; };
 		4A15F2152AA8B4CA0098F2F7 /* InputNickVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputNickVC.swift; sourceTree = "<group>"; };
 		4A24406F2B36A9D20086D2AB /* Secrets.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Secrets.xcconfig; sourceTree = "<group>"; };
+		4A2440702B374C0F0086D2AB /* CryptoHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CryptoHelpers.swift; sourceTree = "<group>"; };
 		4A4BFDC92AD26B0F0062BDB8 /* RegistrationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationManager.swift; sourceTree = "<group>"; };
 		4A8662D32B26299F00D8DDE8 /* EditUserPwVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditUserPwVC.swift; sourceTree = "<group>"; };
 		4A8662D52B2629F500D8DDE8 /* EditUserNameVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditUserNameVC.swift; sourceTree = "<group>"; };
@@ -248,6 +250,7 @@
 		4ABE585E2A85E92B00E22C5F /* Extension */ = {
 			isa = PBXGroup;
 			children = (
+				4A2440702B374C0F0086D2AB /* CryptoHelpers.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -496,6 +499,7 @@
 				4AF0C8542B24E1A800A45EEE /* MyInfoTableViewCell.swift in Sources */,
 				4A4BFDCA2AD26B0F0062BDB8 /* RegistrationManager.swift in Sources */,
 				4AD354202AAF7CD6004A47B3 /* MainVC.swift in Sources */,
+				4A2440712B374C0F0086D2AB /* CryptoHelpers.swift in Sources */,
 				4ACDD4A72AD9B3F600CD8F1A /* CheckCareVC.swift in Sources */,
 				4A8662D62B2629F500D8DDE8 /* EditUserNameVC.swift in Sources */,
 				4A8B9B502AD444D0009236EC /* Constants.swift in Sources */,
