@@ -35,36 +35,68 @@ class KeychainHelper {
         }
     }
     
-    static func savePassword(password: String) {
+    static func saveTempToken(tempToken: String) {
         let passwordQuery: [CFString: Any] = [
             kSecClass: kSecClassGenericPassword,
-            kSecAttrAccount: "password",
-            kSecValueData: password.data(using: .utf8)!,
+            kSecAttrAccount: "tempToken",
+            kSecValueData: tempToken.data(using: .utf8)!,
         ]
         
         let status = SecItemAdd(passwordQuery as CFDictionary, nil)
         if status == errSecDuplicateItem {
-            SecItemUpdate(passwordQuery as CFDictionary, [kSecValueData: password.data(using: .utf8)!] as CFDictionary)
+            SecItemUpdate(passwordQuery as CFDictionary, [kSecValueData: tempToken.data(using: .utf8)!] as CFDictionary)
         } else if status != noErr {
-            print("Failed to save password to Keychain")
+            print("Failed to save tempToken to Keychain")
         }
     }
     
-    static func loadPassword() -> String? {
+    static func loadTempToken() -> String? {
         let query: [CFString: Any] = [
             kSecClass: kSecClassGenericPassword,
-            kSecAttrAccount: "password",
+            kSecAttrAccount: "tempToken",
             kSecReturnData: kCFBooleanTrue!,
         ]
 
         var item: CFTypeRef?
         let status = SecItemCopyMatching(query as CFDictionary, &item)
 
-        if status == noErr, let data = item as? Data, let password = String(data: data, encoding: .utf8) {
-            return password
+        if status == noErr, let data = item as? Data, let token = String(data: data, encoding: .utf8) {
+            return token
         } else {
             return nil
         }
     }
+    
+//    static func savePassword(password: String) {
+//        let passwordQuery: [CFString: Any] = [
+//            kSecClass: kSecClassGenericPassword,
+//            kSecAttrAccount: "password",
+//            kSecValueData: password.data(using: .utf8)!,
+//        ]
+//
+//        let status = SecItemAdd(passwordQuery as CFDictionary, nil)
+//        if status == errSecDuplicateItem {
+//            SecItemUpdate(passwordQuery as CFDictionary, [kSecValueData: password.data(using: .utf8)!] as CFDictionary)
+//        } else if status != noErr {
+//            print("Failed to save password to Keychain")
+//        }
+//    }
+//
+//    static func loadPassword() -> String? {
+//        let query: [CFString: Any] = [
+//            kSecClass: kSecClassGenericPassword,
+//            kSecAttrAccount: "password",
+//            kSecReturnData: kCFBooleanTrue!,
+//        ]
+//
+//        var item: CFTypeRef?
+//        let status = SecItemCopyMatching(query as CFDictionary, &item)
+//
+//        if status == noErr, let data = item as? Data, let password = String(data: data, encoding: .utf8) {
+//            return password
+//        } else {
+//            return nil
+//        }
+//    }
 }
 

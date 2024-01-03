@@ -74,9 +74,6 @@ class InputNickVC : UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        RegistrationManager.shared.addInput(nickname: "최희진2")
-       // RegistrationManager.shared.performRegistration()
-        
         self.navigationController?.navigationBar.tintColor = .black
         self.navigationController?.navigationBar.topItem?.title = " "
         
@@ -88,6 +85,11 @@ class InputNickVC : UIViewController {
    
     
     @objc func changeCompleteSignUpVC(_ sender: UIButton){
+        
+        if let nickname = inputNick.text {
+            RegistrationManager.shared.addInput(nickname: nickname)
+        }
+        
         AlamofireManager.shared.regist(RegistrationManager.shared.id!, RegistrationManager.shared.nickname!, RegistrationManager.shared.pw!, "", ""){
             result in
             switch result {

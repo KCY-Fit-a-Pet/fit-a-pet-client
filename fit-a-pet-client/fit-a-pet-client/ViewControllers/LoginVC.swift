@@ -147,7 +147,7 @@ class LoginVC: UIViewController{
         let dispatchGroup = DispatchGroup()
 
         dispatchGroup.enter()
-        AlamofireManager.shared.login("heejin", "heejin123") { result in
+        AlamofireManager.shared.login("heejin", "heejin1234") { result in
             defer { dispatchGroup.leave() }
             
             switch result {
@@ -186,12 +186,13 @@ class LoginVC: UIViewController{
                            let memberDict = dataDict["member"] as? [String: Any] {
 
                             for (key, value) in memberDict {
-                                print("\(key): \(value)")
+                                //print("\(key): \(value)")
                                 UserDefaults.standard.set(value, forKey: key)
                             }
 
                             UserDefaults.standard.synchronize()
                         }
+                        print("Response JSON Data: \(jsonObject)")
                     } catch {
                         print("Error parsing user profile JSON: \(error)")
                     }

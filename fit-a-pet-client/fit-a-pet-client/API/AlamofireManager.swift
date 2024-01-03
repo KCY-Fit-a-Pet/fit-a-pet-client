@@ -40,6 +40,11 @@ class AlamofireManager {
             .response { response in
                 switch response.result {
                 case .success(let data):
+                    if let responseHeaders = response.response?.allHeaderFields as? [String: String],
+                       let accessToken = responseHeaders["accessToken"] {
+                        KeychainHelper.saveAccessToken(accessToken: accessToken)
+                        os_log("sms token: %@", log: .default, type: .info, accessToken)
+                    }
                     completion(.success(data))
                 case .failure(let error):
                     completion(.failure(error))
@@ -267,19 +272,68 @@ class AlamofireManager {
         }
     }
     
-    func kakaoCodeGet(completion: @escaping(Result<Data?, Error>) -> Void){
-        os_log("MyAlamofireManager - kakaoCodeGet() called ", log: .default, type: .info)
-
-        self.session.request(MySearchRouter.kakaoCode)
+    func oauthLogin(completion: @escaping(Result<Data?, Error>) -> Void){
+        os_log("MyAlamofireManager - oauthLogin() called", log: .default, type: .info)
+        
+        self.session.request(MySearchRouter.oauthLogin)
+            .validate(statusCode: 200..<300)
             .response { response in
                 switch response.result {
                 case .success(let data):
                     completion(.success(data))
                 case .failure(let error):
                     completion(.failure(error))
-                }
+            }
+        }
+    }
+    func oauthSendSms(completion: @escaping(Result<Data?, Error>) -> Void){
+        os_log("MyAlamofireManager - oauthSendSms() called", log: .default, type: .info)
+
+        self.session.request(MySearchRouter.oauthSendSms)
+            .validate(statusCode: 200..<300)
+            .response { response in
+                switch response.result {
+                case .success(let data):
+                    completion(.success(data))
+                case .failure(let error):
+                    completion(.failure(error))
+            }
         }
     }
     
+    func oauthCheckSms(_ code: String, completion: @escaping(Result<Data?, Error>) -> Void){
+        os_log("MyAlamofireManager - oauthCheckSms() called userInput: %@", log: .default, type: .info, code)
+
+        self.session.request(MySearchRouter.oauthCheckSms(code: code))
+            .validate(statusCode: 200..<300)
+            .response { response in
+                switch response.result {
+                case .success(let data):
+                    if let responseHeaders = response.response?.allHeaderFields as? [String: String],
+                       let accessToken = responseHeaders["accessToken"] {
+                        KeychainHelper.saveAccessToken(accessToken: accessToken)
+                        os_log("sms token: %@", log: .default, type: .info, accessToken)
+                    }
+                    completion(.success(data))
+                case .failure(let error):
+                    completion(.failure(error))
+            }
+        }
+    }
+    
+    func oauthRegistUser(_ name: String, _ uid: String, completion: @escaping(Result<Data?, Error>) -> Void){
+        os_log("MyAlamofireManager - oauthCheckSms() called userInput: %@ ,, %@", log: .default, type: .info, name, uid)
+
+        self.session.request(MySearchRouter.oauthRegistUser(name: name, uid: uid))
+            .validate(statusCode: 200..<300)
+            .response { response in
+                switch response.result {
+                case .success(let data):
+                    completion(.success(data))
+                case .failure(let error):
+                    completion(.failure(error))
+            }
+        }
+    }
 }
 

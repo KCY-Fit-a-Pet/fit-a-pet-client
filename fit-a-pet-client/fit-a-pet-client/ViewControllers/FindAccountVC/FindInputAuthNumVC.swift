@@ -78,10 +78,13 @@ class FindInputAuthNumVC: CustomNavigationBar{
     }
     
     @objc func changeFindIdCheckVC(_ sender: UIButton){
-        let nextVC = ResetPwVC(title: FindIdPwSwitch.findAuth)
+        
+        var nextVC: UIViewController
         
         if  FindIdPwSwitch.findAuth == "아이디 찾기"{
-            let nextVC = FindIdCheckVC(title: FindIdPwSwitch.findAuth)
+            nextVC = FindIdCheckVC(title: FindIdPwSwitch.findAuth)
+        }else{
+            nextVC = ResetPwVC(title: FindIdPwSwitch.findAuth)
         }
         
         AlamofireManager.shared.checkAuthSms(FindIdPwSwitch.phoneNum, FindIdPwSwitch.code){

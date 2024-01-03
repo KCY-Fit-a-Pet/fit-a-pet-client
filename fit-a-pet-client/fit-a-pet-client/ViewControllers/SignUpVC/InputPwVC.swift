@@ -107,7 +107,7 @@ class InputPwVC : UIViewController {
     @objc func changeInputNickVC(_ sender: UIButton){
         
         if let pw = inputPw.text {
-                RegistrationManager.shared.addInput(pw: pw)
+            RegistrationManager.shared.addInput(pw: pw)
         }
         
         let nextVC = InputNickVC()
