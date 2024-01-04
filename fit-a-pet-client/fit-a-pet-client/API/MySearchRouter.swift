@@ -17,11 +17,12 @@ enum MySearchRouter: URLRequestConvertible {
     case findId(phone: String, code: String)
     case findPw(phone: String, newPassword: String, code: String)
     case existId(uid: String)
-    case userProfileInfo
+    case userProfileInfo, oauthLogin, oauthSendSms
     case userNotifyType(type: String)
     case editUserPw(type: String, prePassword: String, newPassword: String)
     case editUserName(type: String, name: String)
-    case kakaoCode
+    case oauthCheckSms(code: String)
+    case oauthRegistUser(name: String, uid: String)
     
     var baseURL: URL {
         switch self {
@@ -29,8 +30,6 @@ enum MySearchRouter: URLRequestConvertible {
             return URL(string: API.PRESIGNEDURL)!
         case .uploadImage:
             return URL(string: PAYLOADURL.PAYLOAD)!
-        case .kakaoCode:
-            return URL(string: "https://kauth.kakao.com/oauth/authorize")!
         default:
             return URL(string: API.BASE_URL)!
         }
@@ -38,9 +37,9 @@ enum MySearchRouter: URLRequestConvertible {
     
     var method: HTTPMethod {
         switch self {
-        case .sendSms, .checkSms, .login, .regist, .presignedurl, .registPet,.sendAuthSms, .checkAuthSms, .findId, .findPw:
+        case .sendSms, .checkSms, .login, .regist, .presignedurl, .registPet,.sendAuthSms, .checkAuthSms, .findId, .findPw, .oauthLogin, .oauthSendSms, .oauthCheckSms, .oauthRegistUser:
             return .post
-        case .kakaoCode, .existId, .userProfileInfo, .userNotifyType:
+        case .existId, .userProfileInfo, .userNotifyType:
             return .get
         case .uploadImage, .editUserPw, .editUserName:
             return .put
@@ -57,20 +56,26 @@ enum MySearchRouter: URLRequestConvertible {
             return "auth/register"
         case .presignedurl:
             return "C7QXbC20ti"
-        case .uploadImage, .kakaoCode:
+        case .uploadImage:
             return " "
         case .registPet:
             return "pets"
         case .sendAuthSms, .checkAuthSms:
             return "auth/search-sms"
+        case .oauthLogin:
+            return "auth/oauth"
+        case .oauthSendSms, .oauthCheckSms:
+            return "auth/oauth/\(OauthInfo.oauthId)/sms"
+        case .oauthRegistUser:
+            return "auth/oauth/\(OauthInfo.oauthId)"
         case .findId, .findPw:
             return "accounts/search"
         case .existId:
             return "accounts/exists"
         case .userProfileInfo, .editUserPw, .editUserName:
-            return "accounts"
+            return "accounts/\(UserDefaults.standard.string(forKey: "id")!)"
         case .userNotifyType:
-            return "accounts/notify"
+            return "accounts/\(UserDefaults.standard.string(forKey: "id")!)/notify"
         }
     }
     
@@ -103,8 +108,14 @@ enum MySearchRouter: URLRequestConvertible {
             return ["type": type, "prePassword": prePassword, "newPassword": newPassword]
         case let .editUserName(type, name):
             return ["type": type, "name": name]
-        case .uploadImage(_), .kakaoCode, .userProfileInfo:
+        case .uploadImage(_), .userProfileInfo, .oauthLogin, .oauthSendSms:
             return [:]
+        case let .oauthCheckSms(code):
+            return ["code": code]
+        case let .oauthRegistUser(name, uid):
+            return ["name": name, "uid": uid]
+//        case let .oauthLogin:
+//            return ["id": id, "nonce": nonce, "provider": provider]
         }
     }
     
@@ -225,6 +236,7 @@ enum MySearchRouter: URLRequestConvertible {
         case .editUserName(let type, let name):
             let bodyParameters = ["name": name]
             let queryParameters = [URLQueryItem(name: "type", value: type)]
+            print(url)
             
             if let accessToken = KeychainHelper.loadAccessToken() {
                 request = createURLRequestWithBodyAndQuery(url: url, bodyParameters: bodyParameters, queryParameters: queryParameters)
@@ -232,11 +244,43 @@ enum MySearchRouter: URLRequestConvertible {
             } else {
                 request = createURLRequestWithBodyAndQuery(url: url, bodyParameters: bodyParameters, queryParameters: queryParameters)
             }
-        
-        case .kakaoCode:
-            let queryParameters = [URLQueryItem(name: "client_id", value: "bbe38742c0998fecfaaaaaef6856fc32"),URLQueryItem(name: "redirect_uri", value: "kakaobbe38742c0998fecfaaaaaef6856fc32://oauth"), URLQueryItem(name: "response_type", value: "code")]
             
-            request = createURLRequestWithQuery(url: baseURL, queryParameters: queryParameters)
+        case .oauthLogin:
+            let idToken = KeychainHelper.loadTempToken()!
+            
+            let bodyParameters = ["id": OauthInfo.oauthId, "idToken": idToken, "nonce": OauthInfo.nonce] as [String : Any]
+            let queryParameters = [URLQueryItem(name: "provider", value: OauthInfo.provider)]
+            
+            request = createURLRequestWithBodyAndQuery(url: url, bodyParameters: bodyParameters, queryParameters: queryParameters)
+        
+        case .oauthSendSms:
+            let idToken = KeychainHelper.loadTempToken()!
+            
+            let bodyParameters = ["to": OauthInfo.phoneNum, "idToken": idToken, "nonce": OauthInfo.nonce] as [String : Any]
+            let queryParameters = [URLQueryItem(name: "provider", value: OauthInfo.provider)]
+            
+            request = createURLRequestWithBodyAndQuery(url: url, bodyParameters: bodyParameters, queryParameters: queryParameters)
+        case .oauthCheckSms(let code):
+            let idToken = KeychainHelper.loadTempToken()!
+            
+            let bodyParameters = ["to": OauthInfo.phoneNum, "idToken": idToken, "nonce": OauthInfo.nonce] as [String : Any]
+            let queryParameters = [URLQueryItem(name: "provider", value: OauthInfo.provider), URLQueryItem(name: "code", value: code)]
+            
+            request = createURLRequestWithBodyAndQuery(url: url, bodyParameters: bodyParameters, queryParameters: queryParameters)
+        
+        case .oauthRegistUser(let name, let uid):
+            let idToken = KeychainHelper.loadTempToken()!
+            
+            let bodyParameters = ["name": name, "uid": uid, "idToken": idToken, "nonce": OauthInfo.nonce] as [String : Any]
+            let queryParameters = [URLQueryItem(name: "provider", value: OauthInfo.provider)]
+            
+            if let accessToken = KeychainHelper.loadAccessToken() {
+                request = createURLRequestWithBodyAndQuery(url: url, bodyParameters: bodyParameters, queryParameters: queryParameters)
+                request.setValue("Bearer \(accessToken)", forHTTPHeaderField: "Authorization")
+            } else {
+                request = createURLRequestWithBodyAndQuery(url: url, bodyParameters: bodyParameters, queryParameters: queryParameters)
+            }
+            
             
         default:
             request = createURLRequestWithBody(url: url)

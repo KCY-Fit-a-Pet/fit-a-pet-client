@@ -1,4 +1,5 @@
-struct ResponseData: Decodable {
-    let status: String
-    let message: String
-}
+
+//struct ResponseData: Decodable {
+//    let status: String
+//    let message: String
+//}

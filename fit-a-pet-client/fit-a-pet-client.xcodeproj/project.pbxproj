@@ -11,6 +11,7 @@
 		4A0750D22B07D44000281A4C /* UploadPetPhotoVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A0750D12B07D44000281A4C /* UploadPetPhotoVC.swift */; };
 		4A0750D42B0892B900281A4C /* CustomNavigationBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A0750D32B0892B900281A4C /* CustomNavigationBar.swift */; };
 		4A0750D82B0D130F00281A4C /* PetRegistrationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A0750D72B0D130F00281A4C /* PetRegistrationManager.swift */; };
+		4A0974282B45BFA8008B4E43 /* OauthCodeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A0974272B45BFA8008B4E43 /* OauthCodeVC.swift */; };
 		4A0FEA492B1B5F6F0084CA6C /* FindInputPhoneNumVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A0FEA482B1B5F6F0084CA6C /* FindInputPhoneNumVC.swift */; };
 		4A0FEA4B2B1B5F820084CA6C /* FindInputAuthNumVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A0FEA4A2B1B5F820084CA6C /* FindInputAuthNumVC.swift */; };
 		4A15F2072AA641910098F2F7 /* CustomNextBtn.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A15F2062AA641910098F2F7 /* CustomNextBtn.swift */; };
@@ -69,6 +70,7 @@
 		4A0750D12B07D44000281A4C /* UploadPetPhotoVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UploadPetPhotoVC.swift; sourceTree = "<group>"; };
 		4A0750D32B0892B900281A4C /* CustomNavigationBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomNavigationBar.swift; sourceTree = "<group>"; };
 		4A0750D72B0D130F00281A4C /* PetRegistrationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PetRegistrationManager.swift; sourceTree = "<group>"; };
+		4A0974272B45BFA8008B4E43 /* OauthCodeVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OauthCodeVC.swift; sourceTree = "<group>"; };
 		4A0FEA482B1B5F6F0084CA6C /* FindInputPhoneNumVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindInputPhoneNumVC.swift; sourceTree = "<group>"; };
 		4A0FEA4A2B1B5F820084CA6C /* FindInputAuthNumVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindInputAuthNumVC.swift; sourceTree = "<group>"; };
 		4A15F2062AA641910098F2F7 /* CustomNextBtn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomNextBtn.swift; sourceTree = "<group>"; };
@@ -137,6 +139,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		4A0974262B45BF67008B4E43 /* OauthVC */ = {
+			isa = PBXGroup;
+			children = (
+				4A0974272B45BFA8008B4E43 /* OauthCodeVC.swift */,
+			);
+			path = OauthVC;
+			sourceTree = "<group>";
+		};
 		4A15F20C2AA8B3FB0098F2F7 /* SignUpVC */ = {
 			isa = PBXGroup;
 			children = (
@@ -191,6 +201,7 @@
 		4ABE58582A85E8B400E22C5F /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				4A0974262B45BF67008B4E43 /* OauthVC */,
 				4AF0C8572B2627BE00A45EEE /* EditUserVC */,
 				4ACDD49F2AD9B32400CD8F1A /* RegistPet */,
 				4ACDD49A2AD9A9F600CD8F1A /* FindAccountVC */,
@@ -489,6 +500,7 @@
 				4ACDD4A92ADAFFD100CD8F1A /* InputPetBirthVC.swift in Sources */,
 				4A15F2142AA8B4A50098F2F7 /* InputPwVC.swift in Sources */,
 				4AA999942A8485A500E495FA /* SceneDelegate.swift in Sources */,
+				4A0974282B45BFA8008B4E43 /* OauthCodeVC.swift in Sources */,
 				4AD354222AAF7E62004A47B3 /* TabBarController.swift in Sources */,
 				4A0FEA4B2B1B5F820084CA6C /* FindInputAuthNumVC.swift in Sources */,
 				4AF0C8522B24E0F000A45EEE /* TableViewModel.swift in Sources */,

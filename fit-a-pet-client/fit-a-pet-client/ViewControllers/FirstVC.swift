@@ -168,16 +168,23 @@ extension FirstVC{
 extension FirstVC{
     
     @objc func kakaoLoginBtnTapped(_ sender: UIButton){
+        
+        let nextVC = OauthCodeVC()
+        
+        let nonce = CryptoHelpers.randomNonceString()
+        print("nonce 값: \(nonce)")
+        let hashedString = CryptoHelpers.sha256(nonce)
+        print("hashedString 값: \(hashedString)")
 
-        UserApi.shared.loginWithKakaoAccount(prompts:[.Login]) {(oauthToken, error) in
+        UserApi.shared.loginWithKakaoAccount(prompts:[.Login], nonce: hashedString) {(oauthToken, error) in
             if let error = error {
                 print(error)
             }
             else {
                 print("loginWithKakaoAccount() success.")
                 
-                print(oauthToken)
-                _ = oauthToken
+                KeychainHelper.saveTempToken(tempToken: oauthToken!.idToken!)
+                print(oauthToken!.idToken)
                 
                 UserApi.shared.me() {(user, error) in
                     if let error = error {
@@ -186,8 +193,29 @@ extension FirstVC{
                     else {
                         print("사용자 정보 가져오기 성공")
                     
-                        print(user)
+                        print(user!.id)
                         
+                        OauthInfo.provider = "kakao"
+                        OauthInfo.nonce = hashedString
+                        OauthInfo.oauthId = Int(user!.id!)
+                        
+                        AlamofireManager.shared.oauthLogin(){
+                            result in
+                            switch result {
+                            case .success(let data):
+                                // Handle success
+                                if let responseData = data {
+                                    // Process the data
+                                    let object = try?JSONSerialization.jsonObject(with: responseData, options: []) as? NSDictionary
+                                    guard let jsonObject = object else {return}
+                                    print("respose jsonData: \(jsonObject)")
+                                    self.navigationController?.pushViewController(nextVC, animated: false)
+                                }
+                            case .failure(let error):
+                                // Handle failure
+                                print("Error: \(error)")
+                            }
+                        }
                     }
                 }
             }

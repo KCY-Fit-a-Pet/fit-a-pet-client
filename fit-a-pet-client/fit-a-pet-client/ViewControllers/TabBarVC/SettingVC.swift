@@ -1,6 +1,5 @@
 import UIKit
 import SnapKit
-import SwiftUI
 
 class SettingVC: UIViewController {
     
@@ -32,14 +31,14 @@ class SettingVC: UIViewController {
         
         profileUserName.text = UserDefaults.standard.string(forKey: "name")!
         
-        if let allValues = UserDefaults.standard.dictionaryRepresentation() as? [String: Any] {
-            print("All Values in UserDefaults:")
-            for (key, value) in allValues {
-                print("\(key): \(value)")
-            }
-        } else {
-            print("Unable to retrieve all values from UserDefaults")
-        }
+//        if let allValues = UserDefaults.standard.dictionaryRepresentation() as? [String: Any] {
+//            print("All Values in UserDefaults:")
+//            for (key, value) in allValues {
+//                print("\(key): \(value)")
+//            }
+//        } else {
+//            print("Unable to retrieve all values from UserDefaults")
+//        }
     }
     
     private func initView() {
@@ -199,18 +198,3 @@ extension SettingVC: UITableViewDelegate{
     }
 }
 
-
-struct MainViewController_Previews: PreviewProvider {
-  static var previews: some View {
-    Container().edgesIgnoringSafeArea(.all)
-  }
-  
-  struct Container: UIViewControllerRepresentable {
-    func makeUIViewController(context: Context) -> UIViewController {
-      let rootViewController = SettingVC()
-      return UINavigationController(rootViewController: rootViewController)
-    }
-    func updateUIViewController(_ uiViewController: UIViewControllerType, context: Context) {}
-    typealias UIViewControllerType = UIViewController
-  }
-}
