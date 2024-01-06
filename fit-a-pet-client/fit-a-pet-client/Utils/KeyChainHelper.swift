@@ -24,10 +24,10 @@ class KeychainHelper {
             kSecAttrAccount: "accessToken",
             kSecReturnData: kCFBooleanTrue!,
         ]
-
+        
         var item: CFTypeRef?
         let status = SecItemCopyMatching(query as CFDictionary, &item)
-
+        
         if status == noErr, let data = item as? Data, let token = String(data: data, encoding: .utf8) {
             return token
         } else {

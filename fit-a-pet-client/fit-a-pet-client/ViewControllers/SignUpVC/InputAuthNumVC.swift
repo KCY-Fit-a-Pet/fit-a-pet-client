@@ -88,7 +88,7 @@ class InputAuthNumVC : UIViewController{
     @objc func changeInputIdVC(_ sender: UIButton){
         phone = RegistrationManager.shared.phone!
         
-        AlamofireManager.shared.checkSms(phone, code){
+        AnonymousAlamofire.shared.checkSms(phone, code){
             result in
             switch result {
             case .success(let data):

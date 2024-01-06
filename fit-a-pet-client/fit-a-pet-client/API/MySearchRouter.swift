@@ -17,7 +17,7 @@ enum MySearchRouter: URLRequestConvertible {
     case findId(phone: String, code: String)
     case findPw(phone: String, newPassword: String, code: String)
     case existId(uid: String)
-    case userProfileInfo, oauthLogin, oauthSendSms
+    case userProfileInfo, oauthLogin, oauthSendSms, refresh
     case userNotifyType(type: String)
     case editUserPw(type: String, prePassword: String, newPassword: String)
     case editUserName(type: String, name: String)
@@ -39,7 +39,7 @@ enum MySearchRouter: URLRequestConvertible {
         switch self {
         case .sendSms, .checkSms, .login, .regist, .presignedurl, .registPet,.sendAuthSms, .checkAuthSms, .findId, .findPw, .oauthLogin, .oauthSendSms, .oauthCheckSms, .oauthRegistUser:
             return .post
-        case .existId, .userProfileInfo, .userNotifyType:
+        case .existId, .userProfileInfo, .userNotifyType, .refresh:
             return .get
         case .uploadImage, .editUserPw, .editUserName:
             return .put
@@ -52,6 +52,8 @@ enum MySearchRouter: URLRequestConvertible {
             return "auth/register-sms"
         case .login:
             return "auth/login"
+        case .refresh:
+            return "auth/refresh"
         case .regist:
             return "auth/register"
         case .presignedurl:
@@ -108,14 +110,13 @@ enum MySearchRouter: URLRequestConvertible {
             return ["type": type, "prePassword": prePassword, "newPassword": newPassword]
         case let .editUserName(type, name):
             return ["type": type, "name": name]
-        case .uploadImage(_), .userProfileInfo, .oauthLogin, .oauthSendSms:
+        case .uploadImage(_), .userProfileInfo, .oauthLogin, .oauthSendSms, .refresh:
             return [:]
         case let .oauthCheckSms(code):
             return ["code": code]
         case let .oauthRegistUser(name, uid):
             return ["name": name, "uid": uid]
-//        case let .oauthLogin:
-//            return ["id": id, "nonce": nonce, "provider": provider]
+
         }
     }
     
@@ -132,7 +133,6 @@ enum MySearchRouter: URLRequestConvertible {
             request = createURLRequestWithBodyAndQuery(url: url, bodyParameters: bodyParameters, queryParameters: queryParameters)
             
         case .regist:
-            // regist 케이스에만 Keychain 사용
             if let accessToken = KeychainHelper.loadAccessToken() {
                 // accessToken을 Keychain에서 불러와서 헤더로 보내기
                 request = createURLRequestWithBody(url: url)
@@ -140,6 +140,14 @@ enum MySearchRouter: URLRequestConvertible {
             } else {
                 request = createURLRequestWithBody(url: url)
             }
+        case .refresh:
+            request = URLRequest(url: url)
+            
+            if let cookies = HTTPCookieStorage.shared.cookies(for: url) {
+                let cookieHeader = HTTPCookie.requestHeaderFields(with: cookies)
+                request.allHTTPHeaderFields = cookieHeader
+            }
+           
             
         case .presignedurl:
            
@@ -236,7 +244,6 @@ enum MySearchRouter: URLRequestConvertible {
         case .editUserName(let type, let name):
             let bodyParameters = ["name": name]
             let queryParameters = [URLQueryItem(name: "type", value: type)]
-            print(url)
             
             if let accessToken = KeychainHelper.loadAccessToken() {
                 request = createURLRequestWithBodyAndQuery(url: url, bodyParameters: bodyParameters, queryParameters: queryParameters)

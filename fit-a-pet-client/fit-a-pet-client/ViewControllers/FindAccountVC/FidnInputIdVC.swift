@@ -85,7 +85,7 @@ class FindInputIdVC: CustomNavigationBar{
     @objc func changeFindInputPhoneNumVC(_ sender: UIButton){
         let nextVC = FindInputPhoneNumVC(title: FindIdPwSwitch.findAuth)
         
-        AlamofireManager.shared.existId(FindIdPwSwitch.userUid) { result in
+        AnonymousAlamofire.shared.existId(FindIdPwSwitch.userUid) { result in
             switch result {
             case .success(let data):
                 // Handle success

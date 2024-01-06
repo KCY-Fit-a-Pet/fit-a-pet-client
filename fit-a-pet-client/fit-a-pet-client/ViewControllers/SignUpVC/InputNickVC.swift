@@ -90,7 +90,7 @@ class InputNickVC : UIViewController {
             RegistrationManager.shared.addInput(nickname: nickname)
         }
         
-        AlamofireManager.shared.regist(RegistrationManager.shared.id!, RegistrationManager.shared.nickname!, RegistrationManager.shared.pw!, "", ""){
+        AuthorizationAlamofire.shared.regist(RegistrationManager.shared.id!, RegistrationManager.shared.nickname!, RegistrationManager.shared.pw!, "", ""){
             result in
             switch result {
             case .success(let data):

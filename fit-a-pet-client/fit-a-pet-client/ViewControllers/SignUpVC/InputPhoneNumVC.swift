@@ -89,7 +89,7 @@ class InputPhoneNumVC : UIViewController {
     
         RegistrationManager.shared.addInput(phone: phone)
 
-        AlamofireManager.shared.sendSms(phone){
+        AnonymousAlamofire.shared.sendSms(phone){
             result in
             switch result {
             case .success(let data):

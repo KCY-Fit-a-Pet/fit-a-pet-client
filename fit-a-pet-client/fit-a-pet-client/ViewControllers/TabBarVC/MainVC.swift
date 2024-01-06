@@ -33,6 +33,14 @@ class MainVC: UIViewController {
         layoutScrollView.delegate = self
         
         initView()
+        
+        if let cookies = HTTPCookieStorage.shared.cookies {
+            for cookie in cookies {
+                print("Cookie description: \(cookie.description)")
+                // You can access other properties of the cookie here
+            }
+        }
+
     }
     private func initView(){
         
@@ -132,6 +140,8 @@ class MainVC: UIViewController {
         let nextVC = InputSpeciesVC(title: "반려동물 등록하기")
         nextVC.hidesBottomBarWhenPushed = true
         self.navigationController?.pushViewController(nextVC, animated: false)
+        
+        
     }
 }
 
