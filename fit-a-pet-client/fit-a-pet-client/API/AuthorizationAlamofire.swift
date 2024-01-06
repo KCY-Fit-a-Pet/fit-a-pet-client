@@ -2,58 +2,66 @@ import Foundation
 import Alamofire
 import os.log
 
-class AlamofireManager {
+class AuthorizationAlamofire: TokenHandling {
     
     // 싱글턴 적용
-    static let shared = AlamofireManager() // 자기 자신의 인스턴스를 가져옴
+    static let shared = AuthorizationAlamofire() // 자기 자신의 인스턴스를 가져옴
     
     // 로거 설정
     // 자료형이 EventMonitor
     let monitors = [MyLogger(), ApiStatusLogger()] as [EventMonitor] // 여러 개 추가 가능
     
-    let session = Session.default
+    let interceptors = Interceptor(interceptors:[BaseInterceptor()])
+    
+    var session : Session
+        
+    private init(){
+        session = Session(interceptor: interceptors, eventMonitors: monitors)
+    }
     
     // MARK: - Alamofire methods
     func sendSms(_ phone: String, completion: @escaping(Result<Data?, Error>) -> Void) {
         
-        os_log("MyAlamofireManager - sendSms() called userInput : %@", log: .default, type: .info, phone)
+        os_log("AuthorizationAlamofire - sendSms() called userInput : %@", log: .default, type: .info, phone)
             
         self
             .session // 세션 설정
             .request(MySearchRouter.sendSms(to: phone))
             .validate(statusCode: 200..<300)
             .response { response in
-               switch response.result {
-               case .success(let data):
-                   completion(.success(data))
-               case .failure(let error):
-                   completion(.failure(error))
-               }
-        }
+                switch response.result {
+                case .success(let data):
+                    completion(.success(data))
+                case .failure(let error):
+                    completion(.failure(error))
+                }
+            }
     }
-
+    
+    
     func checkSms(_ phone: String, _ code: String, completion: @escaping(Result<Data?, Error>) -> Void) {
-        os_log("MyAlamofireManager - checkSms() called userInput : %@ ,, %d", log: .default, type: .info, phone, code)
-
+        os_log("AuthorizationAlamofire - checkSms() called userInput : %@ ,, %d", log: .default, type: .info, phone, code)
+        
         self.session.request(MySearchRouter.checkSms(to: phone, code: code))
             .validate(statusCode: 200..<300)
             .response { response in
                 switch response.result {
                 case .success(let data):
                     if let responseHeaders = response.response?.allHeaderFields as? [String: String],
-                       let accessToken = responseHeaders["accessToken"] {
+                       let accessToken = responseHeaders["accessToken"]{
                         KeychainHelper.saveAccessToken(accessToken: accessToken)
                         os_log("sms token: %@", log: .default, type: .info, accessToken)
                     }
+                    
                     completion(.success(data))
                 case .failure(let error):
                     completion(.failure(error))
                 }
-        }
+            }
     }
     
     func login(_ uid: String, _ password: String, completion: @escaping(Result<Data?, Error>) -> Void){
-        os_log("MyAlamofireManager - login() called userInput : %@ ,, %@", log: .default, type: .info, uid, password)
+        os_log("AuthorizationAlamofire - login() called userInput : %@ ,, %@", log: .default, type: .info, uid, password)
         
         self
             .session
@@ -62,20 +70,17 @@ class AlamofireManager {
             .response { response in
                 switch response.result{
                 case .success(let data):
-                    if let responseHeaders = response.response?.allHeaderFields as? [String: String],
-                       let accessToken = responseHeaders["accessToken"] {
-                        KeychainHelper.saveAccessToken(accessToken: accessToken)
-                        os_log("login token: %@", log: .default, type: .info, accessToken)
-                    }
+                    self.extractAndStoreToken(from: response)
                     completion(.success(data))
                 case .failure(let error):
                     completion(.failure(error))
                 }
-        }
+            }
+        
     }
     
     func regist(_ uid: String, _ name: String, _ password: String, _ email: String, _ profileImg: String, completion: @escaping(Result<Data?, Error>) -> Void){
-        os_log("MyAlamofireManager - regist() called userInput : %@ ,, %@ ,, %@ ,, %@ ,, %@", log: .default, type: .info, uid, password, name, email, profileImg)
+        os_log("AuthorizationAlamofire - regist() called userInput : %@ ,, %@ ,, %@ ,, %@ ,, %@", log: .default, type: .info, uid, password, name, email, profileImg)
         
         self
             .session
@@ -92,7 +97,7 @@ class AlamofireManager {
     }
     
     func presignedURL(_ dirname: String, _ extensionType: String, completion: @escaping(Result<Data?, Error>) -> Void){
-        os_log("MyAlamofireManager - presignedURL() called : %@ ,, %@ ", log: .default, type: .info, dirname, extensionType)
+        os_log("AuthorizationAlamofire - presignedURL() called : %@ ,, %@ ", log: .default, type: .info, dirname, extensionType)
         
         self
             .session
@@ -110,7 +115,7 @@ class AlamofireManager {
     
     func uploadImage(_ image: UIImage, completion: @escaping(Result<Data?, Error>) -> Void){
         
-        os_log("MyAlamofireManager - uploadImage() called ", log: .default, type: .info)
+        os_log("AuthorizationAlamofire - uploadImage() called ", log: .default, type: .info)
         
         self
             .session
@@ -127,7 +132,7 @@ class AlamofireManager {
     }
     
     func registPet(_ petName: String, _ species: String, _ gender: String, _ neutralization: Bool, _ birthDate: String, completion: @escaping(Result<Data?, Error>) -> Void){
-        os_log("MyAlamofireManager - registPet() called userInput : %@ ,, %@ ,, %@ ,, %@ ,, %@", log: .default, type: .info, petName, species, gender, neutralization, birthDate)
+        os_log("AuthorizationAlamofire - registPet() called userInput : %@ ,, %@ ,, %@ ,, %@ ,, %@", log: .default, type: .info, petName, species, gender, neutralization, birthDate)
         
         self
             .session
@@ -143,7 +148,7 @@ class AlamofireManager {
         }
     }
     func sendAuthSms(_ phone: String, _ uid: String, completion: @escaping(Result<Data?, Error>) -> Void) {
-        os_log("MyAlamofireManager - sendAuthSms() called userInput : %@ ,, %@  ", log: .default, type: .info, phone, uid)
+        os_log("AuthorizationAlamofire - sendAuthSms() called userInput : %@ ,, %@  ", log: .default, type: .info, phone, uid)
 
         self.session.request(MySearchRouter.sendAuthSms(to: phone, uid: uid))
             .validate(statusCode: 200..<300)
@@ -157,7 +162,7 @@ class AlamofireManager {
         }
     }
     func checkAuthSms(_ phone: String, _ code: String, completion: @escaping(Result<Data?, Error>) -> Void) {
-        os_log("MyAlamofireManager - checkAuthSms() called userInput : %@ ,, %@", log: .default, type: .info, phone, code)
+        os_log("AuthorizationAlamofire - checkAuthSms() called userInput : %@ ,, %@", log: .default, type: .info, phone, code)
 
         self.session.request(MySearchRouter.checkAuthSms(to: phone, code: code))
             .validate(statusCode: 200..<300)
@@ -186,7 +191,7 @@ class AlamofireManager {
     }
     
     func findPw(_ phone: String, _ newPassword: String, _ code: String, completion: @escaping(Result<Data?, Error>) -> Void) {
-        os_log("MyAlamofireManager - findPw() called userInput : %@ ,, %@ ,, %@", log: .default, type: .info, phone,newPassword, code)
+        os_log("AuthorizationAlamofire - findPw() called userInput : %@ ,, %@ ,, %@", log: .default, type: .info, phone,newPassword, code)
 
         self.session.request(MySearchRouter.findPw(phone: phone, newPassword: newPassword, code: code))
             .validate(statusCode: 200..<300)
@@ -200,7 +205,7 @@ class AlamofireManager {
         }
     }
     func existId(_ uid: String, completion: @escaping(Result<Data?, Error>) -> Void){
-        os_log("MyAlamofireManager - existId() called userInput : %@", log: .default, type: .info, uid)
+        os_log("AuthorizationAlamofire - existId() called userInput : %@", log: .default, type: .info, uid)
         
         self.session.request(MySearchRouter.existId(uid: uid))
             .validate(statusCode: 200..<300)
@@ -215,7 +220,7 @@ class AlamofireManager {
     }
     
     func userProfileInfo(completion: @escaping(Result<Data?, Error>) -> Void){
-        os_log("MyAlamofireManager - userProfileInfo() called ", log: .default, type: .info)
+        os_log("AuthorizationAlamofire - userProfileInfo() called ", log: .default, type: .info)
         
         self.session.request(MySearchRouter.userProfileInfo)
             .validate(statusCode: 200..<300)
@@ -229,7 +234,7 @@ class AlamofireManager {
         }
     }
     func userNotifyType(_ type: String, completion: @escaping(Result<Data?, Error>) -> Void){
-        os_log("MyAlamofireManager - userNotifyType() called userInput: %@", log: .default, type: .info, type)
+        os_log("AuthorizationAlamofire - userNotifyType() called userInput: %@", log: .default, type: .info, type)
         
         self.session.request(MySearchRouter.userNotifyType(type: type))
             .validate(statusCode: 200..<300)
@@ -244,7 +249,7 @@ class AlamofireManager {
     }
     
     func editUserPw(_ type: String, _ prePassword: String, _ newPassword: String, completion: @escaping(Result<Data?, Error>) -> Void){
-        os_log("MyAlamofireManager - editUserPw() called userInput: %@", log: .default, type: .info, type)
+        os_log("AuthorizationAlamofire - editUserPw() called userInput: %@", log: .default, type: .info, type)
         
         self.session.request(MySearchRouter.editUserPw(type: type, prePassword: prePassword, newPassword: newPassword))
             .validate(statusCode: 200..<300)
@@ -258,7 +263,7 @@ class AlamofireManager {
         }
     }
     func editUserName(_ type: String, _ name: String, completion: @escaping(Result<Data?, Error>) -> Void){
-        os_log("MyAlamofireManager - editUserName() called userInput: %@", log: .default, type: .info, type)
+        os_log("AuthorizationAlamofire - editUserName() called userInput: %@", log: .default, type: .info, type)
         
         self.session.request(MySearchRouter.editUserName(type: type, name: name))
             .validate(statusCode: 200..<300)
@@ -273,7 +278,7 @@ class AlamofireManager {
     }
     
     func oauthLogin(completion: @escaping(Result<Data?, Error>) -> Void){
-        os_log("MyAlamofireManager - oauthLogin() called", log: .default, type: .info)
+        os_log("AuthorizationAlamofire - oauthLogin() called", log: .default, type: .info)
         
         self.session.request(MySearchRouter.oauthLogin)
             .validate(statusCode: 200..<300)
@@ -287,7 +292,7 @@ class AlamofireManager {
         }
     }
     func oauthSendSms(completion: @escaping(Result<Data?, Error>) -> Void){
-        os_log("MyAlamofireManager - oauthSendSms() called", log: .default, type: .info)
+        os_log("AuthorizationAlamofire - oauthSendSms() called", log: .default, type: .info)
 
         self.session.request(MySearchRouter.oauthSendSms)
             .validate(statusCode: 200..<300)
@@ -302,7 +307,7 @@ class AlamofireManager {
     }
     
     func oauthCheckSms(_ code: String, completion: @escaping(Result<Data?, Error>) -> Void){
-        os_log("MyAlamofireManager - oauthCheckSms() called userInput: %@", log: .default, type: .info, code)
+        os_log("AuthorizationAlamofire - oauthCheckSms() called userInput: %@", log: .default, type: .info, code)
 
         self.session.request(MySearchRouter.oauthCheckSms(code: code))
             .validate(statusCode: 200..<300)
@@ -322,7 +327,7 @@ class AlamofireManager {
     }
     
     func oauthRegistUser(_ name: String, _ uid: String, completion: @escaping(Result<Data?, Error>) -> Void){
-        os_log("MyAlamofireManager - oauthCheckSms() called userInput: %@ ,, %@", log: .default, type: .info, name, uid)
+        os_log("AuthorizationAlamofire - oauthCheckSms() called userInput: %@ ,, %@", log: .default, type: .info, name, uid)
 
         self.session.request(MySearchRouter.oauthRegistUser(name: name, uid: uid))
             .validate(statusCode: 200..<300)
@@ -335,5 +340,21 @@ class AlamofireManager {
             }
         }
     }
+    
+    func refresh(completion: @escaping(Result<Data?, Error>) -> Void){
+        os_log("AuthorizationAlamofire - refreshToken() called ", log: .default, type: .info)
+
+        self.session.request(MySearchRouter.refresh)
+            //.validate(statusCode: 200..<300)
+            .response { response in
+                switch response.result {
+                case .success(let data):
+                    completion(.success(data))
+                case .failure(let error):
+                    completion(.failure(error))
+            }
+        }
+    }
+    
 }
 
