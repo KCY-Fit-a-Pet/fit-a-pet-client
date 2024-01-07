@@ -1,11 +1,13 @@
 name: FE CI
-run-name: Deploy by @${{ github.actor }} 
+run-name: Deploy by @${{ github.actor }}
 
-on: 
-    push: 
-        branches: 
+on:
+    push:
+        branches:
             - main
             - develop
+    issue_comment:
+        types: [created]
     pull_request:
         types: [review_requested, opened, reopened, ready_for_review]
     pull_request_review:
@@ -30,7 +32,7 @@ jobs:
                   echo "TITLE=$TITLE" >> $env:GITHUB_OUTPUT
                   echo "DESC=$DESC" >> $env:GITHUB_OUTPUT
                 } elseif ( "${{github.event_name}}" -eq "pull_request" ) {
-                  $TITLE="[${{github.actor}}]_${{ github.event_name }}" 
+                  $TITLE="[${{github.actor}}]_${{ github.event_name }}"
                   $DESC="${{ github.event.pull_request.title }}".split("`n")[0]
                   echo "TITLE=$TITLE" >> $env:GITHUB_OUTPUT
                   echo "DESC=$DESC" >> $env:GITHUB_OUTPUT
@@ -45,7 +47,7 @@ jobs:
               id: determine_event_type_windows
 
             - name: Determine event type and trigger action at macOS
-              if: runner.os == 'macOS' 
+              if: runner.os == 'macOS'
               run: |
                 if [ ${{github.event_name}} == 'push' ]; then
                   echo "TITLE=[${{github.actor}}]_${{ github.event_name }}" >> $GITHUB_OUTPUT
@@ -62,7 +64,7 @@ jobs:
 
             - name: run kakao-chat at Windows
               if: runner.os == 'Windows'
-              uses: psychology50/kakao-chat-ci@main
+              uses: psychology50/kakao-chat-ci@v1.6
               env:
                 KAKAO_CLIENT: ${{ secrets.KAKAO_CLIENT }}
                 KAKAO_EMAIL: ${{ secrets.KAKAO_EMAIL }}
@@ -76,7 +78,7 @@ jobs:
 
             - name: run kakao-chat at macOS
               if: runner.os == 'macOS'
-              uses: psychology50/kakao-chat-ci@main
+              uses: psychology50/kakao-chat-ci@v1.6
               env:
                 KAKAO_CLIENT: ${{ secrets.KAKAO_CLIENT }}
                 KAKAO_EMAIL: ${{ secrets.KAKAO_EMAIL }}

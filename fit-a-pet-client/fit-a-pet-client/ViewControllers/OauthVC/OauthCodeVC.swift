@@ -88,8 +88,7 @@ class OauthCodeVC: UIViewController {
     
     @objc private func sendsmsButtonTapped() {
         
-        OauthInfo.phoneNum = textField1.text!
-        
+        //OauthInfo.phoneNum = textField1.text!
         
         if let text1 = textField1.text, let text2 = textField2.text {
             print("Text 1: \(text1), Text 2: \(text2)")

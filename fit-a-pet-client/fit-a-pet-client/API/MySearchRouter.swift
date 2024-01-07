@@ -263,14 +263,14 @@ enum MySearchRouter: URLRequestConvertible {
         case .oauthSendSms:
             let idToken = KeychainHelper.loadTempToken()!
             
-            let bodyParameters = ["to": OauthInfo.phoneNum, "idToken": idToken, "nonce": OauthInfo.nonce] as [String : Any]
+            let bodyParameters = ["to": RegistrationManager.shared.phone, "idToken": idToken, "nonce": OauthInfo.nonce] as [String : Any]
             let queryParameters = [URLQueryItem(name: "provider", value: OauthInfo.provider)]
             
             request = createURLRequestWithBodyAndQuery(url: url, bodyParameters: bodyParameters, queryParameters: queryParameters)
         case .oauthCheckSms(let code):
             let idToken = KeychainHelper.loadTempToken()!
             
-            let bodyParameters = ["to": OauthInfo.phoneNum, "idToken": idToken, "nonce": OauthInfo.nonce] as [String : Any]
+            let bodyParameters = ["to": RegistrationManager.shared.phone, "idToken": idToken, "nonce": OauthInfo.nonce] as [String : Any]
             let queryParameters = [URLQueryItem(name: "provider", value: OauthInfo.provider), URLQueryItem(name: "code", value: code)]
             
             request = createURLRequestWithBodyAndQuery(url: url, bodyParameters: bodyParameters, queryParameters: queryParameters)

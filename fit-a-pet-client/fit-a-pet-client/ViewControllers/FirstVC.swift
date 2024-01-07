@@ -168,9 +168,11 @@ extension FirstVC{
 
 extension FirstVC{
     
+    //TODO: 이미 가입된 유저가 아닌 경우 팝업창
+    
     @objc func kakaoLoginBtnTapped(_ sender: UIButton){
         
-        let nextVC = OauthCodeVC()
+        let nextVC = InputPhoneNumVC()
         
         let nonce = CryptoHelpers.randomNonceString()
         print("nonce 값: \(nonce)")
@@ -210,6 +212,7 @@ extension FirstVC{
                                     let object = try?JSONSerialization.jsonObject(with: responseData, options: []) as? NSDictionary
                                     guard let jsonObject = object else {return}
                                     print("respose jsonData: \(jsonObject)")
+                                    RegistDivision.oauth = true
                                     self.navigationController?.pushViewController(nextVC, animated: false)
                                 }
                             case .failure(let error):

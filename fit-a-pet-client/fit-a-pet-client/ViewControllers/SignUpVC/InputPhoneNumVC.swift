@@ -88,28 +88,50 @@ class InputPhoneNumVC : UIViewController {
         let nextVC = InputAuthNumVC()
     
         RegistrationManager.shared.addInput(phone: phone)
-
-        AnonymousAlamofire.shared.sendSms(phone){
-            result in
-            switch result {
-            case .success(let data):
-                // Handle success
-                if let responseData = data {
-                    // Process the data
-                    let object = try?JSONSerialization.jsonObject(with: responseData, options: []) as? NSDictionary
-                    guard let jsonObject = object else {return}
-                    print("respose jsonData: \(jsonObject)")
+        
+        if !RegistDivision.oauth{
+            AnonymousAlamofire.shared.sendSms(phone){
+                result in
+                switch result {
+                case .success(let data):
+                    // Handle success
+                    if let responseData = data {
+                        // Process the data
+                        let object = try?JSONSerialization.jsonObject(with: responseData, options: []) as? NSDictionary
+                        guard let jsonObject = object else {return}
+                        print("respose jsonData: \(jsonObject)")
+                        
+                        if self.inputPhoneNum.text!.count>0{
+                            self.navigationController?.pushViewController(nextVC, animated: false)
+                        }
+                    }
+                case .failure(let error):
+                    // Handle failure
+                    print("Error: \(error)")
                 }
-            case .failure(let error):
-                // Handle failure
-                print("Error: \(error)")
+            }
+        }else{
+            AnonymousAlamofire.shared.oauthSendSms(){
+                result in
+                switch result {
+                case .success(let data):
+                    // Handle success
+                    if let responseData = data {
+                        // Process the data
+                        let object = try?JSONSerialization.jsonObject(with: responseData, options: []) as? NSDictionary
+                        guard let jsonObject = object else {return}
+                        print("respose jsonData: \(jsonObject)")
+                        
+                        if self.inputPhoneNum.text!.count>0{
+                            self.navigationController?.pushViewController(nextVC, animated: false)
+                        }
+                    }
+                case .failure(let error):
+                    // Handle failure
+                    print("Error: \(error)")
+                }
             }
         }
-        
-        if inputPhoneNum.text!.count>0{
-            self.navigationController?.pushViewController(nextVC, animated: false)
-        }
-        
         
     }
     
