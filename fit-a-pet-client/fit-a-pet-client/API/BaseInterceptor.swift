@@ -24,24 +24,24 @@ class BaseInterceptor : RequestInterceptor{
         print("BaseInterceptor - retry()")
         
         if let response = request.task?.response as? HTTPURLResponse, response.statusCode == 401 {
-            // Check headers in case of a 401 error
-            if let allHeaderFields = response.allHeaderFields as? [String: String] {
-                print("Response Headers: \(allHeaderFields)")
-                
-                let cookies = HTTPCookie.cookies(withResponseHeaderFields: allHeaderFields, for: response.url!)
-                print(cookies)
-                for cookie in cookies {
-                    print("Cookie name: \(cookie.name), value: \(cookie.value)")
+            
+            AnonymousAlamofire.shared.refresh() { result in
+                switch result {
+                case .success(let data):
+                    if let responseData = data{
+                        let object = try?JSONSerialization.jsonObject(with: responseData, options: []) as? NSDictionary
+                        guard let jsonObject = object else {return}
+                        print("respose jsonData: \(jsonObject)")
+                    }
+                case .failure(let error):
+                    print("Error: \(error)")
                 }
             }
-            // 만료된 토큰 또는 권한이 없는 경우 토큰을 갱신
-            print("Token 만료----------------------------")
-        } else {
-            // 다른 오류의 경우 재시도하지 않음
+            completion(.retry)
+            
+        }else {
+        
             completion(.doNotRetry)
         }
     }
-
-
-    
 }

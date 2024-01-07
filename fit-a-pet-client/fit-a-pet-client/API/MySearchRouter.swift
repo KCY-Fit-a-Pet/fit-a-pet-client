@@ -140,14 +140,14 @@ enum MySearchRouter: URLRequestConvertible {
             } else {
                 request = createURLRequestWithBody(url: url)
             }
+       
         case .refresh:
             request = URLRequest(url: url)
             
             if let cookies = HTTPCookieStorage.shared.cookies(for: url) {
                 let cookieHeader = HTTPCookie.requestHeaderFields(with: cookies)
                 request.allHTTPHeaderFields = cookieHeader
-            }
-           
+            }         
             
         case .presignedurl:
            

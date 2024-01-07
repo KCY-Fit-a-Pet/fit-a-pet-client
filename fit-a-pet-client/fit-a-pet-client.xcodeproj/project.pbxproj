@@ -24,7 +24,7 @@
 		4A15F2162AA8B4CA0098F2F7 /* InputNickVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A15F2152AA8B4CA0098F2F7 /* InputNickVC.swift */; };
 		4A2440712B374C0F0086D2AB /* CryptoHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A2440702B374C0F0086D2AB /* CryptoHelpers.swift */; };
 		4A4BFDCA2AD26B0F0062BDB8 /* RegistrationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A4BFDC92AD26B0F0062BDB8 /* RegistrationManager.swift */; };
-		4A80E4D12B487DF600CD5D05 /* CookieHandling.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A80E4D02B487DF600CD5D05 /* CookieHandling.swift */; };
+		4A80E4D12B487DF600CD5D05 /* TokenHandling.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A80E4D02B487DF600CD5D05 /* TokenHandling.swift */; };
 		4A80E4D42B49BA7800CD5D05 /* AnonymousAlamofire.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A80E4D32B49BA7800CD5D05 /* AnonymousAlamofire.swift */; };
 		4A8662D42B26299F00D8DDE8 /* EditUserPwVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A8662D32B26299F00D8DDE8 /* EditUserPwVC.swift */; };
 		4A8662D62B2629F500D8DDE8 /* EditUserNameVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A8662D52B2629F500D8DDE8 /* EditUserNameVC.swift */; };
@@ -86,7 +86,7 @@
 		4A24406F2B36A9D20086D2AB /* Secrets.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Secrets.xcconfig; sourceTree = "<group>"; };
 		4A2440702B374C0F0086D2AB /* CryptoHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CryptoHelpers.swift; sourceTree = "<group>"; };
 		4A4BFDC92AD26B0F0062BDB8 /* RegistrationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationManager.swift; sourceTree = "<group>"; };
-		4A80E4D02B487DF600CD5D05 /* CookieHandling.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CookieHandling.swift; sourceTree = "<group>"; };
+		4A80E4D02B487DF600CD5D05 /* TokenHandling.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenHandling.swift; sourceTree = "<group>"; };
 		4A80E4D22B4882B500CD5D05 /* fit-a-pet-client.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "fit-a-pet-client.entitlements"; sourceTree = "<group>"; };
 		4A80E4D32B49BA7800CD5D05 /* AnonymousAlamofire.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnonymousAlamofire.swift; sourceTree = "<group>"; };
 		4A8662D32B26299F00D8DDE8 /* EditUserPwVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditUserPwVC.swift; sourceTree = "<group>"; };
@@ -249,7 +249,7 @@
 				4A8B9B492AD443E6009236EC /* ApiStatusLogger.swift */,
 				4A8B9B4B2AD443EE009236EC /* MyLogger.swift */,
 				4A8B9B4D2AD443FA009236EC /* MySearchRouter.swift */,
-				4A80E4D02B487DF600CD5D05 /* CookieHandling.swift */,
+				4A80E4D02B487DF600CD5D05 /* TokenHandling.swift */,
 			);
 			path = API;
 			sourceTree = "<group>";
@@ -482,7 +482,7 @@
 				4A15F2122AA8B4880098F2F7 /* InputIdVC.swift in Sources */,
 				4A037FF22AED62E30073BB56 /* KeyChainHelper.swift in Sources */,
 				4A0750D42B0892B900281A4C /* CustomNavigationBar.swift in Sources */,
-				4A80E4D12B487DF600CD5D05 /* CookieHandling.swift in Sources */,
+				4A80E4D12B487DF600CD5D05 /* TokenHandling.swift in Sources */,
 				4AD354292AAF7F55004A47B3 /* RecordVC.swift in Sources */,
 				4A8662D42B26299F00D8DDE8 /* EditUserPwVC.swift in Sources */,
 				4A15F2092AA790D60098F2F7 /* CustomProgressBar.swift in Sources */,

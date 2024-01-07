@@ -34,12 +34,12 @@ class MainVC: UIViewController {
         
         initView()
         
-        if let cookies = HTTPCookieStorage.shared.cookies {
-            for cookie in cookies {
-                print("Cookie description: \(cookie.description)")
-                // You can access other properties of the cookie here
-            }
-        }
+//        if let cookies = HTTPCookieStorage.shared.cookies {
+//            for cookie in cookies {
+//                print("Cookie description: \(cookie.description)")
+//                // You can access other properties of the cookie here
+//            }
+//        }
 
     }
     private func initView(){

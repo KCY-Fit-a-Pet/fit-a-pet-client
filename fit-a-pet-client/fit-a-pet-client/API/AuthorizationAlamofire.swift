@@ -128,20 +128,5 @@ class AuthorizationAlamofire: TokenHandling {
         }
     }
     
-//    func refresh(completion: @escaping(Result<Data?, Error>) -> Void){
-//        os_log("AuthorizationAlamofire - refreshToken() called ", log: .default, type: .info)
-//
-//        self.session.request(MySearchRouter.refresh)
-//            //.validate(statusCode: 200..<300)
-//            .response { response in
-//                switch response.result {
-//                case .success(let data):
-//                    completion(.success(data))
-//                case .failure(let error):
-//                    completion(.failure(error))
-//            }
-//        }
-//    }
-    
 }
 
