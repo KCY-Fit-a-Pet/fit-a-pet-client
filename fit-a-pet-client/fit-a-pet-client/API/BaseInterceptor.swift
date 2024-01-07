@@ -28,20 +28,33 @@ class BaseInterceptor : RequestInterceptor{
             AnonymousAlamofire.shared.refresh() { result in
                 switch result {
                 case .success(let data):
-                    if let responseData = data{
-                        let object = try?JSONSerialization.jsonObject(with: responseData, options: []) as? NSDictionary
-                        guard let jsonObject = object else {return}
-                        print("respose jsonData: \(jsonObject)")
+                    if let responseData = data {
+                        let object = try? JSONSerialization.jsonObject(with: responseData, options: []) as? NSDictionary
+                        guard let jsonObject = object else { return }
+                        if let status = jsonObject["status"] as? String, status.lowercased() == "error" {
+                            print("Response JSON Data indicates an error: \(jsonObject)")
+                            NotificationCenter.default.post(name: .retryLoginNotification, object: nil)
+                            //TODO: 재로그인 필요 팝업
+                            completion(.doNotRetry)
+                        } else {
+                            print("Response JSON Data: \(jsonObject)")
+                            completion(.retry)
+                        }
                     }
                 case .failure(let error):
                     print("Error: \(error)")
+                    
+                    completion(.doNotRetry)
                 }
             }
-            completion(.retry)
             
         }else {
         
             completion(.doNotRetry)
         }
     }
+}
+
+extension Notification.Name {
+    static let retryLoginNotification = Notification.Name("RetryLoginNotification")
 }

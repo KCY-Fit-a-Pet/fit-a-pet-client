@@ -80,6 +80,7 @@ class AnonymousAlamofire: TokenHandling {
                         
                         KeychainHelper.saveAccessToken(accessToken: "eyJyZWdEYXRlIjoxNzA0NDM3ODE1NTA3LCJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiUk9MRV9BRE1JTiIsInVzZXJJZCI6MywiZXhwIjoxNzA0NDM3ODI1fQ.WUboJyeTL7XYLC7Vi21sqc7kxDDAzLHC22fLxm6iDJQ")
                         os_log("accesstoken: %@", log: .default, type: .info, accessToken)
+//                      self.extractAndStoreToken(from: response)
                     }
                     completion(.success(data))
                 case .failure(let error):

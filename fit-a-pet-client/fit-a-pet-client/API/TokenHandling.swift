@@ -5,7 +5,7 @@ import OSLog
 protocol TokenHandling {
     func extractAndStoreToken(from response: AFDataResponse<Data?>)
 }
-
+//eyJyZWdEYXRlIjoxNzA0NDM3ODE1NTU2LCJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiUk9MRV9BRE1JTiIsInVzZXJJZCI6MywiZXhwIjoxNzA0NDM3ODI1fQ.jusvZ5nouNjrcFZw7SNPw4y7AbdfzSG07NMnVMOBzOo
 extension TokenHandling {
     func extractAndStoreToken(from response: AFDataResponse<Data?>) {
         if let responseHeaders = response.response?.allHeaderFields as? [String: String],
@@ -18,7 +18,7 @@ extension TokenHandling {
                     
                     let nsCookie = HTTPCookie(properties: [
                         HTTPCookiePropertyKey.name: cookie.name,
-                        HTTPCookiePropertyKey.value: cookie.value,
+                        HTTPCookiePropertyKey.value: "eyJyZWdEYXRlIjoxNzA0NDM3ODE1NTU2LCJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiUk9MRV9BRE1JTiIsInVzZXJJZCI6MywiZXhwIjoxNzA0NDM3ODI1fQ.jusvZ5nouNjrcFZw7SNPw4y7AbdfzSG07NMnVMOBzOo",
                         HTTPCookiePropertyKey.domain: cookie.domain,
                         HTTPCookiePropertyKey.path: cookie.path,
                         HTTPCookiePropertyKey.version: NSNumber(value: cookie.version),
@@ -29,7 +29,7 @@ extension TokenHandling {
                 }
             }
             
-            KeychainHelper.saveAccessToken(accessToken: accessToken)
+            KeychainHelper.saveAccessToken(accessToken: "eyJyZWdEYXRlIjoxNzA0NDM3ODE1NTA3LCJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiUk9MRV9BRE1JTiIsInVzZXJJZCI6MywiZXhwIjoxNzA0NDM3ODI1fQ.WUboJyeTL7XYLC7Vi21sqc7kxDDAzLHC22fLxm6iDJQ")
             os_log("accesstoken: %@", log: .default, type: .info, accessToken)
         }
     }

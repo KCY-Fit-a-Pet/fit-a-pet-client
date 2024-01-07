@@ -29,9 +29,29 @@ class LoginVC: UIViewController{
         inputPw.delegate = self
         
         loginBtn.addTarget(self, action: #selector(changeTabBarVC(_:)), for: .touchUpInside)
+        NotificationCenter.default.addObserver(self, selector: #selector(retryLoginNotification(_:)), name: .retryLoginNotification, object: nil)
         
         self.navigationController?.navigationBar.tintColor = .black
         self.navigationController?.navigationBar.topItem?.title = ""
+    }
+    deinit {
+        // Remove the observer when the view controller is deallocated
+        NotificationCenter.default.removeObserver(self)
+    }
+    
+    @objc func retryLoginNotification(_ notification: Notification) {
+
+        let firstVC = FirstVC()
+           
+        if UIApplication.shared.delegate is AppDelegate {
+            //
+            if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+               let sceneDelegate = windowScene.delegate as? SceneDelegate {
+                sceneDelegate.window?.rootViewController = firstVC
+            }
+        } else {
+            print("Unable to access the app delegate")
+        }
     }
     private func initView(){
         
@@ -153,7 +173,6 @@ class LoginVC: UIViewController{
                         print("Login Response JSON Data: \(jsonObject)")
 
                         self?.fetchUserProfileInfo(completion: {
-                            // Both login and user profile info tasks are completed
                             self?.present(mainVC, animated: false, completion: nil)
                         })
 
@@ -176,7 +195,7 @@ class LoginVC: UIViewController{
                 if let responseData = data {
                     do {
                         let jsonObject = try JSONSerialization.jsonObject(with: responseData, options: []) as? [String: Any] ?? [:]
-
+                        
                         if let dataDict = jsonObject["data"] as? [String: Any],
                            let memberDict = dataDict["member"] as? [String: Any] {
 
