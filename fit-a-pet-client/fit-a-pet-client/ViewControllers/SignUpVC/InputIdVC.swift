@@ -87,8 +87,14 @@ class InputIdVC : UIViewController {
             RegistrationManager.shared.addInput(id: id)
         }
         
-        let nextVC = InputPwVC()
-        self.navigationController?.pushViewController(nextVC, animated: false)
+        if !RegistDivision.oauth{
+            let nextVC = InputPwVC()
+            self.navigationController?.pushViewController(nextVC, animated: false)
+        }
+        else{
+            let nextVC = InputNickVC()
+            self.navigationController?.pushViewController(nextVC, animated: false)
+        }
     }
 }
 extension InputIdVC: UITextFieldDelegate{

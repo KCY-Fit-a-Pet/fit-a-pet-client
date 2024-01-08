@@ -76,7 +76,7 @@ class UploadPetPhotoVC : CustomNavigationBar {
         
         
         //presignedURL 발급 받기
-        AlamofireManager.shared.presignedURL("profile", "jpeg") { result in
+        AnonymousAlamofire.shared.presignedURL("profile", "jpeg") { result in
             switch result {
             case .success(let data):
                 // Handle success
@@ -131,7 +131,7 @@ class UploadPetPhotoVC : CustomNavigationBar {
     }
     
     @objc func changeCompleteRegistPetVC(_ sender: UIButton){
-        AlamofireManager.shared.registPet(PetRegistrationManager.shared.petName!, PetRegistrationManager.shared.species!, PetRegistrationManager.shared.gender!, false, PetRegistrationManager.shared.birthDate!){
+        AuthorizationAlamofire.shared.registPet(PetRegistrationManager.shared.petName!, PetRegistrationManager.shared.species!, PetRegistrationManager.shared.gender!, false, PetRegistrationManager.shared.birthDate!){
             result in
             switch result {
             case .success(let data):
@@ -169,7 +169,7 @@ extension UploadPetPhotoVC : UIImagePickerControllerDelegate, UINavigationContro
             choosePhotoBtn.setImage(pickedImage, for: .normal)
             
             //objectStorage Image 저장
-            AlamofireManager.shared.uploadImage(pickedImage) { result in
+            AnonymousAlamofire.shared.uploadImage(pickedImage) { result in
                switch result {
                case .success(let data):
                    if let unwrappedData = data,

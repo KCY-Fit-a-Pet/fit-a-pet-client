@@ -105,7 +105,7 @@ class ResetPwVC: CustomNavigationBar{
         
         if newPw == newPwCheck{
             
-            AlamofireManager.shared.findPw(FindIdPwSwitch.phoneNum, newPwCheck, FindIdPwSwitch.code){
+            AnonymousAlamofire.shared.findPw(FindIdPwSwitch.phoneNum, newPwCheck, FindIdPwSwitch.code){
                 result in
                 switch result {
                 case .success(let data):

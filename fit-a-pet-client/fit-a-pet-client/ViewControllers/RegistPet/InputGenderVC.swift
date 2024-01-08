@@ -153,6 +153,8 @@ class InputGenderVC: CustomNavigationBar {
         self.navigationController?.navigationBar.tintColor = .black
         self.navigationController?.navigationBar.topItem?.title = " "
         
+        PetRegistrationManager.shared.addInput(gender: "MALE")
+        
         progressBarInit()
         UIView.animate(withDuration: 0.5) {
             self.progressBar.setProgress(0.6)

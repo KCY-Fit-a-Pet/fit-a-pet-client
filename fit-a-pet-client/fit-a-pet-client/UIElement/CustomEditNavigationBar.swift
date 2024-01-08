@@ -70,7 +70,7 @@ class CustomEditNavigationBar: UIViewController {
 
 extension CustomEditNavigationBar{
     func editUserPwAPI(){
-        AlamofireManager.shared.editUserPw("password", userPwData["prePassword"]!, userPwData["newPassword"]!){
+        AuthorizationAlamofire.shared.editUserPw("password", userPwData["prePassword"]!, userPwData["newPassword"]!){
             result in
             switch result {
             case .success(let data):
@@ -90,7 +90,7 @@ extension CustomEditNavigationBar{
     }
     
     func editUserNameAPI(){
-        AlamofireManager.shared.editUserName("name", userName){ [self]
+        AuthorizationAlamofire.shared.editUserName("name", userName){ [self]
             result in
             switch result {
             case .success(let data):

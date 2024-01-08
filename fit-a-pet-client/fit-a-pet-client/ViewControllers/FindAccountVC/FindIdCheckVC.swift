@@ -48,7 +48,7 @@ class FindIdCheckVC: CustomNavigationBar{
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        AlamofireManager.shared.findId(FindIdPwSwitch.phoneNum, FindIdPwSwitch.code){
+        AnonymousAlamofire.shared.findId(FindIdPwSwitch.phoneNum, FindIdPwSwitch.code){
             result in
             switch result {
             case .success(let data):

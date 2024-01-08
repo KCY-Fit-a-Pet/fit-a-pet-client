@@ -3,7 +3,7 @@
 import Foundation
 
 enum API{
-    static let BASE_URL : String = "https://fitapet.co.kr/api/v1/"
+    static let BASE_URL : String = "https://fitapet.co.kr/api/"
     static let PRESIGNEDURL : String = "https://h1d5jjb17z.apigw.ntruss.com/obj/photo/"
 }
 
@@ -28,6 +28,10 @@ enum QueryParameter: String {
     case acl
 }
 
+enum RegistDivision{
+    static var oauth = false
+}
+
 enum FindIdPwSwitch{
     static var findAuth = ""
     static var findtype = ""
@@ -38,7 +42,7 @@ enum FindIdPwSwitch{
 
 enum OauthInfo{
     static var oauthId = 0
-    static var phoneNum = ""
+//    static var phoneNum = ""
     static var nonce = ""
     static var provider = ""
 }

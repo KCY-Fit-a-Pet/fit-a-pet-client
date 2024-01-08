@@ -24,10 +24,12 @@
 		4A15F2162AA8B4CA0098F2F7 /* InputNickVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A15F2152AA8B4CA0098F2F7 /* InputNickVC.swift */; };
 		4A2440712B374C0F0086D2AB /* CryptoHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A2440702B374C0F0086D2AB /* CryptoHelpers.swift */; };
 		4A4BFDCA2AD26B0F0062BDB8 /* RegistrationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A4BFDC92AD26B0F0062BDB8 /* RegistrationManager.swift */; };
+		4A80E4D12B487DF600CD5D05 /* TokenHandling.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A80E4D02B487DF600CD5D05 /* TokenHandling.swift */; };
+		4A80E4D42B49BA7800CD5D05 /* AnonymousAlamofire.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A80E4D32B49BA7800CD5D05 /* AnonymousAlamofire.swift */; };
 		4A8662D42B26299F00D8DDE8 /* EditUserPwVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A8662D32B26299F00D8DDE8 /* EditUserPwVC.swift */; };
 		4A8662D62B2629F500D8DDE8 /* EditUserNameVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A8662D52B2629F500D8DDE8 /* EditUserNameVC.swift */; };
 		4A8662D82B262DA200D8DDE8 /* CustomEditNavigationBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A8662D72B262DA200D8DDE8 /* CustomEditNavigationBar.swift */; };
-		4A8B9B462AD443C9009236EC /* AlamofireManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A8B9B452AD443C9009236EC /* AlamofireManager.swift */; };
+		4A8B9B462AD443C9009236EC /* AuthorizationAlamofire.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A8B9B452AD443C9009236EC /* AuthorizationAlamofire.swift */; };
 		4A8B9B482AD443D5009236EC /* BaseInterceptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A8B9B472AD443D5009236EC /* BaseInterceptor.swift */; };
 		4A8B9B4A2AD443E6009236EC /* ApiStatusLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A8B9B492AD443E6009236EC /* ApiStatusLogger.swift */; };
 		4A8B9B4C2AD443EE009236EC /* MyLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A8B9B4B2AD443EE009236EC /* MyLogger.swift */; };
@@ -84,10 +86,13 @@
 		4A24406F2B36A9D20086D2AB /* Secrets.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Secrets.xcconfig; sourceTree = "<group>"; };
 		4A2440702B374C0F0086D2AB /* CryptoHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CryptoHelpers.swift; sourceTree = "<group>"; };
 		4A4BFDC92AD26B0F0062BDB8 /* RegistrationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationManager.swift; sourceTree = "<group>"; };
+		4A80E4D02B487DF600CD5D05 /* TokenHandling.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenHandling.swift; sourceTree = "<group>"; };
+		4A80E4D22B4882B500CD5D05 /* fit-a-pet-client.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "fit-a-pet-client.entitlements"; sourceTree = "<group>"; };
+		4A80E4D32B49BA7800CD5D05 /* AnonymousAlamofire.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnonymousAlamofire.swift; sourceTree = "<group>"; };
 		4A8662D32B26299F00D8DDE8 /* EditUserPwVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditUserPwVC.swift; sourceTree = "<group>"; };
 		4A8662D52B2629F500D8DDE8 /* EditUserNameVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditUserNameVC.swift; sourceTree = "<group>"; };
 		4A8662D72B262DA200D8DDE8 /* CustomEditNavigationBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomEditNavigationBar.swift; sourceTree = "<group>"; };
-		4A8B9B452AD443C9009236EC /* AlamofireManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlamofireManager.swift; sourceTree = "<group>"; };
+		4A8B9B452AD443C9009236EC /* AuthorizationAlamofire.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorizationAlamofire.swift; sourceTree = "<group>"; };
 		4A8B9B472AD443D5009236EC /* BaseInterceptor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseInterceptor.swift; sourceTree = "<group>"; };
 		4A8B9B492AD443E6009236EC /* ApiStatusLogger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiStatusLogger.swift; sourceTree = "<group>"; };
 		4A8B9B4B2AD443EE009236EC /* MyLogger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyLogger.swift; sourceTree = "<group>"; };
@@ -180,6 +185,7 @@
 		4AA999902A8485A500E495FA /* fit-a-pet-client */ = {
 			isa = PBXGroup;
 			children = (
+				4A80E4D22B4882B500CD5D05 /* fit-a-pet-client.entitlements */,
 				4AD3541E2AAF7BA2004A47B3 /* UIElement */,
 				4ABE585F2A85E93100E22C5F /* Resource */,
 				4ABE585E2A85E92B00E22C5F /* Extension */,
@@ -237,11 +243,13 @@
 		4ABE585C2A85E90500E22C5F /* API */ = {
 			isa = PBXGroup;
 			children = (
-				4A8B9B452AD443C9009236EC /* AlamofireManager.swift */,
+				4A8B9B452AD443C9009236EC /* AuthorizationAlamofire.swift */,
+				4A80E4D32B49BA7800CD5D05 /* AnonymousAlamofire.swift */,
 				4A8B9B472AD443D5009236EC /* BaseInterceptor.swift */,
 				4A8B9B492AD443E6009236EC /* ApiStatusLogger.swift */,
 				4A8B9B4B2AD443EE009236EC /* MyLogger.swift */,
 				4A8B9B4D2AD443FA009236EC /* MySearchRouter.swift */,
+				4A80E4D02B487DF600CD5D05 /* TokenHandling.swift */,
 			);
 			path = API;
 			sourceTree = "<group>";
@@ -469,10 +477,12 @@
 				4AD3542B2AAF7F6A004A47B3 /* PetVC.swift in Sources */,
 				4ACDD4A32AD9B3A500CD8F1A /* InputPetNameVC.swift in Sources */,
 				4AD3542D2AAF7F83004A47B3 /* SettingVC.swift in Sources */,
+				4A80E4D42B49BA7800CD5D05 /* AnonymousAlamofire.swift in Sources */,
 				4AF0C8502B24765400A45EEE /* ResetPwVC.swift in Sources */,
 				4A15F2122AA8B4880098F2F7 /* InputIdVC.swift in Sources */,
 				4A037FF22AED62E30073BB56 /* KeyChainHelper.swift in Sources */,
 				4A0750D42B0892B900281A4C /* CustomNavigationBar.swift in Sources */,
+				4A80E4D12B487DF600CD5D05 /* TokenHandling.swift in Sources */,
 				4AD354292AAF7F55004A47B3 /* RecordVC.swift in Sources */,
 				4A8662D42B26299F00D8DDE8 /* EditUserPwVC.swift in Sources */,
 				4A15F2092AA790D60098F2F7 /* CustomProgressBar.swift in Sources */,
@@ -488,7 +498,7 @@
 				4AC579832B2DFD4B00735252 /* ResponseData.swift in Sources */,
 				4AC579852B2DFF7500735252 /* CustomPopupView.swift in Sources */,
 				4AD0896A2AFBFD9400E79E52 /* CheckCareCollectionViewCell.swift in Sources */,
-				4A8B9B462AD443C9009236EC /* AlamofireManager.swift in Sources */,
+				4A8B9B462AD443C9009236EC /* AuthorizationAlamofire.swift in Sources */,
 				4A15F20B2AA799C50098F2F7 /* ConstomLabel.swift in Sources */,
 				4A15F2102AA8B45A0098F2F7 /* InputAuthNumVC.swift in Sources */,
 				4AC579872B2E004400735252 /* CustomPopupVC.swift in Sources */,
@@ -654,6 +664,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "fit-a-pet-client/fit-a-pet-client.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -682,6 +693,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "fit-a-pet-client/fit-a-pet-client.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;

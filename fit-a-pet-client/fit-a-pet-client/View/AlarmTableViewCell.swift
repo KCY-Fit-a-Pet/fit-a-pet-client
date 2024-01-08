@@ -76,7 +76,7 @@ class AlarmTableViewCell: UITableViewCell {
             UserDefaults.standard.set(selectedIndex, forKey: "isSchedule")
         }
         
-        AlamofireManager.shared.userNotifyType(type){
+        AuthorizationAlamofire.shared.userNotifyType(type){
             result in
             switch result {
             case .success(let data):

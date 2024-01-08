@@ -87,7 +87,7 @@ class FindInputAuthNumVC: CustomNavigationBar{
             nextVC = ResetPwVC(title: FindIdPwSwitch.findAuth)
         }
         
-        AlamofireManager.shared.checkAuthSms(FindIdPwSwitch.phoneNum, FindIdPwSwitch.code){
+        AnonymousAlamofire.shared.checkAuthSms(FindIdPwSwitch.phoneNum, FindIdPwSwitch.code){
             result in
             switch result {
             case .success(let data):
