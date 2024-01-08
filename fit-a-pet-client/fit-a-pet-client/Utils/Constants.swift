@@ -3,7 +3,7 @@
 import Foundation
 
 enum API{
-    static let BASE_URL : String = "https://fitapet.co.kr/api/v1/"
+    static let BASE_URL : String = "https://fitapet.co.kr/api/"
     static let PRESIGNEDURL : String = "https://h1d5jjb17z.apigw.ntruss.com/obj/photo/"
 }
 

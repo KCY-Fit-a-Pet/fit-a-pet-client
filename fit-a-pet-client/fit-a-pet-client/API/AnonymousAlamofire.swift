@@ -57,31 +57,7 @@ class AnonymousAlamofire: TokenHandling {
             .response { response in
                 switch response.result{
                 case .success(let data):
-                    if let responseHeaders = response.response?.allHeaderFields as? [String: String],
-                       let accessToken = responseHeaders["accessToken"] {
-                        
-                        if let data = response.value {
-                            let cookies = HTTPCookie.cookies(withResponseHeaderFields: responseHeaders, for: response.response!.url!)
-                            for cookie in cookies {
-                                print("Cookie name: \(cookie.name), value: \(cookie.value)")
-                                
-                                let nsCookie = HTTPCookie(properties: [
-                                    HTTPCookiePropertyKey.name: cookie.name,
-                                    HTTPCookiePropertyKey.value: cookie.value,
-                                    HTTPCookiePropertyKey.domain: cookie.domain,
-                                    HTTPCookiePropertyKey.path: cookie.path,
-                                    HTTPCookiePropertyKey.version: NSNumber(value: cookie.version),
-                                    HTTPCookiePropertyKey.expires: cookie.expiresDate ?? Date.distantFuture
-                                ])
-                                
-                                HTTPCookieStorage.shared.setCookie(nsCookie!)
-                            }
-                        }
-                        
-                        KeychainHelper.saveAccessToken(accessToken: "eyJyZWdEYXRlIjoxNzA0NDM3ODE1NTA3LCJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiUk9MRV9BRE1JTiIsInVzZXJJZCI6MywiZXhwIjoxNzA0NDM3ODI1fQ.WUboJyeTL7XYLC7Vi21sqc7kxDDAzLHC22fLxm6iDJQ")
-                        os_log("accesstoken: %@", log: .default, type: .info, accessToken)
-//                      self.extractAndStoreToken(from: response)
-                    }
+                      self.extractAndStoreToken(from: response)
                     completion(.success(data))
                 case .failure(let error):
                     completion(.failure(error))
@@ -169,7 +145,7 @@ class AnonymousAlamofire: TokenHandling {
         self
             .session
             .request(MySearchRouter.presignedurl(dirname: dirname, extensionType: extensionType, result: true, blocking: true))
-            .validate(statusCode: 200..<300)
+//            .validate(statusCode: 200..<300)
             .response { response in
                 switch response.result{
                 case .success(let data):
@@ -187,7 +163,7 @@ class AnonymousAlamofire: TokenHandling {
         self
             .session
             .request(MySearchRouter.uploadImage(image: image))
-            .validate(statusCode: 200..<300)
+//            .validate(statusCode: 200..<300)
             .response { response in
                 switch response.result{
                 case .success(let data):

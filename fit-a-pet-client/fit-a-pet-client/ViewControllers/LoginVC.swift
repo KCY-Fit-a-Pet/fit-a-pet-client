@@ -44,10 +44,11 @@ class LoginVC: UIViewController{
         let firstVC = FirstVC()
            
         if UIApplication.shared.delegate is AppDelegate {
-            //
             if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
                let sceneDelegate = windowScene.delegate as? SceneDelegate {
-                sceneDelegate.window?.rootViewController = firstVC
+                let mainViewController = FirstVC()
+                let navigationController = UINavigationController(rootViewController: mainViewController)
+                sceneDelegate.window?.rootViewController = navigationController
             }
         } else {
             print("Unable to access the app delegate")
@@ -268,4 +269,3 @@ extension LoginVC: UITextFieldDelegate{
         return true
     }
 }
-//eyJhbGciOiJIUzI1NiIsInJlZ0RhdGUiOjE3MDQzOTA0MzQzOTYsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIxLCJyb2xlIjoiUk9MRV9VU0VSIiwiZXhwIjoxNzA0OTk1MjM0fQ.qd6uLzbTFEA6oSgXb9U7JMdIhXZA52ztcCfbO6-GmaQ

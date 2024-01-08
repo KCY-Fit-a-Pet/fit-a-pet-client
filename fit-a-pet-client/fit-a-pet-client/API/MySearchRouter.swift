@@ -49,35 +49,35 @@ enum MySearchRouter: URLRequestConvertible {
     var path: String {
         switch self {
         case .sendSms, .checkSms:
-            return "auth/register-sms"
+            return "v1/auth/register-sms"
         case .login:
-            return "auth/login"
+            return "v1/auth/login"
         case .refresh:
-            return "auth/refresh"
+            return "v1/auth/refresh"
         case .regist:
-            return "auth/register"
+            return "v1/auth/register"
         case .presignedurl:
             return "C7QXbC20ti"
         case .uploadImage:
             return " "
         case .registPet:
-            return "pets"
+            return "v2/pets"
         case .sendAuthSms, .checkAuthSms:
-            return "auth/search-sms"
+            return "v1/auth/search-sms"
         case .oauthLogin:
-            return "auth/oauth"
+            return "v1/auth/oauth"
         case .oauthSendSms, .oauthCheckSms:
-            return "auth/oauth/\(OauthInfo.oauthId)/sms"
+            return "v1/auth/oauth/\(OauthInfo.oauthId)/sms"
         case .oauthRegistUser:
-            return "auth/oauth/\(OauthInfo.oauthId)"
+            return "v1/auth/oauth/\(OauthInfo.oauthId)"
         case .findId, .findPw:
-            return "accounts/search"
+            return "v1/accounts/search"
         case .existId:
-            return "accounts/exists"
+            return "v1/accounts/exists"
         case .userProfileInfo, .editUserPw, .editUserName:
-            return "accounts/\(UserDefaults.standard.string(forKey: "id")!)"
+            return "v2/accounts/\(UserDefaults.standard.string(forKey: "id")!)"
         case .userNotifyType:
-            return "accounts/\(UserDefaults.standard.string(forKey: "id")!)/notify"
+            return "v2/accounts/\(UserDefaults.standard.string(forKey: "id")!)/notify"
         }
     }
     
