@@ -29,9 +29,30 @@ class LoginVC: UIViewController{
         inputPw.delegate = self
         
         loginBtn.addTarget(self, action: #selector(changeTabBarVC(_:)), for: .touchUpInside)
+        NotificationCenter.default.addObserver(self, selector: #selector(retryLoginNotification(_:)), name: .retryLoginNotification, object: nil)
         
         self.navigationController?.navigationBar.tintColor = .black
         self.navigationController?.navigationBar.topItem?.title = ""
+    }
+    deinit {
+        // Remove the observer when the view controller is deallocated
+        NotificationCenter.default.removeObserver(self)
+    }
+    
+    @objc func retryLoginNotification(_ notification: Notification) {
+
+        let firstVC = FirstVC()
+           
+        if UIApplication.shared.delegate is AppDelegate {
+            if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+               let sceneDelegate = windowScene.delegate as? SceneDelegate {
+                let mainViewController = FirstVC()
+                let navigationController = UINavigationController(rootViewController: mainViewController)
+                sceneDelegate.window?.rootViewController = navigationController
+            }
+        } else {
+            print("Unable to access the app delegate")
+        }
     }
     private func initView(){
         
@@ -144,22 +165,17 @@ class LoginVC: UIViewController{
         let mainVC = TabBarController()
         mainVC.modalPresentationStyle = .fullScreen
         
-        let dispatchGroup = DispatchGroup()
-
-        dispatchGroup.enter()
-        AlamofireManager.shared.login("heejin", "heejin1234") { result in
-            defer { dispatchGroup.leave() }
-            
-            switch result {
+        AnonymousAlamofire.shared.login("heejin", "heejin1234") { [weak self] loginResult in
+            switch loginResult {
             case .success(let data):
-                // Handle login success
                 if let responseData = data {
                     do {
                         let jsonObject = try JSONSerialization.jsonObject(with: responseData, options: []) as? [String: Any] ?? [:]
                         print("Login Response JSON Data: \(jsonObject)")
 
-                        // Enter the dispatch group for userProfileInfo only if login is successful
-                        dispatchGroup.enter()
+                        self?.fetchUserProfileInfo(completion: {
+                            self?.present(mainVC, animated: false, completion: nil)
+                        })
 
                     } catch {
                         print("Error parsing login JSON: \(error)")
@@ -167,26 +183,24 @@ class LoginVC: UIViewController{
                 }
 
             case .failure(let error):
-                // Handle login failure
                 print("Error: \(error)")
             }
         }
+    }
 
-        AlamofireManager.shared.userProfileInfo { result in
-            defer { dispatchGroup.leave() }
-
-            switch result {
+    func fetchUserProfileInfo(completion: @escaping () -> Void) {
+        
+        AuthorizationAlamofire.shared.userProfileInfo { userProfileResult in
+            switch userProfileResult {
             case .success(let data):
-                // Handle user profile info success
                 if let responseData = data {
                     do {
                         let jsonObject = try JSONSerialization.jsonObject(with: responseData, options: []) as? [String: Any] ?? [:]
-
+                        
                         if let dataDict = jsonObject["data"] as? [String: Any],
                            let memberDict = dataDict["member"] as? [String: Any] {
 
                             for (key, value) in memberDict {
-                                //print("\(key): \(value)")
                                 UserDefaults.standard.set(value, forKey: key)
                             }
 
@@ -199,17 +213,13 @@ class LoginVC: UIViewController{
                 }
 
             case .failure(let profileError):
-                // Handle user profile info failure
                 print("Error fetching user profile info: \(profileError)")
             }
-        }
 
-        dispatchGroup.notify(queue: .main) {
-            // Both login and user profile info tasks are completed
-            self.present(mainVC, animated: false, completion: nil)
+            // Call the completion handler once userProfileInfo is completed
+            completion()
         }
     }
-
     
     @objc func changeFindIdVC(_ sender: UIButton){
         FindIdPwSwitch.findAuth = "아이디 찾기"
@@ -259,4 +269,3 @@ extension LoginVC: UITextFieldDelegate{
         return true
     }
 }
-

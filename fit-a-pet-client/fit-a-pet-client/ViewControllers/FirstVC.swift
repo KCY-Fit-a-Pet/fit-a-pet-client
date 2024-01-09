@@ -5,6 +5,7 @@ import KakaoSDKUser
 import GoogleSignIn
 import Alamofire
 import NaverThirdPartyLogin
+import AuthenticationServices
 
 class FirstVC: UIViewController {
     
@@ -113,7 +114,7 @@ extension FirstVC{
         kakaoLogin.addTarget(self, action: #selector(kakaoLoginBtnTapped(_:)), for: .touchUpInside)
         googleLogin.addTarget(self, action: #selector(googleLoginBtnTapped(_ :)), for:  .touchUpInside)
         naverLogin.addTarget(self, action: #selector(naverLoginBtnTapped(_ :)), for:  .touchUpInside)
-        appleLogin.addTarget(self, action: #selector(naverLogoutBtnTapped(_ :)), for:  .touchUpInside)
+        appleLogin.addTarget(self, action: #selector(appleLoginBtnTapped(_ :)), for:  .touchUpInside)
         
         let loginButtons = [naverLogin, kakaoLogin, googleLogin, appleLogin]
         
@@ -167,9 +168,11 @@ extension FirstVC{
 
 extension FirstVC{
     
+    //TODO: 이미 가입된 유저가 아닌 경우 팝업창
+    
     @objc func kakaoLoginBtnTapped(_ sender: UIButton){
         
-        let nextVC = OauthCodeVC()
+        let nextVC = InputPhoneNumVC()
         
         let nonce = CryptoHelpers.randomNonceString()
         print("nonce 값: \(nonce)")
@@ -199,7 +202,7 @@ extension FirstVC{
                         OauthInfo.nonce = hashedString
                         OauthInfo.oauthId = Int(user!.id!)
                         
-                        AlamofireManager.shared.oauthLogin(){
+                        AnonymousAlamofire.shared.oauthLogin(){
                             result in
                             switch result {
                             case .success(let data):
@@ -209,6 +212,7 @@ extension FirstVC{
                                     let object = try?JSONSerialization.jsonObject(with: responseData, options: []) as? NSDictionary
                                     guard let jsonObject = object else {return}
                                     print("respose jsonData: \(jsonObject)")
+                                    RegistDivision.oauth = true
                                     self.navigationController?.pushViewController(nextVC, animated: false)
                                 }
                             case .failure(let error):
@@ -259,10 +263,18 @@ extension FirstVC{
     
     @objc func naverLoginBtnTapped(_ sender: UIButton){
         loginInstance?.requestThirdPartyLogin()
+//        loginInstance?.requestDeleteToken() 로그아웃
         
     }
-    @objc func naverLogoutBtnTapped(_ sender: UIButton){
-        loginInstance?.requestDeleteToken()
+    @objc func appleLoginBtnTapped(_ sender: UIButton){
+        let appleIDProvider = ASAuthorizationAppleIDProvider()
+        let request = appleIDProvider.createRequest()
+        request.requestedScopes = [.fullName, .email]
+        
+        let authorizationController = ASAuthorizationController(authorizationRequests: [request])
+        authorizationController.delegate = self
+        authorizationController.presentationContextProvider = self
+        authorizationController.performRequests()
         
     }
     
@@ -329,5 +341,40 @@ extension FirstVC: NaverThirdPartyLoginConnectionDelegate{
             print("result: \(result)")
          
         }
+    }
+}
+
+extension FirstVC: ASAuthorizationControllerPresentationContextProviding, ASAuthorizationControllerDelegate{
+    
+    func presentationAnchor(for controller: ASAuthorizationController) -> ASPresentationAnchor {
+        return self.view.window!
+    }
+    
+    // Apple ID 연동 성공 시
+    func authorizationController(controller: ASAuthorizationController, didCompleteWithAuthorization authorization: ASAuthorization) {
+        switch authorization.credential {
+            // Apple ID
+        case let appleIDCredential as ASAuthorizationAppleIDCredential:
+            
+            // 계정 정보 가져오기
+            let userIdentifier = appleIDCredential.user
+            let fullName = appleIDCredential.fullName
+            let email = appleIDCredential.email
+            let idToken = appleIDCredential.identityToken!
+            let tokeStr = String(data: idToken, encoding: .utf8)
+         
+            print("User ID : \(userIdentifier)")
+            print("User Email : \(email ?? "")")
+            print("User Name : \((fullName?.givenName ?? "") + (fullName?.familyName ?? ""))")
+            print("token : \(String(describing: tokeStr))")
+            
+        default:
+            break
+        }
+    }
+    
+    // Apple ID 연동 실패 시
+    func authorizationController(controller: ASAuthorizationController, didCompleteWithError error: Error) {
+        // Handle error.
     }
 }

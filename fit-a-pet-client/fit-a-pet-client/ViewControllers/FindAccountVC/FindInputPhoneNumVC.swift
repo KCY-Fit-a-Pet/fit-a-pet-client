@@ -69,7 +69,7 @@ class FindInputPhoneNumVC: CustomNavigationBar{
     @objc func changeFindInputAuthNumVC(_ sender: UIButton){
         let nextVC = FindInputAuthNumVC(title: FindIdPwSwitch.findAuth, phone: FindIdPwSwitch.phoneNum)
         
-        AlamofireManager.shared.sendAuthSms(FindIdPwSwitch.phoneNum, FindIdPwSwitch.userUid){
+        AnonymousAlamofire.shared.sendAuthSms(FindIdPwSwitch.phoneNum, FindIdPwSwitch.userUid){
             result in
             switch result {
             case .success(let data):

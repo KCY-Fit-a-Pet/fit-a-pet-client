@@ -1,9 +1,9 @@
 name: FE CI
-run-name: Deploy by @${{ github.actor }} 
+run-name: Deploy by @${{ github.actor }}
 
-on: 
-    push: 
-        branches: 
+on:
+    push:
+        branches:
             - main
             - develop
     issue_comment:
@@ -32,7 +32,7 @@ jobs:
                   echo "TITLE=$TITLE" >> $env:GITHUB_OUTPUT
                   echo "DESC=$DESC" >> $env:GITHUB_OUTPUT
                 } elseif ( "${{github.event_name}}" -eq "pull_request" ) {
-                  $TITLE="[${{github.actor}}]_${{ github.event_name }}" 
+                  $TITLE="[${{github.actor}}]_${{ github.event_name }}"
                   $DESC="${{ github.event.pull_request.title }}".split("`n")[0]
                   echo "TITLE=$TITLE" >> $env:GITHUB_OUTPUT
                   echo "DESC=$DESC" >> $env:GITHUB_OUTPUT
@@ -47,7 +47,7 @@ jobs:
               id: determine_event_type_windows
 
             - name: Determine event type and trigger action at macOS
-              if: runner.os == 'macOS' 
+              if: runner.os == 'macOS'
               run: |
                 if [ ${{github.event_name}} == 'push' ]; then
                   echo "TITLE=[${{github.actor}}]_${{ github.event_name }}" >> $GITHUB_OUTPUT

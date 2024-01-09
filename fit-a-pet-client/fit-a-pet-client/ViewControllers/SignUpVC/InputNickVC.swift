@@ -89,23 +89,42 @@ class InputNickVC : UIViewController {
         if let nickname = inputNick.text {
             RegistrationManager.shared.addInput(nickname: nickname)
         }
-        
-        AlamofireManager.shared.regist(RegistrationManager.shared.id!, RegistrationManager.shared.nickname!, RegistrationManager.shared.pw!, "", ""){
-            result in
-            switch result {
-            case .success(let data):
-                // Handle success
-                if let responseData = data {
-                    // Process the data
-                    let object = try?JSONSerialization.jsonObject(with: responseData, options: []) as? NSDictionary
-                    guard let jsonObject = object else {return}
-                    print("respose jsonData: \(jsonObject)")
+        if !RegistDivision.oauth{
+            AuthorizationAlamofire.shared.regist(RegistrationManager.shared.id!, RegistrationManager.shared.nickname!, RegistrationManager.shared.pw!, "", ""){
+                result in
+                switch result {
+                case .success(let data):
+                    // Handle success
+                    if let responseData = data {
+                        // Process the data
+                        let object = try?JSONSerialization.jsonObject(with: responseData, options: []) as? NSDictionary
+                        guard let jsonObject = object else {return}
+                        print("respose jsonData: \(jsonObject)")
+                    }
+                case .failure(let error):
+                    // Handle failure
+                    print("Error: \(error)")
                 }
-            case .failure(let error):
-                // Handle failure
-                print("Error: \(error)")
+            }
+        }else{
+            AuthorizationAlamofire.shared.oauthRegistUser(RegistrationManager.shared.nickname!, RegistrationManager.shared.id!){
+                result in
+                switch result {
+                case .success(let data):
+                    // Handle success
+                    if let responseData = data {
+                        // Process the data
+                        let object = try?JSONSerialization.jsonObject(with: responseData, options: []) as? NSDictionary
+                        guard let jsonObject = object else {return}
+                        print("respose jsonData: \(jsonObject)")
+                    }
+                case .failure(let error):
+                    // Handle failure
+                    print("Error: \(error)")
+                }
             }
         }
+       
 
     }
 }

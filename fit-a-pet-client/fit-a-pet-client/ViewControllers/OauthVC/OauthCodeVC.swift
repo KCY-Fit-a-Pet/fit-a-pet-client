@@ -88,14 +88,13 @@ class OauthCodeVC: UIViewController {
     
     @objc private func sendsmsButtonTapped() {
         
-        OauthInfo.phoneNum = textField1.text!
-        
+        //OauthInfo.phoneNum = textField1.text!
         
         if let text1 = textField1.text, let text2 = textField2.text {
             print("Text 1: \(text1), Text 2: \(text2)")
         }
         
-        AlamofireManager.shared.oauthSendSms(){
+        AnonymousAlamofire.shared.oauthSendSms(){
             result in
             switch result {
             case .success(let data):
@@ -115,7 +114,7 @@ class OauthCodeVC: UIViewController {
     
     @objc private func checksmsButtonTapped() {
     
-        AlamofireManager.shared.oauthCheckSms(textField2.text!){
+        AnonymousAlamofire.shared.oauthCheckSms(textField2.text!){
             result in
             switch result {
             case .success(let data):
@@ -134,7 +133,7 @@ class OauthCodeVC: UIViewController {
     }
     @objc private func registButtonTapped() {
     
-        AlamofireManager.shared.oauthRegistUser("hee", "jin"){
+        AuthorizationAlamofire.shared.oauthRegistUser("hee", "jin"){
             result in
             switch result {
             case .success(let data):
