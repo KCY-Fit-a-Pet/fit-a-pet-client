@@ -187,7 +187,7 @@ extension FirstVC{
                 print("loginWithKakaoAccount() success.")
                 
                 KeychainHelper.saveTempToken(tempToken: oauthToken!.idToken!)
-                print(oauthToken!.idToken)
+                print(oauthToken!.idToken as Any)
                 
                 UserApi.shared.me() {(user, error) in
                     if let error = error {
@@ -196,7 +196,7 @@ extension FirstVC{
                     else {
                         print("사용자 정보 가져오기 성공")
                     
-                        print(user!.id)
+                        print(user!.id as Any)
                         
                         OauthInfo.provider = "kakao"
                         OauthInfo.nonce = hashedString
@@ -226,6 +226,11 @@ extension FirstVC{
         }
     }
     @objc func googleLoginBtnTapped(_ sender: UIButton){
+        let nonce = CryptoHelpers.randomNonceString()
+        print("nonce 값: \(nonce)")
+        let hashedString = CryptoHelpers.sha256(nonce)
+        print("hashedString 값: \(hashedString)")
+        
         GIDSignIn.sharedInstance.signIn(
             withPresenting: self) { signInResult, error in
                 guard error == nil else { return }
@@ -237,8 +242,6 @@ extension FirstVC{
                 let fullName = user.profile?.name
                 let profilePicUrl = user.profile?.imageURL(withDimension: 320)
                 
-                
-                
                 print("user: \(user)")
                 print("userId: \(userId)")
                 print("emailAddress: \(String(describing: emailAddress))")
@@ -249,14 +252,35 @@ extension FirstVC{
                     guard error == nil else { return }
                     guard let user = user else { return }
                     
-                    let idToken = user.idToken
+                    let idToken = user.idToken?.tokenString
                     
-                    print("idToken: \(String(describing: idToken))")
+                    print("idToken: \(idToken)")
+                    
+                    OauthInfo.provider = "google"
+                    OauthInfo.nonce = hashedString
+                    //OauthInfo.oauthId = userId
+                    
+                    //KeychainHelper.saveTempToken(tempToken: idToken)
+                    
+                    AnonymousAlamofire.shared.oauthLogin(){
+                        result in
+                        switch result {
+                        case .success(let data):
+                            // Handle success
+                            if let responseData = data {
+                                // Process the data
+                                let object = try?JSONSerialization.jsonObject(with: responseData, options: []) as? NSDictionary
+                                guard let jsonObject = object else {return}
+                                print("respose jsonData: \(jsonObject)")
+                                RegistDivision.oauth = true
+                            }
+                        case .failure(let error):
+                            // Handle failure
+                            print("Error: \(error)")
+                        }
+                    }
                 }
-                let nonce = CryptoHelpers.randomNonceString()
-                print("nonce 값: \(nonce)")
-                let hashedString = CryptoHelpers.sha256(nonce)
-                print("hashedString 값: \(hashedString)")
+             
                 //무작위로 생성된 nonce를 해싱하면 결과 해시가 예측 불가능하고 무작위로 표시되도록 할 수 있다.
             }
     }

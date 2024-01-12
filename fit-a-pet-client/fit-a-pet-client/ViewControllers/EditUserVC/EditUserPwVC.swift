@@ -29,7 +29,7 @@ class EditUserPwVC: CustomEditNavigationBar {
             make.top.equalTo(view.safeAreaLayoutGuide).offset(20)
             make.leading.trailing.equalToSuperview().inset(16)
         }
-//
+        
         currentPasswordTextField.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
         newPasswordTextField.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
         confirmPasswordTextField.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)

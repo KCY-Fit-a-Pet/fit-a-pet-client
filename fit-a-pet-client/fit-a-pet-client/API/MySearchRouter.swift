@@ -11,7 +11,7 @@ enum MySearchRouter: URLRequestConvertible {
     case regist(uid: String, name: String, password: String, email: String, profileImg: String)
     case presignedurl(dirname: String, extensionType: String, result: Bool, blocking: Bool)
     case uploadImage(image: UIImage)
-    case registPet(petName: String, species: String, gender: String, neutralization: Bool, birthDate: String)
+    case registPet(petName: String, species: String, gender: String, neutralization: Bool, birthdate: String)
     case sendAuthSms(to: String, uid: String)
     case checkAuthSms(to: String, code: String)
     case findId(phone: String, code: String)
@@ -23,6 +23,7 @@ enum MySearchRouter: URLRequestConvertible {
     case editUserName(type: String, name: String)
     case oauthCheckSms(code: String)
     case oauthRegistUser(name: String, uid: String)
+    case createCare(category: [String: Any], care: [String: Any], pets: [Int])
     
     var baseURL: URL {
         switch self {
@@ -37,7 +38,7 @@ enum MySearchRouter: URLRequestConvertible {
     
     var method: HTTPMethod {
         switch self {
-        case .sendSms, .checkSms, .login, .regist, .presignedurl, .registPet,.sendAuthSms, .checkAuthSms, .findId, .findPw, .oauthLogin, .oauthSendSms, .oauthCheckSms, .oauthRegistUser:
+        case .sendSms, .checkSms, .login, .regist, .presignedurl, .registPet,.sendAuthSms, .checkAuthSms, .findId, .findPw, .oauthLogin, .oauthSendSms, .oauthCheckSms, .oauthRegistUser, .createCare:
             return .post
         case .existId, .userProfileInfo, .userNotifyType, .refresh:
             return .get
@@ -71,13 +72,15 @@ enum MySearchRouter: URLRequestConvertible {
         case .oauthRegistUser:
             return "v1/auth/oauth/\(OauthInfo.oauthId)"
         case .findId, .findPw:
-            return "v1/accounts/search"
+            return "v2/accounts/search"
         case .existId:
-            return "v1/accounts/exists"
+            return "v2/accounts/exists"
         case .userProfileInfo, .editUserPw, .editUserName:
             return "v2/accounts/\(UserDefaults.standard.string(forKey: "id")!)"
         case .userNotifyType:
             return "v2/accounts/\(UserDefaults.standard.string(forKey: "id")!)/notify"
+        case .createCare:
+            return "v2/pets/3/cares"
         }
     }
     
@@ -96,8 +99,8 @@ enum MySearchRouter: URLRequestConvertible {
             return ["uid": uid, "name": name, "password": password, "email": email, "profileImg": profileImg]
         case let .presignedurl(dirname, extensionType, _, _):
             return ["dirname": dirname, "extension": extensionType]
-        case let .registPet(petName , species , gender , neutralization , birthDate):
-            return ["petName": petName, "species": species, "gender": gender, "neutralization": neutralization, "birthDate": birthDate]
+        case let .registPet(petName , species , gender , neutralization , birthdate):
+            return ["petName": petName, "species": species, "gender": gender, "neutralization": neutralization, "birthdate": birthdate]
         case let .findId(phone, code):
             return ["phone":phone, "code": code]
         case let .findPw(phone, newPassword, code):
@@ -116,7 +119,9 @@ enum MySearchRouter: URLRequestConvertible {
             return ["code": code]
         case let .oauthRegistUser(name, uid):
             return ["name": name, "uid": uid]
-
+        case let .createCare(category, care, pets):
+            return ["category": category, "care": care,"pets": pets]
+            
         }
     }
     
@@ -253,7 +258,7 @@ enum MySearchRouter: URLRequestConvertible {
             let bodyParameters = ["name": name, "uid": uid, "idToken": idToken, "nonce": OauthInfo.nonce] as [String : Any]
             let queryParameters = [URLQueryItem(name: "provider", value: OauthInfo.provider)]
             
-                request = createURLRequestWithBodyAndQuery(url: url, bodyParameters: bodyParameters, queryParameters: queryParameters)
+            request = createURLRequestWithBodyAndQuery(url: url, bodyParameters: bodyParameters, queryParameters: queryParameters)
             
         default:
             request = createURLRequestWithBody(url: url)

@@ -131,7 +131,7 @@ class UploadPetPhotoVC : CustomNavigationBar {
     }
     
     @objc func changeCompleteRegistPetVC(_ sender: UIButton){
-        AuthorizationAlamofire.shared.registPet(PetRegistrationManager.shared.petName!, PetRegistrationManager.shared.species!, PetRegistrationManager.shared.gender!, false, PetRegistrationManager.shared.birthDate!){
+        AuthorizationAlamofire.shared.registPet(PetRegistrationManager.shared.petName!, PetRegistrationManager.shared.species!, PetRegistrationManager.shared.gender!, true, PetRegistrationManager.shared.birthDate!){
             result in
             switch result {
             case .success(let data):
