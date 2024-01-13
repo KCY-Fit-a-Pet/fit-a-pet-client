@@ -4,8 +4,8 @@ import UIKit
 import SnapKit
 
 class ScheduleView: UIView {
-    var scheduleLabel = UILabel()
-    var scheduleTextField = UITextField()
+    let scheduleLabel = UILabel()
+    let scheduleTextField = UITextField()
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -34,7 +34,7 @@ class ScheduleView: UIView {
         
         scheduleLabel.snp.makeConstraints { make in
             make.height.equalTo(25)
-            make.top.equalTo(self.snp.top)
+            make.top.equalTo(self.snp.top).offset(10)
         }
         
         scheduleTextField.snp.makeConstraints { make in

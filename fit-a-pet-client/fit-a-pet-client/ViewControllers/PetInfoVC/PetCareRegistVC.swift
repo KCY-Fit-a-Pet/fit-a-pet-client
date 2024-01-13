@@ -1,6 +1,7 @@
 import UIKit
 import SnapKit
 import SwiftUI
+import PanModal
 
 class PetCareRegistVC: CustomEditNavigationBar {
 
@@ -11,6 +12,7 @@ class PetCareRegistVC: CustomEditNavigationBar {
     
     private let categoryView = CategoryView()
     private let scheduleView = ScheduleView()
+    private let otherSettingView = OtherSettingsView()
 
     var currentState: ViewState = .datePicker
     var selectedIndices: Set<Int> = []
@@ -58,6 +60,8 @@ class PetCareRegistVC: CustomEditNavigationBar {
 
         categoryView.categoryButton.addTarget(self, action: #selector(showMenu), for: .touchUpInside)
         careDateChange.addTarget(self, action: #selector(careDateChangeTapped), for: .touchUpInside)
+        
+        otherSettingView.carePetButton.addTarget(self, action: #selector(carePetButtonTapped), for: .touchUpInside)
 
         daysCollectionView.dataSource = self
         daysCollectionView.delegate = self
@@ -128,7 +132,7 @@ class PetCareRegistVC: CustomEditNavigationBar {
         
         stackView.snp.makeConstraints { make in
             make.height.equalTo(25)
-            make.top.equalTo(scheduleView.snp.bottom).offset(24)
+            make.top.equalTo(scheduleView.snp.bottom).offset(32)
             make.leading.trailing.equalToSuperview().inset(16)
         }
         
@@ -139,14 +143,23 @@ class PetCareRegistVC: CustomEditNavigationBar {
         }
         
         daysTableView.snp.makeConstraints { make in
-            make.height.equalTo(300)
+            make.height.equalTo(200)
             make.top.equalTo(daysCollectionView.snp.bottom).offset(8)
             make.leading.trailing.equalToSuperview().inset(16)
         }
         datePicker.snp.makeConstraints { make in
-            make.height.equalTo(200)
+            make.height.equalTo(180)
             make.top.equalTo(daysCollectionView.snp.bottom).offset(8)
             make.centerX.equalToSuperview()
+        }
+        
+        careScrollView.addSubview(otherSettingView)
+        
+        otherSettingView.snp.makeConstraints { make in
+            make.height.equalTo(88)
+            make.top.equalTo(datePicker.snp.bottom).offset(24)
+            make.leading.equalTo(careScrollView).inset(16)
+            make.trailing.equalTo(careScrollView).inset(16)
         }
     }
 
@@ -220,6 +233,11 @@ class PetCareRegistVC: CustomEditNavigationBar {
             datePicker.isHidden = true
             currentState = .daysTableView
         }
+    }
+    
+    @objc private func carePetButtonTapped() {
+        let petPanModalVC = PetPanModalVC(title: "반려동물을 선택하세요")
+        presentPanModal(petPanModalVC)
     }
     
 }

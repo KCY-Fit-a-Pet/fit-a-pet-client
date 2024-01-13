@@ -35,7 +35,6 @@ class CategoryView: UIView {
         categoryTextField.leftViewMode = .always
 
         categoryButton.setImage(UIImage(named: "category"), for: .normal)
-        categoryButton.setTitleColor(.black, for: .normal)
 
         categoryLabel.text = "카테고리"
         categoryLabel.font = .boldSystemFont(ofSize: 18)
@@ -45,7 +44,7 @@ class CategoryView: UIView {
 
         categoryLabel.snp.makeConstraints { make in
             make.height.equalTo(25)
-            make.top.equalTo(self.snp.top).offset(10)
+            make.top.equalTo(self.snp.top).offset(8)
         }
 
         stackView.snp.makeConstraints { make in
