@@ -34,12 +34,12 @@ class CareDateTableViewCell: UITableViewCell {
         contentView.addSubview(datePicker)
 
         dateLabel.snp.makeConstraints { make in
-            make.top.equalTo(contentView).offset(8)
+            make.centerY.equalTo(contentView)
             make.leading.equalTo(contentView).inset(16)
         }
 
         datePicker.snp.makeConstraints { make in
-            make.top.equalTo(contentView).offset(8)
+            make.centerY.equalTo(contentView)
             make.trailing.equalTo(contentView).inset(16)
         }
     }

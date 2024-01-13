@@ -4,7 +4,7 @@ import SwiftUI
 
 class PetCareRegistVC: CustomEditNavigationBar {
 
-    private var categories = ["카테고리1", "카테고리2", "카테고리3"]
+    private var categories = [String]()
     private var careDateLabel = UILabel()
     private var careDateChange = UIButton()
     private let daysOfWeek = ["일","월", "화", "수", "목", "금", "토"]
@@ -64,6 +64,7 @@ class PetCareRegistVC: CustomEditNavigationBar {
         
         daysTableView.dataSource = self
         daysTableView.delegate = self
+        
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -156,6 +157,26 @@ class PetCareRegistVC: CustomEditNavigationBar {
     }
     
     @objc private func showMenu() {
+        
+        AuthorizationAlamofire.shared.checkCareCategory{ result in
+            switch result {
+            case .success(let data):
+                if let responseData = data {
+                    do {
+                        if let json = try JSONSerialization.jsonObject(with: responseData, options: []) as? [String: Any],
+                           let dataObject = json["data"] as? [String: Any],
+                           let careCategories = dataObject["careCategories"] as? [Any] {
+                            self.categories = careCategories.compactMap { String(describing: $0) }
+                            print("careCategories: \(careCategories)")
+                        }
+                    } catch {
+                        print("Error parsing JSON: \(error)")
+                    }
+                }
+            case .failure(let error):
+                print("Error: \(error)")
+            }
+        }
         
         // "새로 입력하기" 메뉴 아이템 정의
         let newCategoryAction = UIAction(title: "새로 입력하기") { [self] action in
@@ -280,6 +301,9 @@ extension PetCareRegistVC: UITableViewDelegate{
     
     func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
         return 100
+    }
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
     }
 }
 

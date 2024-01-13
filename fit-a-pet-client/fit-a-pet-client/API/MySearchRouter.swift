@@ -24,6 +24,7 @@ enum MySearchRouter: URLRequestConvertible {
     case oauthCheckSms(code: String)
     case oauthRegistUser(name: String, uid: String)
     case createCare(category: [String: Any], care: [String: Any], pets: [Int])
+    case checkCareCategory
     
     var baseURL: URL {
         switch self {
@@ -40,7 +41,7 @@ enum MySearchRouter: URLRequestConvertible {
         switch self {
         case .sendSms, .checkSms, .login, .regist, .presignedurl, .registPet,.sendAuthSms, .checkAuthSms, .findId, .findPw, .oauthLogin, .oauthSendSms, .oauthCheckSms, .oauthRegistUser, .createCare:
             return .post
-        case .existId, .userProfileInfo, .userNotifyType, .refresh:
+        case .existId, .userProfileInfo, .userNotifyType, .refresh ,.checkCareCategory:
             return .get
         case .uploadImage, .editUserPw, .editUserName:
             return .put
@@ -80,7 +81,9 @@ enum MySearchRouter: URLRequestConvertible {
         case .userNotifyType:
             return "v2/accounts/\(UserDefaults.standard.string(forKey: "id")!)/notify"
         case .createCare:
-            return "v2/pets/3/cares"
+            return "v2/pets/3/cares" //TODO: 임시 pet id 값
+        case .checkCareCategory:
+            return "v2/pets/3/cares/categories" //TODO: 임시 pet id 값
         }
     }
     
@@ -113,7 +116,7 @@ enum MySearchRouter: URLRequestConvertible {
             return ["type": type, "prePassword": prePassword, "newPassword": newPassword]
         case let .editUserName(type, name):
             return ["type": type, "name": name]
-        case .uploadImage(_), .userProfileInfo, .oauthLogin, .oauthSendSms, .refresh:
+        case .uploadImage(_), .userProfileInfo, .oauthLogin, .oauthSendSms, .refresh, .checkCareCategory:
             return [:]
         case let .oauthCheckSms(code):
             return ["code": code]
@@ -121,7 +124,7 @@ enum MySearchRouter: URLRequestConvertible {
             return ["name": name, "uid": uid]
         case let .createCare(category, care, pets):
             return ["category": category, "care": care,"pets": pets]
-            
+        
         }
     }
     
@@ -137,8 +140,8 @@ enum MySearchRouter: URLRequestConvertible {
             
             request = createURLRequestWithBodyAndQuery(url: url, bodyParameters: bodyParameters, queryParameters: queryParameters)
             
-        case .regist:
-            request = createURLRequestWithBody(url: url)
+//        case .regist:
+//            request = createURLRequestWithBody(url: url)
        
         case .refresh:
             request = URLRequest(url: url)
@@ -149,6 +152,8 @@ enum MySearchRouter: URLRequestConvertible {
             }         
             
         case .presignedurl:
+            
+            let bodyParameters = ["dirname": "profile", "extension": "png"] //TODO: 추후 수정
            
             let queryParameters = [
                 URLQueryItem(name: "result", value: "true"),
@@ -170,8 +175,8 @@ enum MySearchRouter: URLRequestConvertible {
            
             request = createURLRequestWithQuery(url: url, queryParameters: queryParameters)
             
-        case .registPet:
-            request = createURLRequestWithBody(url: url)
+//        case .registPet:
+//            request = createURLRequestWithBody(url: url)
             
         case .sendAuthSms(let to, let uid):
             var bodyParameters: [String: String] = [:]
@@ -259,7 +264,11 @@ enum MySearchRouter: URLRequestConvertible {
             let queryParameters = [URLQueryItem(name: "provider", value: OauthInfo.provider)]
             
             request = createURLRequestWithBodyAndQuery(url: url, bodyParameters: bodyParameters, queryParameters: queryParameters)
-            
+        
+        case .checkCareCategory:
+            request = URLRequest(url: url)
+            request.httpMethod = method.rawValue
+        
         default:
             request = createURLRequestWithBody(url: url)
         }
