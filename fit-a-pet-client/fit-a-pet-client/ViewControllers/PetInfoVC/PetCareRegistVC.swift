@@ -237,7 +237,8 @@ class PetCareRegistVC: CustomEditNavigationBar {
     
     @objc private func carePetButtonTapped() {
         let petPanModalVC = PetPanModalVC(title: "반려동물을 선택하세요")
-        presentPanModal(petPanModalVC)
+        
+        self.presentPanModal(petPanModalVC)
     }
     
 }

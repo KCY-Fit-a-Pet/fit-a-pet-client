@@ -47,8 +47,9 @@ class PetPanModalTableViewCell: UITableViewCell {
         }
     }
 
-    func configure(with imageName: String, name: String) {
-        petImageView.image = UIImage(named: imageName)
+    func configure(with image: String, name: String) {
+        //petImageView.image = UIImage(named: image)
+        petImageView.image = UIImage(named: "uploadPhoto")
         nameLabel.text = name
     }
 }
