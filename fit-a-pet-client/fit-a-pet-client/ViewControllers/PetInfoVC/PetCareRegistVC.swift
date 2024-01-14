@@ -62,6 +62,8 @@ class PetCareRegistVC: CustomEditNavigationBar {
         careDateChange.addTarget(self, action: #selector(careDateChangeTapped), for: .touchUpInside)
         
         otherSettingView.carePetButton.addTarget(self, action: #selector(carePetButtonTapped), for: .touchUpInside)
+        
+        otherSettingView.timeAttackButton.addTarget(self, action: #selector(timeAttackButtonTapped), for: .touchUpInside)
 
         daysCollectionView.dataSource = self
         daysCollectionView.delegate = self
@@ -154,9 +156,8 @@ class PetCareRegistVC: CustomEditNavigationBar {
         }
         
         careScrollView.addSubview(otherSettingView)
-        
         otherSettingView.snp.makeConstraints { make in
-            make.height.equalTo(88)
+            make.height.equalTo(147)
             make.top.equalTo(datePicker.snp.bottom).offset(24)
             make.leading.equalTo(careScrollView).inset(16)
             make.trailing.equalTo(careScrollView).inset(16)
@@ -240,7 +241,11 @@ class PetCareRegistVC: CustomEditNavigationBar {
         
         self.presentPanModal(petPanModalVC)
     }
-    
+    @objc private func timeAttackButtonTapped() {
+        let timePanModalVC = TimeAttackPanModalVC(title: "시간 제한")
+
+        self.presentPanModal(timePanModalVC)
+    }
 }
 
 extension PetCareRegistVC: UITextFieldDelegate {

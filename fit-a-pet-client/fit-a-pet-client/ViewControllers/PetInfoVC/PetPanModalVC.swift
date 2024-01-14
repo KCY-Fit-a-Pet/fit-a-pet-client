@@ -6,7 +6,6 @@ class PetPanModalVC: CustomEditNavigationBar {
     
     var petList: [PetList] = []
 
-    let myInfoCellData: [MyInfo] = MyInfo.cellList
     private let petPanModalTableView: UITableView = {
         let tableView = UITableView()
         return tableView
@@ -15,7 +14,6 @@ class PetPanModalVC: CustomEditNavigationBar {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
-        print(petList)
         
         petPanModalTableView.register(PetPanModalTableViewCell.self, forCellReuseIdentifier: "PetCell")
     }
@@ -101,5 +99,8 @@ extension PetPanModalVC: UITableViewDataSource, UITableViewDelegate {
     }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 72  // 원하는 높이로 설정
+    }
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
     }
 }
