@@ -1,4 +1,5 @@
 import Foundation
+import UIKit
 
 struct MyInfo {
     var id : Int
@@ -15,7 +16,6 @@ extension MyInfo{
     ]
 }
 
-
 struct AlarmSegment {
     var id : Int
     let cellTitle : String
@@ -29,4 +29,14 @@ extension AlarmSegment{
         AlarmSegment(id: 2, cellTitle: "일기 알림", cellSubTitie: "새 일기기록이 생성되면 알려드려요.", alarmToggle:  UserDefaults.standard.bool(forKey: "isMemo")),
         AlarmSegment(id: 3, cellTitle: "일정 알림", cellSubTitie: "새로운 일정, 예정된 일정을 알려드려요.", alarmToggle:  UserDefaults.standard.bool(forKey: "isSchedule"))
     ]
+}
+
+struct PetList {
+    let id: Int
+    let petName: String
+    let petProfileImage: String
+}
+
+extension PetList {
+    static var petsList: [PetList] = []
 }

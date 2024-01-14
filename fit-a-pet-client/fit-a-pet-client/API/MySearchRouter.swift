@@ -11,18 +11,19 @@ enum MySearchRouter: URLRequestConvertible {
     case regist(uid: String, name: String, password: String, email: String, profileImg: String)
     case presignedurl(dirname: String, extensionType: String, result: Bool, blocking: Bool)
     case uploadImage(image: UIImage)
-    case registPet(petName: String, species: String, gender: String, neutralization: Bool, birthDate: String)
+    case registPet(petName: String, species: String, gender: String, neutralization: Bool, birthdate: String)
     case sendAuthSms(to: String, uid: String)
     case checkAuthSms(to: String, code: String)
     case findId(phone: String, code: String)
     case findPw(phone: String, newPassword: String, code: String)
     case existId(uid: String)
-    case userProfileInfo, oauthLogin, oauthSendSms, refresh
+    case userProfileInfo, oauthLogin, oauthSendSms, refresh, checkCareCategory ,userPetsList
     case userNotifyType(type: String)
     case editUserPw(type: String, prePassword: String, newPassword: String)
     case editUserName(type: String, name: String)
     case oauthCheckSms(code: String)
     case oauthRegistUser(name: String, uid: String)
+    case createCare(category: [String: Any], care: [String: Any], pets: [Int])
     
     var baseURL: URL {
         switch self {
@@ -37,9 +38,9 @@ enum MySearchRouter: URLRequestConvertible {
     
     var method: HTTPMethod {
         switch self {
-        case .sendSms, .checkSms, .login, .regist, .presignedurl, .registPet,.sendAuthSms, .checkAuthSms, .findId, .findPw, .oauthLogin, .oauthSendSms, .oauthCheckSms, .oauthRegistUser:
+        case .sendSms, .checkSms, .login, .regist, .presignedurl, .registPet,.sendAuthSms, .checkAuthSms, .findId, .findPw, .oauthLogin, .oauthSendSms, .oauthCheckSms, .oauthRegistUser, .createCare:
             return .post
-        case .existId, .userProfileInfo, .userNotifyType, .refresh:
+        case .existId, .userProfileInfo, .userNotifyType, .refresh ,.checkCareCategory, .userPetsList:
             return .get
         case .uploadImage, .editUserPw, .editUserName:
             return .put
@@ -71,13 +72,19 @@ enum MySearchRouter: URLRequestConvertible {
         case .oauthRegistUser:
             return "v1/auth/oauth/\(OauthInfo.oauthId)"
         case .findId, .findPw:
-            return "v1/accounts/search"
+            return "v2/accounts/search"
         case .existId:
-            return "v1/accounts/exists"
+            return "v2/accounts/exists"
         case .userProfileInfo, .editUserPw, .editUserName:
             return "v2/accounts/\(UserDefaults.standard.string(forKey: "id")!)"
         case .userNotifyType:
             return "v2/accounts/\(UserDefaults.standard.string(forKey: "id")!)/notify"
+        case .createCare:
+            return "v2/pets/3/cares" //TODO: 임시 pet id 값
+        case .checkCareCategory:
+            return "v2/pets/3/cares/categories" //TODO: 임시 pet id 값
+        case .userPetsList:
+            return "v2/users/2/pets/summary" //TODO: 임시 user id 값
         }
     }
     
@@ -96,8 +103,8 @@ enum MySearchRouter: URLRequestConvertible {
             return ["uid": uid, "name": name, "password": password, "email": email, "profileImg": profileImg]
         case let .presignedurl(dirname, extensionType, _, _):
             return ["dirname": dirname, "extension": extensionType]
-        case let .registPet(petName , species , gender , neutralization , birthDate):
-            return ["petName": petName, "species": species, "gender": gender, "neutralization": neutralization, "birthDate": birthDate]
+        case let .registPet(petName , species , gender , neutralization , birthdate):
+            return ["petName": petName, "species": species, "gender": gender, "neutralization": neutralization, "birthdate": birthdate]
         case let .findId(phone, code):
             return ["phone":phone, "code": code]
         case let .findPw(phone, newPassword, code):
@@ -110,13 +117,15 @@ enum MySearchRouter: URLRequestConvertible {
             return ["type": type, "prePassword": prePassword, "newPassword": newPassword]
         case let .editUserName(type, name):
             return ["type": type, "name": name]
-        case .uploadImage(_), .userProfileInfo, .oauthLogin, .oauthSendSms, .refresh:
+        case .uploadImage(_), .userProfileInfo, .oauthLogin, .oauthSendSms, .refresh, .checkCareCategory, .userPetsList:
             return [:]
         case let .oauthCheckSms(code):
             return ["code": code]
         case let .oauthRegistUser(name, uid):
             return ["name": name, "uid": uid]
-
+        case let .createCare(category, care, pets):
+            return ["category": category, "care": care,"pets": pets]
+        
         }
     }
     
@@ -132,8 +141,8 @@ enum MySearchRouter: URLRequestConvertible {
             
             request = createURLRequestWithBodyAndQuery(url: url, bodyParameters: bodyParameters, queryParameters: queryParameters)
             
-        case .regist:
-            request = createURLRequestWithBody(url: url)
+//        case .regist:
+//            request = createURLRequestWithBody(url: url)
        
         case .refresh:
             request = URLRequest(url: url)
@@ -144,6 +153,8 @@ enum MySearchRouter: URLRequestConvertible {
             }         
             
         case .presignedurl:
+            
+            let bodyParameters = ["dirname": "profile", "extension": "png"] //TODO: 추후 수정
            
             let queryParameters = [
                 URLQueryItem(name: "result", value: "true"),
@@ -165,8 +176,8 @@ enum MySearchRouter: URLRequestConvertible {
            
             request = createURLRequestWithQuery(url: url, queryParameters: queryParameters)
             
-        case .registPet:
-            request = createURLRequestWithBody(url: url)
+//        case .registPet:
+//            request = createURLRequestWithBody(url: url)
             
         case .sendAuthSms(let to, let uid):
             var bodyParameters: [String: String] = [:]
@@ -253,8 +264,12 @@ enum MySearchRouter: URLRequestConvertible {
             let bodyParameters = ["name": name, "uid": uid, "idToken": idToken, "nonce": OauthInfo.nonce] as [String : Any]
             let queryParameters = [URLQueryItem(name: "provider", value: OauthInfo.provider)]
             
-                request = createURLRequestWithBodyAndQuery(url: url, bodyParameters: bodyParameters, queryParameters: queryParameters)
-            
+            request = createURLRequestWithBodyAndQuery(url: url, bodyParameters: bodyParameters, queryParameters: queryParameters)
+        
+        case .checkCareCategory, .userPetsList:
+            request = URLRequest(url: url)
+            request.httpMethod = method.rawValue
+        
         default:
             request = createURLRequestWithBody(url: url)
         }

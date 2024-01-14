@@ -46,3 +46,8 @@ enum OauthInfo{
     static var nonce = ""
     static var provider = ""
 }
+
+enum ViewState {
+    case daysTableView
+    case datePicker
+}
