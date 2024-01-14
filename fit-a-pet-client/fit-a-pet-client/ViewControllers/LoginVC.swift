@@ -164,21 +164,26 @@ class LoginVC: UIViewController{
     @objc func changeTabBarVC(_ sender: UIButton) {
         let mainVC = TabBarController()
         mainVC.modalPresentationStyle = .fullScreen
+
         
         AnonymousAlamofire.shared.login("heejin", "heejin123") { [weak self] loginResult in
             switch loginResult {
             case .success(let data):
                 if let responseData = data {
                     do {
-                        let jsonObject = try JSONSerialization.jsonObject(with: responseData, options: []) as? [String: Any] ?? [:]
-                        print("Login Response JSON Data: \(jsonObject)")
-
-                        self?.fetchUserProfileInfo(completion: {
-                            self?.present(mainVC, animated: false, completion: nil)
-                        })
-
+                        if let json = try JSONSerialization.jsonObject(with: responseData, options: []) as? [String: Any],
+                           let dataObject = json["data"] as? [String: Any]{
+                            if let userId = dataObject["userId"] as? Int {
+                                print("userId: \(userId)")
+                                UserDefaults.standard.set(userId, forKey: "id")
+                                
+                                self?.fetchUserProfileInfo(completion: {
+                                    self?.present(mainVC, animated: false, completion: nil)
+                                })
+                            }
+                        }
                     } catch {
-                        print("Error parsing login JSON: \(error)")
+                        print("Error parsing JSON: \(error)")
                     }
                 }
 
@@ -216,7 +221,6 @@ class LoginVC: UIViewController{
                 print("Error fetching user profile info: \(profileError)")
             }
 
-            // Call the completion handler once userProfileInfo is completed
             completion()
         }
     }

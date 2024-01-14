@@ -35,6 +35,7 @@ struct PetList {
     let id: Int
     let petName: String
     let petProfileImage: String
+    var selectPet: Bool
 }
 
 extension PetList {

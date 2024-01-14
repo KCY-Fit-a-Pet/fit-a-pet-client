@@ -60,9 +60,9 @@ enum MySearchRouter: URLRequestConvertible {
         case .presignedurl:
             return "C7QXbC20ti"
         case .uploadImage:
-            return " "
+            return ""
         case .registPet:
-            return "v2/pets"
+            return "v2/users/\(UserDefaults.standard.string(forKey: "id")!)/pets"
         case .sendAuthSms, .checkAuthSms:
             return "v1/auth/search-sms"
         case .oauthLogin:
@@ -82,9 +82,9 @@ enum MySearchRouter: URLRequestConvertible {
         case .createCare:
             return "v2/pets/3/cares" //TODO: 임시 pet id 값
         case .checkCareCategory:
-            return "v2/pets/3/cares/categories" //TODO: 임시 pet id 값
+            return "v2/users/\(UserDefaults.standard.string(forKey: "id")!)/pets/3/cares/categories" //TODO: 임시 pet id 값
         case .userPetsList:
-            return "v2/users/2/pets/summary" //TODO: 임시 user id 값
+            return "v2/users/\(UserDefaults.standard.string(forKey: "id")!)/pets/summary"
         }
     }
     
@@ -152,18 +152,19 @@ enum MySearchRouter: URLRequestConvertible {
                 request.allHTTPHeaderFields = cookieHeader
             }         
             
-        case .presignedurl:
+        case .presignedurl(let dirname, let extensionType, _, _):
             
-            let bodyParameters = ["dirname": "profile", "extension": "png"] //TODO: 추후 수정
+            let bodyParameters = ["dirname": dirname, "extension": extensionType] //TODO: 추후 수정
            
             let queryParameters = [
                 URLQueryItem(name: "result", value: "true"),
                 URLQueryItem(name: "blocking", value: "true")
             ]
-            request = createURLRequestWithQuery(url: url, queryParameters: queryParameters)
+            request = createURLRequestWithBodyAndQuery(url: url, bodyParameters: bodyParameters, queryParameters: queryParameters)
             
         case .uploadImage(let image):
             request = createURLRequestForImage(url: baseURL, image: image)
+            print("baseURL: \(baseURL)")
             
             let queryParameters = [URLQueryItem(name: "X-Amz-Algorithm", value: PAYLOADURL.algorithm),
              URLQueryItem(name: "X-Amz-Credential", value: PAYLOADURL.credential),
@@ -174,7 +175,7 @@ enum MySearchRouter: URLRequestConvertible {
              URLQueryItem(name: "x-amz-acl", value: PAYLOADURL.acl)
             ]
            
-            request = createURLRequestWithQuery(url: url, queryParameters: queryParameters)
+            request = createURLRequestWithQuery(url: baseURL, queryParameters: queryParameters)
             
 //        case .registPet:
 //            request = createURLRequestWithBody(url: url)
@@ -297,6 +298,8 @@ enum MySearchRouter: URLRequestConvertible {
     private func createURLRequestWithQuery(url: URL, queryParameters: [URLQueryItem]) -> URLRequest {
         var request = URLRequest(url: url)
         request.httpMethod = method.rawValue
+        
+        print("url 경로: \(url)")
         
         var components = URLComponents(url: url, resolvingAgainstBaseURL: false)
         components?.queryItems = queryParameters
