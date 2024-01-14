@@ -62,6 +62,8 @@ class CustomEditNavigationBar: UIViewController {
             return editUserPwAPI()
         case "이름 변경하기":
             return editUserNameAPI()
+        case "케어 등록하기":
+            return careCategoryCheckAPI()
         default:
             return
         }
@@ -102,6 +104,30 @@ extension CustomEditNavigationBar{
                     print("respose jsonData: \(jsonObject)")
                     UserDefaults.standard.set(userName, forKey: "name")
                     self.navigationController?.popToRootViewController(animated: true)
+                }
+            case .failure(let error):
+                // Handle failure
+                print("Error: \(error)")
+            }
+        }
+    }
+    func careCategoryCheckAPI(){
+        
+        var selectedPetIds: [Int] = []
+        selectedPetIds = PetList.petsList
+            .filter { $0.selectPet }
+            .map { $0.id }
+        
+        AuthorizationAlamofire.shared.careCategoryCheck(PetCareRegistrationManager.shared.category!.categoryName, selectedPetIds){
+            result in
+            switch result {
+            case .success(let data):
+                // Handle success
+                if let responseData = data {
+                    // Process the data
+                    let object = try?JSONSerialization.jsonObject(with: responseData, options: []) as? NSDictionary
+                    guard let jsonObject = object else {return}
+                    print("respose jsonData: \(jsonObject)")
                 }
             case .failure(let error):
                 // Handle failure

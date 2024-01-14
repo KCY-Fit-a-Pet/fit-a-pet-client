@@ -3,10 +3,6 @@ import SnapKit
 import SwiftUI
 import PanModal
 
-struct Categories{
-    let categoryName: String
-    let id: Int
-}
 
 class PetCareRegistVC: CustomEditNavigationBar {
 
@@ -63,6 +59,8 @@ class PetCareRegistVC: CustomEditNavigationBar {
         initView()
         careDateView()
 
+        categoryView.categoryTextField.delegate = self
+        scheduleView.scheduleTextField.delegate = self
         categoryView.categoryButton.addTarget(self, action: #selector(showMenu), for: .touchUpInside)
         careDateChange.addTarget(self, action: #selector(careDateChangeTapped), for: .touchUpInside)
         
@@ -209,6 +207,7 @@ class PetCareRegistVC: CustomEditNavigationBar {
                                 UIAction(title: category.categoryName) { [weak self] _ in
                                     self!.categoryView.categoryTextField.text = category.categoryName
                                     self!.categoryView.categoryTextField.isUserInteractionEnabled = false
+                                    PetCareRegistrationManager.shared.addInput(category: (categoryId: category.id, categoryName: category.categoryName))
                                 }
                             }
 
@@ -298,8 +297,18 @@ class PetCareRegistVC: CustomEditNavigationBar {
 
 extension PetCareRegistVC: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        categoryView.categoryTextField.resignFirstResponder()
+        textField.resignFirstResponder()
         return true
+    }
+    
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        if let text = categoryView.categoryTextField.text {
+            PetCareRegistrationManager.shared.addInput(category: (categoryId: 0, categoryName: text))
+            print("Entered Text: \(text)")
+        }
+        if let text = scheduleView.scheduleTextField.text {
+            print("Entered Text: \(text)")
+        }
     }
 }
 

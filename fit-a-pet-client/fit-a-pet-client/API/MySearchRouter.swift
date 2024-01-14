@@ -24,6 +24,7 @@ enum MySearchRouter: URLRequestConvertible {
     case oauthCheckSms(code: String)
     case oauthRegistUser(name: String, uid: String)
     case createCare(category: [String: Any], care: [String: Any], pets: [Int])
+    case careCategoryCheck(categoryName: String, pets: [Int])
     
     var baseURL: URL {
         switch self {
@@ -38,7 +39,7 @@ enum MySearchRouter: URLRequestConvertible {
     
     var method: HTTPMethod {
         switch self {
-        case .sendSms, .checkSms, .login, .regist, .presignedurl, .registPet,.sendAuthSms, .checkAuthSms, .findId, .findPw, .oauthLogin, .oauthSendSms, .oauthCheckSms, .oauthRegistUser, .createCare:
+        case .sendSms, .checkSms, .login, .regist, .presignedurl, .registPet,.sendAuthSms, .checkAuthSms, .findId, .findPw, .oauthLogin, .oauthSendSms, .oauthCheckSms, .oauthRegistUser, .createCare, .careCategoryCheck:
             return .post
         case .existId, .userProfileInfo, .userNotifyType, .refresh ,.checkCareCategory, .userPetsList:
             return .get
@@ -85,6 +86,8 @@ enum MySearchRouter: URLRequestConvertible {
             return "v2/users/\(UserDefaults.standard.string(forKey: "id")!)/pets/3/cares/categories" //TODO: 임시 pet id 값
         case .userPetsList:
             return "v2/users/\(UserDefaults.standard.string(forKey: "id")!)/pets/summary"
+        case .careCategoryCheck:
+            return "v2/users/\(UserDefaults.standard.string(forKey: "id")!)/pets/categories-check"
         }
     }
     
@@ -124,7 +127,10 @@ enum MySearchRouter: URLRequestConvertible {
         case let .oauthRegistUser(name, uid):
             return ["name": name, "uid": uid]
         case let .createCare(category, care, pets):
-            return ["category": category, "care": care,"pets": pets]
+            return ["category": category, "care": care, "pets": pets]
+        case let .careCategoryCheck(categoryName, pets):
+            return ["categoryName": categoryName, "pets": pets]
+            
         
         }
     }
