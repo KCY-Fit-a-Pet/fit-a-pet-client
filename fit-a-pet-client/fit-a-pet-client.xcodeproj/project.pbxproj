@@ -37,6 +37,7 @@
 		4A8662D42B26299F00D8DDE8 /* EditUserPwVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A8662D32B26299F00D8DDE8 /* EditUserPwVC.swift */; };
 		4A8662D62B2629F500D8DDE8 /* EditUserNameVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A8662D52B2629F500D8DDE8 /* EditUserNameVC.swift */; };
 		4A8662D82B262DA200D8DDE8 /* CustomEditNavigationBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A8662D72B262DA200D8DDE8 /* CustomEditNavigationBar.swift */; };
+		4A88D6172B53ABD2003A2D0F /* PetCareRegistrationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A88D6162B53ABD2003A2D0F /* PetCareRegistrationManager.swift */; };
 		4A8B9B462AD443C9009236EC /* AuthorizationAlamofire.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A8B9B452AD443C9009236EC /* AuthorizationAlamofire.swift */; };
 		4A8B9B482AD443D5009236EC /* BaseInterceptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A8B9B472AD443D5009236EC /* BaseInterceptor.swift */; };
 		4A8B9B4A2AD443E6009236EC /* ApiStatusLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A8B9B492AD443E6009236EC /* ApiStatusLogger.swift */; };
@@ -50,7 +51,7 @@
 		4AA9999B2A8485A600E495FA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4AA9999A2A8485A600E495FA /* Assets.xcassets */; };
 		4AA9999E2A8485A600E495FA /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4AA9999C2A8485A600E495FA /* LaunchScreen.storyboard */; };
 		4AB6178E2B1CFAF300CED98E /* FindIdCheckVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AB6178D2B1CFAF300CED98E /* FindIdCheckVC.swift */; };
-		4AC579832B2DFD4B00735252 /* ResponseData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AC579822B2DFD4B00735252 /* ResponseData.swift */; };
+		4AC579832B2DFD4B00735252 /* StructData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AC579822B2DFD4B00735252 /* StructData.swift */; };
 		4AC579852B2DFF7500735252 /* CustomPopupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AC579842B2DFF7500735252 /* CustomPopupView.swift */; };
 		4AC579872B2E004400735252 /* CustomPopupVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AC579862B2E004400735252 /* CustomPopupVC.swift */; };
 		4ACDD4A12AD9B37E00CD8F1A /* InputSpeciesVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ACDD4A02AD9B37E00CD8F1A /* InputSpeciesVC.swift */; };
@@ -109,6 +110,7 @@
 		4A8662D32B26299F00D8DDE8 /* EditUserPwVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditUserPwVC.swift; sourceTree = "<group>"; };
 		4A8662D52B2629F500D8DDE8 /* EditUserNameVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditUserNameVC.swift; sourceTree = "<group>"; };
 		4A8662D72B262DA200D8DDE8 /* CustomEditNavigationBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomEditNavigationBar.swift; sourceTree = "<group>"; };
+		4A88D6162B53ABD2003A2D0F /* PetCareRegistrationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PetCareRegistrationManager.swift; sourceTree = "<group>"; };
 		4A8B9B452AD443C9009236EC /* AuthorizationAlamofire.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorizationAlamofire.swift; sourceTree = "<group>"; };
 		4A8B9B472AD443D5009236EC /* BaseInterceptor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseInterceptor.swift; sourceTree = "<group>"; };
 		4A8B9B492AD443E6009236EC /* ApiStatusLogger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiStatusLogger.swift; sourceTree = "<group>"; };
@@ -124,7 +126,7 @@
 		4AA9999D2A8485A600E495FA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		4AA9999F2A8485A600E495FA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4AB6178D2B1CFAF300CED98E /* FindIdCheckVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindIdCheckVC.swift; sourceTree = "<group>"; };
-		4AC579822B2DFD4B00735252 /* ResponseData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResponseData.swift; sourceTree = "<group>"; };
+		4AC579822B2DFD4B00735252 /* StructData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StructData.swift; sourceTree = "<group>"; };
 		4AC579842B2DFF7500735252 /* CustomPopupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomPopupView.swift; sourceTree = "<group>"; };
 		4AC579862B2E004400735252 /* CustomPopupVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomPopupVC.swift; sourceTree = "<group>"; };
 		4ACDD4A02AD9B37E00CD8F1A /* InputSpeciesVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputSpeciesVC.swift; sourceTree = "<group>"; };
@@ -294,7 +296,8 @@
 				4A8B9B4F2AD444D0009236EC /* Constants.swift */,
 				4A037FF12AED62E30073BB56 /* KeyChainHelper.swift */,
 				4A0750D72B0D130F00281A4C /* PetRegistrationManager.swift */,
-				4AC579822B2DFD4B00735252 /* ResponseData.swift */,
+				4A88D6162B53ABD2003A2D0F /* PetCareRegistrationManager.swift */,
+				4AC579822B2DFD4B00735252 /* StructData.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -543,7 +546,7 @@
 				4AD354152AACD390004A47B3 /* LoginVC.swift in Sources */,
 				4A15F2162AA8B4CA0098F2F7 /* InputNickVC.swift in Sources */,
 				4ACDD4A12AD9B37E00CD8F1A /* InputSpeciesVC.swift in Sources */,
-				4AC579832B2DFD4B00735252 /* ResponseData.swift in Sources */,
+				4AC579832B2DFD4B00735252 /* StructData.swift in Sources */,
 				4AC579852B2DFF7500735252 /* CustomPopupView.swift in Sources */,
 				4A4056162B529DFC00A95891 /* OtherSettingsView.swift in Sources */,
 				4AD0896A2AFBFD9400E79E52 /* CheckCareCollectionViewCell.swift in Sources */,
@@ -556,6 +559,7 @@
 				4AB6178E2B1CFAF300CED98E /* FindIdCheckVC.swift in Sources */,
 				4A0750D82B0D130F00281A4C /* PetRegistrationManager.swift in Sources */,
 				4AA999922A8485A500E495FA /* AppDelegate.swift in Sources */,
+				4A88D6172B53ABD2003A2D0F /* PetCareRegistrationManager.swift in Sources */,
 				4ACDD4A92ADAFFD100CD8F1A /* InputPetBirthVC.swift in Sources */,
 				4A15F2142AA8B4A50098F2F7 /* InputPwVC.swift in Sources */,
 				4AA999942A8485A500E495FA /* SceneDelegate.swift in Sources */,

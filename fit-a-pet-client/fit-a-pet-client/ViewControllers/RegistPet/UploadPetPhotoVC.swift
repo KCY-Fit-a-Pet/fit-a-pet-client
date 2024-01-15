@@ -106,7 +106,7 @@ class UploadPetPhotoVC : CustomNavigationBar {
                             PAYLOADURL.acl = queryItems[6].value ?? ""
 
                             print("JSON Object: \(jsonObject ?? [:])")
-                            print(PAYLOADURL.PAYLOAD)
+            
                         } else {
                             print("Payload key not found in the JSON response.")
                         }

@@ -67,6 +67,12 @@ extension TimeAttackPanModalVC: UITableViewDataSource, UITableViewDelegate {
         return 56 
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        if let cell = tableView.cellForRow(at: indexPath) as? TimeAttackPanModalTableViewCell {
+            cell.toggleSelectedState()
+        }
         tableView.deselectRow(at: indexPath, animated: true)
+        print(indexPath.row)
     }
+
 }

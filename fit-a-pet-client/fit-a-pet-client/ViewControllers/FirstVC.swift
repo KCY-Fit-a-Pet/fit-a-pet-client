@@ -200,7 +200,7 @@ extension FirstVC{
                         
                         OauthInfo.provider = "kakao"
                         OauthInfo.nonce = hashedString
-                        OauthInfo.oauthId = Int(user!.id!)
+                        OauthInfo.oauthId = String(user!.id!)
                         
                         AnonymousAlamofire.shared.oauthLogin(){
                             result in
@@ -254,11 +254,12 @@ extension FirstVC{
                     
                     let idToken = user.idToken?.tokenString
                     
+                    KeychainHelper.saveTempToken(tempToken: idToken!)
                     print("idToken: \(idToken)")
                     
                     OauthInfo.provider = "google"
                     OauthInfo.nonce = hashedString
-                    //OauthInfo.oauthId = userId
+                    OauthInfo.oauthId = userId!
                     
                     //KeychainHelper.saveTempToken(tempToken: idToken)
                     

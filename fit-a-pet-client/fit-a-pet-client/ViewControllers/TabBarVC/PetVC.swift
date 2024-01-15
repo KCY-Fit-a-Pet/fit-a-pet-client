@@ -22,7 +22,7 @@ class PetVC: UIViewController{
         }
     }
     @objc func nextScreenButtonTapped() {
-        let nextVC = PetCareRegistVC(title: "care 등록")
+        let nextVC = PetCareRegistVC(title: "케어 등록하기")
         nextVC.hidesBottomBarWhenPushed = true
         navigationController?.pushViewController(nextVC, animated: true)
     }

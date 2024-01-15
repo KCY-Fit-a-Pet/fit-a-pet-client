@@ -4,7 +4,7 @@ import PanModal
 
 class PetPanModalVC: CustomEditNavigationBar {
     
-    var petList: [PetList] = []
+    var petList: [PetList] = PetList.petsList
 
     private let petPanModalTableView: UITableView = {
         let tableView = UITableView()
@@ -16,43 +16,11 @@ class PetPanModalVC: CustomEditNavigationBar {
         setupUI()
         
         petPanModalTableView.register(PetPanModalTableViewCell.self, forCellReuseIdentifier: "PetCell")
+    
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        AuthorizationAlamofire.shared.userPetsList{ result in
-            switch result {
-            case .success(let data):
-                if let responseData = data {
-                    do {
-                        if let json = try JSONSerialization.jsonObject(with: responseData, options: []) as? [String: Any],
-                           let dataObject = json["data"] as? [String: Any],
-                           let petsArray = dataObject["pets"] as? [[String: Any]] {
-                            
-                            PetList.petsList.removeAll()
-                            
-                            print(petsArray)
-                            
-                            for petData in petsArray {
-                                if let id = petData["id"] as? Int,
-                                   let petName = petData["petName"] as? String {
-                                    let petProfileImage = petData["petProfileImage"] as? String ?? "uploadImage"
-                                    
-                                    let pet = PetList(id: id, petName: petName, petProfileImage: petProfileImage)
-                                    PetList.petsList.append(pet)
-                                }
-                            }
-                            self.petList = PetList.petsList
-                            self.petPanModalTableView.reloadData()
-                        }
-                    } catch {
-                        print("Error parsing JSON: \(error)")
-                    }
-                }
-            case .failure(let error):
-                print("Error: \(error)")
-            }
-        }
     }
 
     private func setupUI() {
@@ -62,7 +30,7 @@ class PetPanModalVC: CustomEditNavigationBar {
             make.leading.trailing.equalToSuperview().inset(16)
             make.bottom.equalToSuperview()
         }
-        
+
         petPanModalTableView.dataSource = self
         petPanModalTableView.delegate = self
     }
@@ -95,12 +63,23 @@ extension PetPanModalVC: UITableViewDataSource, UITableViewDelegate {
         let cell = tableView.dequeueReusableCell(withIdentifier: "PetCell", for: indexPath) as! PetPanModalTableViewCell
         let pet = petList[indexPath.row]
         cell.configure(with: pet.petProfileImage, name: pet.petName)
+
+        if pet.selectPet {
+            cell.toggleSelectedState()
+        }
+        
         return cell
     }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 72  // 원하는 높이로 설정
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        if let cell = tableView.cellForRow(at: indexPath) as? PetPanModalTableViewCell {
+            cell.toggleSelectedState()
+        }
         tableView.deselectRow(at: indexPath, animated: true)
+        PetList.petsList[indexPath.row].selectPet.toggle()
+        print(petList)
     }
 }

@@ -3,9 +3,10 @@ import SnapKit
 import SwiftUI
 import PanModal
 
+
 class PetCareRegistVC: CustomEditNavigationBar {
 
-    private var categories = [String]()
+    private var categories: [Categories] = []
     private var careDateLabel = UILabel()
     private var careDateChange = UIButton()
     private let daysOfWeek = ["일","월", "화", "수", "목", "금", "토"]
@@ -58,6 +59,8 @@ class PetCareRegistVC: CustomEditNavigationBar {
         initView()
         careDateView()
 
+        categoryView.categoryTextField.delegate = self
+        scheduleView.scheduleTextField.delegate = self
         categoryView.categoryButton.addTarget(self, action: #selector(showMenu), for: .touchUpInside)
         careDateChange.addTarget(self, action: #selector(careDateChangeTapped), for: .touchUpInside)
         
@@ -70,7 +73,7 @@ class PetCareRegistVC: CustomEditNavigationBar {
         
         daysTableView.dataSource = self
         daysTableView.delegate = self
-        
+        carePetListAPI()
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -80,6 +83,7 @@ class PetCareRegistVC: CustomEditNavigationBar {
         // Select the current day
         let defaultIndexPath = IndexPath(item: currentDayIndex, section: 0)
         daysCollectionView.selectItem(at: defaultIndexPath, animated: false, scrollPosition: .left)
+    
     }
     
     func initView() {
@@ -179,9 +183,43 @@ class PetCareRegistVC: CustomEditNavigationBar {
                     do {
                         if let json = try JSONSerialization.jsonObject(with: responseData, options: []) as? [String: Any],
                            let dataObject = json["data"] as? [String: Any],
-                           let careCategories = dataObject["careCategories"] as? [Any] {
-                            self.categories = careCategories.compactMap { String(describing: $0) }
-                            print("careCategories: \(careCategories)")
+                           let careCategories = dataObject["careCategories"] as? [[String: Any]] {
+                            
+                            for care in careCategories {
+                                print(care["categoryName"]!)
+                    
+                                if let categoryName = care["categoryName"] as? String,
+                                   let id = care["id"] as? Int {
+                                    let category = Categories(categoryName: categoryName, id: id)
+                                    self.categories.append(category)
+                                    print("categories: \(self.categories)")
+                                }
+                            }
+                            // "새로 입력하기" 메뉴 아이템 정의
+                            let newCategoryAction = UIAction(title: "새로 입력하기") { [self] action in
+                                print("새로 입력하기")
+                                categoryView.categoryTextField.text = ""
+                                categoryView.categoryTextField.isUserInteractionEnabled = true
+                                categoryView.categoryTextField.becomeFirstResponder()
+                            }
+                            
+                            let categoryActions = self.categories.map { category in
+                                UIAction(title: category.categoryName) { [weak self] _ in
+                                    self!.categoryView.categoryTextField.text = category.categoryName
+                                    self!.categoryView.categoryTextField.isUserInteractionEnabled = false
+                                    PetCareRegistrationManager.shared.addInput(category: (categoryId: category.id, categoryName: category.categoryName))
+                                }
+                            }
+
+                            // 메뉴 구성
+                            let menu = UIMenu(
+                                title: "",
+                                children: categoryActions + [newCategoryAction]
+                            )
+
+                            // 메뉴를 버튼에 할당하고, 주요 액션으로 표시되도록 설정
+                            self.categoryView.categoryButton.menu = menu
+                            self.categoryView.categoryButton.showsMenuAsPrimaryAction = true
                         }
                     } catch {
                         print("Error parsing JSON: \(error)")
@@ -191,31 +229,6 @@ class PetCareRegistVC: CustomEditNavigationBar {
                 print("Error: \(error)")
             }
         }
-        
-        // "새로 입력하기" 메뉴 아이템 정의
-        let newCategoryAction = UIAction(title: "새로 입력하기") { [self] action in
-            print("새로 입력하기")
-            categoryView.categoryTextField.text = ""
-            categoryView.categoryTextField.isUserInteractionEnabled = true
-            categoryView.categoryTextField.becomeFirstResponder()
-        }
-        
-        let categoryActions = categories.map { category in
-            UIAction(title: category) { [weak self] _ in
-                self!.categoryView.categoryTextField.text = category
-                self!.categoryView.categoryTextField.isUserInteractionEnabled = false
-            }
-        }
-
-        // 메뉴 구성
-        let menu = UIMenu(
-            title: "",
-            children: categoryActions + [newCategoryAction]
-        )
-
-        // 메뉴를 버튼에 할당하고, 주요 액션으로 표시되도록 설정
-        categoryView.categoryButton.menu = menu
-        categoryView.categoryButton.showsMenuAsPrimaryAction = true
     }
     
     @objc private func datePickerValueChanged(_ sender: UIDatePicker) {
@@ -246,12 +259,56 @@ class PetCareRegistVC: CustomEditNavigationBar {
 
         self.presentPanModal(timePanModalVC)
     }
+    
+    private func carePetListAPI(){
+        AuthorizationAlamofire.shared.userPetsList{ result in
+            switch result {
+            case .success(let data):
+                if let responseData = data {
+                    do {
+                        if let json = try JSONSerialization.jsonObject(with: responseData, options: []) as? [String: Any],
+                           let dataObject = json["data"] as? [String: Any],
+                           let petsArray = dataObject["pets"] as? [[String: Any]] {
+                            
+                            PetList.petsList.removeAll()
+                            
+                            print(petsArray)
+                            
+                            for petData in petsArray {
+                                if let id = petData["id"] as? Int,
+                                   let petName = petData["petName"] as? String {
+                                    let petProfileImage = petData["petProfileImage"] as? String ?? "uploadImage"
+                                    
+                                    let pet = PetList(id: id, petName: petName, petProfileImage: petProfileImage, selectPet: false)
+                                    PetList.petsList.append(pet)
+                                }
+                            }
+                        }
+                    } catch {
+                        print("Error parsing JSON: \(error)")
+                    }
+                }
+            case .failure(let error):
+                print("Error: \(error)")
+            }
+        }
+    }
 }
 
 extension PetCareRegistVC: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        categoryView.categoryTextField.resignFirstResponder()
+        textField.resignFirstResponder()
         return true
+    }
+    
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        if let text = categoryView.categoryTextField.text {
+            PetCareRegistrationManager.shared.addInput(category: (categoryId: 0, categoryName: text))
+            print("Entered Text: \(text)")
+        }
+        if let text = scheduleView.scheduleTextField.text {
+            print("Entered Text: \(text)")
+        }
     }
 }
 
