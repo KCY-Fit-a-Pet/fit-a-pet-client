@@ -15,6 +15,7 @@ class PetCareRegistVC: CustomEditNavigationBar {
     private let scheduleView = ScheduleView()
     private let otherSettingView = OtherSettingsView()
 
+    var selectedTime = ""
     var currentState: ViewState = .datePicker
     var selectedIndices: Set<Int> = []
     
@@ -74,14 +75,18 @@ class PetCareRegistVC: CustomEditNavigationBar {
         daysTableView.dataSource = self
         daysTableView.delegate = self
         carePetListAPI()
+        
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "HH:mm:ss"
+        selectedTime = dateFormatter.string(from: Date())
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
         let currentDayIndex = getCurrentDayIndex()
 
-        // Select the current day
         let defaultIndexPath = IndexPath(item: currentDayIndex, section: 0)
+        selectedIndices.insert(currentDayIndex)
         daysCollectionView.selectItem(at: defaultIndexPath, animated: false, scrollPosition: .left)
     
     }
@@ -233,7 +238,22 @@ class PetCareRegistVC: CustomEditNavigationBar {
     
     @objc private func datePickerValueChanged(_ sender: UIDatePicker) {
         let selectedDate = sender.date
-        print("Selected Date: \(selectedDate)")
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "HH:mm:ss"
+        selectedTime = dateFormatter.string(from: selectedDate)
+        
+        
+        for index in selectedIndices {
+            let currentWeek = daysOfWeek[index]
+    
+            if let existingIndex = CareDate.commonData.firstIndex(where: { $0.week == currentWeek }) {
+                CareDate.commonData[existingIndex].time = selectedTime
+            } else {
+                CareDate.commonData.append(CareDate(week: currentWeek, time: selectedTime))
+            }
+        }
+        
+        print(CareDate.commonData)
     }
     
     @objc private func careDateChangeTapped() {
@@ -336,41 +356,48 @@ extension PetCareRegistVC: UICollectionViewDataSource{
 extension PetCareRegistVC: UICollectionViewDelegate{
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         selectedIndices.insert(indexPath.item)
+        print(daysOfWeek[indexPath.item])
+        
+        let currentWeek = daysOfWeek[indexPath.item]
+        
+        CareDate.commonData.append(CareDate(week: currentWeek, time: selectedTime))
+        CareDate.eachData.append(CareDate(week: currentWeek, time: selectedTime))
+        print("cell 클릭: \(CareDate.commonData)")
+        print("cell 클릭: \(CareDate.eachData)")
+        
         daysTableView.reloadData()
     }
     
     func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
         selectedIndices.remove(indexPath.item)
+
+        let currentWeek = daysOfWeek[indexPath.item]
+        
+        if let existingIndex = CareDate.commonData.firstIndex(where: { $0.week == currentWeek }) {
+            CareDate.commonData.remove(at: existingIndex)
+            CareDate.eachData.remove(at: existingIndex)
+        }
+
         daysTableView.reloadData()
     }
 }
 
 extension PetCareRegistVC: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return selectedIndices.count + 1
+        return selectedIndices.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if indexPath.row == 0 {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "dayTableViewCell", for: indexPath) as! CareDateTableViewCell
-            
-            let currentDayIndex = getCurrentDayIndex()
-            let currentDay = daysOfWeek[currentDayIndex]
-            let currentDate = Date()
-            
-            cell.configure(withDate: currentDay, selectedDate: currentDate)
-            return cell
-        } else {
-            let adjustedIndexPath = IndexPath(row: indexPath.row - 1, section: indexPath.section)
-            let cell = tableView.dequeueReusableCell(withIdentifier: "dayTableViewCell", for: adjustedIndexPath) as! CareDateTableViewCell
-            
-            let selectedIndex = selectedIndices.sorted()[adjustedIndexPath.row]
-            let selectedDay = daysOfWeek[selectedIndex]
-            let selectedDate = Date()
-            
-            cell.configure(withDate: selectedDay, selectedDate: selectedDate)
-            return cell
-        }
+        
+        let cell = tableView.dequeueReusableCell(withIdentifier: "dayTableViewCell", for: indexPath) as! CareDateTableViewCell
+        
+        let selectedIndex = selectedIndices.sorted()[indexPath.row]
+        let selectedDay = daysOfWeek[selectedIndex]
+        let selectedDate = Date()
+        
+        cell.configure(withDate: selectedDay, selectedDate: selectedDate)
+        return cell
+        
     }
     
 }

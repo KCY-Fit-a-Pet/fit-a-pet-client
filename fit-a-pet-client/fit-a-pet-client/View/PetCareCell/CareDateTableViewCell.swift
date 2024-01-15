@@ -16,6 +16,8 @@ class CareDateTableViewCell: UITableViewCell {
         datePicker.preferredDatePickerStyle = .automatic
         return datePicker
     }()
+    
+    private var currentWeek: String = ""
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -42,11 +44,28 @@ class CareDateTableViewCell: UITableViewCell {
             make.centerY.equalTo(contentView)
             make.trailing.equalTo(contentView).inset(16)
         }
+        datePicker.addTarget(self, action: #selector(datePickerValueChanged(_:)), for: .valueChanged)
     }
 
     func configure(withDate date: String, selectedDate: Date) {
+        currentWeek = date
         dateLabel.text = date
         datePicker.date = selectedDate
+    }
+    
+    @objc private func datePickerValueChanged(_ sender: UIDatePicker) {
+        let selectedDate = sender.date
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "HH:mm:ss"
+        let formattedDate = dateFormatter.string(from: selectedDate)
+        print("Formatted Date: \(formattedDate), Cell Label: \(currentWeek)")
+    
+        if let existingIndex = CareDate.eachData.firstIndex(where: { $0.week == currentWeek }) {
+            CareDate.eachData[existingIndex].time = formattedDate
+        } else {
+            CareDate.eachData.append(CareDate(week: currentWeek, time: formattedDate))
+        }
+        print("each Data : \(CareDate.eachData)")
     }
 }
 
