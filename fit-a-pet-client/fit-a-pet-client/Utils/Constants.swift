@@ -42,7 +42,6 @@ enum FindIdPwSwitch{
 
 enum OauthInfo{
     static var oauthId = ""
-//    static var phoneNum = ""
     static var nonce = ""
     static var provider = ""
 }

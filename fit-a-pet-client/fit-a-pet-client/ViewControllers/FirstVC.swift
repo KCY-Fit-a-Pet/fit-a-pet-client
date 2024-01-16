@@ -233,10 +233,11 @@ extension FirstVC{
         }
     }
     @objc func googleLoginBtnTapped(_ sender: UIButton){
-        let nonce = CryptoHelpers.randomNonceString()
-        print("nonce 값: \(nonce)")
-        let hashedString = CryptoHelpers.sha256(nonce)
-        print("hashedString 값: \(hashedString)")
+        
+        let mainVC = TabBarController()
+        mainVC.modalPresentationStyle = .fullScreen
+        
+        let nextVC = InputPhoneNumVC()
         
         GIDSignIn.sharedInstance.signIn(
             withPresenting: self) { signInResult, error in
@@ -265,10 +266,7 @@ extension FirstVC{
                     print("idToken: \(idToken)")
                     
                     OauthInfo.provider = "google"
-                    OauthInfo.nonce = hashedString
                     OauthInfo.oauthId = userId!
-                    
-                    //KeychainHelper.saveTempToken(tempToken: idToken)
                     
                     AnonymousAlamofire.shared.oauthLogin(){
                         result in
@@ -280,7 +278,13 @@ extension FirstVC{
                                 let object = try?JSONSerialization.jsonObject(with: responseData, options: []) as? NSDictionary
                                 guard let jsonObject = object else {return}
                                 print("respose jsonData: \(jsonObject)")
-                                RegistDivision.oauth = true
+                                
+                                if let dataValue = jsonObject["data"], dataValue is NSNull {
+                                    self.present(mainVC, animated: false, completion: nil)
+                                }else{
+                                    RegistDivision.oauth = true
+                                    self.navigationController?.pushViewController(nextVC, animated: false)
+                                }
                             }
                         case .failure(let error):
                             // Handle failure
