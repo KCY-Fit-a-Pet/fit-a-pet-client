@@ -25,21 +25,14 @@ class MainVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-//        self.navigationItem.title = "반려동물 등록하기"
-        
         petCollectionView.delegate = self
         petCollectionView.dataSource = self
         
         layoutScrollView.delegate = self
         
         initView()
-        
-//        if let cookies = HTTPCookieStorage.shared.cookies {
-//            for cookie in cookies {
-//                print("Cookie description: \(cookie.description)")
-//                // You can access other properties of the cookie here
-//            }
-//        }
+
+        fetchUserProfileInfo()
 
     }
     private func initView(){
@@ -140,8 +133,37 @@ class MainVC: UIViewController {
         let nextVC = InputSpeciesVC(title: "반려동물 등록하기")
         nextVC.hidesBottomBarWhenPushed = true
         self.navigationController?.pushViewController(nextVC, animated: false)
+    }
+    
+    func fetchUserProfileInfo() {
         
-        
+        AuthorizationAlamofire.shared.userProfileInfo { userProfileResult in
+            switch userProfileResult {
+            case .success(let data):
+                if let responseData = data {
+                    do {
+                        let jsonObject = try JSONSerialization.jsonObject(with: responseData, options: []) as? [String: Any] ?? [:]
+                        
+                        if let dataDict = jsonObject["data"] as? [String: Any],
+                           let memberDict = dataDict["member"] as? [String: Any] {
+
+                            for (key, value) in memberDict {
+                                UserDefaults.standard.set(value, forKey: key)
+                            }
+
+                            UserDefaults.standard.synchronize()
+                        }
+                        print("Response JSON Data: \(jsonObject)")
+                    } catch {
+                        print("Error parsing user profile JSON: \(error)")
+                    }
+                }
+
+            case .failure(let profileError):
+                print("Error fetching user profile info: \(profileError)")
+            }
+
+        }
     }
 }
 
