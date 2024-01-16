@@ -1,6 +1,6 @@
 struct Categories{
-    let categoryName: String
-    let id: Int
+    var categoryName: String
+    var id: Int
 }
 
 struct CareDate{

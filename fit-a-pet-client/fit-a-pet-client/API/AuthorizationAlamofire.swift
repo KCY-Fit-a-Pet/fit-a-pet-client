@@ -128,10 +128,10 @@ class AuthorizationAlamofire: TokenHandling {
         }
     }
     
-    func createCare(category: [String: Any], care: [String: Any], pets: [Int], completion: @escaping (Result<Data?, Error>) -> Void) {
-        os_log("AuthorizationAlamofire - createCare() called userInput: %@ ,, %@ ,, %@", log: .default, type: .info, category, care, pets)
-        
-        self.session.request(MySearchRouter.createCare(category: category, care: care, pets: pets))
+    func createCare(combinedData: [String: Any], completion: @escaping (Result<Data?, Error>) -> Void) {
+        os_log("AuthorizationAlamofire - createCare() called userInput: %@", log: .default, type: .info, combinedData)
+
+        self.session.request(MySearchRouter.createCare(combinedData: combinedData))
             .response { response in
                 switch response.result {
                 case .success(let data):
@@ -141,6 +141,7 @@ class AuthorizationAlamofire: TokenHandling {
                 }
             }
     }
+
     
     func checkCareCategory(completion: @escaping (Result<Data?, Error>) -> Void) {
         os_log("AuthorizationAlamofire - checkCareCategory() called", log: .default, type: .info)

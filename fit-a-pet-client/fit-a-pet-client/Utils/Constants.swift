@@ -48,6 +48,7 @@ enum OauthInfo{
 }
 
 enum ViewState {
-    case daysTableView
     case datePicker
+    case daysTableView
+    static var stateNum = 0
 }

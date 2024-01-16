@@ -15,6 +15,7 @@ class PetCareRegistVC: CustomEditNavigationBar {
     private let scheduleView = ScheduleView()
     private let otherSettingView = OtherSettingsView()
 
+    var checkNewCategory = false
     var selectedTime = ""
     var currentState: ViewState = .datePicker
     var selectedIndices: Set<Int> = []
@@ -181,6 +182,7 @@ class PetCareRegistVC: CustomEditNavigationBar {
     
     @objc private func showMenu() {
         
+       
         AuthorizationAlamofire.shared.checkCareCategory{ result in
             switch result {
             case .success(let data):
@@ -191,8 +193,7 @@ class PetCareRegistVC: CustomEditNavigationBar {
                            let careCategories = dataObject["careCategories"] as? [[String: Any]] {
                             
                             for care in careCategories {
-                                print(care["categoryName"]!)
-                    
+                                
                                 if let categoryName = care["categoryName"] as? String,
                                    let id = care["id"] as? Int {
                                     let category = Categories(categoryName: categoryName, id: id)
@@ -203,6 +204,8 @@ class PetCareRegistVC: CustomEditNavigationBar {
                             // "새로 입력하기" 메뉴 아이템 정의
                             let newCategoryAction = UIAction(title: "새로 입력하기") { [self] action in
                                 print("새로 입력하기")
+                                checkNewCategory = true
+  
                                 categoryView.categoryTextField.text = ""
                                 categoryView.categoryTextField.isUserInteractionEnabled = true
                                 categoryView.categoryTextField.becomeFirstResponder()
@@ -215,16 +218,18 @@ class PetCareRegistVC: CustomEditNavigationBar {
                                     PetCareRegistrationManager.shared.addInput(category: (categoryId: category.id, categoryName: category.categoryName))
                                 }
                             }
-
+                            
                             // 메뉴 구성
                             let menu = UIMenu(
                                 title: "",
                                 children: categoryActions + [newCategoryAction]
                             )
-
+                            
                             // 메뉴를 버튼에 할당하고, 주요 액션으로 표시되도록 설정
                             self.categoryView.categoryButton.menu = menu
                             self.categoryView.categoryButton.showsMenuAsPrimaryAction = true
+                            self.categoryView.categoryButton.isUserInteractionEnabled = true
+                            
                         }
                     } catch {
                         print("Error parsing JSON: \(error)")
@@ -234,6 +239,9 @@ class PetCareRegistVC: CustomEditNavigationBar {
                 print("Error: \(error)")
             }
         }
+        
+        
+        
     }
     
     @objc private func datePickerValueChanged(_ sender: UIDatePicker) {
@@ -262,10 +270,12 @@ class PetCareRegistVC: CustomEditNavigationBar {
             daysTableView.isHidden = true
             datePicker.isHidden = false
             currentState = .datePicker
+            ViewState.stateNum = 0
         case .datePicker:
             daysTableView.isHidden = false
             datePicker.isHidden = true
             currentState = .daysTableView
+            ViewState.stateNum = 1
         }
     }
     
@@ -323,10 +333,14 @@ extension PetCareRegistVC: UITextFieldDelegate {
     
     func textFieldDidEndEditing(_ textField: UITextField) {
         if let text = categoryView.categoryTextField.text {
-            PetCareRegistrationManager.shared.addInput(category: (categoryId: 0, categoryName: text))
+            if checkNewCategory{
+                PetCareRegistrationManager.shared.addInput(category: (categoryId: 0, categoryName: text))
+            }
             print("Entered Text: \(text)")
         }
         if let text = scheduleView.scheduleTextField.text {
+            PetCareRegistrationManager.shared.addInput(careName: text)
+            
             print("Entered Text: \(text)")
         }
     }
