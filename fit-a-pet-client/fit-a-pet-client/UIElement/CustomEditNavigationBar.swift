@@ -76,16 +76,14 @@ extension CustomEditNavigationBar{
             result in
             switch result {
             case .success(let data):
-                // Handle success
                 if let responseData = data {
-                    // Process the data
                     let object = try?JSONSerialization.jsonObject(with: responseData, options: []) as? NSDictionary
                     guard let jsonObject = object else {return}
                     print("respose jsonData: \(jsonObject)")
                     self.navigationController?.popToRootViewController(animated: true)
                 }
             case .failure(let error):
-                // Handle failure
+
                 print("Error: \(error)")
             }
         }
@@ -96,9 +94,7 @@ extension CustomEditNavigationBar{
             result in
             switch result {
             case .success(let data):
-                // Handle success
                 if let responseData = data {
-                    // Process the data
                     let object = try?JSONSerialization.jsonObject(with: responseData, options: []) as? NSDictionary
                     guard let jsonObject = object else {return}
                     print("respose jsonData: \(jsonObject)")
@@ -106,7 +102,6 @@ extension CustomEditNavigationBar{
                     self.navigationController?.popToRootViewController(animated: true)
                 }
             case .failure(let error):
-                // Handle failure
                 print("Error: \(error)")
             }
         }
@@ -117,20 +112,74 @@ extension CustomEditNavigationBar{
         selectedPetIds = PetList.petsList
             .filter { $0.selectPet }
             .map { $0.id }
-        
-        AuthorizationAlamofire.shared.careCategoryCheck(PetCareRegistrationManager.shared.category!.categoryName, selectedPetIds){
-            result in
+        AuthorizationAlamofire.shared.careCategoryCheck(PetCareRegistrationManager.shared.category!.categoryName, selectedPetIds) { [self] result in
             switch result {
             case .success(let data):
-                // Handle success
                 if let responseData = data {
-                    // Process the data
-                    let object = try?JSONSerialization.jsonObject(with: responseData, options: []) as? NSDictionary
-                    guard let jsonObject = object else {return}
+                    let object = try? JSONSerialization.jsonObject(with: responseData, options: []) as? [String: Any]
+                    guard let jsonObject = object else { return }
+                    
                     print("respose jsonData: \(jsonObject)")
+
+                    if let dataDict = jsonObject["data"] as? [String: Any],
+                       let categories = dataDict["categories"] as? [[String: Any]], !categories.isEmpty {
+                        var petArray: [[String: Int]] = []
+                        for category in categories {
+                            if let petId = category["petId"] as? Int,
+                               let careCategoryId = category["careCategoryId"] as? Int {
+                                print("petId: \(petId), careCategoryId: \(careCategoryId)")
+                                let petDictionary: [String: Int] = ["petId": petId, "categoryId": careCategoryId]
+                                petArray.append(petDictionary)
+                            }
+                        }
+                        PetCareRegistrationManager.shared.addInput(pets: petArray)
+                        createCareRequest()
+                        
+                    } else {
+                        PetCareRegistrationManager.shared.addInput(pets: selectedPetIds.map { ["petId": $0, "categoryId": 0] })
+
+                        createCareRequest()
+                    }
                 }
             case .failure(let error):
-                // Handle failure
+                print("Error: \(error)")
+            }
+        }
+
+    }
+    private func createCareRequest() {
+        
+        switch ViewState.stateNum {
+        case 0:
+            PetCareRegistrationManager.shared.setCareDate(from: CareDate.commonData)
+          
+        case 1:
+            PetCareRegistrationManager.shared.setCareDate(from: CareDate.eachData)
+        default:
+            PetCareRegistrationManager.shared.setCareDate(from: CareDate.commonData)
+        }
+        
+        let categoryDictionary = PetCareRegistrationManager.shared.categoryDictionaryRepresentation
+        let careDictionary = PetCareRegistrationManager.shared.careDictionaryRepresentation
+        let petsDictionary = PetCareRegistrationManager.shared.petsDictionaryRepresentation
+        
+        let combinedData: [String: Any] = [
+            "category": categoryDictionary!,
+            "care": careDictionary!,
+            "pets": petsDictionary!
+        ]
+
+        print("combinedData: \(combinedData)")
+
+        AuthorizationAlamofire.shared.createCare(combinedData: combinedData) { result in
+            switch result {
+            case .success(let data):
+                if let responseData = data,
+                   let jsonObject = try? JSONSerialization.jsonObject(with: responseData, options: []) as? [String: Any] {
+                    print("response jsonData: \(jsonObject)")
+                }
+
+            case .failure(let error):
                 print("Error: \(error)")
             }
         }

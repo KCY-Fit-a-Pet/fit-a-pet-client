@@ -23,7 +23,7 @@ enum MySearchRouter: URLRequestConvertible {
     case editUserName(type: String, name: String)
     case oauthCheckSms(code: String)
     case oauthRegistUser(name: String, uid: String)
-    case createCare(category: [String: Any], care: [String: Any], pets: [Int])
+    case createCare(combinedData: [String:Any])
     case careCategoryCheck(categoryName: String, pets: [Int])
     
     var baseURL: URL {
@@ -81,7 +81,7 @@ enum MySearchRouter: URLRequestConvertible {
         case .userNotifyType:
             return "v2/accounts/\(UserDefaults.standard.string(forKey: "id")!)/notify"
         case .createCare:
-            return "v2/pets/3/cares" //TODO: 임시 pet id 값
+            return "v2/users/\(UserDefaults.standard.string(forKey: "id")!)/pets/3/cares" //TODO: 임시 pet id 값
         case .checkCareCategory:
             return "v2/users/\(UserDefaults.standard.string(forKey: "id")!)/pets/3/cares/categories" //TODO: 임시 pet id 값
         case .userPetsList:
@@ -120,14 +120,12 @@ enum MySearchRouter: URLRequestConvertible {
             return ["type": type, "prePassword": prePassword, "newPassword": newPassword]
         case let .editUserName(type, name):
             return ["type": type, "name": name]
-        case .uploadImage(_), .userProfileInfo, .oauthLogin, .oauthSendSms, .refresh, .checkCareCategory, .userPetsList:
+        case .uploadImage(_), .userProfileInfo, .oauthLogin, .oauthSendSms, .refresh, .checkCareCategory, .userPetsList, .createCare:
             return [:]
         case let .oauthCheckSms(code):
             return ["code": code]
         case let .oauthRegistUser(name, uid):
             return ["name": name, "uid": uid]
-        case let .createCare(category, care, pets):
-            return ["category": category, "care": care, "pets": pets]
         case let .careCategoryCheck(categoryName, pets):
             return ["categoryName": categoryName, "pets": pets]
             
@@ -150,6 +148,11 @@ enum MySearchRouter: URLRequestConvertible {
 //        case .regist:
 //            request = createURLRequestWithBody(url: url)
        
+        case .createCare(let combinedData):
+            request = URLRequest(url: url)
+            request.httpMethod = method.rawValue
+            request = try JSONEncoding.default.encode(request, withJSONObject: combinedData)
+                
         case .refresh:
             request = URLRequest(url: url)
             

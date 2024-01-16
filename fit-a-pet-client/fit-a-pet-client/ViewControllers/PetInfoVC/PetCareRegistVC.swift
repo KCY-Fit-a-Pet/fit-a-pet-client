@@ -1,6 +1,5 @@
 import UIKit
 import SnapKit
-import SwiftUI
 import PanModal
 
 
@@ -15,6 +14,8 @@ class PetCareRegistVC: CustomEditNavigationBar {
     private let scheduleView = ScheduleView()
     private let otherSettingView = OtherSettingsView()
 
+    var checkNewCategory = false
+    var selectedTime = ""
     var currentState: ViewState = .datePicker
     var selectedIndices: Set<Int> = []
     
@@ -50,40 +51,58 @@ class PetCareRegistVC: CustomEditNavigationBar {
         scrollView.showsVerticalScrollIndicator = false
         return scrollView
     }()
+    
+    // MARK: - View Lifecycle
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        self.view.backgroundColor = .white
-
-        initView()
-        careDateView()
-
-        categoryView.categoryTextField.delegate = self
-        scheduleView.scheduleTextField.delegate = self
-        categoryView.categoryButton.addTarget(self, action: #selector(showMenu), for: .touchUpInside)
-        careDateChange.addTarget(self, action: #selector(careDateChangeTapped), for: .touchUpInside)
-        
-        otherSettingView.carePetButton.addTarget(self, action: #selector(carePetButtonTapped), for: .touchUpInside)
-        
-        otherSettingView.timeAttackButton.addTarget(self, action: #selector(timeAttackButtonTapped), for: .touchUpInside)
-
-        daysCollectionView.dataSource = self
-        daysCollectionView.delegate = self
-        
-        daysTableView.dataSource = self
-        daysTableView.delegate = self
+        setupViews()
+        setupDelegates()
+        setupActions()
+        setupDefaultSelection()
         carePetListAPI()
     }
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
-        let currentDayIndex = getCurrentDayIndex()
-
-        // Select the current day
-        let defaultIndexPath = IndexPath(item: currentDayIndex, section: 0)
-        daysCollectionView.selectItem(at: defaultIndexPath, animated: false, scrollPosition: .left)
+        selectCurrentDay()
+    }
     
+    // MARK: - Setup Functions
+
+    private func setupViews() {
+        view.backgroundColor = .white
+        initView()
+        careDateView()
+    }
+    
+    private func setupDelegates() {
+        categoryView.categoryTextField.delegate = self
+        scheduleView.scheduleTextField.delegate = self
+        daysCollectionView.dataSource = self
+        daysCollectionView.delegate = self
+        daysTableView.dataSource = self
+        daysTableView.delegate = self
+    }
+    
+    private func setupDefaultSelection() {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "HH:mm:ss"
+        selectedTime = dateFormatter.string(from: Date())
+    }
+    
+    private func setupActions() {
+        categoryView.categoryButton.addTarget(self, action: #selector(showMenu), for: .touchUpInside)
+        careDateChange.addTarget(self, action: #selector(careDateChangeTapped), for: .touchUpInside)
+        otherSettingView.carePetButton.addTarget(self, action: #selector(carePetButtonTapped), for: .touchUpInside)
+        otherSettingView.timeAttackButton.addTarget(self, action: #selector(timeAttackButtonTapped), for: .touchUpInside)
+    }
+    
+    private func selectCurrentDay() {
+        let currentDayIndex = getCurrentDayIndex()
+        let defaultIndexPath = IndexPath(item: currentDayIndex, section: 0)
+        selectedIndices.insert(currentDayIndex)
+        daysCollectionView.selectItem(at: defaultIndexPath, animated: false, scrollPosition: .left)
     }
     
     func initView() {
@@ -167,6 +186,8 @@ class PetCareRegistVC: CustomEditNavigationBar {
             make.trailing.equalTo(careScrollView).inset(16)
         }
     }
+    
+    // MARK: - Helper Functions
 
     private func getCurrentDayIndex() -> Int {
         let calendar = Calendar.current
@@ -176,6 +197,7 @@ class PetCareRegistVC: CustomEditNavigationBar {
     
     @objc private func showMenu() {
         
+       
         AuthorizationAlamofire.shared.checkCareCategory{ result in
             switch result {
             case .success(let data):
@@ -186,8 +208,7 @@ class PetCareRegistVC: CustomEditNavigationBar {
                            let careCategories = dataObject["careCategories"] as? [[String: Any]] {
                             
                             for care in careCategories {
-                                print(care["categoryName"]!)
-                    
+                                
                                 if let categoryName = care["categoryName"] as? String,
                                    let id = care["id"] as? Int {
                                     let category = Categories(categoryName: categoryName, id: id)
@@ -198,6 +219,8 @@ class PetCareRegistVC: CustomEditNavigationBar {
                             // "새로 입력하기" 메뉴 아이템 정의
                             let newCategoryAction = UIAction(title: "새로 입력하기") { [self] action in
                                 print("새로 입력하기")
+                                checkNewCategory = true
+  
                                 categoryView.categoryTextField.text = ""
                                 categoryView.categoryTextField.isUserInteractionEnabled = true
                                 categoryView.categoryTextField.becomeFirstResponder()
@@ -210,16 +233,18 @@ class PetCareRegistVC: CustomEditNavigationBar {
                                     PetCareRegistrationManager.shared.addInput(category: (categoryId: category.id, categoryName: category.categoryName))
                                 }
                             }
-
+                            
                             // 메뉴 구성
                             let menu = UIMenu(
                                 title: "",
                                 children: categoryActions + [newCategoryAction]
                             )
-
+                            
                             // 메뉴를 버튼에 할당하고, 주요 액션으로 표시되도록 설정
                             self.categoryView.categoryButton.menu = menu
                             self.categoryView.categoryButton.showsMenuAsPrimaryAction = true
+                            self.categoryView.categoryButton.isUserInteractionEnabled = true
+                            
                         }
                     } catch {
                         print("Error parsing JSON: \(error)")
@@ -233,7 +258,22 @@ class PetCareRegistVC: CustomEditNavigationBar {
     
     @objc private func datePickerValueChanged(_ sender: UIDatePicker) {
         let selectedDate = sender.date
-        print("Selected Date: \(selectedDate)")
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "HH:mm:ss"
+        selectedTime = dateFormatter.string(from: selectedDate)
+        
+        
+        for index in selectedIndices {
+            let currentWeek = daysOfWeek[index]
+    
+            if let existingIndex = CareDate.commonData.firstIndex(where: { $0.week == currentWeek }) {
+                CareDate.commonData[existingIndex].time = selectedTime
+            } else {
+                CareDate.commonData.append(CareDate(week: currentWeek, time: selectedTime))
+            }
+        }
+        
+        print(CareDate.commonData)
     }
     
     @objc private func careDateChangeTapped() {
@@ -242,10 +282,12 @@ class PetCareRegistVC: CustomEditNavigationBar {
             daysTableView.isHidden = true
             datePicker.isHidden = false
             currentState = .datePicker
+            ViewState.stateNum = 0
         case .datePicker:
             daysTableView.isHidden = false
             datePicker.isHidden = true
             currentState = .daysTableView
+            ViewState.stateNum = 1
         }
     }
     
@@ -294,6 +336,7 @@ class PetCareRegistVC: CustomEditNavigationBar {
         }
     }
 }
+// MARK: - UITextFieldDelegate
 
 extension PetCareRegistVC: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
@@ -303,14 +346,19 @@ extension PetCareRegistVC: UITextFieldDelegate {
     
     func textFieldDidEndEditing(_ textField: UITextField) {
         if let text = categoryView.categoryTextField.text {
-            PetCareRegistrationManager.shared.addInput(category: (categoryId: 0, categoryName: text))
+            if checkNewCategory{
+                PetCareRegistrationManager.shared.addInput(category: (categoryId: 0, categoryName: text))
+            }
             print("Entered Text: \(text)")
         }
         if let text = scheduleView.scheduleTextField.text {
+            PetCareRegistrationManager.shared.addInput(careName: text)
+            
             print("Entered Text: \(text)")
         }
     }
 }
+// MARK: - UICollectionViewDelegateFlowLayout
 
 extension PetCareRegistVC: UICollectionViewDelegateFlowLayout{
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
@@ -321,6 +369,7 @@ extension PetCareRegistVC: UICollectionViewDelegateFlowLayout{
         return 9
     }
 }
+// MARK: - UICollectionViewDataSource
 extension PetCareRegistVC: UICollectionViewDataSource{
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return daysOfWeek.count
@@ -333,47 +382,60 @@ extension PetCareRegistVC: UICollectionViewDataSource{
     }
 }
 
+// MARK: - UICollectionViewDelegate
+
 extension PetCareRegistVC: UICollectionViewDelegate{
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         selectedIndices.insert(indexPath.item)
+        print(daysOfWeek[indexPath.item])
+        
+        let currentWeek = daysOfWeek[indexPath.item]
+        
+        CareDate.commonData.append(CareDate(week: currentWeek, time: selectedTime))
+        CareDate.eachData.append(CareDate(week: currentWeek, time: selectedTime))
+        print("cell 클릭: \(CareDate.commonData)")
+        print("cell 클릭: \(CareDate.eachData)")
+        
         daysTableView.reloadData()
     }
     
     func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
         selectedIndices.remove(indexPath.item)
+
+        let currentWeek = daysOfWeek[indexPath.item]
+        
+        if let existingIndex = CareDate.commonData.firstIndex(where: { $0.week == currentWeek }) {
+            CareDate.commonData.remove(at: existingIndex)
+            CareDate.eachData.remove(at: existingIndex)
+        }
+
         daysTableView.reloadData()
     }
 }
 
+// MARK: - UITableViewDataSource
+
 extension PetCareRegistVC: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return selectedIndices.count + 1
+        return selectedIndices.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if indexPath.row == 0 {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "dayTableViewCell", for: indexPath) as! CareDateTableViewCell
-            
-            let currentDayIndex = getCurrentDayIndex()
-            let currentDay = daysOfWeek[currentDayIndex]
-            let currentDate = Date()
-            
-            cell.configure(withDate: currentDay, selectedDate: currentDate)
-            return cell
-        } else {
-            let adjustedIndexPath = IndexPath(row: indexPath.row - 1, section: indexPath.section)
-            let cell = tableView.dequeueReusableCell(withIdentifier: "dayTableViewCell", for: adjustedIndexPath) as! CareDateTableViewCell
-            
-            let selectedIndex = selectedIndices.sorted()[adjustedIndexPath.row]
-            let selectedDay = daysOfWeek[selectedIndex]
-            let selectedDate = Date()
-            
-            cell.configure(withDate: selectedDay, selectedDate: selectedDate)
-            return cell
-        }
+        
+        let cell = tableView.dequeueReusableCell(withIdentifier: "dayTableViewCell", for: indexPath) as! CareDateTableViewCell
+        
+        let selectedIndex = selectedIndices.sorted()[indexPath.row]
+        let selectedDay = daysOfWeek[selectedIndex]
+        let selectedDate = Date()
+        
+        cell.configure(withDate: selectedDay, selectedDate: selectedDate)
+        return cell
+        
     }
     
 }
+
+// MARK: - UITableViewDelegate
 
 extension PetCareRegistVC: UITableViewDelegate{
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -390,19 +452,3 @@ extension PetCareRegistVC: UITableViewDelegate{
 
 
 
-// MARK: - Preview
-
-struct MainViewController_Previews: PreviewProvider {
-  static var previews: some View {
-    Container().edgesIgnoringSafeArea(.all)
-  }
-  
-  struct Container: UIViewControllerRepresentable {
-    func makeUIViewController(context: Context) -> UIViewController {
-        let rootViewController = PetCareRegistVC(title: "반려동물 등록하기")
-      return UINavigationController(rootViewController: rootViewController)
-    }
-    func updateUIViewController(_ uiViewController: UIViewControllerType, context: Context) {}
-    typealias UIViewControllerType = UIViewController
-  }
-}
