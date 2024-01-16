@@ -215,9 +215,13 @@ extension FirstVC{
                                     let object = try?JSONSerialization.jsonObject(with: responseData, options: []) as? NSDictionary
                                     guard let jsonObject = object else {return}
                                     print("respose jsonData: \(jsonObject)")
-                                    if let dataValue = jsonObject["data"], dataValue is NSNull {
+                                    if let userData = jsonObject["data"] as? [String: Any], let userId = userData["userId"] as? Int {
+                                        print("User ID: \(userId)")
+                                        UserDefaults.standard.set(userId, forKey: "id")
+                                        
                                         self.present(mainVC, animated: false, completion: nil)
-                                    }else{
+                                    } else {
+                                        
                                         RegistDivision.oauth = true
                                         self.navigationController?.pushViewController(nextVC, animated: false)
                                     }
@@ -278,10 +282,14 @@ extension FirstVC{
                                 let object = try?JSONSerialization.jsonObject(with: responseData, options: []) as? NSDictionary
                                 guard let jsonObject = object else {return}
                                 print("respose jsonData: \(jsonObject)")
-                                
-                                if let dataValue = jsonObject["data"], dataValue is NSNull {
+
+                                if let userData = jsonObject["data"] as? [String: Any], let userId = userData["userId"] as? Int {
+                                    print("User ID: \(userId)")
+                                    UserDefaults.standard.set(userId, forKey: "id")
+                                    
                                     self.present(mainVC, animated: false, completion: nil)
-                                }else{
+                                } else {
+                                    
                                     RegistDivision.oauth = true
                                     self.navigationController?.pushViewController(nextVC, animated: false)
                                 }
