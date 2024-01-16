@@ -172,6 +172,9 @@ extension FirstVC{
     
     @objc func kakaoLoginBtnTapped(_ sender: UIButton){
         
+        let mainVC = TabBarController()
+        mainVC.modalPresentationStyle = .fullScreen
+        
         let nextVC = InputPhoneNumVC()
         
         let nonce = CryptoHelpers.randomNonceString()
@@ -212,8 +215,12 @@ extension FirstVC{
                                     let object = try?JSONSerialization.jsonObject(with: responseData, options: []) as? NSDictionary
                                     guard let jsonObject = object else {return}
                                     print("respose jsonData: \(jsonObject)")
-                                    RegistDivision.oauth = true
-                                    self.navigationController?.pushViewController(nextVC, animated: false)
+                                    if let dataValue = jsonObject["data"], dataValue is NSNull {
+                                        self.present(mainVC, animated: false, completion: nil)
+                                    }else{
+                                        RegistDivision.oauth = true
+                                        self.navigationController?.pushViewController(nextVC, animated: false)
+                                    }
                                 }
                             case .failure(let error):
                                 // Handle failure

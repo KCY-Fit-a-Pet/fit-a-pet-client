@@ -1,5 +1,15 @@
 struct PetCareRegistrationManager {
     static var shared = PetCareRegistrationManager()
+    
+    var category: (categoryId: Int, categoryName: String)? {
+        didSet {
+            if let category = category {
+                categoryDictionary = ["categoryId": category.categoryId, "categoryName": category.categoryName]
+            } else {
+                categoryDictionary = nil
+            }
+        }
+    }
 
     var careName: String? {
         didSet { updateCareDictionary() }
@@ -20,16 +30,6 @@ struct PetCareRegistrationManager {
     private var petsDictionary: [[String: Any]]?
     private var categoryDictionary: [String: Any]?
     private var careDictionary: [String: Any]?
-
-    var category: (categoryId: Int, categoryName: String)? {
-        didSet {
-            if let category = category {
-                categoryDictionary = ["categoryId": category.categoryId, "categoryName": category.categoryName]
-            } else {
-                categoryDictionary = nil
-            }
-        }
-    }
 
     var categoryDictionaryRepresentation: [String: Any]? {
         return categoryDictionary
