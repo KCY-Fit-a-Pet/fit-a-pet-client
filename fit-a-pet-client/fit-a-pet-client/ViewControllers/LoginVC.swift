@@ -177,9 +177,7 @@ class LoginVC: UIViewController{
                                 print("userId: \(userId)")
                                 UserDefaults.standard.set(userId, forKey: "id")
                                 
-                                self?.fetchUserProfileInfo(completion: {
-                                    self?.present(mainVC, animated: false, completion: nil)
-                                })
+                                self?.present(mainVC, animated: false, completion: nil)
                             }
                         }
                     } catch {
@@ -190,38 +188,6 @@ class LoginVC: UIViewController{
             case .failure(let error):
                 print("Error: \(error)")
             }
-        }
-    }
-
-    func fetchUserProfileInfo(completion: @escaping () -> Void) {
-        
-        AuthorizationAlamofire.shared.userProfileInfo { userProfileResult in
-            switch userProfileResult {
-            case .success(let data):
-                if let responseData = data {
-                    do {
-                        let jsonObject = try JSONSerialization.jsonObject(with: responseData, options: []) as? [String: Any] ?? [:]
-                        
-                        if let dataDict = jsonObject["data"] as? [String: Any],
-                           let memberDict = dataDict["member"] as? [String: Any] {
-
-                            for (key, value) in memberDict {
-                                UserDefaults.standard.set(value, forKey: key)
-                            }
-
-                            UserDefaults.standard.synchronize()
-                        }
-                        print("Response JSON Data: \(jsonObject)")
-                    } catch {
-                        print("Error parsing user profile JSON: \(error)")
-                    }
-                }
-
-            case .failure(let profileError):
-                print("Error fetching user profile info: \(profileError)")
-            }
-
-            completion()
         }
     }
     
