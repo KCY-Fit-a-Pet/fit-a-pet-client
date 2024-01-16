@@ -2,29 +2,24 @@ struct PetCareRegistrationManager {
     static var shared = PetCareRegistrationManager()
 
     var careName: String? {
-        didSet {
-            updateCareDictionary()
-        }
+        didSet { updateCareDictionary() }
     }
 
     var careDate: [[String: String]]? {
-        didSet {
-            updateCareDictionary()
-        }
+        didSet { updateCareDictionary() }
     }
 
     var limitTime: Int? {
-        didSet {
-            updateCareDictionary()
-        }
+        didSet { updateCareDictionary() }
     }
 
     var pets: [[String: Int]]? {
-        didSet {
-            updatePetsDictionary()
-        }
+        didSet { updatePetsDictionary() }
     }
+
     private var petsDictionary: [[String: Any]]?
+    private var categoryDictionary: [String: Any]?
+    private var careDictionary: [String: Any]?
 
     var category: (categoryId: Int, categoryName: String)? {
         didSet {
@@ -36,13 +31,9 @@ struct PetCareRegistrationManager {
         }
     }
 
-    private var categoryDictionary: [String: Any]?
-
     var categoryDictionaryRepresentation: [String: Any]? {
         return categoryDictionary
     }
-
-    private var careDictionary: [String: Any]?
 
     var careDictionaryRepresentation: [String: Any]? {
         return careDictionary
@@ -61,11 +52,7 @@ struct PetCareRegistrationManager {
     }
 
     private mutating func updatePetsDictionary() {
-        if let pets = pets {
-            petsDictionary = pets
-        } else {
-            petsDictionary = nil
-        }
+        petsDictionary = pets
     }
 
     private init() {
@@ -104,14 +91,20 @@ struct PetCareRegistrationManager {
     }
 
     func performRegistration() {
-        if let category = category, let careName = careName, let careDate = careDate, let limitTime = limitTime, let pets = pets {
-            print("Registered Category: ID - \(category.categoryId), Name - \(category.categoryName)")
-            print("Registered Care: Name - \(careName), LimitTime - \(limitTime)")
-            for pet in pets {
-                print("Registered Pet: ID - \(pet["petId"] ?? 0), CategoryID - \(pet["categoryId"] ?? 0)")
-            }
-        } else {
+        guard let category = category,
+              let careName = careName,
+              let careDate = careDate,
+              let limitTime = limitTime,
+              let pets = pets else {
             print("Missing information for pet care registration")
+            return
+        }
+
+        print("Registered Category: ID - \(category.categoryId), Name - \(category.categoryName)")
+        print("Registered Care: Name - \(careName), LimitTime - \(limitTime)")
+
+        for pet in pets {
+            print("Registered Pet: ID - \(pet["petId"] ?? 0), CategoryID - \(pet["categoryId"] ?? 0)")
         }
     }
 }

@@ -1,6 +1,5 @@
 import UIKit
 import SnapKit
-import SwiftUI
 import PanModal
 
 
@@ -52,44 +51,58 @@ class PetCareRegistVC: CustomEditNavigationBar {
         scrollView.showsVerticalScrollIndicator = false
         return scrollView
     }()
+    
+    // MARK: - View Lifecycle
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        self.view.backgroundColor = .white
+        setupViews()
+        setupDelegates()
+        setupActions()
+        setupDefaultSelection()
+        carePetListAPI()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        selectCurrentDay()
+    }
+    
+    // MARK: - Setup Functions
 
+    private func setupViews() {
+        view.backgroundColor = .white
         initView()
         careDateView()
-
+    }
+    
+    private func setupDelegates() {
         categoryView.categoryTextField.delegate = self
         scheduleView.scheduleTextField.delegate = self
-        categoryView.categoryButton.addTarget(self, action: #selector(showMenu), for: .touchUpInside)
-        careDateChange.addTarget(self, action: #selector(careDateChangeTapped), for: .touchUpInside)
-        
-        otherSettingView.carePetButton.addTarget(self, action: #selector(carePetButtonTapped), for: .touchUpInside)
-        
-        otherSettingView.timeAttackButton.addTarget(self, action: #selector(timeAttackButtonTapped), for: .touchUpInside)
-
         daysCollectionView.dataSource = self
         daysCollectionView.delegate = self
-        
         daysTableView.dataSource = self
         daysTableView.delegate = self
-        carePetListAPI()
-        
+    }
+    
+    private func setupDefaultSelection() {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "HH:mm:ss"
         selectedTime = dateFormatter.string(from: Date())
     }
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
+    
+    private func setupActions() {
+        categoryView.categoryButton.addTarget(self, action: #selector(showMenu), for: .touchUpInside)
+        careDateChange.addTarget(self, action: #selector(careDateChangeTapped), for: .touchUpInside)
+        otherSettingView.carePetButton.addTarget(self, action: #selector(carePetButtonTapped), for: .touchUpInside)
+        otherSettingView.timeAttackButton.addTarget(self, action: #selector(timeAttackButtonTapped), for: .touchUpInside)
+    }
+    
+    private func selectCurrentDay() {
         let currentDayIndex = getCurrentDayIndex()
-
         let defaultIndexPath = IndexPath(item: currentDayIndex, section: 0)
         selectedIndices.insert(currentDayIndex)
         daysCollectionView.selectItem(at: defaultIndexPath, animated: false, scrollPosition: .left)
-    
     }
     
     func initView() {
@@ -173,6 +186,8 @@ class PetCareRegistVC: CustomEditNavigationBar {
             make.trailing.equalTo(careScrollView).inset(16)
         }
     }
+    
+    // MARK: - Helper Functions
 
     private func getCurrentDayIndex() -> Int {
         let calendar = Calendar.current
@@ -239,9 +254,6 @@ class PetCareRegistVC: CustomEditNavigationBar {
                 print("Error: \(error)")
             }
         }
-        
-        
-        
     }
     
     @objc private func datePickerValueChanged(_ sender: UIDatePicker) {
@@ -324,6 +336,7 @@ class PetCareRegistVC: CustomEditNavigationBar {
         }
     }
 }
+// MARK: - UITextFieldDelegate
 
 extension PetCareRegistVC: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
@@ -345,6 +358,7 @@ extension PetCareRegistVC: UITextFieldDelegate {
         }
     }
 }
+// MARK: - UICollectionViewDelegateFlowLayout
 
 extension PetCareRegistVC: UICollectionViewDelegateFlowLayout{
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
@@ -355,6 +369,7 @@ extension PetCareRegistVC: UICollectionViewDelegateFlowLayout{
         return 9
     }
 }
+// MARK: - UICollectionViewDataSource
 extension PetCareRegistVC: UICollectionViewDataSource{
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return daysOfWeek.count
@@ -366,6 +381,8 @@ extension PetCareRegistVC: UICollectionViewDataSource{
         return cell
     }
 }
+
+// MARK: - UICollectionViewDelegate
 
 extension PetCareRegistVC: UICollectionViewDelegate{
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
@@ -396,6 +413,8 @@ extension PetCareRegistVC: UICollectionViewDelegate{
     }
 }
 
+// MARK: - UITableViewDataSource
+
 extension PetCareRegistVC: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return selectedIndices.count
@@ -416,6 +435,8 @@ extension PetCareRegistVC: UITableViewDataSource {
     
 }
 
+// MARK: - UITableViewDelegate
+
 extension PetCareRegistVC: UITableViewDelegate{
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return UITableView.automaticDimension
@@ -431,19 +452,3 @@ extension PetCareRegistVC: UITableViewDelegate{
 
 
 
-// MARK: - Preview
-
-struct MainViewController_Previews: PreviewProvider {
-  static var previews: some View {
-    Container().edgesIgnoringSafeArea(.all)
-  }
-  
-  struct Container: UIViewControllerRepresentable {
-    func makeUIViewController(context: Context) -> UIViewController {
-        let rootViewController = PetCareRegistVC(title: "반려동물 등록하기")
-      return UINavigationController(rootViewController: rootViewController)
-    }
-    func updateUIViewController(_ uiViewController: UIViewControllerType, context: Context) {}
-    typealias UIViewControllerType = UIViewController
-  }
-}

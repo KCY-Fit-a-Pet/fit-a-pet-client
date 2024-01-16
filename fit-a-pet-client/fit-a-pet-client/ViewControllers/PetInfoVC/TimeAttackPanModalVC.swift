@@ -65,24 +65,12 @@ extension TimeAttackPanModalVC: UITableViewDataSource, UITableViewDelegate {
         cell.configure(with: t)
         
         if PetCareRegistrationManager.shared.limitTime == timeList[indexPath.row]{
-            print("??????")
             cell.toggleSelectedState()
         }
         
         return cell
     }
-    
-//    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-//        let cell = tableView.dequeueReusableCell(withIdentifier: "PetCell", for: indexPath) as! PetPanModalTableViewCell
-//        let pet = petList[indexPath.row]
-//        cell.configure(with: pet.petProfileImage, name: pet.petName)
-//
-//        if pet.selectPet {
-//            cell.toggleSelectedState()
-//        }
-//
-//        return cell
-//    }
+
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 56 
     }
