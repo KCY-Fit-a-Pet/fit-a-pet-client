@@ -166,7 +166,7 @@ class LoginVC: UIViewController{
         mainVC.modalPresentationStyle = .fullScreen
 
         
-        AnonymousAlamofire.shared.login("heejin", "heejin123") { [weak self] loginResult in
+        AnonymousAlamofire.shared.login("jayang", "dkssudgktpdy") { [weak self] loginResult in
             switch loginResult {
             case .success(let data):
                 if let responseData = data {

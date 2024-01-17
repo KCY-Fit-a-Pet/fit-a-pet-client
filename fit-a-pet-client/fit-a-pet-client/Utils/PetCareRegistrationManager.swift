@@ -15,7 +15,7 @@ struct PetCareRegistrationManager {
         didSet { updateCareDictionary() }
     }
 
-    var careDate: [[String: String]]? {
+    var careDates: [[String: String]]? {
         didSet { updateCareDictionary() }
     }
 
@@ -44,8 +44,8 @@ struct PetCareRegistrationManager {
     }
 
     private mutating func updateCareDictionary() {
-        if let careName = careName, let careDate = careDate, let limitTime = limitTime {
-            careDictionary = ["careName": careName, "careDate": careDate, "limitTime": limitTime]
+        if let careName = careName, let careDates = careDates, let limitTime = limitTime {
+            careDictionary = ["careName": careName, "careDates": careDates, "limitTime": limitTime]
         } else {
             careDictionary = nil
         }
@@ -58,12 +58,12 @@ struct PetCareRegistrationManager {
     private init() {
         category = nil
         careName = nil
-        careDate = nil
+        careDates = nil
         limitTime = nil
         pets = nil
     }
 
-    mutating func addInput(category: (categoryId: Int, categoryName: String)? = nil, careName: String? = nil, careDate: [[String: String]]? = nil, limitTime: Int? = nil, pets: [[String: Int]]? = nil) {
+    mutating func addInput(category: (categoryId: Int, categoryName: String)? = nil, careName: String? = nil, careDates: [[String: String]]? = nil, limitTime: Int? = nil, pets: [[String: Int]]? = nil) {
         if let category = category {
             self.category = category
         }
@@ -72,8 +72,8 @@ struct PetCareRegistrationManager {
             self.careName = providedCareName
         }
 
-        if let providedCareDate = careDate {
-            self.careDate = providedCareDate
+        if let providedCareDate = careDates {
+            self.careDates = providedCareDate
         }
 
         if let providedLimitTime = limitTime {
@@ -87,13 +87,13 @@ struct PetCareRegistrationManager {
 
     mutating func setCareDate(from careDates: [fit_a_pet_client.CareDate]) {
         let transformedCareDate = careDates.map { ["week": $0.week, "time": $0.time] }
-        self.careDate = transformedCareDate
+        self.careDates = transformedCareDate
     }
 
     func performRegistration() {
         guard let category = category,
               let careName = careName,
-              let careDate = careDate,
+              let careDates = careDates,
               let limitTime = limitTime,
               let pets = pets else {
             print("Missing information for pet care registration")
