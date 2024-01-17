@@ -101,7 +101,7 @@ struct PetCareRegistrationManager {
         }
 
         print("Registered Category: ID - \(category.categoryId), Name - \(category.categoryName)")
-        print("Registered Care: Name - \(careName), LimitTime - \(limitTime)")
+        print("Registered Care: Name - \(careName) careDates - \(careDates), LimitTime - \(limitTime)")
 
         for pet in pets {
             print("Registered Pet: ID - \(pet["petId"] ?? 0), CategoryID - \(pet["categoryId"] ?? 0)")

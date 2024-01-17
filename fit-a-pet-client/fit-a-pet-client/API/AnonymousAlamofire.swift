@@ -182,6 +182,7 @@ class AnonymousAlamofire: TokenHandling {
             .response { response in
                 switch response.result {
                 case .success(let data):
+                    self.extractAndStoreToken(from: response)
                     completion(.success(data))
                 case .failure(let error):
                     completion(.failure(error))

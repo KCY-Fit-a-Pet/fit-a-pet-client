@@ -37,8 +37,6 @@ class CustomEditNavigationBar: UIViewController {
         self.navigationItem.leftBarButtonItem = cancleButton
         self.navigationItem.rightBarButtonItem = saveButton
 
-        
-        // TitleView
         titleLabel = UILabel()
         titleLabel.text = title
         titleLabel.textColor = .black
