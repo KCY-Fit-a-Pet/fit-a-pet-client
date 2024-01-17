@@ -3,13 +3,8 @@ import SnapKit
 
 class PetCollectionViewCell: UICollectionViewCell {
     
-    let firstSubview = PetProfileView()
-    
-//    let secondSubview: UIView = {
-//        let view = UIView()
-//        view.backgroundColor = .green
-//        return view
-//    }()
+    let petInfoSubview = PetProfileView()
+    let petCareSubview = PetCareListView()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -22,20 +17,20 @@ class PetCollectionViewCell: UICollectionViewCell {
     }
     
     private func setupSubviews() {
-        addSubview(firstSubview)
+        addSubview(petInfoSubview)
         contentView.layer.borderWidth = 1
         contentView.layer.cornerRadius = 18
         contentView.layer.borderColor = UIColor(named: "Gray3")?.cgColor
-//        addSubview(secondSubview)
-        
-        firstSubview.snp.makeConstraints { make in
-            make.top.left.bottom.equalToSuperview()
-            make.width.equalToSuperview()
+        addSubview(petCareSubview)
+
+        petInfoSubview.snp.makeConstraints { make in
+            make.top.leading.trailing.equalToSuperview()
+            make.height.equalTo(120)
         }
-//
-//        secondSubview.snp.makeConstraints { make in
-//            make.top.right.bottom.equalToSuperview()
-//            make.width.equalToSuperview().dividedBy(2)
-//        }
+
+        petCareSubview.snp.makeConstraints { make in
+            make.bottom.leading.trailing.equalToSuperview()
+            make.top.equalTo(petInfoSubview.snp.bottom).offset(16)
+        }
     }
 }

@@ -36,16 +36,20 @@ class PetProfileView: UIView {
             switch i {
             case 0:
                 petGender.attributedText = createAttributedString(withTopic: topic[i], date: date[i])
+                petGender.font = .systemFont(ofSize: 14)
             case 1:
                 petAge.attributedText = createAttributedString(withTopic: topic[i], date: date[i])
+                petAge.font = .systemFont(ofSize: 14)
             case 2:
                 petFeed.attributedText = createAttributedString(withTopic: topic[i], date: date[i])
+                petFeed.font = .systemFont(ofSize: 14)
             default:
                 break
             }
         }
         
         petName.text = "하루"
+        petName.font = .systemFont(ofSize: 14)
         petImageView.image = UIImage(named: "profileImage")
         
         addSubview(petImageView)
