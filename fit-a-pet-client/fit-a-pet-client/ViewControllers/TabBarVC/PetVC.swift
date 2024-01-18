@@ -24,6 +24,28 @@ class PetVC: UIViewController{
         petListCollectionView.dataSource = self
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        AuthorizationAlamofire.shared.userPetInfoList { result in
+            switch result {
+            case .success(let data):
+                if let responseData = data {
+                    do {
+                        let jsonObject = try JSONSerialization.jsonObject(with: responseData, options: []) as? [String: Any] ?? [:]
+                        
+                        print("Response JSON Data: \(jsonObject)")
+                    } catch {
+                        print("Error parsing user profile JSON: \(error)")
+                    }
+                }
+
+            case .failure(let profileError):
+                print("Error fetching user profile info: \(profileError)")
+            }
+
+        }
+    }
+    
     private func initView() {
         view.backgroundColor = .white
         

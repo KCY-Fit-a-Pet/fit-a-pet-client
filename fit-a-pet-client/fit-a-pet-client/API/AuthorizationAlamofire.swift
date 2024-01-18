@@ -173,8 +173,22 @@ class AuthorizationAlamofire: TokenHandling {
 
     func careCategoryCheck(_ categoryName: String, _ pets: [Int] ,completion: @escaping (Result<Data?, Error>) -> Void) {
         os_log("AuthorizationAlamofire - careCategoryCheck() called ,, %@ ,, %@ ", log: .default, type: .info, categoryName, pets)
-
+        
         self.session.request(MySearchRouter.careCategoryCheck(categoryName: categoryName, pets: pets))
+            .response { response in
+                switch response.result {
+                case .success(let data):
+                    completion(.success(data))
+                case .failure(let error):
+                    completion(.failure(error))
+                }
+            }
+    }
+    
+    func userPetInfoList(completion: @escaping (Result<Data?, Error>) -> Void) {
+        os_log("AuthorizationAlamofire - userPetInfoList() called", log: .default, type: .info)
+        
+        self.session.request(MySearchRouter.userPetInfoList)
             .response { response in
                 switch response.result {
                 case .success(let data):
