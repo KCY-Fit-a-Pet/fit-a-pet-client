@@ -282,9 +282,9 @@
 				4A40561D2B52FE3500A95891 /* PetCareCell */,
 				4A3D7BFB2B4F1F2000E3BBF8 /* PetCareView */,
 				4A9088752AC1681B000C7878 /* PetCollectViewCell.swift */,
+				4AF0C8552B25A93500A45EEE /* AlarmTableViewCell.swift */,
 				4AD089692AFBFD9400E79E52 /* CheckCareCollectionViewCell.swift */,
 				4AF0C8532B24E1A800A45EEE /* MyInfoTableViewCell.swift */,
-				4AF0C8552B25A93500A45EEE /* AlarmTableViewCell.swift */,
 				4AC579842B2DFF7500735252 /* CustomPopupView.swift */,
 			);
 			path = View;

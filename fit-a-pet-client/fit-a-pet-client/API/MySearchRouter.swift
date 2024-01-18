@@ -25,6 +25,7 @@ enum MySearchRouter: URLRequestConvertible {
     case oauthRegistUser(name: String, uid: String)
     case createCare(combinedData: [String:Any])
     case careCategoryCheck(categoryName: String, pets: [Int])
+    case userPetCareInfoList(petId: Int)
     
     var baseURL: URL {
         switch self {
@@ -41,7 +42,7 @@ enum MySearchRouter: URLRequestConvertible {
         switch self {
         case .sendSms, .checkSms, .login, .regist, .presignedurl, .registPet,.sendAuthSms, .checkAuthSms, .findId, .findPw, .oauthLogin, .oauthSendSms, .oauthCheckSms, .oauthRegistUser, .createCare, .careCategoryCheck:
             return .post
-        case .existId, .userProfileInfo, .userNotifyType, .refresh ,.checkCareCategory, .userPetsList, .userPetInfoList:
+        case .existId, .userProfileInfo, .userNotifyType, .refresh ,.checkCareCategory, .userPetsList, .userPetInfoList, .userPetCareInfoList:
             return .get
         case .uploadImage, .editUserPw, .editUserName:
             return .put
@@ -88,7 +89,7 @@ enum MySearchRouter: URLRequestConvertible {
             return "v2/users/\(UserDefaults.standard.string(forKey: "id")!)/pets/summary"
         case .careCategoryCheck:
             return "v2/users/\(UserDefaults.standard.string(forKey: "id")!)/pets/categories-check"
-        case .userPetInfoList:
+        case .userPetInfoList, .userPetCareInfoList:
             return "v2/users/\(UserDefaults.standard.string(forKey: "id")!)/pets"
         }
     }
@@ -130,11 +131,13 @@ enum MySearchRouter: URLRequestConvertible {
             return ["categoryName": categoryName, "pets": pets]
         case .uploadImage(_), .userProfileInfo, .oauthLogin, .oauthSendSms, .refresh, .checkCareCategory, .userPetsList, .createCare, .userPetInfoList:
             return [:]
+        case let .userPetCareInfoList(userId):
+            return["userId": userId]
         }
     }
     
     func asURLRequest() throws -> URLRequest {
-        let url = baseURL.appendingPathComponent(path)
+        var url = baseURL.appendingPathComponent(path)
         var request: URLRequest
         
         switch self {
@@ -280,9 +283,15 @@ enum MySearchRouter: URLRequestConvertible {
             request = URLRequest(url: url)
             request.httpMethod = method.rawValue
         
+        case .userPetCareInfoList(let petId):
+            url = url.appendingPathComponent("/\(petId)/cares")
+            request = URLRequest(url: url)
+            request.httpMethod = method.rawValue
+
         default:
             request = createURLRequestWithBody(url: url)
         }
+        
         return request
     }
     

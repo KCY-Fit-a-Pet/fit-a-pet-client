@@ -69,14 +69,39 @@ class PetVC: UIViewController{
                 if let responseData = data {
                     PetDataManager.updatePets(with: responseData)
                     self.petListCollectionView.reloadData()
+                    
+                    let dispatchGroup = DispatchGroup()
+
+                    PetDataManager.pets.forEach { pet in
+                        dispatchGroup.enter()
+
+                        AuthorizationAlamofire.shared.userPetCareInfoList(pet.id) { careInfoResult in
+                            defer {
+                                dispatchGroup.leave()
+                            }
+
+                            switch careInfoResult {
+                            case .success(let careInfoData):
+                                if let careInfoResponseData = careInfoData {
+                                    let object = try? JSONSerialization.jsonObject(with: careInfoResponseData, options: []) as? NSDictionary
+                                    guard let jsonObject = object else { return }
+                                    print("Response jsonData for pet \(pet.id): \(jsonObject)")
+                                }
+
+                            case .failure(let careInfoError):
+                                print("Error fetching pet care info for pet \(pet.id): \(careInfoError)")
+                            }
+                        }
+                    }
+
+                    dispatchGroup.notify(queue: .main) {
+                        print("All pet care info requests completed.")
+                    }
                 }
-                
-                print(PetDataManager.pets.count)
 
             case .failure(let profileError):
                 print("Error fetching user profile info: \(profileError)")
             }
-
         }
     }
     

@@ -198,5 +198,21 @@ class AuthorizationAlamofire: TokenHandling {
                 }
             }
     }
+    
+    func userPetCareInfoList(_ petId: Int ,completion: @escaping (Result<Data?, Error>) -> Void) {
+        os_log("AuthorizationAlamofire - userPetCareInfoList() called", log: .default, type: .info)
+        
+        self.session.request(MySearchRouter.userPetCareInfoList(petId: petId))
+            .response { response in
+                switch response.result {
+                case .success(let data):
+                    completion(.success(data))
+                case .failure(let error):
+                    completion(.failure(error))
+                }
+            }
+    }
+    
+    
 }
 
