@@ -27,12 +27,7 @@ class PetPanModalTableViewCell: UITableViewCell {
         super.init(coder: coder)
         setupUI()
     }
-    override func layoutSubviews() {
-        if !hasAdjustedLayout { //한번만 실행되도록
-            contentView.frame = contentView.frame.inset(by: UIEdgeInsets(top: 0, left: 0, bottom: 4, right: 0))
-            hasAdjustedLayout = true
-        }
-    }
+
     private func setupUI() {
         
         contentView.layer.borderWidth = 1
@@ -44,13 +39,13 @@ class PetPanModalTableViewCell: UITableViewCell {
 
         petImageView.snp.makeConstraints { make in
             make.leading.equalToSuperview().offset(16)
-            make.centerY.equalToSuperview()
             make.width.height.equalTo(40)
+            make.top.bottom.equalToSuperview().inset(4)
         }
 
         nameLabel.snp.makeConstraints { make in
             make.leading.equalTo(petImageView.snp.trailing).offset(16)
-            make.centerY.equalToSuperview()
+            make.top.bottom.equalToSuperview().inset(4)
         }
     }
     private func updateCellState() {

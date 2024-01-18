@@ -26,14 +26,7 @@ class PetCareTableViewCell: UITableViewCell {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
-    override func layoutSubviews() {
-        if !hasAdjustedLayout { //한번만 실행되도록
-            contentView.frame = contentView.frame.inset(by: UIEdgeInsets(top: 0, left: 0, bottom: 4, right: 0))
-            hasAdjustedLayout = true
-        }
-    }
-    
+
     func setupViews() {
         
         categoryLabel.text = "밥밥밥"
@@ -43,11 +36,12 @@ class PetCareTableViewCell: UITableViewCell {
         contentView.addSubview(careListCollectionView)
         
         categoryLabel.snp.makeConstraints{make in
-            make.top.bottom.leading.equalToSuperview()
+            make.leading.equalToSuperview()
+            make.top.bottom.equalToSuperview().inset(4)
         }
         
         careListCollectionView.snp.makeConstraints { make in
-            make.top.bottom.equalToSuperview()
+            make.top.bottom.equalToSuperview().inset(4)
             make.leading.equalTo(categoryLabel.snp.trailing).offset(24)
             make.trailing.equalToSuperview()
         }

@@ -24,6 +24,7 @@ class PetCareListView: UIView {
         }
 
         careCategoryListTableView.register(PetCareTableViewCell.self, forCellReuseIdentifier: "PetCareTableViewCell")
+        careCategoryListTableView.separatorStyle = .none
 
         careCategoryListTableView.delegate = self
         careCategoryListTableView.dataSource = self
@@ -49,7 +50,7 @@ extension PetCareListView: UITableViewDelegate, UITableViewDataSource{
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
     }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 28
+        return 36
     }
 }
 
