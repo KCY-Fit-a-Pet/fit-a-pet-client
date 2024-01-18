@@ -40,5 +40,4 @@ class CareDateCollectionViewCell: UICollectionViewCell {
             }
         }
     }
-
 }

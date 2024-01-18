@@ -32,6 +32,11 @@
 		4A40561C2B52FDB000A95891 /* TimeAttackPanModalVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A40561B2B52FDB000A95891 /* TimeAttackPanModalVC.swift */; };
 		4A40561F2B52FE7900A95891 /* TimeAttackPanModalTabelViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A40561E2B52FE7900A95891 /* TimeAttackPanModalTabelViewCell.swift */; };
 		4A4BFDCA2AD26B0F0062BDB8 /* RegistrationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A4BFDC92AD26B0F0062BDB8 /* RegistrationManager.swift */; };
+		4A54A0B62B5849230024B940 /* PetCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A54A0B52B5849230024B940 /* PetCollectionViewCell.swift */; };
+		4A54A0B92B584D110024B940 /* PetProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A54A0B82B584D110024B940 /* PetProfileView.swift */; };
+		4A54A0BB2B5858440024B940 /* PetCareListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A54A0BA2B5858440024B940 /* PetCareListView.swift */; };
+		4A54A0BD2B5859AA0024B940 /* PetCareTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A54A0BC2B5859AA0024B940 /* PetCareTableViewCell.swift */; };
+		4A54A0BF2B585A7E0024B940 /* PetCareListCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A54A0BE2B585A7E0024B940 /* PetCareListCollectionViewCell.swift */; };
 		4A80E4D12B487DF600CD5D05 /* TokenHandling.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A80E4D02B487DF600CD5D05 /* TokenHandling.swift */; };
 		4A80E4D42B49BA7800CD5D05 /* AnonymousAlamofire.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A80E4D32B49BA7800CD5D05 /* AnonymousAlamofire.swift */; };
 		4A8662D42B26299F00D8DDE8 /* EditUserPwVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A8662D32B26299F00D8DDE8 /* EditUserPwVC.swift */; };
@@ -104,6 +109,11 @@
 		4A40561B2B52FDB000A95891 /* TimeAttackPanModalVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeAttackPanModalVC.swift; sourceTree = "<group>"; };
 		4A40561E2B52FE7900A95891 /* TimeAttackPanModalTabelViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = TimeAttackPanModalTabelViewCell.swift; path = ../../../../../../Documents/TimeAttackPanModalTabelViewCell.swift; sourceTree = "<group>"; };
 		4A4BFDC92AD26B0F0062BDB8 /* RegistrationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationManager.swift; sourceTree = "<group>"; };
+		4A54A0B52B5849230024B940 /* PetCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PetCollectionViewCell.swift; sourceTree = "<group>"; };
+		4A54A0B82B584D110024B940 /* PetProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PetProfileView.swift; sourceTree = "<group>"; };
+		4A54A0BA2B5858440024B940 /* PetCareListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PetCareListView.swift; sourceTree = "<group>"; };
+		4A54A0BC2B5859AA0024B940 /* PetCareTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PetCareTableViewCell.swift; sourceTree = "<group>"; };
+		4A54A0BE2B585A7E0024B940 /* PetCareListCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PetCareListCollectionViewCell.swift; sourceTree = "<group>"; };
 		4A80E4D02B487DF600CD5D05 /* TokenHandling.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenHandling.swift; sourceTree = "<group>"; };
 		4A80E4D22B4882B500CD5D05 /* fit-a-pet-client.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "fit-a-pet-client.entitlements"; sourceTree = "<group>"; };
 		4A80E4D32B49BA7800CD5D05 /* AnonymousAlamofire.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnonymousAlamofire.swift; sourceTree = "<group>"; };
@@ -197,6 +207,18 @@
 			path = PetCareCell;
 			sourceTree = "<group>";
 		};
+		4A54A0B72B584CDD0024B940 /* MyPetListView */ = {
+			isa = PBXGroup;
+			children = (
+				4A54A0B52B5849230024B940 /* PetCollectionViewCell.swift */,
+				4A54A0B82B584D110024B940 /* PetProfileView.swift */,
+				4A54A0BA2B5858440024B940 /* PetCareListView.swift */,
+				4A54A0BC2B5859AA0024B940 /* PetCareTableViewCell.swift */,
+				4A54A0BE2B585A7E0024B940 /* PetCareListCollectionViewCell.swift */,
+			);
+			path = MyPetListView;
+			sourceTree = "<group>";
+		};
 		4AA999852A8485A500E495FA = {
 			isa = PBXGroup;
 			children = (
@@ -240,7 +262,7 @@
 		4ABE58582A85E8B400E22C5F /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
-				4AEDCDFF2B4C70AD0043E872 /* PetInfoVC */,
+				4AEDCDFF2B4C70AD0043E872 /* PetCareVC */,
 				4AF0C8572B2627BE00A45EEE /* EditUserVC */,
 				4ACDD49F2AD9B32400CD8F1A /* RegistPet */,
 				4ACDD49A2AD9A9F600CD8F1A /* FindAccountVC */,
@@ -256,6 +278,7 @@
 		4ABE58592A85E8C100E22C5F /* View */ = {
 			isa = PBXGroup;
 			children = (
+				4A54A0B72B584CDD0024B940 /* MyPetListView */,
 				4A40561D2B52FE3500A95891 /* PetCareCell */,
 				4A3D7BFB2B4F1F2000E3BBF8 /* PetCareView */,
 				4A9088752AC1681B000C7878 /* PetCollectViewCell.swift */,
@@ -367,14 +390,14 @@
 			path = TabBarVC;
 			sourceTree = "<group>";
 		};
-		4AEDCDFF2B4C70AD0043E872 /* PetInfoVC */ = {
+		4AEDCDFF2B4C70AD0043E872 /* PetCareVC */ = {
 			isa = PBXGroup;
 			children = (
 				4AEDCE002B4C718E0043E872 /* PetCareRegistVC.swift */,
 				4A4056172B52A69000A95891 /* PetPanModalVC.swift */,
 				4A40561B2B52FDB000A95891 /* TimeAttackPanModalVC.swift */,
 			);
-			path = PetInfoVC;
+			path = PetCareVC;
 			sourceTree = "<group>";
 		};
 		4AF0C8572B2627BE00A45EEE /* EditUserVC */ = {
@@ -556,6 +579,7 @@
 				4AC579872B2E004400735252 /* CustomPopupVC.swift in Sources */,
 				4A15F20E2AA8B4150098F2F7 /* InputPhoneNumVC.swift in Sources */,
 				4AA999962A8485A500E495FA /* FirstVC.swift in Sources */,
+				4A54A0BF2B585A7E0024B940 /* PetCareListCollectionViewCell.swift in Sources */,
 				4AB6178E2B1CFAF300CED98E /* FindIdCheckVC.swift in Sources */,
 				4A0750D82B0D130F00281A4C /* PetRegistrationManager.swift in Sources */,
 				4AA999922A8485A500E495FA /* AppDelegate.swift in Sources */,
@@ -573,11 +597,15 @@
 				4AD354272AAF7EF5004A47B3 /* CalendarVC.swift in Sources */,
 				4AF0C8542B24E1A800A45EEE /* MyInfoTableViewCell.swift in Sources */,
 				4A4BFDCA2AD26B0F0062BDB8 /* RegistrationManager.swift in Sources */,
+				4A54A0B92B584D110024B940 /* PetProfileView.swift in Sources */,
+				4A54A0B62B5849230024B940 /* PetCollectionViewCell.swift in Sources */,
 				4AD354202AAF7CD6004A47B3 /* MainVC.swift in Sources */,
 				4A2440712B374C0F0086D2AB /* CryptoHelpers.swift in Sources */,
 				4ACDD4A72AD9B3F600CD8F1A /* CheckCareVC.swift in Sources */,
 				4A8662D62B2629F500D8DDE8 /* EditUserNameVC.swift in Sources */,
 				4A40561F2B52FE7900A95891 /* TimeAttackPanModalTabelViewCell.swift in Sources */,
+				4A54A0BB2B5858440024B940 /* PetCareListView.swift in Sources */,
+				4A54A0BD2B5859AA0024B940 /* PetCareTableViewCell.swift in Sources */,
 				4A8B9B502AD444D0009236EC /* Constants.swift in Sources */,
 				4A40561A2B52A7D100A95891 /* PetPanModalTableViewCell.swift in Sources */,
 				4A3D7BFF2B4F231500E3BBF8 /* ScheduleView.swift in Sources */,

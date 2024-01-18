@@ -81,9 +81,9 @@ enum MySearchRouter: URLRequestConvertible {
         case .userNotifyType:
             return "v2/accounts/\(UserDefaults.standard.string(forKey: "id")!)/notify"
         case .createCare:
-            return "v2/users/\(UserDefaults.standard.string(forKey: "id")!)/pets/3/cares" //TODO: 임시 pet id 값
+            return "v2/users/\(UserDefaults.standard.string(forKey: "id")!)/pets/1/cares" //TODO: 임시 pet id 값
         case .checkCareCategory:
-            return "v2/users/\(UserDefaults.standard.string(forKey: "id")!)/pets/3/cares/categories" //TODO: 임시 pet id 값
+            return "v2/users/\(UserDefaults.standard.string(forKey: "id")!)/pets/1/cares/categories" //TODO: 임시 pet id 값
         case .userPetsList:
             return "v2/users/\(UserDefaults.standard.string(forKey: "id")!)/pets/summary"
         case .careCategoryCheck:

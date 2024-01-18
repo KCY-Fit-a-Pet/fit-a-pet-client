@@ -173,9 +173,7 @@ class AnonymousAlamofire: TokenHandling {
                 }
         }
     }
-    
-    //TODO: oauth 계정 분기처리
-    
+
     func oauthLogin(completion: @escaping(Result<Data?, Error>) -> Void){
         os_log("AnonymousAlamofire - oauthLogin() called", log: .default, type: .info)
         
@@ -184,6 +182,7 @@ class AnonymousAlamofire: TokenHandling {
             .response { response in
                 switch response.result {
                 case .success(let data):
+                    self.extractAndStoreToken(from: response)
                     completion(.success(data))
                 case .failure(let error):
                     completion(.failure(error))
