@@ -4,11 +4,11 @@ import SnapKit
 
 class PetProfileView: UIView {
     
-    let petImageView = UIImageView()
-    let petName = UILabel()
-    let petGender = UILabel()
-    let petAge = UILabel()
-    let petFeed = UILabel()
+    var petImageView = UIImageView()
+    var petName = UILabel()
+    var petGender = UILabel()
+    var petAge = UILabel()
+    var petFeed = UILabel()
     
     let topic = ["성별", "나이", "사료"]
     let date = ["암컷", "6세", "사료사료사료"]
@@ -32,23 +32,9 @@ class PetProfileView: UIView {
         stackView.addArrangedSubview(petGender)
         stackView.addArrangedSubview(petAge)
         
-        for i in 0..<3 {
-            switch i {
-            case 0:
-                petGender.attributedText = createAttributedString(withTopic: topic[i], date: date[i])
-                petGender.font = .systemFont(ofSize: 14)
-            case 1:
-                petAge.attributedText = createAttributedString(withTopic: topic[i], date: date[i])
-                petAge.font = .systemFont(ofSize: 14)
-            case 2:
-                petFeed.attributedText = createAttributedString(withTopic: topic[i], date: date[i])
-                petFeed.font = .systemFont(ofSize: 14)
-            default:
-                break
-            }
-        }
-        
-        petName.text = "하루"
+        petGender.font = .systemFont(ofSize: 14)
+        petAge.font = .systemFont(ofSize: 14)
+        petFeed.font = .systemFont(ofSize: 14)
         petName.font = .systemFont(ofSize: 14)
         petImageView.image = UIImage(named: "profileImage")
         
@@ -78,13 +64,5 @@ class PetProfileView: UIView {
             make.leading.equalTo(petImageView.snp.trailing).offset(16)
         }
     }
-    func createAttributedString(withTopic topic: String, date: String) -> NSAttributedString {
-        let attributedString = NSMutableAttributedString(string: topic + " ")
-        attributedString.addAttribute(.foregroundColor, value: UIColor.gray, range: NSRange(location: 0, length: 2))
 
-        let dataAttributedString = NSAttributedString(string: date)
-        attributedString.append(dataAttributedString)
-
-        return attributedString
-    }
 }

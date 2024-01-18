@@ -2,6 +2,43 @@ import UIKit
 import SnapKit
 import SwiftUI
 
+struct PetInfoResponse: Codable {
+    let status: String
+    let data: PetData?
+}
+
+struct PetData: Codable {
+    let pets: [Pet]?
+}
+
+struct Pet: Codable {
+    let id: Int
+    let petName: String
+    let gender: String
+    let petProfileImage: String
+    let feed: String
+    let careIds: [Int]
+}
+
+struct PetDataManager {
+    static var pets: [Pet] = []
+
+    static func updatePets(with data: Data) {
+        do {
+            let decoder = JSONDecoder()
+            let petInfoResponse = try decoder.decode(PetInfoResponse.self, from: data)
+
+            if let newPets = petInfoResponse.data?.pets {
+                pets = newPets
+                
+                print("petsList: \(pets)")
+            }
+        } catch {
+            print("Error updating pet data: \(error)")
+        }
+    }
+}
+
 class PetVC: UIViewController{
     
     let petListCollectionView: UICollectionView = {
@@ -30,14 +67,11 @@ class PetVC: UIViewController{
             switch result {
             case .success(let data):
                 if let responseData = data {
-                    do {
-                        let jsonObject = try JSONSerialization.jsonObject(with: responseData, options: []) as? [String: Any] ?? [:]
-                        
-                        print("Response JSON Data: \(jsonObject)")
-                    } catch {
-                        print("Error parsing user profile JSON: \(error)")
-                    }
+                    PetDataManager.updatePets(with: responseData)
+                    self.petListCollectionView.reloadData()
                 }
+                
+                print(PetDataManager.pets.count)
 
             case .failure(let profileError):
                 print("Error fetching user profile info: \(profileError)")
@@ -86,12 +120,15 @@ extension PetVC: UICollectionViewDelegate{
 extension PetVC: UICollectionViewDataSource{
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PetCell", for: indexPath) as! PetCollectionViewCell
+        
+        let pet = PetDataManager.pets[indexPath.item]
+        cell.petInfoSubviewConfigure(petName: pet.petName, gender: pet.gender, age: "6세", feed: pet.feed)
+        
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        // Return the number of items in your collection view
-        return 5
+        return PetDataManager.pets.count
     }
 }
 extension PetVC: UICollectionViewDelegateFlowLayout{
