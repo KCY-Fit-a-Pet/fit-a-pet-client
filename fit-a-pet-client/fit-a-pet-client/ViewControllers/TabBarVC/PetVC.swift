@@ -2,74 +2,6 @@ import UIKit
 import SnapKit
 import SwiftUI
 
-struct PetInfoResponse: Codable {
-    let status: String
-    let data: PetData?
-}
-
-struct PetData: Codable {
-    let pets: [Pet]?
-}
-
-struct Pet: Codable {
-    let id: Int
-    let petName: String
-    let gender: String
-    let petProfileImage: String
-    let feed: String
-    let careIds: [Int]
-}
-
-struct CareInfo: Codable {
-    let careCategories: [CareCategory]
-}
-
-struct CareCategory: Codable {
-    let careCategoryId: Int
-    let categoryName: String
-    let cares: [Care]
-}
-
-struct Care: Codable {
-    let careId: Int
-    let careDateId: Int
-    let careName: String
-    let careDate: String
-    let isClear: Bool
-}
-
-
-struct PetDataManager {
-    static var pets: [Pet] = []
-    static var careInfo: CareInfo?
-
-    static func updatePets(with data: Data) {
-        do {
-            let decoder = JSONDecoder()
-            let petInfoResponse = try decoder.decode(PetInfoResponse.self, from: data)
-
-            if let newPets = petInfoResponse.data?.pets {
-                pets = newPets
-                
-                print("petsList: \(pets)")
-            }
-        } catch {
-            print("Error updating pet data: \(error)")
-        }
-    }
-    
-    static func updateCareInfo(with data: Data) {
-        do {
-            let decoder = JSONDecoder()
-            let careInfoResponse = try decoder.decode(CareInfo.self, from: data)
-            
-            careInfo = careInfoResponse
-            print("CareInfo: \(careInfo)")
-        } catch {
-            print("Error updating care info: \(error)")
-        }
-    }
-}
 
 class PetVC: UIViewController{
     
@@ -101,6 +33,9 @@ class PetVC: UIViewController{
                 if let responseData = data {
                     PetDataManager.updatePets(with: responseData)
                     self.petListCollectionView.reloadData()
+//                    let object = try?JSONSerialization.jsonObject(with: responseData, options: []) as? NSDictionary
+//                    guard let jsonObject = object else {return}
+//                    print("respose jsonData: \(jsonObject)")
                     
                     let dispatchGroup = DispatchGroup()
 
@@ -116,7 +51,7 @@ class PetVC: UIViewController{
                             case .success(let careInfoData):
                                 if let responseData = careInfoData {
                                     PetDataManager.updateCareInfo(with: responseData)
-                                    print("updateCareInfo: \(responseData)")
+//                                    print("updateCareInfo: \(responseData)")
 //                                    let object = try?JSONSerialization.jsonObject(with: responseData, options: []) as? NSDictionary
 //                                    guard let jsonObject = object else {return}
 //                                    print("respose jsonData: \(jsonObject)")
@@ -166,11 +101,6 @@ class PetVC: UIViewController{
     
         navigationItem.leftBarButtonItem = leftBarButtonItem
     }
-//    @objc func nextPetCareRegistVC() {
-//        let nextVC = PetCareRegistVC(title: "케어 등록하기")
-//        nextVC.hidesBottomBarWhenPushed = true
-//        navigationController?.pushViewController(nextVC, animated: true)
-//    }
 }
 
 extension PetVC: UICollectionViewDelegate{
@@ -188,7 +118,7 @@ extension PetVC: UICollectionViewDataSource{
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PetCell", for: indexPath) as! PetCollectionViewCell
         
         let pet = PetDataManager.pets[indexPath.item]
-        cell.petInfoSubviewConfigure(petName: pet.petName, gender: pet.gender, age: "6세", feed: pet.feed)
+        cell.petInfoSubviewConfigure(petName: pet.petName, gender: pet.gender, age: String(pet.age) + "세", feed: pet.feed)
         
         return cell
     }

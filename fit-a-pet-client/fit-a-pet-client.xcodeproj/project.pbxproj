@@ -56,6 +56,7 @@
 		4AA9999B2A8485A600E495FA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4AA9999A2A8485A600E495FA /* Assets.xcassets */; };
 		4AA9999E2A8485A600E495FA /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4AA9999C2A8485A600E495FA /* LaunchScreen.storyboard */; };
 		4AB6178E2B1CFAF300CED98E /* FindIdCheckVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AB6178D2B1CFAF300CED98E /* FindIdCheckVC.swift */; };
+		4ABE53002B5AD92F000EA41D /* PetDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ABE52FF2B5AD92F000EA41D /* PetDataManager.swift */; };
 		4AC579832B2DFD4B00735252 /* StructData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AC579822B2DFD4B00735252 /* StructData.swift */; };
 		4AC579852B2DFF7500735252 /* CustomPopupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AC579842B2DFF7500735252 /* CustomPopupView.swift */; };
 		4AC579872B2E004400735252 /* CustomPopupVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AC579862B2E004400735252 /* CustomPopupVC.swift */; };
@@ -136,6 +137,7 @@
 		4AA9999D2A8485A600E495FA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		4AA9999F2A8485A600E495FA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4AB6178D2B1CFAF300CED98E /* FindIdCheckVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindIdCheckVC.swift; sourceTree = "<group>"; };
+		4ABE52FF2B5AD92F000EA41D /* PetDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PetDataManager.swift; sourceTree = "<group>"; };
 		4AC579822B2DFD4B00735252 /* StructData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StructData.swift; sourceTree = "<group>"; };
 		4AC579842B2DFF7500735252 /* CustomPopupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomPopupView.swift; sourceTree = "<group>"; };
 		4AC579862B2E004400735252 /* CustomPopupVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomPopupVC.swift; sourceTree = "<group>"; };
@@ -321,6 +323,7 @@
 				4A0750D72B0D130F00281A4C /* PetRegistrationManager.swift */,
 				4A88D6162B53ABD2003A2D0F /* PetCareRegistrationManager.swift */,
 				4AC579822B2DFD4B00735252 /* StructData.swift */,
+				4ABE52FF2B5AD92F000EA41D /* PetDataManager.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -583,6 +586,7 @@
 				4AB6178E2B1CFAF300CED98E /* FindIdCheckVC.swift in Sources */,
 				4A0750D82B0D130F00281A4C /* PetRegistrationManager.swift in Sources */,
 				4AA999922A8485A500E495FA /* AppDelegate.swift in Sources */,
+				4ABE53002B5AD92F000EA41D /* PetDataManager.swift in Sources */,
 				4A88D6172B53ABD2003A2D0F /* PetCareRegistrationManager.swift in Sources */,
 				4ACDD4A92ADAFFD100CD8F1A /* InputPetBirthVC.swift in Sources */,
 				4A15F2142AA8B4A50098F2F7 /* InputPwVC.swift in Sources */,

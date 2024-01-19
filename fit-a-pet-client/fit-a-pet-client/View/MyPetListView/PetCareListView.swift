@@ -42,6 +42,11 @@ extension PetCareListView: UITableViewDelegate, UITableViewDataSource{
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "PetCareTableViewCell", for: indexPath) as! PetCareTableViewCell
         
+//        let category = PetDataManager.careCategories[indexPath.item]
+//        cell.configure(category.categoryName)
+//        let pet = PetDataManager.pets[indexPath.item]
+//        cell.petInfoSubviewConfigure(petName: pet.petName, gender: pet.gender, age: "6세", feed: pet.feed)
+        
         return cell
     }
     
