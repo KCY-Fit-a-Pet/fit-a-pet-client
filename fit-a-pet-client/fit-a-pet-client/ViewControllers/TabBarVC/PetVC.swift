@@ -20,8 +20,28 @@ struct Pet: Codable {
     let careIds: [Int]
 }
 
+struct CareInfo: Codable {
+    let careCategories: [CareCategory]
+}
+
+struct CareCategory: Codable {
+    let careCategoryId: Int
+    let categoryName: String
+    let cares: [Care]
+}
+
+struct Care: Codable {
+    let careId: Int
+    let careDateId: Int
+    let careName: String
+    let careDate: String
+    let isClear: Bool
+}
+
+
 struct PetDataManager {
     static var pets: [Pet] = []
+    static var careInfo: CareInfo?
 
     static func updatePets(with data: Data) {
         do {
@@ -35,6 +55,18 @@ struct PetDataManager {
             }
         } catch {
             print("Error updating pet data: \(error)")
+        }
+    }
+    
+    static func updateCareInfo(with data: Data) {
+        do {
+            let decoder = JSONDecoder()
+            let careInfoResponse = try decoder.decode(CareInfo.self, from: data)
+            
+            careInfo = careInfoResponse
+            print("CareInfo: \(careInfo)")
+        } catch {
+            print("Error updating care info: \(error)")
         }
     }
 }
@@ -82,10 +114,12 @@ class PetVC: UIViewController{
 
                             switch careInfoResult {
                             case .success(let careInfoData):
-                                if let careInfoResponseData = careInfoData {
-                                    let object = try? JSONSerialization.jsonObject(with: careInfoResponseData, options: []) as? NSDictionary
-                                    guard let jsonObject = object else { return }
-                                    print("Response jsonData for pet \(pet.id): \(jsonObject)")
+                                if let responseData = careInfoData {
+                                    PetDataManager.updateCareInfo(with: responseData)
+                                    print("updateCareInfo: \(responseData)")
+//                                    let object = try?JSONSerialization.jsonObject(with: responseData, options: []) as? NSDictionary
+//                                    guard let jsonObject = object else {return}
+//                                    print("respose jsonData: \(jsonObject)")
                                 }
 
                             case .failure(let careInfoError):
@@ -140,7 +174,14 @@ class PetVC: UIViewController{
 }
 
 extension PetVC: UICollectionViewDelegate{
-    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let selectedPet = PetDataManager.pets[indexPath.item]
+        print("Selected Pet Name: \(selectedPet.id)")
+        SelectedPetId.petId = selectedPet.id
+        let nextVC = PetCareRegistVC(title: "케어 등록하기")
+        nextVC.hidesBottomBarWhenPushed = true
+        navigationController?.pushViewController(nextVC, animated: true)
+    }
 }
 extension PetVC: UICollectionViewDataSource{
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {

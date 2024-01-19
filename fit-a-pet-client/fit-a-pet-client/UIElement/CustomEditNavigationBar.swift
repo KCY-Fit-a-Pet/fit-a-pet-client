@@ -169,7 +169,7 @@ extension CustomEditNavigationBar{
 
         print("combinedData: \(combinedData)")
 
-        AuthorizationAlamofire.shared.createCare(combinedData: combinedData) { result in
+        AuthorizationAlamofire.shared.createCare(combinedData: combinedData, petId: SelectedPetId.petId) { result in
             switch result {
             case .success(let data):
                 if let responseData = data,

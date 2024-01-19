@@ -17,13 +17,14 @@ enum MySearchRouter: URLRequestConvertible {
     case findId(phone: String, code: String)
     case findPw(phone: String, newPassword: String, code: String)
     case existId(uid: String)
-    case userProfileInfo, oauthLogin, oauthSendSms, refresh, checkCareCategory ,userPetsList, userPetInfoList
+    case userProfileInfo, oauthLogin, oauthSendSms, refresh ,userPetsList, userPetInfoList
     case userNotifyType(type: String)
     case editUserPw(type: String, prePassword: String, newPassword: String)
     case editUserName(type: String, name: String)
     case oauthCheckSms(code: String)
     case oauthRegistUser(name: String, uid: String)
-    case createCare(combinedData: [String:Any])
+    case createCare(combinedData: [String:Any], petId: Int)
+    case checkCareCategory(petId: Int)
     case careCategoryCheck(categoryName: String, pets: [Int])
     case userPetCareInfoList(petId: Int)
     
@@ -81,15 +82,11 @@ enum MySearchRouter: URLRequestConvertible {
             return "v2/accounts/\(UserDefaults.standard.string(forKey: "id")!)"
         case .userNotifyType:
             return "v2/accounts/\(UserDefaults.standard.string(forKey: "id")!)/notify"
-        case .createCare:
-            return "v2/users/\(UserDefaults.standard.string(forKey: "id")!)/pets/1/cares" //TODO: 임시 pet id 값
-        case .checkCareCategory:
-            return "v2/users/\(UserDefaults.standard.string(forKey: "id")!)/pets/1/cares/categories" //TODO: 임시 pet id 값
         case .userPetsList:
             return "v2/users/\(UserDefaults.standard.string(forKey: "id")!)/pets/summary"
         case .careCategoryCheck:
             return "v2/users/\(UserDefaults.standard.string(forKey: "id")!)/pets/categories-check"
-        case .userPetInfoList, .userPetCareInfoList:
+        case .userPetInfoList, .userPetCareInfoList, .createCare, .checkCareCategory:
             return "v2/users/\(UserDefaults.standard.string(forKey: "id")!)/pets"
         }
     }
@@ -151,7 +148,8 @@ enum MySearchRouter: URLRequestConvertible {
 //        case .regist:
 //            request = createURLRequestWithBody(url: url)
        
-        case .createCare(let combinedData):
+        case .createCare(let combinedData, let petId):
+            url = url.appendingPathComponent("/\(petId)/cares")
             request = URLRequest(url: url)
             request.httpMethod = method.rawValue
             request = try JSONEncoding.default.encode(request, withJSONObject: combinedData)
@@ -279,10 +277,15 @@ enum MySearchRouter: URLRequestConvertible {
             
             request = createURLRequestWithBodyAndQuery(url: url, bodyParameters: bodyParameters, queryParameters: queryParameters)
         
-        case .checkCareCategory, .userPetsList, .userPetInfoList:
+        case .userPetsList, .userPetInfoList:
             request = URLRequest(url: url)
             request.httpMethod = method.rawValue
         
+        case .checkCareCategory(let petId):
+            url = url.appendingPathComponent("/\(petId)/cares/categories")
+            request = URLRequest(url: url)
+            request.httpMethod = method.rawValue
+            
         case .userPetCareInfoList(let petId):
             url = url.appendingPathComponent("/\(petId)/cares")
             request = URLRequest(url: url)

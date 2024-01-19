@@ -51,3 +51,7 @@ enum ViewState {
     case daysTableView
     static var stateNum = 0
 }
+
+enum SelectedPetId{
+    static var petId = 0
+}
