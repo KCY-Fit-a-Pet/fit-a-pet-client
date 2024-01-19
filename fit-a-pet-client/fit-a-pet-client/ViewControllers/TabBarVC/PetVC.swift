@@ -18,6 +18,7 @@ class PetVC: UIViewController{
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        petInfoListAPI()
         initView()
         viewSetLayout()
         
@@ -27,51 +28,7 @@ class PetVC: UIViewController{
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        AuthorizationAlamofire.shared.userPetInfoList { result in
-            switch result {
-            case .success(let data):
-                if let responseData = data {
-                    PetDataManager.updatePets(with: responseData)
-                    self.petListCollectionView.reloadData()
-//                    let object = try?JSONSerialization.jsonObject(with: responseData, options: []) as? NSDictionary
-//                    guard let jsonObject = object else {return}
-//                    print("respose jsonData: \(jsonObject)")
-                    
-                    let dispatchGroup = DispatchGroup()
-
-                    PetDataManager.pets.forEach { pet in
-                        dispatchGroup.enter()
-
-                        AuthorizationAlamofire.shared.userPetCareInfoList(pet.id) { careInfoResult in
-                            defer {
-                                dispatchGroup.leave()
-                            }
-
-                            switch careInfoResult {
-                            case .success(let careInfoData):
-                                if let responseData = careInfoData {
-                                    PetDataManager.updateCareInfo(with: responseData)
-//                                    print("updateCareInfo: \(responseData)")
-//                                    let object = try?JSONSerialization.jsonObject(with: responseData, options: []) as? NSDictionary
-//                                    guard let jsonObject = object else {return}
-//                                    print("respose jsonData: \(jsonObject)")
-                                }
-
-                            case .failure(let careInfoError):
-                                print("Error fetching pet care info for pet \(pet.id): \(careInfoError)")
-                            }
-                        }
-                    }
-
-                    dispatchGroup.notify(queue: .main) {
-                        print("All pet care info requests completed.")
-                    }
-                }
-
-            case .failure(let profileError):
-                print("Error fetching user profile info: \(profileError)")
-            }
-        }
+        petInfoListAPI()
     }
     
     private func initView() {
@@ -101,6 +58,50 @@ class PetVC: UIViewController{
     
         navigationItem.leftBarButtonItem = leftBarButtonItem
     }
+    
+    func petInfoListAPI(){
+        
+        AuthorizationAlamofire.shared.userPetInfoList { result in
+            switch result {
+            case .success(let data):
+                if let responseData = data {
+                    PetDataManager.updatePets(with: responseData)
+                    
+                    let dispatchGroup = DispatchGroup()
+                    self.petListCollectionView.reloadData()
+
+                    for (index, pet) in PetDataManager.pets.enumerated() {
+                        dispatchGroup.enter()
+                        
+                        AuthorizationAlamofire.shared.userPetCareInfoList(pet.id) { careInfoResult in
+                            defer {
+                                dispatchGroup.leave()
+                            }
+                            
+                            switch careInfoResult {
+                            case .success(let careInfoData):
+                                if let responseData = careInfoData {
+                                    PetDataManager.updateCareInfo(with: responseData)
+                                    if let cell = self.petListCollectionView.cellForItem(at: IndexPath(item: index, section: 0)) as? PetCollectionViewCell {
+                                        cell.petCareSubview.updateCareCategories(PetDataManager.careCategories)
+                                    }
+                                }
+                                
+                            case .failure(let careInfoError):
+                                print("Error fetching pet care info for pet \(pet.id): \(careInfoError)")
+                            }
+                        }
+                    }
+                    dispatchGroup.notify(queue: .main) {
+                        print("All pet care info requests completed.")
+                    }
+                }
+                
+            case .failure(let profileError):
+                print("Error fetching user profile info: \(profileError)")
+            }
+        }
+    }
 }
 
 extension PetVC: UICollectionViewDelegate{
@@ -119,7 +120,7 @@ extension PetVC: UICollectionViewDataSource{
         
         let pet = PetDataManager.pets[indexPath.item]
         cell.petInfoSubviewConfigure(petName: pet.petName, gender: pet.gender, age: String(pet.age) + "세", feed: pet.feed)
-        
+
         return cell
     }
     

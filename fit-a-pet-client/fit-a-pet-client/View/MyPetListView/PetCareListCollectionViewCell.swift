@@ -31,18 +31,18 @@ class PetCareListCollectionViewCell: UICollectionViewCell {
         }
     }
     
-    override var isSelected: Bool {
-        didSet {
-            if isSelected {
-                careName.textColor = UIColor(named: "PrimaryColor")
-                careName.backgroundColor = UIColor(named: "Secondary")
-                
-            }else{
-                careName.textColor = UIColor(named: "Gray3")
-                careName.backgroundColor = UIColor(named: "Gray1")
-            }
-        }
-    }
+//    override var isSelected: Bool {
+//        didSet {
+//            if isSelected {
+//                careName.textColor = UIColor(named: "PrimaryColor")
+//                careName.backgroundColor = UIColor(named: "Secondary")
+//
+//            }else{
+//                careName.textColor = UIColor(named: "Gray3")
+//                careName.backgroundColor = UIColor(named: "Gray1")
+//            }
+//        }
+//    }
     
     func configure(_ newText: String) {
         careName.text = newText
