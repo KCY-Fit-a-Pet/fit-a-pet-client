@@ -19,6 +19,8 @@ class MainVC: UIViewController {
 
         let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
         cv.register(MainPetCareCollectionViewCell.self, forCellWithReuseIdentifier: "MainPetCareCollectionViewCell")
+        cv.register(PetCareHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "PetCareHeaderView")
+
         return cv
     }()
 
@@ -74,7 +76,7 @@ class MainVC: UIViewController {
         
         petCareCollectionView.snp.makeConstraints{make in
             make.leading.trailing.equalToSuperview().inset(16)
-            make.top.equalTo(petListView.snp.bottom).offset(40)
+            make.top.equalTo(petListView.snp.bottom).offset(20)
             make.bottom.equalToSuperview()
         }
         
