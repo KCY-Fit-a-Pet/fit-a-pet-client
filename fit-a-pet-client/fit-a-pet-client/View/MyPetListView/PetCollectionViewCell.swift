@@ -18,12 +18,16 @@ class PetCollectionViewCell: UICollectionViewCell {
     }
     
     private func setupSubviews() {
-        addSubview(petInfoSubview)
-        contentView.layer.borderWidth = 1
+        contentView.addSubview(petInfoSubview)
+        contentView.addSubview(petCareSubview)
         contentView.layer.cornerRadius = 18
-        contentView.layer.borderColor = UIColor(named: "Gray3")?.cgColor
-        addSubview(petCareSubview)
-
+        contentView.layer.masksToBounds = false
+        contentView.backgroundColor = .white
+        contentView.layer.shadowColor = UIColor.black.cgColor
+        contentView.layer.shadowOpacity = 0.2
+        contentView.layer.shadowOffset = CGSize(width: 0, height: 2)
+        contentView.layer.shadowRadius = 4
+        
         petInfoSubview.snp.makeConstraints { make in
             make.top.leading.trailing.equalToSuperview()
             make.height.equalTo(120)

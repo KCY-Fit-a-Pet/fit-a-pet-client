@@ -52,7 +52,7 @@ class PetCareTableViewCell: UITableViewCell {
         }
         
         careListCollectionView.snp.makeConstraints { make in
-            make.top.bottom.equalToSuperview().inset(4)
+            make.top.bottom.equalToSuperview()
             make.leading.equalTo(categoryLabel.snp.trailing).offset(24)
             make.trailing.equalToSuperview()
         }
@@ -93,10 +93,10 @@ extension PetCareTableViewCell: UICollectionViewDelegate, UICollectionViewDataSo
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let care = caresList[indexPath.row]
         let labelWidth = (care.careName as NSString).size(withAttributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 14)]).width
-        let cellWidth = labelWidth + 10
+        let cellWidth = labelWidth + 25
         let cellHeight: CGFloat = 36
 
-        return CGSize(width: cellWidth, height: cellHeight)
+        return CGSize(width: cellWidth, height: 36)
     }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return 9

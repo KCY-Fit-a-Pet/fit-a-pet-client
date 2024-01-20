@@ -1,6 +1,5 @@
 import UIKit
 import SnapKit
-import SwiftUI
 
 
 class PetVC: UIViewController{
@@ -135,23 +134,6 @@ extension PetVC: UICollectionViewDelegateFlowLayout{
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return 9
+        return 20
     }
-}
-
-// MARK: - Preview
-
-struct MainViewController_Previews: PreviewProvider {
-  static var previews: some View {
-    Container().edgesIgnoringSafeArea(.all)
-  }
-  
-  struct Container: UIViewControllerRepresentable {
-    func makeUIViewController(context: Context) -> UIViewController {
-      let rootViewController = PetVC()
-      return UINavigationController(rootViewController: rootViewController)
-    }
-    func updateUIViewController(_ uiViewController: UIViewControllerType, context: Context) {}
-    typealias UIViewControllerType = UIViewController
-  }
 }
