@@ -209,9 +209,7 @@ extension FirstVC{
                             result in
                             switch result {
                             case .success(let data):
-                                // Handle success
                                 if let responseData = data {
-                                    // Process the data
                                     let object = try?JSONSerialization.jsonObject(with: responseData, options: []) as? NSDictionary
                                     guard let jsonObject = object else {return}
                                     print("respose jsonData: \(jsonObject)")
@@ -227,7 +225,6 @@ extension FirstVC{
                                     }
                                 }
                             case .failure(let error):
-                                // Handle failure
                                 print("Error: \(error)")
                             }
                         }
@@ -276,9 +273,7 @@ extension FirstVC{
                         result in
                         switch result {
                         case .success(let data):
-                            // Handle success
                             if let responseData = data {
-                                // Process the data
                                 let object = try?JSONSerialization.jsonObject(with: responseData, options: []) as? NSDictionary
                                 guard let jsonObject = object else {return}
                                 print("respose jsonData: \(jsonObject)")
@@ -295,13 +290,10 @@ extension FirstVC{
                                 }
                             }
                         case .failure(let error):
-                            // Handle failure
                             print("Error: \(error)")
                         }
                     }
                 }
-             
-                //무작위로 생성된 nonce를 해싱하면 결과 해시가 예측 불가능하고 무작위로 표시되도록 할 수 있다.
             }
     }
     
@@ -333,6 +325,8 @@ extension FirstVC{
     }
     
 }
+
+//MARK: naverLogin
 
 extension FirstVC: NaverThirdPartyLoginConnectionDelegate{
     func oauth20ConnectionDidFinishRequestACTokenWithRefreshToken() {
@@ -388,6 +382,8 @@ extension FirstVC: NaverThirdPartyLoginConnectionDelegate{
     }
 }
 
+//MARK: appleLogin
+
 extension FirstVC: ASAuthorizationControllerPresentationContextProviding, ASAuthorizationControllerDelegate{
     
     func presentationAnchor(for controller: ASAuthorizationController) -> ASPresentationAnchor {
@@ -412,6 +408,27 @@ extension FirstVC: ASAuthorizationControllerPresentationContextProviding, ASAuth
             print("User Name : \((fullName?.givenName ?? "") + (fullName?.familyName ?? ""))")
             print("token : \(String(describing: tokeStr))")
             
+            KeychainHelper.saveTempToken(tempToken: (String(describing: tokeStr)))
+            OauthInfo.provider = "apple"
+            OauthInfo.oauthId = userIdentifier
+            
+            AnonymousAlamofire.shared.oauthLogin(){
+                result in
+                switch result {
+                case .success(let data):
+                    // Handle success
+                    if let responseData = data {
+                        // Process the data
+                        let object = try?JSONSerialization.jsonObject(with: responseData, options: []) as? NSDictionary
+                        guard let jsonObject = object else {return}
+                        print("respose jsonData: \(jsonObject)")
+
+                    }
+                case .failure(let error):
+                    // Handle failure
+                    print("Error: \(error)")
+                }
+            }
         default:
             break
         }
