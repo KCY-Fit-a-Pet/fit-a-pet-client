@@ -2,7 +2,7 @@ import UIKit
 import SnapKit
 import PanModal
 
-
+//TODO: 요일 하나는 무조건 선택되어 있도록
 class PetCareRegistVC: CustomEditNavigationBar {
 
     private var categories: [Categories] = []
@@ -198,7 +198,7 @@ class PetCareRegistVC: CustomEditNavigationBar {
     @objc private func showMenu() {
         
        
-        AuthorizationAlamofire.shared.checkCareCategory{ result in
+        AuthorizationAlamofire.shared.checkCareCategory(SelectedPetId.petId){ result in
             switch result {
             case .success(let data):
                 if let responseData = data {

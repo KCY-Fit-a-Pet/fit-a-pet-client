@@ -8,7 +8,9 @@ class PetCareTableViewCell: UITableViewCell {
     private let careListCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
+        layout.itemSize = UICollectionViewFlowLayout.automaticSize
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+
         return collectionView
     }()
     
@@ -18,6 +20,12 @@ class PetCareTableViewCell: UITableViewCell {
         return label
     }()
     
+    var caresList: [Care] = [] {
+        didSet {
+            careListCollectionView.reloadData()
+        }
+    }
+    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setupViews()
@@ -26,10 +34,13 @@ class PetCareTableViewCell: UITableViewCell {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+    func updateCares(_ cares: [Care]) {
+        caresList = cares
+        careListCollectionView.reloadData()
+    }
 
     func setupViews() {
-        
-        categoryLabel.text = "밥밥밥"
         categoryLabel.font = .systemFont(ofSize: 14)
 
         contentView.addSubview(categoryLabel)
@@ -41,7 +52,7 @@ class PetCareTableViewCell: UITableViewCell {
         }
         
         careListCollectionView.snp.makeConstraints { make in
-            make.top.bottom.equalToSuperview().inset(4)
+            make.top.bottom.equalToSuperview()
             make.leading.equalTo(categoryLabel.snp.trailing).offset(24)
             make.trailing.equalToSuperview()
         }
@@ -57,7 +68,7 @@ class PetCareTableViewCell: UITableViewCell {
     }
 }
 
-extension PetCareTableViewCell: UICollectionViewDelegate, UICollectionViewDataSource{
+extension PetCareTableViewCell: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout{
     // MARK: - UICollectionViewDelegate
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
@@ -67,11 +78,27 @@ extension PetCareTableViewCell: UICollectionViewDelegate, UICollectionViewDataSo
     // MARK: - UICollectionViewDataSource
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 3
+        return caresList.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PetCareListCollectionViewCell", for: indexPath) as! PetCareListCollectionViewCell
+        
+        let care = caresList[indexPath.row]
+        cell.configure(care.careName)
+        
         return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        let care = caresList[indexPath.row]
+        let labelWidth = (care.careName as NSString).size(withAttributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 14)]).width
+        let cellWidth = labelWidth + 25
+        let cellHeight: CGFloat = 36
+
+        return CGSize(width: cellWidth, height: 36)
+    }
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        return 9
     }
 }

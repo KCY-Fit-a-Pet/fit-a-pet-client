@@ -3,7 +3,13 @@ import SnapKit
 
 class PetCareListView: UIView {
 
-    private let careCategoryListTableView = UITableView()
+    let careCategoryListTableView = UITableView()
+    
+    var careCategories: [CareCategory] = [] {
+        didSet {
+            careCategoryListTableView.reloadData()
+        }
+    }
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -29,6 +35,11 @@ class PetCareListView: UIView {
         careCategoryListTableView.delegate = self
         careCategoryListTableView.dataSource = self
     }
+    
+    func updateCareCategories(_ categories: [CareCategory]) {
+        careCategories = categories
+    }
+
 }
 extension PetCareListView: UITableViewDelegate, UITableViewDataSource{
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -36,11 +47,15 @@ extension PetCareListView: UITableViewDelegate, UITableViewDataSource{
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 6
+        return careCategories.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "PetCareTableViewCell", for: indexPath) as! PetCareTableViewCell
+        
+        let careCategory = careCategories[indexPath.row]
+        cell.configure(careCategory.categoryName)
+        cell.updateCares(careCategory.cares)
         
         return cell
     }

@@ -162,7 +162,6 @@ class MainVC: UIViewController {
             case .failure(let profileError):
                 print("Error fetching user profile info: \(profileError)")
             }
-
         }
     }
 }

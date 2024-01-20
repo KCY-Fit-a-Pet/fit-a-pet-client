@@ -1,6 +1,6 @@
 import UIKit
 import SnapKit
-import SwiftUI
+
 
 class PetVC: UIViewController{
     
@@ -17,11 +17,17 @@ class PetVC: UIViewController{
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        petInfoListAPI()
         initView()
         viewSetLayout()
         
         petListCollectionView.delegate = self
         petListCollectionView.dataSource = self
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        petInfoListAPI()
     }
     
     private func initView() {
@@ -51,25 +57,75 @@ class PetVC: UIViewController{
     
         navigationItem.leftBarButtonItem = leftBarButtonItem
     }
-//    @objc func nextPetCareRegistVC() {
-//        let nextVC = PetCareRegistVC(title: "케어 등록하기")
-//        nextVC.hidesBottomBarWhenPushed = true
-//        navigationController?.pushViewController(nextVC, animated: true)
-//    }
+    
+    func petInfoListAPI(){
+        
+        AuthorizationAlamofire.shared.userPetInfoList { result in
+            switch result {
+            case .success(let data):
+                if let responseData = data {
+                    PetDataManager.updatePets(with: responseData)
+                    
+                    let dispatchGroup = DispatchGroup()
+                    self.petListCollectionView.reloadData()
+
+                    for (index, pet) in PetDataManager.pets.enumerated() {
+                        dispatchGroup.enter()
+                        
+                        AuthorizationAlamofire.shared.userPetCareInfoList(pet.id) { careInfoResult in
+                            defer {
+                                dispatchGroup.leave()
+                            }
+                            
+                            switch careInfoResult {
+                            case .success(let careInfoData):
+                                if let responseData = careInfoData {
+                                    PetDataManager.updateCareInfo(with: responseData)
+                                    if let cell = self.petListCollectionView.cellForItem(at: IndexPath(item: index, section: 0)) as? PetCollectionViewCell {
+                                        cell.petCareSubview.updateCareCategories(PetDataManager.careCategories)
+                                    
+                                    }
+                                }
+                                
+                            case .failure(let careInfoError):
+                                print("Error fetching pet care info for pet \(pet.id): \(careInfoError)")
+                            }
+                        }
+                    }
+                    dispatchGroup.notify(queue: .main) {
+                        print("All pet care info requests completed.")
+                    }
+                }
+                
+            case .failure(let profileError):
+                print("Error fetching user profile info: \(profileError)")
+            }
+        }
+    }
 }
 
 extension PetVC: UICollectionViewDelegate{
-    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let selectedPet = PetDataManager.pets[indexPath.item]
+        print("Selected Pet Name: \(selectedPet.id)")
+        SelectedPetId.petId = selectedPet.id
+        let nextVC = PetCareRegistVC(title: "케어 등록하기")
+        nextVC.hidesBottomBarWhenPushed = true
+        navigationController?.pushViewController(nextVC, animated: true)
+    }
 }
 extension PetVC: UICollectionViewDataSource{
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PetCell", for: indexPath) as! PetCollectionViewCell
+        
+        let pet = PetDataManager.pets[indexPath.item]
+        cell.petInfoSubviewConfigure(petName: pet.petName, gender: pet.gender, age: String(pet.age) + "세", feed: pet.feed)
+
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        // Return the number of items in your collection view
-        return 5
+        return PetDataManager.pets.count
     }
 }
 extension PetVC: UICollectionViewDelegateFlowLayout{
@@ -78,23 +134,6 @@ extension PetVC: UICollectionViewDelegateFlowLayout{
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return 9
+        return 20
     }
-}
-
-// MARK: - Preview
-
-struct MainViewController_Previews: PreviewProvider {
-  static var previews: some View {
-    Container().edgesIgnoringSafeArea(.all)
-  }
-  
-  struct Container: UIViewControllerRepresentable {
-    func makeUIViewController(context: Context) -> UIViewController {
-      let rootViewController = PetVC()
-      return UINavigationController(rootViewController: rootViewController)
-    }
-    func updateUIViewController(_ uiViewController: UIViewControllerType, context: Context) {}
-    typealias UIViewControllerType = UIViewController
-  }
 }
