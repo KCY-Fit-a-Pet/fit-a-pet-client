@@ -55,6 +55,7 @@ extension PetCareListView: UITableViewDelegate, UITableViewDataSource{
         
         let careCategory = careCategories[indexPath.row]
         cell.configure(careCategory.categoryName)
+        cell.updateCares(careCategory.cares)
         
         return cell
     }

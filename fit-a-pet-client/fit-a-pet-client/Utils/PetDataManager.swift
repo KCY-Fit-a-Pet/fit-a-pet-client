@@ -9,7 +9,6 @@ struct PetData: Codable {
     let pets: [Pet]?
 }
 
-//TODO: age 추가
 struct Pet: Codable {
     let id: Int
     let petName: String
@@ -47,7 +46,6 @@ struct Care: Codable {
 struct PetDataManager {
     static var pets: [Pet] = []
     static var careCategories: [CareCategory] = []
-    static var cares: [Care] = []
 
     static func updatePets(with data: Data) {
         do {
@@ -72,9 +70,7 @@ struct PetDataManager {
             
             if let newCareCategories = careInfoResponse.data?.careCategories {
                 careCategories = newCareCategories
-                cares = newCareCategories.flatMap { $0.cares }
                 print("careCategories: \(careCategories)")
-                print("caresList: \(cares)")
             }
         } catch {
             print("Error updating care info: \(error)")

@@ -21,7 +21,6 @@ class PetCareListCollectionViewCell: UICollectionViewCell {
     private func setupSubviews() {
         addSubview(careName)
         
-        careName.text = "아침"
         careName.font = .systemFont(ofSize: 14)
         careName.textColor = UIColor(named: "Gray3")
         careName.backgroundColor = UIColor(named: "Gray1")
