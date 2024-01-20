@@ -268,6 +268,7 @@ extension FirstVC{
                     
                     OauthInfo.provider = "google"
                     OauthInfo.oauthId = userId!
+                    OauthInfo.nonce = "google"
                     
                     AnonymousAlamofire.shared.oauthLogin(){
                         result in
@@ -406,11 +407,12 @@ extension FirstVC: ASAuthorizationControllerPresentationContextProviding, ASAuth
             print("User ID : \(userIdentifier)")
             print("User Email : \(email ?? "")")
             print("User Name : \((fullName?.givenName ?? "") + (fullName?.familyName ?? ""))")
-            print("token : \(String(describing: tokeStr))")
+            print("token : \(String(describing: tokeStr!))")
             
-            KeychainHelper.saveTempToken(tempToken: (String(describing: tokeStr)))
+            KeychainHelper.saveTempToken(tempToken: (String(describing: tokeStr!)))
             OauthInfo.provider = "apple"
             OauthInfo.oauthId = userIdentifier
+            OauthInfo.nonce = "apple"
             
             AnonymousAlamofire.shared.oauthLogin(){
                 result in
