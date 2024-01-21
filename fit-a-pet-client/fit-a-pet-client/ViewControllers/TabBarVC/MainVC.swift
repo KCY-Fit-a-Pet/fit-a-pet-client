@@ -55,8 +55,9 @@ class MainVC: UIViewController {
             self?.updatePetCareCollectionViewHeight()
         }
         
-        petCareCollectionViewHeightConstraint = petCareCollectionView.heightAnchor.constraint(equalToConstant: 1000)
+        petCareCollectionViewHeightConstraint = petCareCollectionView.heightAnchor.constraint(equalToConstant: 0)
         petCareCollectionViewHeightConstraint.isActive = true
+        reloadDataAndUpdateHeight()
         
         layoutScrollView.delegate = self
         
@@ -72,8 +73,6 @@ class MainVC: UIViewController {
         mainView.addSubview(petCareCollectionView)
         mainView.addSubview(petCollectionView)
         //mainInitViewConfigurations()
-        
-        petCareCollectionView.layer.borderWidth = 2
         
         layoutScrollView.addSubview(mainView)
         view.addSubview(layoutScrollView)
@@ -109,15 +108,14 @@ class MainVC: UIViewController {
         petCareCollectionView.snp.makeConstraints{make in
             make.leading.trailing.equalToSuperview().inset(16)
             make.top.equalTo(petListView.snp.bottom).offset(20)
-            make.bottom.equalTo(mainView.snp.bottom)
+            //make.bottom.equalTo(mainView.snp.bottom)
         }
 
         mainView.snp.makeConstraints{ make in
             make.leading.equalTo(view.snp.leading)
             make.trailing.equalTo(view.snp.trailing)
-            make.height.equalTo(1300)
             make.bottom.equalTo(layoutScrollView.snp.bottom)
-            make.top.equalTo(layoutScrollView.snp.top).offset(130)
+            make.top.equalTo(layoutScrollView.snp.top).offset(150)
         }
         
     }
@@ -166,20 +164,25 @@ class MainVC: UIViewController {
         }
     }
     private func updatePetCareCollectionViewHeight() {
-        let cellHeight: CGFloat = 150 // Change this to your actual cell height
-        let numberOfCells = petCareMethod.collectionView(petCareCollectionView, numberOfItemsInSection: 0)
-        let totalHeight = cellHeight * CGFloat(numberOfCells)
+        let cellHeight: CGFloat = 150
+        var totalHeight: CGFloat = 0
         
-        // Update the height constraint
+        for section in 0..<petCareMethod.numberOfSections(in: petCareCollectionView) {
+            let numberOfCellsInSection = petCareMethod.collectionView(petCareCollectionView, numberOfItemsInSection: section)
+            totalHeight += (numberOfCellsInSection % 2 == 0 ? cellHeight * CGFloat(numberOfCellsInSection/2)+80 : cellHeight * CGFloat(numberOfCellsInSection/2+1)+80)
+        }
+
         petCareCollectionViewHeightConstraint.constant = totalHeight
         
-        // Optionally, you can animate the height change
+        mainView.snp.updateConstraints { make in
+            make.height.equalTo(totalHeight + 150)
+        }
+        
         UIView.animate(withDuration: 0.3) {
             self.view.layoutIfNeeded()
         }
     }
-    
-    // Call this function whenever the data in the petCareCollectionView changes
+
     private func reloadDataAndUpdateHeight() {
         petCareCollectionView.reloadData()
         petCareMethod.notifyDataDidChange()
@@ -191,19 +194,22 @@ extension MainVC: UIScrollViewDelegate{
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         
-        //keep the tab bar white
         tabBarController?.tabBar.barTintColor = .white
 
         let offsetY = scrollView.contentOffset.y
+        let maxOffsetY = (mainView.frame.height + 200) - scrollView.frame.height
+
+        if offsetY > maxOffsetY {
+            scrollView.contentOffset.y = maxOffsetY
+        }
         
-        if offsetY > 130{
+        if offsetY > 150{
             navigationItem.titleView?.backgroundColor = .white
             navigationController?.setNavigationBarHidden(false, animated: true)
             
         }else{
             navigationController?.setNavigationBarHidden(true, animated: true)
         }
-    
     }
 }
 

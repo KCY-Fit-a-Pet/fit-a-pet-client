@@ -24,7 +24,7 @@ class PetDataCollectionViewMethod: NSObject, UICollectionViewDataSource, UIColle
 }
 
 class PetCareCollectionViewMethod: NSObject, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
-    var petCareData: [[String]] = [["예시1", "예시 2", "예시 3"], ["예시4", "예시 5", "예시 6", "예시 7", "예시", "예시", "예시", "예시", "예시", "예시"]]
+    var petCareData: [[String]] = [["예시1", "예시 2", "예시 3"], ["예시4", "예시 5", "예시 6", "예시 7", "예시", "예시", "예시", "예시"]]
     let sectionNames = ["섹션1", "섹션2"]
     
     var dataDidChange: (() -> Void)?
