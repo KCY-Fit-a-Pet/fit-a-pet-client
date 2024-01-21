@@ -10,6 +10,16 @@ class MainVC: UIViewController {
     private let petCareMethod = PetCareCollectionViewMethod()
     
     private let mainView = UIView()
+    private let petCollectionView: UICollectionView = {
+        let layout = UICollectionViewFlowLayout()
+        layout.minimumLineSpacing = 10
+        layout.scrollDirection = .horizontal
+        layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+
+        let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        cv.register(MainPetCollectionViewCell.self, forCellWithReuseIdentifier: "MainPetCollectionViewCell")
+        return cv
+    }()
     
     let petCareCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -23,6 +33,8 @@ class MainVC: UIViewController {
 
         return cv
     }()
+    
+    private var petCareCollectionViewHeightConstraint: NSLayoutConstraint!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -31,9 +43,20 @@ class MainVC: UIViewController {
         //petDataView.petCollectionView.dataSource = self
         petListView.petCollectionView.delegate = petDataMethod
         petListView.petCollectionView.dataSource = petDataMethod
+        petCollectionView.dataSource = petDataMethod
+        petCollectionView.delegate = petDataMethod
+        
+        navigationItem.titleView = petCollectionView
         
         petCareCollectionView.delegate = petCareMethod
         petCareCollectionView.dataSource = petCareMethod
+        petCareCollectionView.isScrollEnabled = false
+        petCareMethod.dataDidChange = { [weak self] in
+            self?.updatePetCareCollectionViewHeight()
+        }
+        
+        petCareCollectionViewHeightConstraint = petCareCollectionView.heightAnchor.constraint(equalToConstant: 1000)
+        petCareCollectionViewHeightConstraint.isActive = true
         
         layoutScrollView.delegate = self
         
@@ -43,10 +66,14 @@ class MainVC: UIViewController {
 
     }
     private func initView(){
+        
         //petDataView.addSubview(mainInitView)
         mainView.addSubview(petListView)
         mainView.addSubview(petCareCollectionView)
+        mainView.addSubview(petCollectionView)
         //mainInitViewConfigurations()
+        
+        petCareCollectionView.layer.borderWidth = 2
         
         layoutScrollView.addSubview(mainView)
         view.addSubview(layoutScrollView)
@@ -74,17 +101,22 @@ class MainVC: UIViewController {
             make.height.equalTo(80)
         }
         
+        petCollectionView.snp.makeConstraints{make in
+            make.leading.trailing.equalToSuperview()
+            make.height.equalTo(40)
+        }
+        
         petCareCollectionView.snp.makeConstraints{make in
             make.leading.trailing.equalToSuperview().inset(16)
             make.top.equalTo(petListView.snp.bottom).offset(20)
-            make.bottom.equalToSuperview()
+            make.bottom.equalTo(mainView.snp.bottom)
         }
-        
+
         mainView.snp.makeConstraints{ make in
             make.leading.equalTo(view.snp.leading)
             make.trailing.equalTo(view.snp.trailing)
-            make.height.equalTo(1000)
-            make.bottom.equalTo(layoutScrollView.snp.bottom).offset(50)
+            make.height.equalTo(1300)
+            make.bottom.equalTo(layoutScrollView.snp.bottom)
             make.top.equalTo(layoutScrollView.snp.top).offset(130)
         }
         
@@ -133,16 +165,45 @@ class MainVC: UIViewController {
             }
         }
     }
+    private func updatePetCareCollectionViewHeight() {
+        let cellHeight: CGFloat = 150 // Change this to your actual cell height
+        let numberOfCells = petCareMethod.collectionView(petCareCollectionView, numberOfItemsInSection: 0)
+        let totalHeight = cellHeight * CGFloat(numberOfCells)
+        
+        // Update the height constraint
+        petCareCollectionViewHeightConstraint.constant = totalHeight
+        
+        // Optionally, you can animate the height change
+        UIView.animate(withDuration: 0.3) {
+            self.view.layoutIfNeeded()
+        }
+    }
+    
+    // Call this function whenever the data in the petCareCollectionView changes
+    private func reloadDataAndUpdateHeight() {
+        petCareCollectionView.reloadData()
+        petCareMethod.notifyDataDidChange()
+    }
 }
 
 extension MainVC: UIScrollViewDelegate{
+    
+    
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        // Hide the navigation bar
-        navigationController?.setNavigationBarHidden(true, animated: true)
         
         //keep the tab bar white
         tabBarController?.tabBar.barTintColor = .white
+
+        let offsetY = scrollView.contentOffset.y
         
+        if offsetY > 130{
+            navigationItem.titleView?.backgroundColor = .white
+            navigationController?.setNavigationBarHidden(false, animated: true)
+            
+        }else{
+            navigationController?.setNavigationBarHidden(true, animated: true)
+        }
+    
     }
 }
 
