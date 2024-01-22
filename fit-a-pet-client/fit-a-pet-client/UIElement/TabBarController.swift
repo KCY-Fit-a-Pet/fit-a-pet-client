@@ -11,6 +11,8 @@ class TabBarController: UITabBarController {
         navigationItem.hidesBackButton = true
         UITabBar.appearance().backgroundColor = .white
         
+        tabBar.tintColor = UIColor(named: "PrimaryColor")
+        
         let mainVC = MainVC()
         let calendarVC = CalendarVC()
         let recordVC = RecordVC()
@@ -26,9 +28,12 @@ class TabBarController: UITabBarController {
         
         setViewControllers([navigationCalendar, navigationRecord, navigationMain, navigationPet, navigationSetting ], animated: false)
         
-        navigationMain.tabBarItem.image = UIImage.init(systemName: "house")
+        navigationMain.tabBarItem.image = UIImage(named: "home_icon")
+        navigationCalendar.tabBarItem.image = UIImage(named: "calendar_icon")
+        navigationRecord.tabBarItem.image = UIImage(named: "daily_icon")
+        navigationPet.tabBarItem.image = UIImage(named: "pet_icon")
+        navigationSetting.tabBarItem.image = UIImage(named: "setting_icon")
         
-       // navigationMain.navigationBar.isHidden = true
         
         //각 tab bar의 viewcontroller 타이틀 설정
         navigationMain.title = "홈"

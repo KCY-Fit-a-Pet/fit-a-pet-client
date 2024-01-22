@@ -16,8 +16,6 @@ class PetVC: UIViewController{
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        petInfoListAPI()
         initView()
         viewSetLayout()
         
@@ -83,7 +81,6 @@ class PetVC: UIViewController{
                                     PetDataManager.updateCareInfo(with: responseData)
                                     if let cell = self.petListCollectionView.cellForItem(at: IndexPath(item: index, section: 0)) as? PetCollectionViewCell {
                                         cell.petCareSubview.updateCareCategories(PetDataManager.careCategories)
-                                    
                                     }
                                 }
                                 
