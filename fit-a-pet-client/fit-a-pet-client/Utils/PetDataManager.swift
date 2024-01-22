@@ -18,6 +18,12 @@ struct Pet: Codable {
     let age: Int
 }
 
+struct SummaryPet{
+    let id: Int
+    let petName: String
+}
+
+
 struct CareInfoResponse: Codable {
     let status: String
     let data: CareInfo?
@@ -44,6 +50,7 @@ struct Care: Codable {
 
 
 struct PetDataManager {
+    static var summaryPets: [SummaryPet] = [SummaryPet(id: 3, petName: "예시1")]
     static var pets: [Pet] = []
     static var careCategories: [CareCategory] = []
 

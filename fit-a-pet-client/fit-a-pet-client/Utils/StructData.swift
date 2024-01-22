@@ -12,4 +12,3 @@ extension CareDate{
     static var commonData: [CareDate] = []
     static var eachData: [CareDate] = []
 }
-

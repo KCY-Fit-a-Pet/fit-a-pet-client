@@ -1,7 +1,7 @@
 import UIKit
 
 class PetDataCollectionViewMethod: NSObject, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout{
-    var petCollectData: [String] = ["동물11111", "동물222", "동물33", "동물4", "동물5555", "동물6"]
+    var petCollectData: [SummaryPet] = PetDataManager.summaryPets
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return petCollectData.count
@@ -9,17 +9,20 @@ class PetDataCollectionViewMethod: NSObject, UICollectionViewDataSource, UIColle
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "MainPetCollectionViewCell", for: indexPath) as! MainPetCollectionViewCell
-        let data = petCollectData[indexPath.item]
+        let data = petCollectData[indexPath.item].petName
         cell.configure(data)
         
         return cell
 
     }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let cellWidth = petCollectData[indexPath.item].size(withAttributes: [
+        let cellWidth = petCollectData[indexPath.item].petName.size(withAttributes: [
             NSAttributedString.Key.font: UIFont.systemFont(ofSize: 17) // 레이블 폰트에 맞게 조절
         ]).width + 15 // 텍스트 너비에 여분의 여백을 추가하여 잘리지 않도록 함
         return CGSize(width: cellWidth, height: 40)
+    }
+    func updatePetCollectData(with newData: [SummaryPet]) {
+           self.petCollectData = newData
     }
 }
 
