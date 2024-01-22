@@ -52,7 +52,7 @@ class PetCareTableViewCell: UITableViewCell {
         }
         
         careListCollectionView.snp.makeConstraints { make in
-            make.top.bottom.equalToSuperview()
+            make.top.bottom.equalToSuperview().inset(2)
             make.leading.equalTo(categoryLabel.snp.trailing).offset(24)
             make.trailing.equalToSuperview()
         }

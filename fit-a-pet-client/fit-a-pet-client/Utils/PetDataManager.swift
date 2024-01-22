@@ -31,12 +31,13 @@ struct CareInfoResponse: Codable {
 
 struct CareInfo: Codable {
     var careCategories: [CareCategory]?
-
 }
 
 struct CareCategory: Codable {
     let careCategoryId: Int
     let categoryName: String
+    var petId: Int?
+
     var cares: [Care]
 }
 
@@ -50,9 +51,9 @@ struct Care: Codable {
 
 
 struct PetDataManager {
-    static var summaryPets: [SummaryPet] = [SummaryPet(id: 3, petName: "예시1")]
+    static var summaryPets: [SummaryPet] = []
     static var pets: [Pet] = []
-    static var careCategories: [CareCategory] = []
+    static var careCategoriesByPetId: [Int: [CareCategory]] = [:]
 
     static func updatePets(with data: Data) {
         do {
@@ -70,18 +71,26 @@ struct PetDataManager {
     }
     
     
-    static func updateCareInfo(with data: Data) {
+    static func updateCareInfo(with data: Data, petId: Int) {
         do {
+            careCategoriesByPetId[petId] = []
+            
             let decoder = JSONDecoder()
             let careInfoResponse = try decoder.decode(CareInfoResponse.self, from: data)
             
             if let newCareCategories = careInfoResponse.data?.careCategories {
-                careCategories = newCareCategories
-                print("careCategories: \(careCategories)")
+                
+                if var existingCareCategories = careCategoriesByPetId[petId] {
+                    existingCareCategories.append(contentsOf: newCareCategories)
+                    careCategoriesByPetId[petId] = existingCareCategories
+                } else {
+                    careCategoriesByPetId[petId] = newCareCategories
+                }
+                
+                print("careCategories for petId: \(careCategoriesByPetId)")
             }
         } catch {
             print("Error updating care info: \(error)")
         }
     }
-
 }

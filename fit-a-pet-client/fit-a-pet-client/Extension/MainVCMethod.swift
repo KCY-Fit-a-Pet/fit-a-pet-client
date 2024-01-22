@@ -2,7 +2,8 @@ import UIKit
 
 class PetDataCollectionViewMethod: NSObject, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout{
     var petCollectData: [SummaryPet] = PetDataManager.summaryPets
-
+    var didSelectPetClosure: ((IndexPath) -> Void)?
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return petCollectData.count
     }
@@ -11,7 +12,7 @@ class PetDataCollectionViewMethod: NSObject, UICollectionViewDataSource, UIColle
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "MainPetCollectionViewCell", for: indexPath) as! MainPetCollectionViewCell
         let data = petCollectData[indexPath.item].petName
         cell.configure(data)
-        
+
         return cell
 
     }
@@ -21,8 +22,15 @@ class PetDataCollectionViewMethod: NSObject, UICollectionViewDataSource, UIColle
         ]).width + 15 // 텍스트 너비에 여분의 여백을 추가하여 잘리지 않도록 함
         return CGSize(width: cellWidth, height: 40)
     }
+    
     func updatePetCollectData(with newData: [SummaryPet]) {
            self.petCollectData = newData
+    }
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+
+        let selectedPet = petCollectData[indexPath.item]
+        print("Selected Pet: \(selectedPet.id)")
+        didSelectPetClosure?(indexPath)
     }
 }
 

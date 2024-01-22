@@ -39,8 +39,6 @@ class MainVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        //petDataView.petCollectionView.delegate = self
-        //petDataView.petCollectionView.dataSource = self
         petListView.petCollectionView.delegate = petDataMethod
         petListView.petCollectionView.dataSource = petDataMethod
         petCollectionView.dataSource = petDataMethod
@@ -67,6 +65,12 @@ class MainVC: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         fetchUserProfileInfo()
+        fetchUserPetsList()
+        
+        petDataMethod.didSelectPetClosure = { selectedPet in
+            self.petListView.petCollectionView.selectItem(at: selectedPet, animated: false, scrollPosition: .left)
+            self.petCollectionView.selectItem(at: selectedPet, animated: false, scrollPosition: .left)
+        }
     }
     
     private func initView(){
@@ -122,6 +126,7 @@ class MainVC: UIViewController {
         }
         
     }
+
     
     private func mainInitViewConfigurations() {
         mainInitView.commentLabel.text = "아직 등록된 반려동물이 없어요"
@@ -138,74 +143,85 @@ class MainVC: UIViewController {
     }
     
     func fetchUserProfileInfo() {
-        
         AuthorizationAlamofire.shared.userProfileInfo { userProfileResult in
-            switch userProfileResult {
-            case .success(let data):
-                if let responseData = data {
-                    do {
-                        let jsonObject = try JSONSerialization.jsonObject(with: responseData, options: []) as? [String: Any] ?? [:]
-                        
-                        if let dataDict = jsonObject["data"] as? [String: Any],
-                           let memberDict = dataDict["member"] as? [String: Any] {
+            DispatchQueue.main.async {
+                switch userProfileResult {
+                case .success(let data):
+                    if let responseData = data {
+                        do {
+                            let jsonObject = try JSONSerialization.jsonObject(with: responseData, options: []) as? [String: Any] ?? [:]
 
-                            for (key, value) in memberDict {
-                                UserDefaults.standard.set(value, forKey: key)
-                            }
+                            if let dataDict = jsonObject["data"] as? [String: Any],
+                                let memberDict = dataDict["member"] as? [String: Any] {
 
-                            UserDefaults.standard.synchronize()
-                        }
-                        print("Response JSON Data: \(jsonObject)")
-                    } catch {
-                        print("Error parsing user profile JSON: \(error)")
-                    }
-                }
-
-            case .failure(let profileError):
-                print("Error fetching user profile info: \(profileError)")
-            }
-        }
-        
-        AuthorizationAlamofire.shared.userPetsList{ result in
-            switch result {
-            case .success(let data):
-                if let responseData = data {
-                    do {
-                        let jsonObject = try JSONSerialization.jsonObject(with: responseData, options: []) as? [String: Any] ?? [:]
-                        
-                        var pets: [SummaryPet] = []
-                        
-                        if let dataDict = jsonObject["data"] as? [String: Any],
-                           let petsArray = dataDict["pets"] as? [[String: Any]] {
-
-                            for petDict in petsArray {
-                                if let petId = petDict["id"] as? Int,
-                                   let petName = petDict["petName"] as? String {
-                                    let pet = SummaryPet(id: petId, petName: petName)
-                                    pets.append(pet)
+                                for (key, value) in memberDict {
+                                    UserDefaults.standard.set(value, forKey: key)
                                 }
-                            }
-                        }
-                        PetDataManager.summaryPets = pets
-                        print(PetDataManager.summaryPets)
-                        
-                        DispatchQueue.main.async {
-                            self.petDataMethod.updatePetCollectData(with: PetDataManager.summaryPets)
-                            self.petListView.petCollectionView.reloadData()
-                            self.petCollectionView.reloadData()
-                        }
-                        
-                        print("Response JSON Data: \(jsonObject)")
-                    } catch {
-                        print("Error parsing user profile JSON: \(error)")
-                    }
-                }
 
-            case .failure(let profileError):
-                print("Error fetching user profile info: \(profileError)")
+                                UserDefaults.standard.synchronize()
+                            }
+                            print("Response JSON Data (User Profile): \(jsonObject)")
+                        } catch {
+                            print("Error parsing user profile JSON: \(error)")
+                        }
+                    }
+
+                case .failure(let profileError):
+                    print("Error fetching user profile info: \(profileError)")
+                }
             }
         }
     }
+
+    func fetchUserPetsList() {
+        AuthorizationAlamofire.shared.userPetsList { result in
+            DispatchQueue.main.async {
+                switch result {
+                case .success(let data):
+                    if let responseData = data {
+                        do {
+                            let jsonObject = try JSONSerialization.jsonObject(with: responseData, options: []) as? [String: Any] ?? [:]
+
+                            var pets: [SummaryPet] = []
+
+                            if let dataDict = jsonObject["data"] as? [String: Any],
+                                let petsArray = dataDict["pets"] as? [[String: Any]] {
+
+                                for petDict in petsArray {
+                                    if let petId = petDict["id"] as? Int,
+                                        let petName = petDict["petName"] as? String {
+                                        let pet = SummaryPet(id: petId, petName: petName)
+                                        pets.append(pet)
+                                    }
+                                }
+                            }
+                            PetDataManager.summaryPets = pets
+                            print("User Pets List: \(PetDataManager.summaryPets)")
+
+                            self.updateUIWithFetchedData()
+
+                            print("Response JSON Data (User Pets List): \(jsonObject)")
+                        } catch {
+                            print("Error parsing user pets list JSON: \(error)")
+                        }
+                    }
+
+                case .failure(let profileError):
+                    print("Error fetching user pets list: \(profileError)")
+                }
+            }
+        }
+    }
+    
+    func updateUIWithFetchedData() {
+        self.petDataMethod.updatePetCollectData(with: PetDataManager.summaryPets)
+        self.petListView.petCollectionView.reloadData()
+        self.petCollectionView.reloadData()
+        let defaultIndexPath = IndexPath(item: 0, section: 0)
+        self.petListView.petCollectionView.selectItem(at: defaultIndexPath, animated: false, scrollPosition: .left)
+        self.petCollectionView.selectItem(at: defaultIndexPath, animated: false, scrollPosition: .left)
+    }
+    
     private func updatePetCareCollectionViewHeight() {
         let cellHeight: CGFloat = 150
         var totalHeight: CGFloat = 0
