@@ -49,6 +49,7 @@ class MainVC: UIViewController {
         petCareCollectionView.delegate = petCareMethod
         petCareCollectionView.dataSource = petCareMethod
         petCareCollectionView.isScrollEnabled = false
+        
         petCareMethod.dataDidChange = { [weak self] in
             self?.updatePetCareCollectionViewHeight()
         }
@@ -199,6 +200,25 @@ class MainVC: UIViewController {
                             print("User Pets List: \(PetDataManager.summaryPets)")
 
                             self.updateUIWithFetchedData()
+                            
+                            for (_, pet) in PetDataManager.summaryPets.enumerated() {
+                                AuthorizationAlamofire.shared.userPetCareInfoList(pet.id) { careInfoResult in
+                                    switch careInfoResult {
+                                    case .success(let careInfoData):
+                                        if let responseData = careInfoData {
+                                            PetDataManager.updateCareInfo(with: responseData, petId: pet.id)
+                                            print(PetDataManager.careCategoriesByPetId[3])
+                                            DispatchQueue.main.async {
+                                                self.petCareMethod.updatePetCareCollectData(with: PetDataManager.careCategoriesByPetId)
+                                                self.petCareCollectionView.reloadData()
+                                            }
+                                        }
+
+                                    case .failure(let careInfoError):
+                                        print("Error fetching pet care info for pet \(pet.id): \(careInfoError)")
+                                    }
+                                }
+                            }
 
                             print("Response JSON Data (User Pets List): \(jsonObject)")
                         } catch {
@@ -224,13 +244,16 @@ class MainVC: UIViewController {
     
     private func updatePetCareCollectionViewHeight() {
         let cellHeight: CGFloat = 150
+        let sectionHeaderHeight: CGFloat = 80
         var totalHeight: CGFloat = 0
+        
         
         for section in 0..<petCareMethod.numberOfSections(in: petCareCollectionView) {
             let numberOfCellsInSection = petCareMethod.collectionView(petCareCollectionView, numberOfItemsInSection: section)
-            totalHeight += (numberOfCellsInSection % 2 == 0 ? cellHeight * CGFloat(numberOfCellsInSection/2)+80 : cellHeight * CGFloat(numberOfCellsInSection/2+1)+80)
+            totalHeight += sectionHeaderHeight
+            totalHeight += (numberOfCellsInSection % 2 == 0 ? cellHeight * CGFloat(numberOfCellsInSection/2) : cellHeight * CGFloat(numberOfCellsInSection/2+1))
         }
-
+        
         petCareCollectionViewHeightConstraint.constant = totalHeight
         
         mainView.snp.updateConstraints { make in

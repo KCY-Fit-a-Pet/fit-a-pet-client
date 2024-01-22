@@ -35,24 +35,25 @@ class PetDataCollectionViewMethod: NSObject, UICollectionViewDataSource, UIColle
 }
 
 class PetCareCollectionViewMethod: NSObject, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
-    var petCareData: [[String]] = [["예시1", "예시 2", "예시 3"], ["예시4", "예시 5", "예시 6", "예시 7", "예시", "예시", "예시", "예시"]]
-    let sectionNames = ["섹션1", "섹션2"]
-    
+    var petCareData: [Int: [CareCategory]] = PetDataManager.careCategoriesByPetId
     var dataDidChange: (() -> Void)?
 
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return petCareData.count
+        return petCareData[3]?.count ?? 0
     }
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return petCareData[section].count
+        return petCareData[3]?[section].cares.count ?? 0
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "MainPetCareCollectionViewCell", for: indexPath) as! MainPetCareCollectionViewCell
-        
-        let data = petCareData[indexPath.section][indexPath.item]
-        cell.configure(data, "시간")
+
+        if let careCategory = petCareData[3]?[indexPath.section] {
+            let data = careCategory.cares[indexPath.item].careName
+            let time = careCategory.cares[indexPath.item].careDate
+            cell.configure(data, time)
+        }
 
         return cell
     }
@@ -64,7 +65,9 @@ class PetCareCollectionViewMethod: NSObject, UICollectionViewDataSource, UIColle
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         if kind == UICollectionView.elementKindSectionHeader {
             let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "PetCareHeaderView", for: indexPath) as! PetCareHeaderView
-            headerView.titleLabel.text = sectionNames[indexPath.section]
+            if let careCategory = petCareData[3]?[indexPath.section] {
+                headerView.titleLabel.text = careCategory.categoryName
+            }
             return headerView
         }
         return UICollectionReusableView()
@@ -79,6 +82,10 @@ class PetCareCollectionViewMethod: NSObject, UICollectionViewDataSource, UIColle
     
     func notifyDataDidChange() {
         dataDidChange?()
+    }
+    func updatePetCareCollectData(with newData:  [Int: [CareCategory]]) {
+           self.petCareData = newData
+        self.notifyDataDidChange()
     }
 }
 
