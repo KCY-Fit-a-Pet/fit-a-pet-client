@@ -24,7 +24,7 @@ class PetDataCollectionViewMethod: NSObject, UICollectionViewDataSource, UIColle
     }
     
     func updatePetCollectData(with newData: [SummaryPet]) {
-           self.petCollectData = newData
+        self.petCollectData = newData
     }
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
 
@@ -36,14 +36,15 @@ class PetDataCollectionViewMethod: NSObject, UICollectionViewDataSource, UIColle
 
 class PetCareCollectionViewMethod: NSObject, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     var petCareData: [Int: [CareCategory]] = PetDataManager.careCategoriesByPetId
+    var selectedPet: Int = 3
     var dataDidChange: (() -> Void)?
 
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return petCareData[3]?.count ?? 0
+        return petCareData[selectedPet]?.count ?? 0
     }
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return petCareData[3]?[section].cares.count ?? 0
+        return petCareData[selectedPet]?[section].cares.count ?? 0
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -54,6 +55,7 @@ class PetCareCollectionViewMethod: NSObject, UICollectionViewDataSource, UIColle
             let time = careCategory.cares[indexPath.item].careDate
             cell.configure(data, time)
         }
+        print(selectedPet)
 
         return cell
     }
@@ -84,7 +86,12 @@ class PetCareCollectionViewMethod: NSObject, UICollectionViewDataSource, UIColle
         dataDidChange?()
     }
     func updatePetCareCollectData(with newData:  [Int: [CareCategory]]) {
-           self.petCareData = newData
+        self.petCareData = newData
+        self.notifyDataDidChange()
+    }
+    func seletedPetId(_ petId: Int){
+        print(selectedPet)
+        selectedPet = petId
         self.notifyDataDidChange()
     }
 }

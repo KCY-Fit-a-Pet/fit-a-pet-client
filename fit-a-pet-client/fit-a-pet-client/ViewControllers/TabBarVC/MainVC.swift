@@ -71,6 +71,9 @@ class MainVC: UIViewController {
         petDataMethod.didSelectPetClosure = { selectedPet in
             self.petListView.petCollectionView.selectItem(at: selectedPet, animated: false, scrollPosition: .left)
             self.petCollectionView.selectItem(at: selectedPet, animated: false, scrollPosition: .left)
+            let selectedPet = PetDataManager.summaryPets[selectedPet.item]
+            self.petCareMethod.seletedPetId(selectedPet.id)
+            self.petCareCollectionView.reloadData()
         }
     }
     
@@ -207,7 +210,6 @@ class MainVC: UIViewController {
                                     case .success(let careInfoData):
                                         if let responseData = careInfoData {
                                             PetDataManager.updateCareInfo(with: responseData, petId: pet.id)
-                                            print(PetDataManager.careCategoriesByPetId[3])
                                             DispatchQueue.main.async {
                                                 self.petCareMethod.updatePetCareCollectData(with: PetDataManager.careCategoriesByPetId)
                                                 self.petCareCollectionView.reloadData()
