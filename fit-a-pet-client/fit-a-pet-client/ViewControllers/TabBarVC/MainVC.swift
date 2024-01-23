@@ -179,60 +179,60 @@ class MainVC: UIViewController {
 
     func fetchUserPetsList() {
         AuthorizationAlamofire.shared.userPetsList { result in
-            DispatchQueue.main.async {
-                switch result {
-                case .success(let data):
-                    if let responseData = data {
-                        do {
-                            let jsonObject = try JSONSerialization.jsonObject(with: responseData, options: []) as? [String: Any] ?? [:]
-
-                            var pets: [SummaryPet] = []
-
-                            if let dataDict = jsonObject["data"] as? [String: Any],
-                                let petsArray = dataDict["pets"] as? [[String: Any]] {
-
-                                for petDict in petsArray {
-                                    if let petId = petDict["id"] as? Int,
-                                        let petName = petDict["petName"] as? String {
-                                        let pet = SummaryPet(id: petId, petName: petName)
-                                        pets.append(pet)
-                                    }
-                                }
-                            }
-                            PetDataManager.summaryPets = pets
-                            print("User Pets List: \(PetDataManager.summaryPets)")
-
-                            self.updateUIWithFetchedData()
+            switch result {
+            case .success(let data):
+                if let responseData = data {
+                    do {
+                        let jsonObject = try JSONSerialization.jsonObject(with: responseData, options: []) as? [String: Any] ?? [:]
+                        
+                        var pets: [SummaryPet] = []
+                        
+                        if let dataDict = jsonObject["data"] as? [String: Any],
+                           let petsArray = dataDict["pets"] as? [[String: Any]] {
                             
-                            for (_, pet) in PetDataManager.summaryPets.enumerated() {
-                                AuthorizationAlamofire.shared.userPetCareInfoList(pet.id) { careInfoResult in
-                                    switch careInfoResult {
-                                    case .success(let careInfoData):
-                                        if let responseData = careInfoData {
-                                            PetDataManager.updateCareInfo(with: responseData, petId: pet.id)
-                                            DispatchQueue.main.async {
-                                                self.petCareMethod.updatePetCareCollectData(with: PetDataManager.careCategoriesByPetId)
-                                                self.petCareCollectionView.reloadData()
-                                            }
-                                        }
-
-                                    case .failure(let careInfoError):
-                                        print("Error fetching pet care info for pet \(pet.id): \(careInfoError)")
-                                    }
+                            for petDict in petsArray {
+                                if let petId = petDict["id"] as? Int,
+                                   let petName = petDict["petName"] as? String {
+                                    let pet = SummaryPet(id: petId, petName: petName)
+                                    pets.append(pet)
                                 }
                             }
-
-                            print("Response JSON Data (User Pets List): \(jsonObject)")
-                        } catch {
-                            print("Error parsing user pets list JSON: \(error)")
                         }
+                        PetDataManager.summaryPets = pets
+                        print("User Pets List: \(PetDataManager.summaryPets)")
+                        self.petCareMethod.seletedPetId(pets[0].id)
+                        
+                        self.updateUIWithFetchedData()
+                        
+                        for (_, pet) in PetDataManager.summaryPets.enumerated() {
+                            AuthorizationAlamofire.shared.userPetCareInfoList(pet.id) { careInfoResult in
+                                switch careInfoResult {
+                                case .success(let careInfoData):
+                                    if let responseData = careInfoData {
+                                        PetDataManager.updateCareInfo(with: responseData, petId: pet.id)
+                                        DispatchQueue.main.async {
+                                            self.petCareMethod.updatePetCareCollectData(with: PetDataManager.careCategoriesByPetId)
+                                            self.petCareCollectionView.reloadData()
+                                        }
+                                    }
+                                    
+                                case .failure(let careInfoError):
+                                    print("Error fetching pet care info for pet \(pet.id): \(careInfoError)")
+                                }
+                            }
+                        }
+                        
+                        print("Response JSON Data (User Pets List): \(jsonObject)")
+                    } catch {
+                        print("Error parsing user pets list JSON: \(error)")
                     }
-
-                case .failure(let profileError):
-                    print("Error fetching user pets list: \(profileError)")
                 }
+                
+            case .failure(let profileError):
+                print("Error fetching user pets list: \(profileError)")
             }
         }
+        
     }
     
     func updateUIWithFetchedData() {

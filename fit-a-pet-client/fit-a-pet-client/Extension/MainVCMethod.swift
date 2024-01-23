@@ -27,7 +27,6 @@ class PetDataCollectionViewMethod: NSObject, UICollectionViewDataSource, UIColle
         self.petCollectData = newData
     }
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-
         let selectedPet = petCollectData[indexPath.item]
         print("Selected Pet: \(selectedPet.id)")
         didSelectPetClosure?(indexPath)
@@ -36,7 +35,7 @@ class PetDataCollectionViewMethod: NSObject, UICollectionViewDataSource, UIColle
 
 class PetCareCollectionViewMethod: NSObject, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     var petCareData: [Int: [CareCategory]] = PetDataManager.careCategoriesByPetId
-    var selectedPet: Int = 3
+    var selectedPet: Int = 0
     var dataDidChange: (() -> Void)?
 
     func numberOfSections(in collectionView: UICollectionView) -> Int {
@@ -55,8 +54,6 @@ class PetCareCollectionViewMethod: NSObject, UICollectionViewDataSource, UIColle
             let time = careCategory.cares[indexPath.item].careDate
             cell.configure(data, time)
         }
-        print(selectedPet)
-
         return cell
     }
     
@@ -90,7 +87,6 @@ class PetCareCollectionViewMethod: NSObject, UICollectionViewDataSource, UIColle
         self.notifyDataDidChange()
     }
     func seletedPetId(_ petId: Int){
-        print(selectedPet)
         selectedPet = petId
         self.notifyDataDidChange()
     }
