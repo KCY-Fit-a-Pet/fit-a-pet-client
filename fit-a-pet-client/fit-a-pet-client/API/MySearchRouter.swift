@@ -27,6 +27,7 @@ enum MySearchRouter: URLRequestConvertible {
     case checkCareCategory(petId: Int)
     case careCategoryCheck(categoryName: String, pets: [Int])
     case userPetCareInfoList(petId: Int)
+    case petCareComplete(petId: Int, careId: Int, caredateId: Int)
     
     var baseURL: URL {
         switch self {
@@ -43,7 +44,7 @@ enum MySearchRouter: URLRequestConvertible {
         switch self {
         case .sendSms, .checkSms, .login, .regist, .presignedurl, .registPet,.sendAuthSms, .checkAuthSms, .findId, .findPw, .oauthLogin, .oauthSendSms, .oauthCheckSms, .oauthRegistUser, .createCare, .careCategoryCheck:
             return .post
-        case .existId, .userProfileInfo, .userNotifyType, .refresh ,.checkCareCategory, .userPetsList, .userPetInfoList, .userPetCareInfoList:
+        case .existId, .userProfileInfo, .userNotifyType, .refresh ,.checkCareCategory, .userPetsList, .userPetInfoList, .userPetCareInfoList, .petCareComplete:
             return .get
         case .uploadImage, .editUserPw, .editUserName:
             return .put
@@ -86,7 +87,7 @@ enum MySearchRouter: URLRequestConvertible {
             return "v2/users/\(UserDefaults.standard.string(forKey: "id")!)/pets/summary"
         case .careCategoryCheck:
             return "v2/users/\(UserDefaults.standard.string(forKey: "id")!)/pets/categories-check"
-        case .userPetInfoList, .userPetCareInfoList, .createCare, .checkCareCategory:
+        case .userPetInfoList, .userPetCareInfoList, .createCare, .checkCareCategory, .petCareComplete:
             return "v2/users/\(UserDefaults.standard.string(forKey: "id")!)/pets"
         }
     }
@@ -126,10 +127,9 @@ enum MySearchRouter: URLRequestConvertible {
             return ["name": name, "uid": uid]
         case let .careCategoryCheck(categoryName, pets):
             return ["categoryName": categoryName, "pets": pets]
-        case .uploadImage(_), .userProfileInfo, .oauthLogin, .oauthSendSms, .refresh, .checkCareCategory, .userPetsList, .createCare, .userPetInfoList:
+        case .uploadImage(_), .userProfileInfo, .oauthLogin, .oauthSendSms, .refresh, .checkCareCategory, .userPetsList, .createCare, .userPetInfoList, .userPetCareInfoList, .petCareComplete:
             return [:]
-        case let .userPetCareInfoList(userId):
-            return["userId": userId]
+        
         }
     }
     
@@ -290,7 +290,12 @@ enum MySearchRouter: URLRequestConvertible {
             url = url.appendingPathComponent("/\(petId)/cares")
             request = URLRequest(url: url)
             request.httpMethod = method.rawValue
-
+            
+        case .petCareComplete(let petId, let careId, let caredateId):
+            url = url.appendingPathComponent("/\(petId)/cares/\(careId)/care-dates/\(caredateId)")
+            request = URLRequest(url: url)
+            request.httpMethod = method.rawValue
+        
         default:
             request = createURLRequestWithBody(url: url)
         }

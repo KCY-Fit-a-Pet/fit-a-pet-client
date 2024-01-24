@@ -213,5 +213,19 @@ class AuthorizationAlamofire: TokenHandling {
             }
     }
     
+    func petCareComplete(_ petId: Int, _ careId: Int, _ caredateId: Int,completion: @escaping (Result<Data?, Error>) -> Void) {
+        os_log("AuthorizationAlamofire - userPetCareInfoList() called", log: .default, type: .info)
+        
+        self.session.request(MySearchRouter.petCareComplete(petId: petId, careId: careId, caredateId: caredateId))
+            .response { response in
+                switch response.result {
+                case .success(let data):
+                    completion(.success(data))
+                case .failure(let error):
+                    completion(.failure(error))
+                }
+            }
+    }
+    
 }
 

@@ -249,17 +249,22 @@ class MainVC: UIViewController {
         let sectionHeaderHeight: CGFloat = 80
         var totalHeight: CGFloat = 0
         
-        
         for section in 0..<petCareMethod.numberOfSections(in: petCareCollectionView) {
             let numberOfCellsInSection = petCareMethod.collectionView(petCareCollectionView, numberOfItemsInSection: section)
             totalHeight += sectionHeaderHeight
             totalHeight += (numberOfCellsInSection % 2 == 0 ? cellHeight * CGFloat(numberOfCellsInSection/2) : cellHeight * CGFloat(numberOfCellsInSection/2+1))
         }
-        
-        petCareCollectionViewHeightConstraint.constant = totalHeight
-        
-        mainView.snp.updateConstraints { make in
-            make.height.equalTo(totalHeight + 150)
+
+        if totalHeight < self.view.frame.height{
+            petCareCollectionViewHeightConstraint.constant = self.view.frame.height
+            mainView.snp.updateConstraints { make in
+                make.height.equalTo(self.view.frame.height)
+            }
+        }else{
+            petCareCollectionViewHeightConstraint.constant = totalHeight
+            mainView.snp.updateConstraints { make in
+                make.height.equalTo(totalHeight)
+            }
         }
         
         UIView.animate(withDuration: 0.3) {

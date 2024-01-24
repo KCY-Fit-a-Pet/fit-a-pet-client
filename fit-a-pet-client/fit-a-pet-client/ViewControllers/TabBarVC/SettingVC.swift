@@ -1,6 +1,7 @@
 import UIKit
 import SnapKit
 
+//TODO: 알림 배경 수정 필요
 class SettingVC: UIViewController {
     
     let profileView = UIView()

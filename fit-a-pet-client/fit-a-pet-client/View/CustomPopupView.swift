@@ -2,7 +2,6 @@ import UIKit
 
 class CustomPopupView: UIView {
 
-    // UI 요소들을 정의
     let messageLabel: UILabel = {
         let label = UILabel()
         label.textAlignment = .center
@@ -20,7 +19,6 @@ class CustomPopupView: UIView {
         return button
     }()
 
-    // 초기화 메서드
     override init(frame: CGRect) {
         super.init(frame: frame)
         commonInit()
