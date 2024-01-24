@@ -51,6 +51,8 @@ class MainPetCareCollectionViewCell: UICollectionViewCell {
  
         setupUI()
         setUpStackView()
+        
+        detailBtn.addTarget(self, action: #selector(showMenu), for: .touchUpInside)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -58,9 +60,7 @@ class MainPetCareCollectionViewCell: UICollectionViewCell {
     }
     
     func setupUI(){
-        careNameLabel.text = "예시 1111"
         careNameLabel.font = .boldSystemFont(ofSize: 16)
-        careTimeLabel.text = "예시 2222"
         careTimeLabel.font = .systemFont(ofSize: 14, weight: .medium)
         careInfoStackView.addArrangedSubview(careNameLabel)
         careInfoStackView.addArrangedSubview(careTimeLabel)
@@ -101,5 +101,14 @@ class MainPetCareCollectionViewCell: UICollectionViewCell {
         careTimeLabel.text = careTime
     }
 
-
+    @objc private func showMenu() {
+        let menu = UIMenu(title: "", children: [
+            UIAction(title: "케어 수정") { action in
+            },
+        ])
+        
+        self.detailBtn.menu = menu
+        self.detailBtn.showsMenuAsPrimaryAction = true
+        self.detailBtn.isUserInteractionEnabled = true
+    }
 }
