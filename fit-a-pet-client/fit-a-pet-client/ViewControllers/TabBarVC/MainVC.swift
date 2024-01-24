@@ -34,7 +34,11 @@ class MainVC: UIViewController {
         return cv
     }()
     
+    
     private var petCareCollectionViewHeightConstraint: NSLayoutConstraint!
+    private var petId = 0
+    private var careId = 0
+    private var caredateId = 0
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -73,7 +77,38 @@ class MainVC: UIViewController {
             self.petCollectionView.selectItem(at: selectedPet, animated: false, scrollPosition: .left)
             let selectedPet = PetDataManager.summaryPets[selectedPet.item]
             self.petCareMethod.seletedPetId(selectedPet.id)
+            self.petId = selectedPet.id
             self.petCareCollectionView.reloadData()
+        }
+        
+        petCareMethod.didSelectPetClosure = { [self] indexPath in
+            if let careCategory = petCareMethod.petCareData[petCareMethod.selectedPet]?[indexPath.section] {
+                let selectedCare = careCategory.cares[indexPath.item]
+                print("Selected Pet Care ID: \(selectedCare.careId)")
+                print("Selected Pet Care Date ID: \(selectedCare.careDateId)")
+                self.careId = selectedCare.careId
+                self.caredateId = selectedCare.careDateId
+            }
+            AuthorizationAlamofire.shared.petCareComplete(petId, careId, caredateId) { result in
+                DispatchQueue.main.async {
+                    switch result {
+                    case .success(let data):
+                        if let responseData = data {
+                            do {
+                                let jsonObject = try JSONSerialization.jsonObject(with: responseData, options: []) as? [String: Any] ?? [:]
+
+                                print("Response JSON Data (User Profile): \(jsonObject)")
+                            } catch {
+                                print("Error parsing user profile JSON: \(error)")
+                            }
+                        }
+
+                    case .failure(let profileError):
+                        print("Error fetching user profile info: \(profileError)")
+                    }
+                }
+            }
+            
         }
     }
     
@@ -201,6 +236,7 @@ class MainVC: UIViewController {
                         PetDataManager.summaryPets = pets
                         print("User Pets List: \(PetDataManager.summaryPets)")
                         self.petCareMethod.seletedPetId(pets[0].id)
+                        self.petId = PetDataManager.summaryPets[0].id
                         
                         self.updateUIWithFetchedData()
                         

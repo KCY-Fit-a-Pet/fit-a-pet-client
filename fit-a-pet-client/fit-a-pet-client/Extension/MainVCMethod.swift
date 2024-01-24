@@ -37,6 +37,7 @@ class PetCareCollectionViewMethod: NSObject, UICollectionViewDataSource, UIColle
     var petCareData: [Int: [CareCategory]] = PetDataManager.careCategoriesByPetId
     var selectedPet: Int = 0
     var dataDidChange: (() -> Void)?
+    var didSelectPetClosure: ((IndexPath) -> Void)?
 
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         return petCareData[selectedPet]?.count ?? 0
@@ -89,6 +90,14 @@ class PetCareCollectionViewMethod: NSObject, UICollectionViewDataSource, UIColle
     func seletedPetId(_ petId: Int){
         selectedPet = petId
         self.notifyDataDidChange()
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+//        if let careCategory = petCareData[selectedPet]?[indexPath.section] {
+//            let selectedCare = careCategory.cares[indexPath.item]
+//            print("Selected Pet Care ID: \(selectedCare.careId)")
+//        }
+        didSelectPetClosure?(indexPath)
     }
 }
 
