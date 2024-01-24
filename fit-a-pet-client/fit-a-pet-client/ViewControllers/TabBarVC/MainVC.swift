@@ -90,25 +90,23 @@ class MainVC: UIViewController {
                 self.caredateId = selectedCare.careDateId
             }
             AuthorizationAlamofire.shared.petCareComplete(petId, careId, caredateId) { result in
-                DispatchQueue.main.async {
-                    switch result {
-                    case .success(let data):
-                        if let responseData = data {
-                            do {
-                                let jsonObject = try JSONSerialization.jsonObject(with: responseData, options: []) as? [String: Any] ?? [:]
-
-                                print("Response JSON Data (User Profile): \(jsonObject)")
-                            } catch {
-                                print("Error parsing user profile JSON: \(error)")
-                            }
+                switch result {
+                case .success(let data):
+                    if let responseData = data {
+                        do {
+                            let jsonObject = try JSONSerialization.jsonObject(with: responseData, options: []) as? [String: Any] ?? [:]
+                            
+                            print("Response JSON Data (User Profile): \(jsonObject)")
+                        } catch {
+                            print("Error parsing user profile JSON: \(error)")
                         }
-
-                    case .failure(let profileError):
-                        print("Error fetching user profile info: \(profileError)")
                     }
+                    
+                case .failure(let profileError):
+                    print("Error fetching user profile info: \(profileError)")
                 }
+                
             }
-            
         }
     }
     

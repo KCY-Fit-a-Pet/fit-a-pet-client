@@ -19,6 +19,7 @@ class MainPetCareCollectionViewCell: UICollectionViewCell {
         let stackView = UIStackView()
         stackView.axis = .vertical
         stackView.alignment = .leading
+        stackView.spacing = 2
         return stackView
     }()
     
@@ -28,6 +29,12 @@ class MainPetCareCollectionViewCell: UICollectionViewCell {
         button.titleLabel?.font = .systemFont(ofSize: 14)
         button.tintColor = .black
         return button
+    }()
+    
+    var petImageView: UIImageView = {
+        let image = UIImageView()
+        image.image = UIImage(named: "profileImage")
+        return image
     }()
     
     let containerStackView: UIStackView = {
@@ -65,6 +72,7 @@ class MainPetCareCollectionViewCell: UICollectionViewCell {
         containerStackView.addArrangedSubview(detailBtn)
         
         contentView.addSubview(containerStackView)
+        contentView.addSubview(petImageView)
         
         contentView.layer.cornerRadius = 16
         contentView.layer.masksToBounds = false
@@ -78,6 +86,12 @@ class MainPetCareCollectionViewCell: UICollectionViewCell {
             make.top.equalToSuperview().offset(20)
             make.leading.trailing.equalToSuperview().inset(20)
             make.height.equalTo(45)
+        }
+        petImageView.snp.makeConstraints{make in
+            make.top.equalTo(containerStackView.snp.bottom).offset(26)
+            make.trailing.equalToSuperview().offset(-20)
+            make.height.equalTo(40)
+            make.width.equalTo(40)
         }
 
     }
