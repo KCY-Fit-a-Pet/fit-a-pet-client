@@ -63,24 +63,19 @@ class PetVC: UIViewController{
             case .success(let data):
                 if let responseData = data {
                     PetDataManager.updatePets(with: responseData)
-                    
-                    let dispatchGroup = DispatchGroup()
+           
                     self.petListCollectionView.reloadData()
-
+                    
                     for (index, pet) in PetDataManager.pets.enumerated() {
-                        dispatchGroup.enter()
-                        
                         AuthorizationAlamofire.shared.userPetCareInfoList(pet.id) { careInfoResult in
-                            defer {
-                                dispatchGroup.leave()
-                            }
                             
                             switch careInfoResult {
                             case .success(let careInfoData):
                                 if let responseData = careInfoData {
-                                    PetDataManager.updateCareInfo(with: responseData)
+                                    
+                                    PetDataManager.updateCareInfo(with: responseData, petId: pet.id)
                                     if let cell = self.petListCollectionView.cellForItem(at: IndexPath(item: index, section: 0)) as? PetCollectionViewCell {
-                                        cell.petCareSubview.updateCareCategories(PetDataManager.careCategories)
+                                        cell.petCareSubview.updateCareCategories(PetDataManager.careCategoriesByPetId[pet.id]!)
                                     }
                                 }
                                 
@@ -88,9 +83,6 @@ class PetVC: UIViewController{
                                 print("Error fetching pet care info for pet \(pet.id): \(careInfoError)")
                             }
                         }
-                    }
-                    dispatchGroup.notify(queue: .main) {
-                        print("All pet care info requests completed.")
                     }
                 }
                 

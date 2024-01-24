@@ -34,13 +34,15 @@ class MainVC: UIViewController {
         return cv
     }()
     
+    
     private var petCareCollectionViewHeightConstraint: NSLayoutConstraint!
+    private var petId = 0
+    private var careId = 0
+    private var caredateId = 0
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        //petDataView.petCollectionView.delegate = self
-        //petDataView.petCollectionView.dataSource = self
         petListView.petCollectionView.delegate = petDataMethod
         petListView.petCollectionView.dataSource = petDataMethod
         petCollectionView.dataSource = petDataMethod
@@ -51,6 +53,7 @@ class MainVC: UIViewController {
         petCareCollectionView.delegate = petCareMethod
         petCareCollectionView.dataSource = petCareMethod
         petCareCollectionView.isScrollEnabled = false
+        
         petCareMethod.dataDidChange = { [weak self] in
             self?.updatePetCareCollectionViewHeight()
         }
@@ -62,10 +65,53 @@ class MainVC: UIViewController {
         layoutScrollView.delegate = self
         
         initView()
-
-        fetchUserProfileInfo()
-
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        fetchUserProfileInfo()
+        fetchUserPetsList()
+        
+        petDataMethod.didSelectPetClosure = { selectedPet in
+            self.petListView.petCollectionView.selectItem(at: selectedPet, animated: false, scrollPosition: .left)
+            self.petCollectionView.selectItem(at: selectedPet, animated: false, scrollPosition: .left)
+            let selectedPet = PetDataManager.summaryPets[selectedPet.item]
+            self.petCareMethod.seletedPetId(selectedPet.id)
+            self.petId = selectedPet.id
+            self.petCareCollectionView.reloadData()
+        }
+        
+        petCareMethod.didSelectPetClosure = { [self] indexPath in
+            if let careCategory = petCareMethod.petCareData[petCareMethod.selectedPet]?[indexPath.section] {
+                let selectedCare = careCategory.cares[indexPath.item]
+                print("Selected Pet Care ID: \(selectedCare.careId)")
+                print("Selected Pet Care Date ID: \(selectedCare.careDateId)")
+                self.careId = selectedCare.careId
+                self.caredateId = selectedCare.careDateId
+            }
+            AuthorizationAlamofire.shared.petCareComplete(petId, careId, caredateId) { result in
+                DispatchQueue.main.async {
+                    switch result {
+                    case .success(let data):
+                        if let responseData = data {
+                            do {
+                                let jsonObject = try JSONSerialization.jsonObject(with: responseData, options: []) as? [String: Any] ?? [:]
+
+                                print("Response JSON Data (User Profile): \(jsonObject)")
+                            } catch {
+                                print("Error parsing user profile JSON: \(error)")
+                            }
+                        }
+
+                    case .failure(let profileError):
+                        print("Error fetching user profile info: \(profileError)")
+                    }
+                }
+            }
+            
+        }
+    }
+    
     private func initView(){
         
         //petDataView.addSubview(mainInitView)
@@ -119,6 +165,7 @@ class MainVC: UIViewController {
         }
         
     }
+
     
     private func mainInitViewConfigurations() {
         mainInitView.commentLabel.text = "아직 등록된 반려동물이 없어요"
@@ -135,47 +182,125 @@ class MainVC: UIViewController {
     }
     
     func fetchUserProfileInfo() {
-        
         AuthorizationAlamofire.shared.userProfileInfo { userProfileResult in
-            switch userProfileResult {
+            DispatchQueue.main.async {
+                switch userProfileResult {
+                case .success(let data):
+                    if let responseData = data {
+                        do {
+                            let jsonObject = try JSONSerialization.jsonObject(with: responseData, options: []) as? [String: Any] ?? [:]
+
+                            if let dataDict = jsonObject["data"] as? [String: Any],
+                                let memberDict = dataDict["member"] as? [String: Any] {
+
+                                for (key, value) in memberDict {
+                                    UserDefaults.standard.set(value, forKey: key)
+                                }
+
+                                UserDefaults.standard.synchronize()
+                            }
+                            print("Response JSON Data (User Profile): \(jsonObject)")
+                        } catch {
+                            print("Error parsing user profile JSON: \(error)")
+                        }
+                    }
+
+                case .failure(let profileError):
+                    print("Error fetching user profile info: \(profileError)")
+                }
+            }
+        }
+    }
+
+    func fetchUserPetsList() {
+        AuthorizationAlamofire.shared.userPetsList { result in
+            switch result {
             case .success(let data):
                 if let responseData = data {
                     do {
                         let jsonObject = try JSONSerialization.jsonObject(with: responseData, options: []) as? [String: Any] ?? [:]
                         
+                        var pets: [SummaryPet] = []
+                        
                         if let dataDict = jsonObject["data"] as? [String: Any],
-                           let memberDict = dataDict["member"] as? [String: Any] {
-
-                            for (key, value) in memberDict {
-                                UserDefaults.standard.set(value, forKey: key)
+                           let petsArray = dataDict["pets"] as? [[String: Any]] {
+                            
+                            for petDict in petsArray {
+                                if let petId = petDict["id"] as? Int,
+                                   let petName = petDict["petName"] as? String {
+                                    let pet = SummaryPet(id: petId, petName: petName)
+                                    pets.append(pet)
+                                }
                             }
-
-                            UserDefaults.standard.synchronize()
                         }
-                        print("Response JSON Data: \(jsonObject)")
+                        PetDataManager.summaryPets = pets
+                        print("User Pets List: \(PetDataManager.summaryPets)")
+                        self.petCareMethod.seletedPetId(pets[0].id)
+                        self.petId = PetDataManager.summaryPets[0].id
+                        
+                        self.updateUIWithFetchedData()
+                        
+                        for (_, pet) in PetDataManager.summaryPets.enumerated() {
+                            AuthorizationAlamofire.shared.userPetCareInfoList(pet.id) { careInfoResult in
+                                switch careInfoResult {
+                                case .success(let careInfoData):
+                                    if let responseData = careInfoData {
+                                        PetDataManager.updateCareInfo(with: responseData, petId: pet.id)
+                                        DispatchQueue.main.async {
+                                            self.petCareMethod.updatePetCareCollectData(with: PetDataManager.careCategoriesByPetId)
+                                            self.petCareCollectionView.reloadData()
+                                        }
+                                    }
+                                    
+                                case .failure(let careInfoError):
+                                    print("Error fetching pet care info for pet \(pet.id): \(careInfoError)")
+                                }
+                            }
+                        }
+                        
+                        print("Response JSON Data (User Pets List): \(jsonObject)")
                     } catch {
-                        print("Error parsing user profile JSON: \(error)")
+                        print("Error parsing user pets list JSON: \(error)")
                     }
                 }
-
+                
             case .failure(let profileError):
-                print("Error fetching user profile info: \(profileError)")
+                print("Error fetching user pets list: \(profileError)")
             }
         }
+        
     }
+    
+    func updateUIWithFetchedData() {
+        self.petDataMethod.updatePetCollectData(with: PetDataManager.summaryPets)
+        self.petListView.petCollectionView.reloadData()
+        self.petCollectionView.reloadData()
+        let defaultIndexPath = IndexPath(item: 0, section: 0)
+        self.petListView.petCollectionView.selectItem(at: defaultIndexPath, animated: false, scrollPosition: .left)
+        self.petCollectionView.selectItem(at: defaultIndexPath, animated: false, scrollPosition: .left)
+    }
+    
     private func updatePetCareCollectionViewHeight() {
         let cellHeight: CGFloat = 150
+        let sectionHeaderHeight: CGFloat = 80
         var totalHeight: CGFloat = 0
         
         for section in 0..<petCareMethod.numberOfSections(in: petCareCollectionView) {
             let numberOfCellsInSection = petCareMethod.collectionView(petCareCollectionView, numberOfItemsInSection: section)
-            totalHeight += (numberOfCellsInSection % 2 == 0 ? cellHeight * CGFloat(numberOfCellsInSection/2)+80 : cellHeight * CGFloat(numberOfCellsInSection/2+1)+80)
+            totalHeight += sectionHeaderHeight
+            totalHeight += (numberOfCellsInSection % 2 == 0 ? cellHeight * CGFloat(numberOfCellsInSection/2) : cellHeight * CGFloat(numberOfCellsInSection/2+1))
         }
 
-        petCareCollectionViewHeightConstraint.constant = totalHeight
-        
-        mainView.snp.updateConstraints { make in
-            make.height.equalTo(totalHeight + 150)
+        if totalHeight < self.view.frame.height{
+            petCareCollectionViewHeightConstraint.constant = self.view.frame.height
+            mainView.snp.updateConstraints { make in
+                make.height.equalTo(self.view.frame.height)
+            }
+        }else{
+            petCareCollectionViewHeightConstraint.constant = totalHeight
+            mainView.snp.updateConstraints { make in
+                make.height.equalTo(totalHeight)
+            }
         }
         
         UIView.animate(withDuration: 0.3) {
@@ -204,6 +329,7 @@ extension MainVC: UIScrollViewDelegate{
         }
         
         if offsetY > 150{
+            navigationController?.navigationBar.barTintColor = .white
             navigationItem.titleView?.backgroundColor = .white
             navigationController?.setNavigationBarHidden(false, animated: true)
             
