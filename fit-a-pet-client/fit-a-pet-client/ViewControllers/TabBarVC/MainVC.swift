@@ -77,7 +77,7 @@ class MainVC: UIViewController {
             self.petCollectionView.selectItem(at: selectedPet, animated: false, scrollPosition: .left)
             let selectedPet = PetDataManager.summaryPets[selectedPet.item]
             self.petCareMethod.seletedPetId(selectedPet.id)
-            self.petId = selectedPet.id
+            careCompleteData.petId = selectedPet.id
             self.petCareCollectionView.reloadData()
         }
         
@@ -86,26 +86,19 @@ class MainVC: UIViewController {
                 let selectedCare = careCategory.cares[indexPath.item]
                 print("Selected Pet Care ID: \(selectedCare.careId)")
                 print("Selected Pet Care Date ID: \(selectedCare.careDateId)")
-                self.careId = selectedCare.careId
-                self.caredateId = selectedCare.careDateId
-            }
-            AuthorizationAlamofire.shared.petCareComplete(petId, careId, caredateId) { result in
-                switch result {
-                case .success(let data):
-                    if let responseData = data {
-                        do {
-                            let jsonObject = try JSONSerialization.jsonObject(with: responseData, options: []) as? [String: Any] ?? [:]
-                            
-                            print("Response JSON Data (User Profile): \(jsonObject)")
-                        } catch {
-                            print("Error parsing user profile JSON: \(error)")
-                        }
-                    }
-                    
-                case .failure(let profileError):
-                    print("Error fetching user profile info: \(profileError)")
-                }
+                careCompleteData.careId = selectedCare.careId
+                careCompleteData.caredateId = selectedCare.careDateId
                 
+                let customPopupVC = CustomCheckPopupVC()
+                customPopupVC.modalPresentationStyle = .overFullScreen
+                customPopupVC.titleText = "\(selectedCare.careName) 케어를 완료할까요?"
+                customPopupVC.subtitleText = "케어 완료 알림을 케어 구성원에게 보내요."
+                self.present(customPopupVC, animated: false
+                             , completion: nil)
+                
+                customPopupVC.dismissalCompletion = {
+                    self.fetchUserPetCaresList()
+                }
             }
         }
     }
@@ -234,27 +227,10 @@ class MainVC: UIViewController {
                         PetDataManager.summaryPets = pets
                         print("User Pets List: \(PetDataManager.summaryPets)")
                         self.petCareMethod.seletedPetId(pets[0].id)
-                        self.petId = PetDataManager.summaryPets[0].id
+                        careCompleteData.petId = PetDataManager.summaryPets[0].id
                         
                         self.updateUIWithFetchedData()
-                        
-                        for (_, pet) in PetDataManager.summaryPets.enumerated() {
-                            AuthorizationAlamofire.shared.userPetCareInfoList(pet.id) { careInfoResult in
-                                switch careInfoResult {
-                                case .success(let careInfoData):
-                                    if let responseData = careInfoData {
-                                        PetDataManager.updateCareInfo(with: responseData, petId: pet.id)
-                                        DispatchQueue.main.async {
-                                            self.petCareMethod.updatePetCareCollectData(with: PetDataManager.careCategoriesByPetId)
-                                            self.petCareCollectionView.reloadData()
-                                        }
-                                    }
-                                    
-                                case .failure(let careInfoError):
-                                    print("Error fetching pet care info for pet \(pet.id): \(careInfoError)")
-                                }
-                            }
-                        }
+                        self.fetchUserPetCaresList()
                         
                         print("Response JSON Data (User Pets List): \(jsonObject)")
                     } catch {
@@ -267,6 +243,26 @@ class MainVC: UIViewController {
             }
         }
         
+    }
+    
+    func fetchUserPetCaresList(){
+        for (_, pet) in PetDataManager.summaryPets.enumerated() {
+            AuthorizationAlamofire.shared.userPetCareInfoList(pet.id) { careInfoResult in
+                switch careInfoResult {
+                case .success(let careInfoData):
+                    if let responseData = careInfoData {
+                        PetDataManager.updateCareInfo(with: responseData, petId: pet.id)
+                        DispatchQueue.main.async {
+                            self.petCareMethod.updatePetCareCollectData(with: PetDataManager.careCategoriesByPetId)
+                            self.petCareCollectionView.reloadData()
+                        }
+                    }
+                    
+                case .failure(let careInfoError):
+                    print("Error fetching pet care info for pet \(pet.id): \(careInfoError)")
+                }
+            }
+        }
     }
     
     func updateUIWithFetchedData() {

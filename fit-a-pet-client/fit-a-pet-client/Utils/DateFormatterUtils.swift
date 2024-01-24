@@ -1,7 +1,7 @@
 import Foundation
 
 class DateFormatterUtils {
-    static func formatTime(_ timeString: String, from format: String = "HH:mm:ss", to newFormat: String = "h:mm a") -> String? {
+    static func formatTime(_ timeString: String, from format: String = "HH:mm:ss", to newFormat: String = "a h:mm") -> String? {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = format
         

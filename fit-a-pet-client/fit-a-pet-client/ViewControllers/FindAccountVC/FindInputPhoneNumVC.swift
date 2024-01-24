@@ -85,9 +85,9 @@ class FindInputPhoneNumVC: CustomNavigationBar{
             case .failure(let error):
                 print("Error: \(error)")
                 
-                let customPopupVC = CustomPopupViewController()
+                let customPopupVC = CustomAlarmPopupVC()
                 customPopupVC.modalPresentationStyle = .overFullScreen
-                customPopupVC.messageText = "해당 전화번호가 사용된\n아이디가 없습니다."
+                customPopupVC.messageText = "해당 전화번호로 가입된\n아이디가 없습니다."
                 self.present(customPopupVC, animated: false
                              
                              , completion: nil)

@@ -99,9 +99,9 @@ class FindInputIdVC: CustomNavigationBar{
                             if valid == true{
                                 self.navigationController?.pushViewController(nextVC, animated: false)
                             }else{
-                                let customPopupVC = CustomPopupViewController()
+                                let customPopupVC = CustomAlarmPopupVC()
                                 customPopupVC.modalPresentationStyle = .overFullScreen
-                                customPopupVC.messageText = "입력하신 아이디를\n찾을 수 없습니다."
+                                customPopupVC.messageText = "해당 아이디로\n가입된 계정이 없습니다."
                                 self.present(customPopupVC, animated: false, completion: nil)
                             }
                         }
