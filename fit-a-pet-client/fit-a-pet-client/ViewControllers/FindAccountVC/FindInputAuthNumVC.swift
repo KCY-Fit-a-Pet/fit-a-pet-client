@@ -103,7 +103,7 @@ class FindInputAuthNumVC: CustomNavigationBar{
             case .failure(let error):
                 print("Error: \(error)")
                 
-                let customPopupVC = CustomPopupViewController()
+                let customPopupVC = CustomAlarmPopupVC()
                 customPopupVC.modalPresentationStyle = .overFullScreen
                 customPopupVC.messageText = "인증번호가 일치하지 않습니다."
                 self.present(customPopupVC, animated: false

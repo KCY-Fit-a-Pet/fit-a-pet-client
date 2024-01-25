@@ -1,8 +1,8 @@
 import UIKit
 
-class CustomPopupViewController: UIViewController {
+class CustomAlarmPopupVC: UIViewController {
 
-    let popupView = CustomPopupView()
+    let popupView = CustomAlarmPopupView()
     var messageText: String?
 
     override func viewDidLoad() {

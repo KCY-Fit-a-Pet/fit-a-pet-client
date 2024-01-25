@@ -19,6 +19,7 @@ class MainPetCareCollectionViewCell: UICollectionViewCell {
         let stackView = UIStackView()
         stackView.axis = .vertical
         stackView.alignment = .leading
+        stackView.spacing = 2
         return stackView
     }()
     
@@ -28,6 +29,12 @@ class MainPetCareCollectionViewCell: UICollectionViewCell {
         button.titleLabel?.font = .systemFont(ofSize: 14)
         button.tintColor = .black
         return button
+    }()
+    
+    var petImageView: UIImageView = {
+        let image = UIImageView()
+        image.image = UIImage(named: "profileImage")
+        return image
     }()
     
     let containerStackView: UIStackView = {
@@ -44,6 +51,8 @@ class MainPetCareCollectionViewCell: UICollectionViewCell {
  
         setupUI()
         setUpStackView()
+        
+        detailBtn.addTarget(self, action: #selector(showMenu), for: .touchUpInside)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -51,9 +60,7 @@ class MainPetCareCollectionViewCell: UICollectionViewCell {
     }
     
     func setupUI(){
-        careNameLabel.text = "예시 1111"
         careNameLabel.font = .boldSystemFont(ofSize: 16)
-        careTimeLabel.text = "예시 2222"
         careTimeLabel.font = .systemFont(ofSize: 14, weight: .medium)
         careInfoStackView.addArrangedSubview(careNameLabel)
         careInfoStackView.addArrangedSubview(careTimeLabel)
@@ -65,6 +72,7 @@ class MainPetCareCollectionViewCell: UICollectionViewCell {
         containerStackView.addArrangedSubview(detailBtn)
         
         contentView.addSubview(containerStackView)
+        contentView.addSubview(petImageView)
         
         contentView.layer.cornerRadius = 16
         contentView.layer.masksToBounds = false
@@ -79,6 +87,12 @@ class MainPetCareCollectionViewCell: UICollectionViewCell {
             make.leading.trailing.equalToSuperview().inset(20)
             make.height.equalTo(45)
         }
+        petImageView.snp.makeConstraints{make in
+            make.top.equalTo(containerStackView.snp.bottom).offset(26)
+            make.trailing.equalToSuperview().offset(-20)
+            make.height.equalTo(40)
+            make.width.equalTo(40)
+        }
 
     }
     
@@ -87,5 +101,14 @@ class MainPetCareCollectionViewCell: UICollectionViewCell {
         careTimeLabel.text = careTime
     }
 
-
+    @objc private func showMenu() {
+        let menu = UIMenu(title: "", children: [
+            UIAction(title: "케어 수정") { action in
+            },
+        ])
+        
+        self.detailBtn.menu = menu
+        self.detailBtn.showsMenuAsPrimaryAction = true
+        self.detailBtn.isUserInteractionEnabled = true
+    }
 }

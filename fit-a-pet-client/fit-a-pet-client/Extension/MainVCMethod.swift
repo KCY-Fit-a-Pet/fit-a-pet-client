@@ -51,9 +51,21 @@ class PetCareCollectionViewMethod: NSObject, UICollectionViewDataSource, UIColle
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "MainPetCareCollectionViewCell", for: indexPath) as! MainPetCareCollectionViewCell
 
         if let careCategory = petCareData[3]?[indexPath.section] {
-            let data = careCategory.cares[indexPath.item].careName
-            let time = careCategory.cares[indexPath.item].careDate
-            cell.configure(data, time)
+            let care = careCategory.cares[indexPath.item]
+            let data = care.careName
+            
+            if let formattedTime = DateFormatterUtils.formatTime(care.careDate) {
+                
+                if care.isClear {
+                    cell.configure(data, "완료됨")
+                    cell.careNameLabel.textColor = UIColor(named: "Gray3")
+                    cell.careTimeLabel.textColor = UIColor(named: "Success")
+                } else {
+                    cell.configure(data, formattedTime)
+                    cell.careNameLabel.textColor = .black
+                    cell.careTimeLabel.textColor = UIColor(named: "Gray5")
+                }
+            }
         }
         return cell
     }

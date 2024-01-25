@@ -44,6 +44,9 @@
 		4A54A0BF2B585A7E0024B940 /* PetCareListCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A54A0BE2B585A7E0024B940 /* PetCareListCollectionViewCell.swift */; };
 		4A80E4D12B487DF600CD5D05 /* TokenHandling.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A80E4D02B487DF600CD5D05 /* TokenHandling.swift */; };
 		4A80E4D42B49BA7800CD5D05 /* AnonymousAlamofire.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A80E4D32B49BA7800CD5D05 /* AnonymousAlamofire.swift */; };
+		4A828D8B2B618DF7006AE70A /* DateFormatterUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A828D8A2B618DF7006AE70A /* DateFormatterUtils.swift */; };
+		4A828D8D2B619432006AE70A /* CustomCheckPopupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A828D8C2B619432006AE70A /* CustomCheckPopupView.swift */; };
+		4A828D8F2B619447006AE70A /* CustomCheckPopupVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A828D8E2B619447006AE70A /* CustomCheckPopupVC.swift */; };
 		4A8662D42B26299F00D8DDE8 /* EditUserPwVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A8662D32B26299F00D8DDE8 /* EditUserPwVC.swift */; };
 		4A8662D62B2629F500D8DDE8 /* EditUserNameVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A8662D52B2629F500D8DDE8 /* EditUserNameVC.swift */; };
 		4A8662D82B262DA200D8DDE8 /* CustomEditNavigationBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A8662D72B262DA200D8DDE8 /* CustomEditNavigationBar.swift */; };
@@ -63,8 +66,8 @@
 		4AB6178E2B1CFAF300CED98E /* FindIdCheckVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AB6178D2B1CFAF300CED98E /* FindIdCheckVC.swift */; };
 		4ABE53002B5AD92F000EA41D /* PetDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ABE52FF2B5AD92F000EA41D /* PetDataManager.swift */; };
 		4AC579832B2DFD4B00735252 /* StructData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AC579822B2DFD4B00735252 /* StructData.swift */; };
-		4AC579852B2DFF7500735252 /* CustomPopupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AC579842B2DFF7500735252 /* CustomPopupView.swift */; };
-		4AC579872B2E004400735252 /* CustomPopupVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AC579862B2E004400735252 /* CustomPopupVC.swift */; };
+		4AC579852B2DFF7500735252 /* CustomAlarmPopupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AC579842B2DFF7500735252 /* CustomAlarmPopupView.swift */; };
+		4AC579872B2E004400735252 /* CustomAlarmPopupVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AC579862B2E004400735252 /* CustomAlarmPopupVC.swift */; };
 		4ACDD4A12AD9B37E00CD8F1A /* InputSpeciesVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ACDD4A02AD9B37E00CD8F1A /* InputSpeciesVC.swift */; };
 		4ACDD4A32AD9B3A500CD8F1A /* InputPetNameVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ACDD4A22AD9B3A500CD8F1A /* InputPetNameVC.swift */; };
 		4ACDD4A52AD9B3DC00CD8F1A /* InputGenderVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ACDD4A42AD9B3DC00CD8F1A /* InputGenderVC.swift */; };
@@ -128,6 +131,9 @@
 		4A80E4D02B487DF600CD5D05 /* TokenHandling.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenHandling.swift; sourceTree = "<group>"; };
 		4A80E4D22B4882B500CD5D05 /* fit-a-pet-client.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "fit-a-pet-client.entitlements"; sourceTree = "<group>"; };
 		4A80E4D32B49BA7800CD5D05 /* AnonymousAlamofire.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnonymousAlamofire.swift; sourceTree = "<group>"; };
+		4A828D8A2B618DF7006AE70A /* DateFormatterUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateFormatterUtils.swift; sourceTree = "<group>"; };
+		4A828D8C2B619432006AE70A /* CustomCheckPopupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomCheckPopupView.swift; sourceTree = "<group>"; };
+		4A828D8E2B619447006AE70A /* CustomCheckPopupVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomCheckPopupVC.swift; sourceTree = "<group>"; };
 		4A8662D32B26299F00D8DDE8 /* EditUserPwVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditUserPwVC.swift; sourceTree = "<group>"; };
 		4A8662D52B2629F500D8DDE8 /* EditUserNameVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditUserNameVC.swift; sourceTree = "<group>"; };
 		4A8662D72B262DA200D8DDE8 /* CustomEditNavigationBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomEditNavigationBar.swift; sourceTree = "<group>"; };
@@ -149,8 +155,8 @@
 		4AB6178D2B1CFAF300CED98E /* FindIdCheckVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindIdCheckVC.swift; sourceTree = "<group>"; };
 		4ABE52FF2B5AD92F000EA41D /* PetDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PetDataManager.swift; sourceTree = "<group>"; };
 		4AC579822B2DFD4B00735252 /* StructData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StructData.swift; sourceTree = "<group>"; };
-		4AC579842B2DFF7500735252 /* CustomPopupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomPopupView.swift; sourceTree = "<group>"; };
-		4AC579862B2E004400735252 /* CustomPopupVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomPopupVC.swift; sourceTree = "<group>"; };
+		4AC579842B2DFF7500735252 /* CustomAlarmPopupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomAlarmPopupView.swift; sourceTree = "<group>"; };
+		4AC579862B2E004400735252 /* CustomAlarmPopupVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomAlarmPopupVC.swift; sourceTree = "<group>"; };
 		4ACDD4A02AD9B37E00CD8F1A /* InputSpeciesVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputSpeciesVC.swift; sourceTree = "<group>"; };
 		4ACDD4A22AD9B3A500CD8F1A /* InputPetNameVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputPetNameVC.swift; sourceTree = "<group>"; };
 		4ACDD4A42AD9B3DC00CD8F1A /* InputGenderVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputGenderVC.swift; sourceTree = "<group>"; };
@@ -243,6 +249,17 @@
 			path = PetVCView;
 			sourceTree = "<group>";
 		};
+		4A828D892B618D2D006AE70A /* Manager */ = {
+			isa = PBXGroup;
+			children = (
+				4A0750D72B0D130F00281A4C /* PetRegistrationManager.swift */,
+				4A4BFDC92AD26B0F0062BDB8 /* RegistrationManager.swift */,
+				4A88D6162B53ABD2003A2D0F /* PetCareRegistrationManager.swift */,
+				4ABE52FF2B5AD92F000EA41D /* PetDataManager.swift */,
+			);
+			path = Manager;
+			sourceTree = "<group>";
+		};
 		4AA999852A8485A500E495FA = {
 			isa = PBXGroup;
 			children = (
@@ -294,7 +311,8 @@
 				4A15F20C2AA8B3FB0098F2F7 /* SignUpVC */,
 				4AA999952A8485A500E495FA /* FirstVC.swift */,
 				4AD354142AACD390004A47B3 /* LoginVC.swift */,
-				4AC579862B2E004400735252 /* CustomPopupVC.swift */,
+				4AC579862B2E004400735252 /* CustomAlarmPopupVC.swift */,
+				4A828D8E2B619447006AE70A /* CustomCheckPopupVC.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -309,7 +327,8 @@
 				4AF0C8552B25A93500A45EEE /* AlarmTableViewCell.swift */,
 				4AD089692AFBFD9400E79E52 /* CheckCareCollectionViewCell.swift */,
 				4AF0C8532B24E1A800A45EEE /* MyInfoTableViewCell.swift */,
-				4AC579842B2DFF7500735252 /* CustomPopupView.swift */,
+				4AC579842B2DFF7500735252 /* CustomAlarmPopupView.swift */,
+				4A828D8C2B619432006AE70A /* CustomCheckPopupView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -339,14 +358,12 @@
 		4ABE585D2A85E91600E22C5F /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				4A828D892B618D2D006AE70A /* Manager */,
 				4A2440702B374C0F0086D2AB /* CryptoHelpers.swift */,
-				4A4BFDC92AD26B0F0062BDB8 /* RegistrationManager.swift */,
 				4A8B9B4F2AD444D0009236EC /* Constants.swift */,
 				4A037FF12AED62E30073BB56 /* KeyChainHelper.swift */,
-				4A0750D72B0D130F00281A4C /* PetRegistrationManager.swift */,
-				4A88D6162B53ABD2003A2D0F /* PetCareRegistrationManager.swift */,
 				4AC579822B2DFD4B00735252 /* StructData.swift */,
-				4ABE52FF2B5AD92F000EA41D /* PetDataManager.swift */,
+				4A828D8A2B618DF7006AE70A /* DateFormatterUtils.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -585,11 +602,13 @@
 				4AD354292AAF7F55004A47B3 /* RecordVC.swift in Sources */,
 				4A0C7F072B5C568D0097D753 /* PetCareHeaderView.swift in Sources */,
 				4AEDCE012B4C718E0043E872 /* PetCareRegistVC.swift in Sources */,
+				4A828D8F2B619447006AE70A /* CustomCheckPopupVC.swift in Sources */,
 				4A8662D42B26299F00D8DDE8 /* EditUserPwVC.swift in Sources */,
 				4A15F2092AA790D60098F2F7 /* CustomProgressBar.swift in Sources */,
 				4A9088772AC1681B000C7878 /* MainPetCollectionViewCell.swift in Sources */,
 				4A8B9B4A2AD443E6009236EC /* ApiStatusLogger.swift in Sources */,
 				4A0750D22B07D44000281A4C /* UploadPetPhotoVC.swift in Sources */,
+				4A828D8B2B618DF7006AE70A /* DateFormatterUtils.swift in Sources */,
 				4AF0C84E2B24667500A45EEE /* FidnInputIdVC.swift in Sources */,
 				4A8B9B4C2AD443EE009236EC /* MyLogger.swift in Sources */,
 				4A3D7BFD2B4F1F4500E3BBF8 /* CategoryView.swift in Sources */,
@@ -598,13 +617,14 @@
 				4A15F2162AA8B4CA0098F2F7 /* InputNickVC.swift in Sources */,
 				4ACDD4A12AD9B37E00CD8F1A /* InputSpeciesVC.swift in Sources */,
 				4AC579832B2DFD4B00735252 /* StructData.swift in Sources */,
-				4AC579852B2DFF7500735252 /* CustomPopupView.swift in Sources */,
+				4AC579852B2DFF7500735252 /* CustomAlarmPopupView.swift in Sources */,
 				4A4056162B529DFC00A95891 /* OtherSettingsView.swift in Sources */,
 				4AD0896A2AFBFD9400E79E52 /* CheckCareCollectionViewCell.swift in Sources */,
 				4A8B9B462AD443C9009236EC /* AuthorizationAlamofire.swift in Sources */,
 				4A15F20B2AA799C50098F2F7 /* ConstomLabel.swift in Sources */,
 				4A15F2102AA8B45A0098F2F7 /* InputAuthNumVC.swift in Sources */,
-				4AC579872B2E004400735252 /* CustomPopupVC.swift in Sources */,
+				4AC579872B2E004400735252 /* CustomAlarmPopupVC.swift in Sources */,
+				4A828D8D2B619432006AE70A /* CustomCheckPopupView.swift in Sources */,
 				4A15F20E2AA8B4150098F2F7 /* InputPhoneNumVC.swift in Sources */,
 				4AA999962A8485A500E495FA /* FirstVC.swift in Sources */,
 				4A54A0BF2B585A7E0024B940 /* PetCareListCollectionViewCell.swift in Sources */,

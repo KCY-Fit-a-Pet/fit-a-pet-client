@@ -1,6 +1,6 @@
 import UIKit
 
-class CustomPopupView: UIView {
+class CustomAlarmPopupView: UIView {
 
     let messageLabel: UILabel = {
         let label = UILabel()
