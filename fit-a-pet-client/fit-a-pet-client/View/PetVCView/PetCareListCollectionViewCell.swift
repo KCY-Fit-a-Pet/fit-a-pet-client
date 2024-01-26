@@ -2,7 +2,7 @@ import UIKit
 import SnapKit
 
 class PetCareListCollectionViewCell: UICollectionViewCell {
-    private let careName: UILabel = {
+    let careName: UILabel = {
         let label = UILabel()
         label.textAlignment = .center
         label.textColor = .black
