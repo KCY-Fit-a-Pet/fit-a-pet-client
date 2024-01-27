@@ -57,18 +57,29 @@ class LoginVC: UIViewController{
     private func initView(){
         
         view.backgroundColor = .white
-        self.view.addSubview(loginLabel)
-        self.view.addSubview(inputId)
-        self.view.addSubview(inputPw)
-        self.view.addSubview(loginBtn)
+        
+        let containerView = UIView()
+        
+        
+        containerView.addSubview(loginLabel)
+        containerView.addSubview(inputId)
+        containerView.addSubview(inputPw)
+        containerView.addSubview(loginBtn)
+        view.addSubview(containerView)
+        
+        containerView.layer.borderWidth = 1
+        
+        containerView.snp.makeConstraints { make in
+            make.centerY.equalToSuperview()
+            make.height.equalTo(350)
+            make.leading.trailing.equalToSuperview()
+        }
         
         loginLabel.text = "로그인"
         loginLabel.font = .boldSystemFont(ofSize: 20)
         
         loginLabel.snp.makeConstraints{ make in
-            make.top.equalToSuperview().offset(240)
-            
-            //수평 중앙정렬
+            make.top.equalToSuperview().offset(20)
             make.centerX.equalToSuperview()
         }
         

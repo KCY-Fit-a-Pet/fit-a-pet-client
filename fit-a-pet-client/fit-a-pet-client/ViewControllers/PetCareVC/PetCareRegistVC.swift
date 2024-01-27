@@ -369,7 +369,7 @@ extension PetCareRegistVC: UITextFieldDelegate {
 
 extension PetCareRegistVC: UICollectionViewDelegateFlowLayout{
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: 40, height: 40)
+        return CGSize(width: 44, height: 44)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
