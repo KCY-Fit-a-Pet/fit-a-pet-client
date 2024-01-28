@@ -62,9 +62,11 @@ class CalendarVC: UIViewController {
     }
 
     @objc func didTapAddButton() {
-        let calendarPanModalVC = CalendarPanModalVC()
+        let calendarRegistrationVC = CalendarRegistrationVC()
+        let navigationController = UINavigationController(rootViewController: calendarRegistrationVC)
         
-        self.presentPanModal(calendarPanModalVC)
+        self.present(navigationController, animated: true)
+      
     }
 }
 

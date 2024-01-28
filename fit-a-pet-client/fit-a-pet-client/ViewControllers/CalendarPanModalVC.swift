@@ -1,28 +1,50 @@
 import UIKit
 import SnapKit
-import PanModal
 
-class CalendarPanModalVC: UIViewController, PanModalDateViewDelegate {
+class CalendarRegistrationVC: UIViewController, CalendarDateViewDelegate {
 
     private let scrollView = UIScrollView()
     private let titleLabel = UILabel()
+    private let closeBtn = UIButton()
     let scheduleView = CustomVerticalView(labelText: "일정 이름", placeholder: "일정 이름")
     let locationView = CustomVerticalView(labelText: "장소", placeholder: "장소")
     let otherSettingView = OtherSettingsView()
     
     let registrationBtn = CustomNextBtn(title: "등록하기")
-    let dateView = PanModalDateView()
+    let dateView = CalendarDateView()
     let dateTimePicker = UIDatePicker()
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        setupNavigationBar()
         setupViews()
         setupActions()
     }
+    
+    private func setupNavigationBar() {
+        
+        navigationController?.navigationBar.tintColor = .black
+        navigationController?.navigationBar.topItem?.title = " "
+        
+        titleLabel.text = "일정 등록하기"
+        titleLabel.font = .boldSystemFont(ofSize: 18)
+        titleLabel.sizeToFit()
+        
+        let titleView = UIView(frame: CGRect(x: 0, y: 0, width: titleLabel.frame.width, height: titleLabel.frame.height))
+        titleView.addSubview(titleLabel)
+        
+        navigationItem.titleView = titleView
+        
+        closeBtn.setImage(UIImage(named: "close_icon"), for: .normal)
+        closeBtn.addTarget(self, action: #selector(closeBtnTapped), for: .touchUpInside)
+        navigationItem.rightBarButtonItem = UIBarButtonItem(customView: closeBtn)
+    }
 
     private func setupViews() {
+        
         view.addSubview(scrollView)
         view.addSubview(registrationBtn)
+        view.backgroundColor = .white
         
         scrollView.snp.makeConstraints { make in
             make.top.leading.trailing.equalToSuperview()
@@ -36,25 +58,15 @@ class CalendarPanModalVC: UIViewController, PanModalDateViewDelegate {
         dateTimePicker.isHidden = true
         dateTimePicker.datePickerMode = .date
         dateTimePicker.preferredDatePickerStyle = .inline
-        
-        scrollView.addSubview(titleLabel)
+
         scrollView.addSubview(scheduleView)
         scrollView.addSubview(locationView)
         scrollView.addSubview(dateView)
         scrollView.addSubview(dateTimePicker)
         scrollView.addSubview(otherSettingView)
 
-        titleLabel.text = "일정 등록하기"
-        titleLabel.font = .boldSystemFont(ofSize: 18)
-
-        titleLabel.snp.makeConstraints { make in
-            make.top.equalTo(scrollView.snp.top).offset(16)
-            make.centerX.equalToSuperview()
-            make.height.equalTo(40)
-        }
-
         scheduleView.snp.makeConstraints { make in
-            make.top.equalTo(titleLabel.snp.bottom).offset(16)
+            make.top.equalTo(scrollView.snp.top).offset(16)
             make.leading.equalTo(view.snp.leading).offset(16)
             make.trailing.equalTo(view.snp.trailing).offset(-16)
             make.height.equalTo(88)
@@ -110,6 +122,10 @@ class CalendarPanModalVC: UIViewController, PanModalDateViewDelegate {
 
         self.presentPanModal(timePanModalVC)
     }
+    @objc private func closeBtnTapped() {
+
+        dismiss(animated: true, completion: nil)
+    }
     
     func datePickerButtonTapped() {
         dateTimePicker.datePickerMode = .date
@@ -144,7 +160,7 @@ class CalendarPanModalVC: UIViewController, PanModalDateViewDelegate {
                 dateTimePicker.isHidden = false
                 
                 dateTimePicker.snp.updateConstraints { make in
-                    make.height.equalTo(250)
+                    make.height.equalTo(200)
                 }
 
             } else {
@@ -161,44 +177,26 @@ class CalendarPanModalVC: UIViewController, PanModalDateViewDelegate {
     }
 }
 
-extension CalendarPanModalVC: PanModalPresentable {
-    var panScrollable: UIScrollView? {
-        return scrollView
-    }
-
-    var longFormHeight: PanModalHeight {
-        return .maxHeight
-    }
-
-    var anchorModalToLongForm: Bool {
-        return false
-    }
-
-    var panModalBackgroundColor: UIColor {
-        return UIColor.white
-    }
-}
-
-extension CalendarPanModalVC: UITextFieldDelegate{
+extension CalendarRegistrationVC: UITextFieldDelegate{
 
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-
-        let scheduleText = (scheduleView.textInputField.text! as NSString).replacingCharacters(in: range, with: string)
-        let locationText = (locationView.textInputField.text! as NSString).replacingCharacters(in: range, with: string)
         
-        if scheduleText.isEmpty{
-            scheduleView.textInputField.layer.borderColor = UIColor(named: "Gray3")?.cgColor
-        }else{
-            scheduleView.textInputField.layer.borderColor = UIColor(named: "PrimaryColor")?.cgColor
+        if textField == scheduleView.textInputField {
+            handleTextChange(for: scheduleView, in: range, replacementString: string)
+        } else if textField == locationView.textInputField {
+            handleTextChange(for: locationView, in: range, replacementString: string)
         }
-        
-        if locationText.isEmpty{
-            locationView.textInputField.layer.borderColor = UIColor(named: "Gray3")?.cgColor
-        }else{
-            locationView.textInputField.layer.borderColor = UIColor(named: "PrimaryColor")?.cgColor
-        }
-        
         
         return true
+    }
+    
+    private func handleTextChange(for customView: CustomVerticalView, in range: NSRange, replacementString string: String) {
+        let newText = (customView.textInputField.text! as NSString).replacingCharacters(in: range, with: string)
+        
+        if newText.isEmpty {
+            customView.textInputField.layer.borderColor = UIColor(named: "Gray3")?.cgColor
+        } else {
+            customView.textInputField.layer.borderColor = UIColor(named: "PrimaryColor")?.cgColor
+        }
     }
 }

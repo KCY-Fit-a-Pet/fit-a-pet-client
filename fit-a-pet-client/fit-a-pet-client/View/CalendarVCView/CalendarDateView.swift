@@ -1,7 +1,7 @@
 import UIKit
 import SnapKit
 
-class PanModalDateView: UIView {
+class CalendarDateView: UIView {
 
     private let dateLabel = UILabel()
     let labelStackView = UIStackView()
@@ -11,7 +11,7 @@ class PanModalDateView: UIView {
     var isTimePickerSelected = false
     
     private var selectedButton: UIButton?
-    weak var delegate: PanModalDateViewDelegate?
+    weak var delegate: CalendarDateViewDelegate?
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -126,7 +126,7 @@ class PanModalDateView: UIView {
     }
 }
 
-protocol PanModalDateViewDelegate: AnyObject {
+protocol CalendarDateViewDelegate: AnyObject {
     func datePickerButtonTapped()
     func timePickerButtonTapped()
 }

@@ -62,7 +62,7 @@
 		4A9936542B64231B00B7B21A /* CalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A9936532B64231B00B7B21A /* CalendarView.swift */; };
 		4A9936562B642A0800B7B21A /* CalendarPanModalVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A9936552B642A0800B7B21A /* CalendarPanModalVC.swift */; };
 		4A9936582B642B7E00B7B21A /* CustomVerticalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A9936572B642B7E00B7B21A /* CustomVerticalView.swift */; };
-		4A99365A2B65309F00B7B21A /* PanModalDateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A9936592B65309F00B7B21A /* PanModalDateView.swift */; };
+		4A99365A2B65309F00B7B21A /* CalendarDateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A9936592B65309F00B7B21A /* CalendarDateView.swift */; };
 		4AA999922A8485A500E495FA /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AA999912A8485A500E495FA /* AppDelegate.swift */; };
 		4AA999942A8485A500E495FA /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AA999932A8485A500E495FA /* SceneDelegate.swift */; };
 		4AA999962A8485A500E495FA /* FirstVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AA999952A8485A500E495FA /* FirstVC.swift */; };
@@ -154,7 +154,7 @@
 		4A9936532B64231B00B7B21A /* CalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarView.swift; sourceTree = "<group>"; };
 		4A9936552B642A0800B7B21A /* CalendarPanModalVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarPanModalVC.swift; sourceTree = "<group>"; };
 		4A9936572B642B7E00B7B21A /* CustomVerticalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomVerticalView.swift; sourceTree = "<group>"; };
-		4A9936592B65309F00B7B21A /* PanModalDateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PanModalDateView.swift; sourceTree = "<group>"; };
+		4A9936592B65309F00B7B21A /* CalendarDateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarDateView.swift; sourceTree = "<group>"; };
 		4AA9998E2A8485A500E495FA /* fit-a-pet-client.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "fit-a-pet-client.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		4AA999912A8485A500E495FA /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		4AA999932A8485A500E495FA /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -275,7 +275,7 @@
 			children = (
 				4A9936512B64230600B7B21A /* CalendarHeaderView.swift */,
 				4A9936532B64231B00B7B21A /* CalendarView.swift */,
-				4A9936592B65309F00B7B21A /* PanModalDateView.swift */,
+				4A9936592B65309F00B7B21A /* CalendarDateView.swift */,
 			);
 			path = CalendarVCView;
 			sourceTree = "<group>";
@@ -329,8 +329,8 @@
 				4ACDD49A2AD9A9F600CD8F1A /* FindAccountVC */,
 				4AD354232AAF7EB6004A47B3 /* TabBarVC */,
 				4A15F20C2AA8B3FB0098F2F7 /* SignUpVC */,
-				4AA999952A8485A500E495FA /* FirstVC.swift */,
 				4AD354142AACD390004A47B3 /* LoginVC.swift */,
+				4AA999952A8485A500E495FA /* FirstVC.swift */,
 				4AC579862B2E004400735252 /* CustomAlarmPopupVC.swift */,
 				4A828D8E2B619447006AE70A /* CustomCheckPopupVC.swift */,
 				4A9936552B642A0800B7B21A /* CalendarPanModalVC.swift */,
@@ -679,7 +679,7 @@
 				4AD354202AAF7CD6004A47B3 /* MainVC.swift in Sources */,
 				4A0C7EFF2B5C29090097D753 /* MainPetListView.swift in Sources */,
 				4A2440712B374C0F0086D2AB /* CryptoHelpers.swift in Sources */,
-				4A99365A2B65309F00B7B21A /* PanModalDateView.swift in Sources */,
+				4A99365A2B65309F00B7B21A /* CalendarDateView.swift in Sources */,
 				4ACDD4A72AD9B3F600CD8F1A /* CheckCareVC.swift in Sources */,
 				4A8662D62B2629F500D8DDE8 /* EditUserNameVC.swift in Sources */,
 				4A40561F2B52FE7900A95891 /* TimeAttackPanModalTabelViewCell.swift in Sources */,
