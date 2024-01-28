@@ -2,7 +2,7 @@ import UIKit
 import SnapKit
 import FSCalendar
 
-class CalendarView: UIView {
+class CalendarView: UIView, FSCalendarDelegateAppearance {
     let calendar = FSCalendar()
 
     override init(frame: CGRect) {
@@ -30,12 +30,16 @@ class CalendarView: UIView {
         calendar.locale = Locale(identifier: "ko_KR")
 
         calendar.appearance.titleTodayColor = UIColor(named: "PrimaryColor")
-        calendar.appearance.todayColor = .clear
+        calendar.appearance.todayColor = UIColor(named: "Secondary")
+        
+
+        calendar.appearance.borderRadius = 0.5
         calendar.appearance.todaySelectionColor = UIColor(named: "PrimaryColor")
 
         calendar.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
     }
+
 }
 

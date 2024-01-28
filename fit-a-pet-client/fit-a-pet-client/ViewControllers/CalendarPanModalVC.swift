@@ -10,6 +10,7 @@ class CalendarPanModalVC: UIViewController, PanModalDateViewDelegate {
     let locationView = CustomVerticalView(labelText: "장소", placeholder: "장소")
     let otherSettingView = OtherSettingsView()
     
+    let registrationBtn = CustomNextBtn(title: "등록하기")
     let dateView = PanModalDateView()
     let dateTimePicker = UIDatePicker()
 
@@ -21,15 +22,18 @@ class CalendarPanModalVC: UIViewController, PanModalDateViewDelegate {
 
     private func setupViews() {
         view.addSubview(scrollView)
+        view.addSubview(registrationBtn)
         
         scrollView.snp.makeConstraints { make in
-            make.edges.equalToSuperview()
+            make.top.leading.trailing.equalToSuperview()
+            make.bottom.equalTo(registrationBtn.snp.top).offset(15)
         }
         
         dateView.delegate = self
+        scheduleView.textInputField.delegate = self
+        locationView.textInputField.delegate = self
         
         dateTimePicker.isHidden = true
-
         dateTimePicker.datePickerMode = .date
         dateTimePicker.preferredDatePickerStyle = .inline
         
@@ -84,6 +88,12 @@ class CalendarPanModalVC: UIViewController, PanModalDateViewDelegate {
             make.height.equalTo(400)
             make.bottom.equalTo(scrollView.snp.bottom)
         }
+        
+        registrationBtn.snp.makeConstraints{make in
+            make.leading.equalTo(view.snp.leading).offset(16)
+            make.trailing.equalTo(view.snp.trailing).offset(-16)
+            make.bottom.equalTo(view.snp.bottom).offset(-50)
+        }
     }
     
     private func setupActions() {
@@ -104,46 +114,49 @@ class CalendarPanModalVC: UIViewController, PanModalDateViewDelegate {
     func datePickerButtonTapped() {
         dateTimePicker.datePickerMode = .date
         dateTimePicker.preferredDatePickerStyle = .inline
-        if dateTimePicker.isHidden {
-            
-            dateTimePicker.isHidden = false
-            
-            dateTimePicker.snp.updateConstraints { make in
-                make.height.equalTo(300)
-            }
+        if !dateView.isTimePickerSelected{
+            if dateTimePicker.isHidden {
+                dateTimePicker.isHidden = false
+                
+                dateTimePicker.snp.updateConstraints { make in
+                    make.height.equalTo(300)
+                }
 
-        } else {
-            dateTimePicker.isHidden = true
-            
-            dateTimePicker.snp.updateConstraints { make in
-                make.height.equalTo(0)
+            } else {
+                dateTimePicker.isHidden = true
+
+                dateTimePicker.snp.updateConstraints { make in
+                    make.height.equalTo(0)
+                }
+            }
+            UIView.animate(withDuration: 0.3) {
+                self.view.layoutIfNeeded()
             }
         }
-        UIView.animate(withDuration: 0.3) {
-            self.view.layoutIfNeeded()
-        }
+        
     }
 
     func timePickerButtonTapped() {
         dateTimePicker.datePickerMode = .time
         dateTimePicker.preferredDatePickerStyle = .wheels
-        if dateTimePicker.isHidden {
-            
-            dateTimePicker.isHidden = false
-            
-            dateTimePicker.snp.updateConstraints { make in
-                make.height.equalTo(250)
-            }
+        if !dateView.isDatePickerSelected{
+            if dateTimePicker.isHidden {
+                dateTimePicker.isHidden = false
+                
+                dateTimePicker.snp.updateConstraints { make in
+                    make.height.equalTo(250)
+                }
 
-        } else {
-            dateTimePicker.isHidden = true
-            
-            dateTimePicker.snp.updateConstraints { make in
-                make.height.equalTo(0)
+            } else {
+                dateTimePicker.isHidden = true
+
+                dateTimePicker.snp.updateConstraints { make in
+                    make.height.equalTo(0)
+                }
             }
-        }
-        UIView.animate(withDuration: 0.3) {
-            self.view.layoutIfNeeded()
+            UIView.animate(withDuration: 0.3) {
+                self.view.layoutIfNeeded()
+            }
         }
     }
 }
@@ -166,3 +179,26 @@ extension CalendarPanModalVC: PanModalPresentable {
     }
 }
 
+extension CalendarPanModalVC: UITextFieldDelegate{
+
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+
+        let scheduleText = (scheduleView.textInputField.text! as NSString).replacingCharacters(in: range, with: string)
+        let locationText = (locationView.textInputField.text! as NSString).replacingCharacters(in: range, with: string)
+        
+        if scheduleText.isEmpty{
+            scheduleView.textInputField.layer.borderColor = UIColor(named: "Gray3")?.cgColor
+        }else{
+            scheduleView.textInputField.layer.borderColor = UIColor(named: "PrimaryColor")?.cgColor
+        }
+        
+        if locationText.isEmpty{
+            locationView.textInputField.layer.borderColor = UIColor(named: "Gray3")?.cgColor
+        }else{
+            locationView.textInputField.layer.borderColor = UIColor(named: "PrimaryColor")?.cgColor
+        }
+        
+        
+        return true
+    }
+}

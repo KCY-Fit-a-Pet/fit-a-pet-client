@@ -5,7 +5,7 @@ import Alamofire
 
 class InputPhoneNumVC : UIViewController {
     
-    private let nextAutnNumBtn = CustomNextBtn(title: "다음")
+    private let nextAuthNumBtn = CustomNextBtn(title: "다음")
     private let inputPhoneNum = UITextField()
     private let progressBar = CustomProgressBar.shared
     private let customLabel = ConstomLabel()
@@ -17,13 +17,13 @@ class InputPhoneNumVC : UIViewController {
         
         initView()
 
-        nextAutnNumBtn.addTarget(self, action: #selector(changeInputAuthNumVC(_:)), for: .touchUpInside)
+        nextAuthNumBtn.addTarget(self, action: #selector(changeInputAuthNumVC(_:)), for: .touchUpInside)
     }
     private func initView(){
         
         view.backgroundColor = .white
         
-        self.view.addSubview(nextAutnNumBtn)
+        self.view.addSubview(nextAuthNumBtn)
         self.view.addSubview(inputPhoneNum)
         self.view.addSubview(customLabel)
 
@@ -55,8 +55,8 @@ class InputPhoneNumVC : UIViewController {
             make.right.equalTo(view.snp.right).offset(-16)
         }
 
-        nextAutnNumBtn.snp.makeConstraints{make in
-            make.bottom.equalTo(view.snp.bottom).offset(-65)
+        nextAuthNumBtn.snp.makeConstraints{make in
+            make.bottom.equalTo(view.snp.bottom).offset(-50)
             make.left.equalTo(view.snp.left).offset(16)
             make.right.equalTo(view.snp.right).offset(-16)
         }
@@ -140,7 +140,7 @@ class InputPhoneNumVC : UIViewController {
 extension InputPhoneNumVC: UITextFieldDelegate{
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         let updatedText = (inputPhoneNum.text! as NSString).replacingCharacters(in: range, with: string)
-        nextAutnNumBtn.updateButtonColor(updatedText, false)
+        nextAuthNumBtn.updateButtonColor(updatedText, false)
         
         if updatedText.isEmpty {
             inputPhoneNum.layer.borderColor = UIColor(named: "Gray3")?.cgColor

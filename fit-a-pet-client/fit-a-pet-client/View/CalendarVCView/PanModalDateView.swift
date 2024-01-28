@@ -7,8 +7,8 @@ class PanModalDateView: UIView {
     let labelStackView = UIStackView()
     let datePickerBtn = UIButton()
     let timePickerBtn = UIButton()
-    private var isDatePickerSelected = false
-    private var isTimePickerSelected = false
+    var isDatePickerSelected = false
+    var isTimePickerSelected = false
     
     private var selectedButton: UIButton?
     weak var delegate: PanModalDateViewDelegate?
@@ -96,19 +96,24 @@ class PanModalDateView: UIView {
     }
     
     @objc private func datePickerTapped() {
-        isDatePickerSelected.toggle()
-        deselectOtherButton()
-        selectedButton = datePickerBtn
-        datePickerBtn.setTitleColor(isDatePickerSelected ? UIColor(named: "PrimaryColor") : .black, for: .normal)
-        delegate?.datePickerButtonTapped()
+        if !isTimePickerSelected{
+            isDatePickerSelected.toggle()
+            deselectOtherButton()
+            selectedButton = datePickerBtn
+            datePickerBtn.setTitleColor(isDatePickerSelected ? UIColor(named: "PrimaryColor") : .black, for: .normal)
+            delegate?.datePickerButtonTapped()
+        }
     }
     
     @objc private func timePickerTapped() {
-        isTimePickerSelected.toggle()
-        deselectOtherButton()
-        selectedButton = timePickerBtn
-        timePickerBtn.setTitleColor(isDatePickerSelected ? UIColor(named: "PrimaryColor") : .black, for: .normal)
-        delegate?.timePickerButtonTapped()
+        if !isDatePickerSelected{
+            isTimePickerSelected.toggle()
+            deselectOtherButton()
+            selectedButton = timePickerBtn
+            timePickerBtn.setTitleColor(isTimePickerSelected ? UIColor(named: "PrimaryColor") : .black, for: .normal)
+            delegate?.timePickerButtonTapped()
+        }
+       
     }
     
     private func deselectOtherButton() {

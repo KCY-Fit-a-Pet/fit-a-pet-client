@@ -56,7 +56,7 @@ class InputSpeciesVC: CustomNavigationBar {
         }
 
         nextPetNameBtn.snp.makeConstraints{make in
-            make.bottom.equalTo(view.snp.bottom).offset(-65)
+            make.bottom.equalTo(view.snp.bottom).offset(-50)
             make.left.equalTo(view.snp.left).offset(16)
             make.right.equalTo(view.snp.right).offset(-16)
         }

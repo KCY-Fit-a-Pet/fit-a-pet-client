@@ -82,11 +82,25 @@ extension CalendarVC: CalendarStackViewDelegate{
     }
 }
 
-extension CalendarVC: FSCalendarDelegate{
+extension CalendarVC: FSCalendarDelegate, FSCalendarDelegateAppearance{
     func calendar(_ calendar: FSCalendar, didSelect date: Date, at monthPosition: FSCalendarMonthPosition) {
            
            print("Selected Date: \(date)")
        }
+    
+    func calendar(_ calendar: FSCalendar, appearance: FSCalendarAppearance, borderSelectionColorFor date: Date) -> UIColor? {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd"
+        
+        print("[INFO] dateFormatter.string(from: date) : " + dateFormatter.string(from: date))
+        
+        switch dateFormatter.string(from: date) {
+            case dateFormatter.string(from: Date()):
+            return .blue
+            default:
+                return nil
+        }
+    }
     
     func setCalendar() {
         calendarView.calendar.scope = .month

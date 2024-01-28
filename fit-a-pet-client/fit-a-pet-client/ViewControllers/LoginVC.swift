@@ -67,8 +67,6 @@ class LoginVC: UIViewController{
         containerView.addSubview(loginBtn)
         view.addSubview(containerView)
         
-        containerView.layer.borderWidth = 1
-        
         containerView.snp.makeConstraints { make in
             make.centerY.equalToSuperview()
             make.height.equalTo(350)
@@ -206,14 +204,14 @@ class LoginVC: UIViewController{
         FindIdPwSwitch.findAuth = "아이디 찾기"
         FindIdPwSwitch.findtype = "uid"
         let findIdVC = FindInputPhoneNumVC(title: FindIdPwSwitch.findAuth)
-        self.navigationController?.pushViewController(findIdVC, animated: false)
+        self.navigationController?.pushViewController(findIdVC, animated: true)
     }
     
     @objc func changeFindPwVC(_ sender: UIButton){
         FindIdPwSwitch.findAuth = "비밀번호 찾기"
         FindIdPwSwitch.findtype = "password"
         let findPwVC = FindInputIdVC(title: FindIdPwSwitch.findAuth)
-        self.navigationController?.pushViewController(findPwVC, animated: false)
+        self.navigationController?.pushViewController(findPwVC, animated: true)
     }
 }
     
