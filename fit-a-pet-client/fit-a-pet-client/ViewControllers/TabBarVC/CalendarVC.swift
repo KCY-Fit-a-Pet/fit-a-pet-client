@@ -2,7 +2,6 @@ import UIKit
 import SnapKit
 import FSCalendar
 import SwiftUI
-import PanModal
 
 class CalendarVC: UIViewController {
     let calendarStackView = CalendarStackView()

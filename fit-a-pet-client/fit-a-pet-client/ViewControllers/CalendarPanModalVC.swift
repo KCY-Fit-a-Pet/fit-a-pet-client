@@ -1,5 +1,6 @@
 import UIKit
 import SnapKit
+import PanModal
 
 class CalendarRegistrationVC: UIViewController, CalendarDateViewDelegate {
 
@@ -13,12 +14,15 @@ class CalendarRegistrationVC: UIViewController, CalendarDateViewDelegate {
     let registrationBtn = CustomNextBtn(title: "등록하기")
     let dateView = CalendarDateView()
     let dateTimePicker = UIDatePicker()
+    
+    var selecteDateTime = ""
 
     override func viewDidLoad() {
         super.viewDidLoad()
         setupNavigationBar()
         setupViews()
         setupActions()
+        carePetListAPI()
     }
     
     private func setupNavigationBar() {
@@ -111,6 +115,8 @@ class CalendarRegistrationVC: UIViewController, CalendarDateViewDelegate {
     private func setupActions() {
         otherSettingView.carePetButton.addTarget(self, action: #selector(carePetButtonTapped), for: .touchUpInside)
         otherSettingView.timeAttackButton.addTarget(self, action: #selector(timeAttackButtonTapped), for: .touchUpInside)
+        dateTimePicker.addTarget(self, action: #selector(datePickerValueChanged), for: .valueChanged)
+        registrationBtn.addTarget(self, action: #selector(registrationBtnTapped), for: .touchUpInside)
     }
     @objc private func carePetButtonTapped() {
         let petPanModalVC = PetPanModalVC(title: "반려동물을 선택하세요")
@@ -133,7 +139,7 @@ class CalendarRegistrationVC: UIViewController, CalendarDateViewDelegate {
         if !dateView.isTimePickerSelected{
             if dateTimePicker.isHidden {
                 dateTimePicker.isHidden = false
-                
+                selecteDateTime = "date"
                 dateTimePicker.snp.updateConstraints { make in
                     make.height.equalTo(300)
                 }
@@ -158,7 +164,7 @@ class CalendarRegistrationVC: UIViewController, CalendarDateViewDelegate {
         if !dateView.isDatePickerSelected{
             if dateTimePicker.isHidden {
                 dateTimePicker.isHidden = false
-                
+                selecteDateTime = "time"
                 dateTimePicker.snp.updateConstraints { make in
                     make.height.equalTo(200)
                 }
@@ -173,6 +179,98 @@ class CalendarRegistrationVC: UIViewController, CalendarDateViewDelegate {
             UIView.animate(withDuration: 0.3) {
                 self.view.layoutIfNeeded()
             }
+        }
+    }
+    @objc func datePickerValueChanged() {
+        
+        let selectedDate = dateTimePicker.date
+        
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+        
+        let formattedDate = dateFormatter.string(from: selectedDate)
+
+        if selecteDateTime == "time" {
+            if let formattedTime = DateFormatterUtils.formatTime(formattedDate, from: "yyyy-MM-dd HH:mm:ss", to: "a h:mm") {
+                dateView.timePickerBtn.setTitle(formattedTime, for: .normal)
+            }
+        }else{
+            if let formattedFullDate = DateFormatterUtils.formatFullDate(formattedDate, from: "yyyy-MM-dd HH:mm:ss", to: "yyyy.MM.dd (E)") {
+                dateView.datePickerBtn.setTitle(formattedFullDate, for: .normal)
+            }
+        }
+
+        ScheduleRegistrationManager.shared.addInput(reservationDate: formattedDate)
+        print("Selected Date/Time: \(formattedDate)")
+    }
+    
+    private func carePetListAPI(){
+        AuthorizationAlamofire.shared.userPetsList{ result in
+            switch result {
+            case .success(let data):
+                if let responseData = data {
+                    do {
+                        if let json = try JSONSerialization.jsonObject(with: responseData, options: []) as? [String: Any],
+                           let dataObject = json["data"] as? [String: Any],
+                           let petsArray = dataObject["pets"] as? [[String: Any]] {
+                            
+                            PetList.petsList.removeAll()
+                            
+                            for petData in petsArray {
+                                if let id = petData["id"] as? Int,
+                                   let petName = petData["petName"] as? String {
+                                    let petProfileImage = petData["petProfileImage"] as? String ?? "uploadImage"
+                                    
+                                    let pet = PetList(id: id, petName: petName, petProfileImage: petProfileImage, selectPet: false)
+                                    PetList.petsList.append(pet)
+                                }
+                            }
+                        }
+                    } catch {
+                        print("Error parsing JSON: \(error)")
+                    }
+                }
+            case .failure(let error):
+                print("Error: \(error)")
+            }
+        }
+    }
+    @objc func registrationBtnTapped(){
+        
+        var selectedPetIds: [Int] = []
+        selectedPetIds = PetList.petsList
+            .filter { $0.selectPet }
+            .map { $0.id }
+        
+        ScheduleRegistrationManager.shared.addInput(petIds: selectedPetIds)
+        ScheduleRegistrationManager.shared.performRegistration()
+        
+        let combinedData: [String: Any] = [
+            "scheduleName": ScheduleRegistrationManager.shared.scheduleName ?? "",
+            "location": ScheduleRegistrationManager.shared.location ?? "",
+            "reservationDate": ScheduleRegistrationManager.shared.reservationDate ?? "",
+            "notifyTime": ScheduleRegistrationManager.shared.notifyTime ?? 0,
+            "petIds": ScheduleRegistrationManager.shared.petIds ?? [],
+        ]
+                
+        AuthorizationAlamofire.shared.createSchedule(combinedData){ result in
+            switch result {
+            case .success(let data):
+                if let responseData = data {
+                    do {
+                        let jsonObject = try JSONSerialization.jsonObject(with: responseData, options: []) as? [String: Any] ?? [:]
+
+                        print("Response JSON Data (User Profile): \(jsonObject)")
+
+                    } catch {
+                        print("Error parsing user profile JSON: \(error)")
+                    }
+                }
+
+            case .failure(let profileError):
+                print("Error fetching user profile info: \(profileError)")
+            }
+
         }
     }
 }
@@ -192,11 +290,27 @@ extension CalendarRegistrationVC: UITextFieldDelegate{
     
     private func handleTextChange(for customView: CustomVerticalView, in range: NSRange, replacementString string: String) {
         let newText = (customView.textInputField.text! as NSString).replacingCharacters(in: range, with: string)
-        
+
         if newText.isEmpty {
             customView.textInputField.layer.borderColor = UIColor(named: "Gray3")?.cgColor
         } else {
             customView.textInputField.layer.borderColor = UIColor(named: "PrimaryColor")?.cgColor
+        }
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
+    }
+    
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        if let text = scheduleView.textInputField.text {
+            ScheduleRegistrationManager.shared.addInput(scheduleName: text)
+            print("Entered Text: \(text)")
+        }
+        if let text = locationView.textInputField.text {
+            ScheduleRegistrationManager.shared.addInput(location: text)
+            print("Entered Text: \(text)")
         }
     }
 }

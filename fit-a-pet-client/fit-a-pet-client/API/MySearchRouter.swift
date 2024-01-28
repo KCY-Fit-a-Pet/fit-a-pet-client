@@ -28,6 +28,7 @@ enum MySearchRouter: URLRequestConvertible {
     case careCategoryCheck(categoryName: String, pets: [Int])
     case userPetCareInfoList(petId: Int)
     case petCareComplete(petId: Int, careId: Int, caredateId: Int)
+    case createSchedule(combinedData: [String:Any])
     
     var baseURL: URL {
         switch self {
@@ -42,7 +43,7 @@ enum MySearchRouter: URLRequestConvertible {
     
     var method: HTTPMethod {
         switch self {
-        case .sendSms, .checkSms, .login, .regist, .presignedurl, .registPet,.sendAuthSms, .checkAuthSms, .findId, .findPw, .oauthLogin, .oauthSendSms, .oauthCheckSms, .oauthRegistUser, .createCare, .careCategoryCheck:
+        case .sendSms, .checkSms, .login, .regist, .presignedurl, .registPet,.sendAuthSms, .checkAuthSms, .findId, .findPw, .oauthLogin, .oauthSendSms, .oauthCheckSms, .oauthRegistUser, .createCare, .careCategoryCheck, .createSchedule:
             return .post
         case .existId, .userProfileInfo, .userNotifyType, .refresh ,.checkCareCategory, .userPetsList, .userPetInfoList, .userPetCareInfoList, .petCareComplete:
             return .get
@@ -87,7 +88,7 @@ enum MySearchRouter: URLRequestConvertible {
             return "v2/users/\(UserDefaults.standard.string(forKey: "id")!)/pets/summary"
         case .careCategoryCheck:
             return "v2/users/\(UserDefaults.standard.string(forKey: "id")!)/pets/categories-check"
-        case .userPetInfoList, .userPetCareInfoList, .createCare, .checkCareCategory, .petCareComplete:
+        case .userPetInfoList, .userPetCareInfoList, .createCare, .checkCareCategory, .petCareComplete, .createSchedule:
             return "v2/users/\(UserDefaults.standard.string(forKey: "id")!)/pets"
         }
     }
@@ -127,7 +128,7 @@ enum MySearchRouter: URLRequestConvertible {
             return ["name": name, "uid": uid]
         case let .careCategoryCheck(categoryName, pets):
             return ["categoryName": categoryName, "pets": pets]
-        case .uploadImage(_), .userProfileInfo, .oauthLogin, .oauthSendSms, .refresh, .checkCareCategory, .userPetsList, .createCare, .userPetInfoList, .userPetCareInfoList, .petCareComplete:
+        case .uploadImage(_), .userProfileInfo, .oauthLogin, .oauthSendSms, .refresh, .checkCareCategory, .userPetsList, .createCare, .userPetInfoList, .userPetCareInfoList, .petCareComplete, .createSchedule:
             return [:]
         
         }
@@ -295,7 +296,12 @@ enum MySearchRouter: URLRequestConvertible {
             url = url.appendingPathComponent("/\(petId)/cares/\(careId)/care-dates/\(caredateId)")
             request = URLRequest(url: url)
             request.httpMethod = method.rawValue
-        
+        case .createSchedule(let combinedData):
+            url = url.appendingPathComponent("/3/schedules")//임시 데이터 
+            request = URLRequest(url: url)
+            request.httpMethod = method.rawValue
+            request = try JSONEncoding.default.encode(request, withJSONObject: combinedData)
+            
         default:
             request = createURLRequestWithBody(url: url)
         }

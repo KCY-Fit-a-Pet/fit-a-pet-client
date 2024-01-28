@@ -227,5 +227,18 @@ class AuthorizationAlamofire: TokenHandling {
             }
     }
     
+    func createSchedule(_ combinedData: [String: Any], completion: @escaping (Result<Data?, Error>) -> Void) {
+        os_log("AuthorizationAlamofire - createSchedule() called userInput: %@", log: .default, type: .info)
+
+        self.session.request(MySearchRouter.createSchedule(combinedData: combinedData))
+            .response { response in
+                switch response.result {
+                case .success(let data):
+                    completion(.success(data))
+                case .failure(let error):
+                    completion(.failure(error))
+                }
+            }
+    }
 }
 

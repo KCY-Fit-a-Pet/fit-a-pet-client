@@ -92,6 +92,7 @@
 		4AF0C8522B24E0F000A45EEE /* TableViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AF0C8512B24E0F000A45EEE /* TableViewModel.swift */; };
 		4AF0C8542B24E1A800A45EEE /* MyInfoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AF0C8532B24E1A800A45EEE /* MyInfoTableViewCell.swift */; };
 		4AF0C8562B25A93500A45EEE /* AlarmTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AF0C8552B25A93500A45EEE /* AlarmTableViewCell.swift */; };
+		4AFBBBAF2B66DDFF00166643 /* ScheduleRegistrationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AFBBBAE2B66DDFF00166643 /* ScheduleRegistrationManager.swift */; };
 		5F3351521D53411AE096AE11 /* Pods_fit_a_pet_client.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB1D3740B0C5A796E5D597B2 /* Pods_fit_a_pet_client.framework */; };
 /* End PBXBuildFile section */
 
@@ -186,6 +187,7 @@
 		4AF0C8512B24E0F000A45EEE /* TableViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewModel.swift; sourceTree = "<group>"; };
 		4AF0C8532B24E1A800A45EEE /* MyInfoTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyInfoTableViewCell.swift; sourceTree = "<group>"; };
 		4AF0C8552B25A93500A45EEE /* AlarmTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlarmTableViewCell.swift; sourceTree = "<group>"; };
+		4AFBBBAE2B66DDFF00166643 /* ScheduleRegistrationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleRegistrationManager.swift; sourceTree = "<group>"; };
 		A8CCF3AF04A53824C263132B /* Pods-fit-a-pet-client.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-fit-a-pet-client.debug.xcconfig"; path = "Target Support Files/Pods-fit-a-pet-client/Pods-fit-a-pet-client.debug.xcconfig"; sourceTree = "<group>"; };
 		AB1D3740B0C5A796E5D597B2 /* Pods_fit_a_pet_client.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_fit_a_pet_client.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -266,6 +268,7 @@
 				4A4BFDC92AD26B0F0062BDB8 /* RegistrationManager.swift */,
 				4A88D6162B53ABD2003A2D0F /* PetCareRegistrationManager.swift */,
 				4ABE52FF2B5AD92F000EA41D /* PetDataManager.swift */,
+				4AFBBBAE2B66DDFF00166643 /* ScheduleRegistrationManager.swift */,
 			);
 			path = Manager;
 			sourceTree = "<group>";
@@ -611,6 +614,7 @@
 				4A8B9B4E2AD443FA009236EC /* MySearchRouter.swift in Sources */,
 				4AD3542B2AAF7F6A004A47B3 /* PetVC.swift in Sources */,
 				4A0C7F032B5C420D0097D753 /* MainInitView.swift in Sources */,
+				4AFBBBAF2B66DDFF00166643 /* ScheduleRegistrationManager.swift in Sources */,
 				4A4056182B52A69000A95891 /* PetPanModalVC.swift in Sources */,
 				4ACDD4A32AD9B3A500CD8F1A /* InputPetNameVC.swift in Sources */,
 				4A3D7BFA2B4F120900E3BBF8 /* CareDateCollectionViewCell.swift in Sources */,
