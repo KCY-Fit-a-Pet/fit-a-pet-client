@@ -57,15 +57,16 @@ class ScheduleListTableViewCell: UITableViewCell {
         }
 
         petImagecollectionView.snp.makeConstraints { make in
-            make.leading.equalTo(scheduleInfoStackView.snp.trailing).offset(100)
-            make.trailing.equalToSuperview().inset(16)
+            make.leading.equalTo(scheduleInfoStackView.snp.trailing).offset(110)
+            make.trailing.equalToSuperview().offset(-16)
             make.centerY.equalToSuperview()
             make.height.equalTo(70)
+            make.width.equalTo(90)
         }
     }
 }
 
-extension ScheduleListTableViewCell: UICollectionViewDelegate, UICollectionViewDataSource {
+extension ScheduleListTableViewCell: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout{
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return 3
@@ -80,6 +81,6 @@ extension ScheduleListTableViewCell: UICollectionViewDelegate, UICollectionViewD
     }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
        
-        return CGSize(width: 30, height: 30) 
+        return CGSize(width: 36, height: 36)
     }
 }

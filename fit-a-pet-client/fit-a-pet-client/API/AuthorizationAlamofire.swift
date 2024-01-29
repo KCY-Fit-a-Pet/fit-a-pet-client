@@ -240,5 +240,20 @@ class AuthorizationAlamofire: TokenHandling {
                 }
             }
     }
+    
+    func petScheduleList(_ year: String, _ month: String, _ day: String, completion: @escaping (Result<Data?, Error>) -> Void) {
+        os_log("AuthorizationAlamofire - petScheduleList() called userInput: %@ ,, %@ ,, %@", log: .default, type: .info, year, month, day)
+
+        self.session.request(MySearchRouter.petScheduleList(year: year, month: month, day: day))
+            .response { response in
+                switch response.result {
+                case .success(let data):
+                    completion(.success(data))
+                case .failure(let error):
+                    completion(.failure(error))
+                }
+            }
+    }
+    
 }
 

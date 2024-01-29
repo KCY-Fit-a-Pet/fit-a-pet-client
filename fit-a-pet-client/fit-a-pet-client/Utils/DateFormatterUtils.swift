@@ -25,5 +25,24 @@ class DateFormatterUtils {
         }
         return nil
     }
+    static func formatTotalDate(_ dateString: String) -> String? {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+        dateFormatter.locale =  Locale(identifier: "ko_KR")
+        
+        if let date = dateFormatter.date(from: dateString) {
+            dateFormatter.dateFormat = "M월 d일"
+            let datePart = dateFormatter.string(from: date)
+            
+            dateFormatter.dateFormat = "E"
+            let dayOfWeek = dateFormatter.string(from: date)
+            
+            dateFormatter.dateFormat = "a h:mm"
+            let timePart = dateFormatter.string(from: date)
+            
+            return "\(datePart)(\(dayOfWeek)) \(timePart)"
+        }
+        return nil
+    }
 }
 

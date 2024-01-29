@@ -1,3 +1,5 @@
+
+//care 관련
 struct Categories{
     var categoryName: String
     var id: Int
@@ -12,3 +14,28 @@ extension CareDate{
     static var commonData: [CareDate] = []
     static var eachData: [CareDate] = []
 }
+
+
+//schedule 관련
+struct PetScheduleInfo: Codable {
+    let petId: Int
+    let petProfileImage: String
+}
+
+struct ScheduleData: Codable {
+    let reservationDate: String
+    let scheduleId: Int
+    let scheduleName: String
+    let location: String
+    let pets: [PetScheduleInfo]
+}
+
+struct ScheduleListResponse: Codable {
+    let status: String
+    let data: ScheduleListData
+}
+
+struct ScheduleListData: Codable {
+    let schedules: [ScheduleData]
+}
+
