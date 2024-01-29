@@ -87,6 +87,16 @@ extension PetCareTableViewCell: UICollectionViewDelegate, UICollectionViewDataSo
         let care = caresList[indexPath.row]
         cell.configure(care.careName)
         
+        if care.isClear {
+            cell.configure(care.careName)
+            cell.careName.textColor = UIColor(named: "Gray3")
+            cell.careName.backgroundColor = UIColor(named: "Gray1")
+        } else {
+            cell.configure(care.careName)
+            cell.careName.textColor = UIColor(named: "PrimaryColor")
+            cell.careName.backgroundColor = UIColor(named: "Secondary")
+        }
+        
         return cell
     }
     
@@ -96,7 +106,7 @@ extension PetCareTableViewCell: UICollectionViewDelegate, UICollectionViewDataSo
         let cellWidth = labelWidth + 25
         let cellHeight: CGFloat = 36
 
-        return CGSize(width: cellWidth, height: 36)
+        return CGSize(width: cellWidth, height: cellHeight)
     }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return 9

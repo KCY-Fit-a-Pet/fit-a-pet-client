@@ -50,7 +50,7 @@ class PetCareCollectionViewMethod: NSObject, UICollectionViewDataSource, UIColle
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "MainPetCareCollectionViewCell", for: indexPath) as! MainPetCareCollectionViewCell
 
-        if let careCategory = petCareData[3]?[indexPath.section] {
+        if let careCategory = petCareData[selectedPet]?[indexPath.section] {
             let care = careCategory.cares[indexPath.item]
             let data = care.careName
             

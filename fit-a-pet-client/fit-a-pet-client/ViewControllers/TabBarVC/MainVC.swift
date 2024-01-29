@@ -1,6 +1,7 @@
 import UIKit
 import SnapKit
 
+
 class MainVC: UIViewController {
     
     private let layoutScrollView = UIScrollView()
@@ -36,10 +37,6 @@ class MainVC: UIViewController {
     
     
     private var petCareCollectionViewHeightConstraint: NSLayoutConstraint!
-    private var petId = 0
-    private var careId = 0
-    private var caredateId = 0
-
     override func viewDidLoad() {
         super.viewDidLoad()
         

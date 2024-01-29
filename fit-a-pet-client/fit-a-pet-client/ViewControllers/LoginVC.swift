@@ -57,18 +57,27 @@ class LoginVC: UIViewController{
     private func initView(){
         
         view.backgroundColor = .white
-        self.view.addSubview(loginLabel)
-        self.view.addSubview(inputId)
-        self.view.addSubview(inputPw)
-        self.view.addSubview(loginBtn)
+        
+        let containerView = UIView()
+        
+        
+        containerView.addSubview(loginLabel)
+        containerView.addSubview(inputId)
+        containerView.addSubview(inputPw)
+        containerView.addSubview(loginBtn)
+        view.addSubview(containerView)
+        
+        containerView.snp.makeConstraints { make in
+            make.centerY.equalToSuperview()
+            make.height.equalTo(350)
+            make.leading.trailing.equalToSuperview()
+        }
         
         loginLabel.text = "로그인"
         loginLabel.font = .boldSystemFont(ofSize: 20)
         
         loginLabel.snp.makeConstraints{ make in
-            make.top.equalToSuperview().offset(240)
-            
-            //수평 중앙정렬
+            make.top.equalToSuperview().offset(20)
             make.centerX.equalToSuperview()
         }
         
@@ -195,14 +204,14 @@ class LoginVC: UIViewController{
         FindIdPwSwitch.findAuth = "아이디 찾기"
         FindIdPwSwitch.findtype = "uid"
         let findIdVC = FindInputPhoneNumVC(title: FindIdPwSwitch.findAuth)
-        self.navigationController?.pushViewController(findIdVC, animated: false)
+        self.navigationController?.pushViewController(findIdVC, animated: true)
     }
     
     @objc func changeFindPwVC(_ sender: UIButton){
         FindIdPwSwitch.findAuth = "비밀번호 찾기"
         FindIdPwSwitch.findtype = "password"
         let findPwVC = FindInputIdVC(title: FindIdPwSwitch.findAuth)
-        self.navigationController?.pushViewController(findPwVC, animated: false)
+        self.navigationController?.pushViewController(findPwVC, animated: true)
     }
 }
     

@@ -55,7 +55,7 @@ class OtherSettingsView: UIView {
         timeAttackStackView.spacing = 8
         timeAttackStackView.distribution = .equalSpacing
 
-        timeAttackLabel.text = "시간 제한"
+        timeAttackLabel.text = "미리 알림"
         timeAttackLabel.font = .boldSystemFont(ofSize: 16)
         timeAttackStackView.addArrangedSubview(timeAttackLabel)
 

@@ -37,7 +37,7 @@ class CustomNavigationBar: UIViewController {
     }
     
     @objc func closeButtonTapped() {
-        if currentTitle == "반려동물 등록하기" {
+        if currentTitle == "반려동물 등록하기" || currentTitle == "일정 등록하기" {
             navigationController?.popToRootViewController(animated: true)
         } else {
             if let loginVC = navigationController?.viewControllers.first(where: { $0 is LoginVC }) {
@@ -51,7 +51,7 @@ class CustomNavigationBar: UIViewController {
         
         self.navigationController?.navigationBar.tintColor = .black
         
-        if currentTitle == "반려동물 등록하기" {
+        if currentTitle == "반려동물 등록하기"{
             self.navigationItem.hidesBackButton = false
         } else {
             self.navigationItem.hidesBackButton = true

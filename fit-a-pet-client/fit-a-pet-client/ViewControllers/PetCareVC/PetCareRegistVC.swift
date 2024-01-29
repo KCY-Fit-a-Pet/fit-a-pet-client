@@ -3,6 +3,7 @@ import SnapKit
 import PanModal
 
 //TODO: 요일 하나는 무조건 선택되어 있도록
+//TODO: 카테고리 중복 체크
 class PetCareRegistVC: CustomEditNavigationBar {
 
     private var categories: [Categories] = []
@@ -46,11 +47,7 @@ class PetCareRegistVC: CustomEditNavigationBar {
         return datePicker
     }()
     
-    private let careScrollView: UIScrollView = {
-        let scrollView = UIScrollView()
-        scrollView.showsVerticalScrollIndicator = false
-        return scrollView
-    }()
+    let careScrollView = UIScrollView()
     
     // MARK: - View Lifecycle
 
@@ -73,7 +70,6 @@ class PetCareRegistVC: CustomEditNavigationBar {
     private func setupViews() {
         view.backgroundColor = .white
         initView()
-        careDateView()
     }
     
     private func setupDelegates() {
@@ -106,30 +102,9 @@ class PetCareRegistVC: CustomEditNavigationBar {
     }
     
     func initView() {
-        view.addSubview(careScrollView)
-        careScrollView.snp.makeConstraints { make in
-            make.edges.equalToSuperview()
-        }
         
-        careScrollView.addSubview(categoryView)
-        careScrollView.addSubview(scheduleView)
-        
-        categoryView.snp.makeConstraints { make in
-            make.height.equalTo(88)
-            make.top.equalTo(careScrollView.snp.top).offset(10)
-            make.edges.width.equalTo(careScrollView).inset(16)
-        }
-        
-        scheduleView.snp.makeConstraints { make in
-            make.height.equalTo(88)
-            make.top.equalTo(categoryView.snp.bottom).offset(24)
-            make.leading.equalTo(careScrollView).inset(16)
-            make.trailing.equalTo(careScrollView).inset(16)
-        }
-    }
-    
-    func careDateView(){
-        
+        careScrollView.layer.borderWidth = 2
+        careScrollView.layer.borderColor = UIColor.blue.cgColor
         let stackView = UIStackView()
         stackView.axis = .horizontal
         stackView.spacing = 8
@@ -147,43 +122,75 @@ class PetCareRegistVC: CustomEditNavigationBar {
         careDateLabel.text = "케어 날짜"
         careDateLabel.font = .boldSystemFont(ofSize: 18)
         
-        careScrollView.addSubview(stackView)
-        careScrollView.addSubview(daysCollectionView)
-        careScrollView.addSubview(datePicker)
-        careScrollView.addSubview(daysTableView)
-        
         daysTableView.isHidden = true
         datePicker.isHidden = false
         
+        careScrollView.addSubview(categoryView)
+        careScrollView.addSubview(scheduleView)
+        
+        careScrollView.addSubview(stackView)
+        careScrollView.addSubview(daysCollectionView)
+        careScrollView.addSubview(daysTableView)
+        careScrollView.addSubview(datePicker)
+        careScrollView.addSubview(otherSettingView)
+        view.addSubview(careScrollView)
+        
+
+        
+        careScrollView.snp.makeConstraints { make in
+            make.top.equalTo(view.snp.top)
+            make.bottom.equalTo(view.snp.bottom)
+            make.leading.equalTo(view.snp.leading)
+            make.trailing.equalTo(view.snp.trailing)
+        }
+        
+        categoryView.snp.makeConstraints { make in
+            make.height.equalTo(88)
+            make.top.equalTo(careScrollView.snp.top).offset(10)
+            make.leading.equalTo(view.snp.leading).inset(16)
+            make.trailing.equalTo(view.snp.trailing).inset(16)
+            
+        }
+        
+        scheduleView.snp.makeConstraints { make in
+            make.height.equalTo(88)
+            make.top.equalTo(categoryView.snp.bottom).offset(24)
+            make.leading.equalTo(view.snp.leading).inset(16)
+            make.trailing.equalTo(view.snp.trailing).inset(16)
+        }
+
         stackView.snp.makeConstraints { make in
             make.height.equalTo(25)
             make.top.equalTo(scheduleView.snp.bottom).offset(32)
-            make.leading.trailing.equalToSuperview().inset(16)
+            make.leading.equalTo(view.snp.leading).inset(16)
+            make.trailing.equalTo(view.snp.trailing).inset(16)
         }
-        
+
         daysCollectionView.snp.makeConstraints { make in
             make.height.equalTo(56)
             make.top.equalTo(stackView.snp.bottom).offset(8)
-            make.leading.trailing.equalToSuperview().inset(16)
+            make.leading.equalTo(view.snp.leading).inset(16)
+            make.trailing.equalTo(view.snp.trailing).inset(16)
         }
-        
+
         daysTableView.snp.makeConstraints { make in
             make.height.equalTo(200)
             make.top.equalTo(daysCollectionView.snp.bottom).offset(8)
-            make.leading.trailing.equalToSuperview().inset(16)
+            make.leading.equalTo(view.snp.leading).inset(16)
+            make.trailing.equalTo(view.snp.trailing).inset(16)
         }
         datePicker.snp.makeConstraints { make in
             make.height.equalTo(180)
             make.top.equalTo(daysCollectionView.snp.bottom).offset(8)
             make.centerX.equalToSuperview()
         }
-        
-        careScrollView.addSubview(otherSettingView)
+
         otherSettingView.snp.makeConstraints { make in
             make.height.equalTo(147)
             make.top.equalTo(datePicker.snp.bottom).offset(24)
-            make.leading.equalTo(careScrollView).inset(16)
-            make.trailing.equalTo(careScrollView).inset(16)
+            make.leading.equalTo(view.snp.leading).inset(16)
+            make.trailing.equalTo(view.snp.trailing).inset(16)
+            make.bottom.equalTo(careScrollView.snp.bottom)
         }
     }
     
@@ -362,7 +369,7 @@ extension PetCareRegistVC: UITextFieldDelegate {
 
 extension PetCareRegistVC: UICollectionViewDelegateFlowLayout{
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: 43, height: 43)
+        return CGSize(width: 44, height: 44)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
