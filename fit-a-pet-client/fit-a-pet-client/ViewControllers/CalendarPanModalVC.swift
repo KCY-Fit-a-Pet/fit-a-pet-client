@@ -142,9 +142,7 @@ class CalendarRegistrationVC: UIViewController, CalendarDateViewDelegate {
         self.presentPanModal(timePanModalVC)
     }
     @objc private func closeBtnTapped() {
-        self.dismiss(animated: true){ [weak self] in
-            self?.reloadClosure?()
-        }
+        self.dismiss(animated: true)
     }
     
     func datePickerButtonTapped() {
@@ -283,7 +281,6 @@ class CalendarRegistrationVC: UIViewController, CalendarDateViewDelegate {
             case .failure(let profileError):
                 print("Error fetching user profile info: \(profileError)")
             }
-
         }
     }
 }
