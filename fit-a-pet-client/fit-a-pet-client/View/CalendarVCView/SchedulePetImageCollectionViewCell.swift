@@ -25,8 +25,6 @@ class SchedulePetImageCollectionViewCell: UICollectionViewCell {
     private func setupUI() {
         addSubview(imageView)
         
-        contentView.layer.borderWidth = 1
-        
         imageView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }

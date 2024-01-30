@@ -61,3 +61,4 @@ enum careCompleteData{
     static var careId = 0
     static var caredateId = 0
 }
+

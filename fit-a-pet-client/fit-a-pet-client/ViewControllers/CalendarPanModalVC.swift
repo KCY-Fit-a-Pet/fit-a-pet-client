@@ -16,6 +16,12 @@ class CalendarRegistrationVC: UIViewController, CalendarDateViewDelegate {
     let dateTimePicker = UIDatePicker()
     
     var selecteDateTime = ""
+    var reloadClosure: (() -> Void)?
+    private lazy var dateFormatter: DateFormatter = {
+        let df = DateFormatter()
+        df.dateFormat = "yyyy-MM-dd HH:mm:ss"
+        return df
+    }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -23,6 +29,13 @@ class CalendarRegistrationVC: UIViewController, CalendarDateViewDelegate {
         setupViews()
         setupActions()
         carePetListAPI()
+    }
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        let formattedDate = dateFormatter.string(from: dateTimePicker.date)
+        ScheduleRegistrationManager.shared.addInput(reservationDate: formattedDate)
+        
     }
     
     private func setupNavigationBar() {
@@ -129,8 +142,7 @@ class CalendarRegistrationVC: UIViewController, CalendarDateViewDelegate {
         self.presentPanModal(timePanModalVC)
     }
     @objc private func closeBtnTapped() {
-
-        dismiss(animated: true, completion: nil)
+        self.dismiss(animated: true)
     }
     
     func datePickerButtonTapped() {
@@ -182,13 +194,8 @@ class CalendarRegistrationVC: UIViewController, CalendarDateViewDelegate {
         }
     }
     @objc func datePickerValueChanged() {
-        
-        let selectedDate = dateTimePicker.date
-        
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
-        
-        let formattedDate = dateFormatter.string(from: selectedDate)
+
+        let formattedDate = dateFormatter.string(from: dateTimePicker.date)
 
         if selecteDateTime == "time" {
             if let formattedTime = DateFormatterUtils.formatTime(formattedDate, from: "yyyy-MM-dd HH:mm:ss", to: "a h:mm") {
@@ -261,6 +268,10 @@ class CalendarRegistrationVC: UIViewController, CalendarDateViewDelegate {
                         let jsonObject = try JSONSerialization.jsonObject(with: responseData, options: []) as? [String: Any] ?? [:]
 
                         print("Response JSON Data (User Profile): \(jsonObject)")
+                        
+                        self.dismiss(animated: true){ [weak self] in
+                            self?.reloadClosure?()
+                        }
 
                     } catch {
                         print("Error parsing user profile JSON: \(error)")
@@ -270,7 +281,6 @@ class CalendarRegistrationVC: UIViewController, CalendarDateViewDelegate {
             case .failure(let profileError):
                 print("Error fetching user profile info: \(profileError)")
             }
-
         }
     }
 }

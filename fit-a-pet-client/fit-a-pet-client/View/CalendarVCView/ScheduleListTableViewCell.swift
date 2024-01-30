@@ -19,14 +19,13 @@ class ScheduleListTableViewCell: UITableViewCell {
     private let scheduleInfoStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .vertical
-        stackView.spacing = 2
+        stackView.spacing = 4
         return stackView
     }()
 
     let petImagecollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
-        layout.minimumLineSpacing = -10
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.register(SchedulePetImageCollectionViewCell.self, forCellWithReuseIdentifier: "SchedulePetImageCollectionViewCell")
         return collectionView
@@ -53,19 +52,18 @@ class ScheduleListTableViewCell: UITableViewCell {
         scheduleInfoStackView.addArrangedSubview(scheduleNameLabel)
 
         scheduleInfoStackView.snp.makeConstraints { make in
-            make.top.leading.bottom.equalToSuperview().inset(16)
+            make.top.leading.equalToSuperview().inset(16)
         }
 
         petImagecollectionView.snp.makeConstraints { make in
-            make.leading.equalTo(scheduleInfoStackView.snp.trailing).offset(100)
-            make.trailing.equalToSuperview().inset(16)
-            make.centerY.equalToSuperview()
-            make.height.equalTo(70)
+            make.top.equalTo(scheduleInfoStackView.snp.bottom).offset(8)
+            make.leading.trailing.equalToSuperview().inset(16)
+            make.height.equalTo(20)
         }
     }
 }
 
-extension ScheduleListTableViewCell: UICollectionViewDelegate, UICollectionViewDataSource {
+extension ScheduleListTableViewCell: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout{
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return 3
@@ -79,7 +77,11 @@ extension ScheduleListTableViewCell: UICollectionViewDelegate, UICollectionViewD
         return cell
     }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-       
-        return CGSize(width: 30, height: 30) 
+        return CGSize(width: 20, height: 20)
     }
+
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+           return 2
+       }
+
 }

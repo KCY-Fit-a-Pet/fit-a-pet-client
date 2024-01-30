@@ -1,12 +1,13 @@
 import UIKit
 import SnapKit
 import FSCalendar
-import SwiftUI
 
 class CalendarVC: UIViewController {
     let calendarStackView = CalendarStackView()
     let calendarView = CalendarView()
     let scheduleView = CalendarScheduleView()
+    
+    var scheduleListResponse: ScheduleListResponse?
     
     private lazy var dateFormatter: DateFormatter = {
         let df = DateFormatter()
@@ -21,7 +22,7 @@ class CalendarVC: UIViewController {
         df.dateFormat = "dd. E"
         return df
     }()
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = UIColor(named: "Secondary")
@@ -33,6 +34,21 @@ class CalendarVC: UIViewController {
         
         scheduleView.selectedDateLabel.text = self.selectedDataFormatter.string(from: Date())
         setCalendar()
+        
+        let currentDateComponents: DateComponents = {
+            if SelectedDate.date == Date() {
+                scheduleView.selectedDateLabel.text = self.selectedDataFormatter.string(from: Date())
+                return Calendar.current.dateComponents([.year, .month, .day], from: Date())
+            }
+            scheduleView.selectedDateLabel.text = self.selectedDataFormatter.string(from: SelectedDate.date!)
+            return Calendar.current.dateComponents([.year, .month, .day], from: SelectedDate.date!)
+        }()
+        
+        petScheduleListAPI(
+            String(currentDateComponents.year ?? 0),
+            String(currentDateComponents.month ?? 0),
+            String(currentDateComponents.day ?? 0)
+        )
     }
 
     func initView() {
@@ -88,8 +104,44 @@ class CalendarVC: UIViewController {
         let calendarRegistrationVC = CalendarRegistrationVC()
         let navigationController = UINavigationController(rootViewController: calendarRegistrationVC)
         
+        calendarRegistrationVC.reloadClosure = { [weak self] in
+            self?.viewWillAppear(true)
+          
+        }
+        
         self.present(navigationController, animated: true)
       
+    }
+    func petScheduleListAPI(_ year: String, _ month: String, _ day: String){
+        AuthorizationAlamofire.shared.petScheduleList(year, month, day){ result in
+            switch result {
+            case .success(let data):
+                if let responseData = data {
+                    do {
+                        self.scheduleListResponse = try JSONDecoder().decode(ScheduleListResponse.self, from: responseData)
+                        
+                        let schedules = self.scheduleListResponse!.data.schedules
+                        self.scheduleView.scheduleListTableView.reloadData()
+                        for schedule in schedules {
+                            print("Reservation Date: \(schedule.reservationDate)")
+                            print("Schedule ID: \(schedule.scheduleId)")
+                            print("Schedule Name: \(schedule.scheduleName)")
+                            print("Location: \(schedule.location)")
+                            
+                            for pet in schedule.pets {
+                                print("Pet ID: \(pet.petId)")
+                                print("Pet Profile Image: \(pet.petProfileImage)")
+                            }
+                        }
+                    } catch {
+                        print("Error decoding schedule list JSON: \(error)")
+                    }
+                }
+                
+            case .failure(let profileError):
+                print("Error fetching user pets list: \(profileError)")
+            }
+        }
     }
 }
 
@@ -110,7 +162,18 @@ extension CalendarVC: CalendarStackViewDelegate{
 extension CalendarVC: FSCalendarDelegate, FSCalendarDelegateAppearance{
     func calendar(_ calendar: FSCalendar, didSelect date: Date, at monthPosition: FSCalendarMonthPosition) {
         
+        let calendar = Calendar.current
+        let components = calendar.dateComponents([.year, .month, .day], from: date)
+        
         scheduleView.selectedDateLabel.text = self.selectedDataFormatter.string(from: date)
+        SelectedDate.date = date
+        
+        if let year = components.year,
+           let month = components.month,
+           let day = components.day {
+            petScheduleListAPI(String(year),String(month),String(day))
+            self.scheduleView.scheduleListTableView.reloadData()
+        }
         
         print("Selected Date: \(date)")
     }
@@ -141,36 +204,22 @@ extension CalendarVC: FSCalendarDelegate, FSCalendarDelegateAppearance{
 
 extension CalendarVC: UITableViewDelegate, UITableViewDataSource{
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 10
+        return scheduleListResponse?.data.schedules.count ?? 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "ScheduleListTableViewCell", for: indexPath) as! ScheduleListTableViewCell
-   
-        cell.scheduleDateLabel.text = "First Label"
-        cell.scheduleNameLabel.text = "Second Label"
+        
+        let date = scheduleListResponse?.data.schedules[indexPath.row].reservationDate
+        
+        cell.scheduleDateLabel.text = DateFormatterUtils.formatTotalDate(date!)
+        cell.scheduleNameLabel.text = scheduleListResponse?.data.schedules[indexPath.row].scheduleName
         
         return cell
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 70
+        return 94
     }
-}
-
-
-struct MainViewController_Previews: PreviewProvider {
-  static var previews: some View {
-    Container().edgesIgnoringSafeArea(.all)
-  }
-  
-  struct Container: UIViewControllerRepresentable {
-    func makeUIViewController(context: Context) -> UIViewController {
-      let rootViewController = CalendarVC()
-      return UINavigationController(rootViewController: rootViewController)
-    }
-    func updateUIViewController(_ uiViewController: UIViewControllerType, context: Context) {}
-    typealias UIViewControllerType = UIViewController
-  }
 }
