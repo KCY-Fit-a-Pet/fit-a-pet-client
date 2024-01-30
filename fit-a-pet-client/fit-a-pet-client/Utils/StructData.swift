@@ -1,3 +1,4 @@
+import Foundation
 
 //care 관련
 struct Categories{
@@ -32,10 +33,15 @@ struct ScheduleData: Codable {
 
 struct ScheduleListResponse: Codable {
     let status: String
-    let data: ScheduleListData
+    var data: ScheduleListData
 }
 
 struct ScheduleListData: Codable {
-    let schedules: [ScheduleData]
+    var schedules: [ScheduleData]
 }
+
+struct SelectedDate {
+    static var date: Date? = Date()
+}
+
 
