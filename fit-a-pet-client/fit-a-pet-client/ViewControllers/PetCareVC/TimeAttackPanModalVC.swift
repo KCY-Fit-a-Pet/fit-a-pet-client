@@ -5,8 +5,8 @@ import PanModal
 
 class TimeAttackPanModalVC: CustomEditNavigationBar {
     
-    var time = ["없음", "5분", "10분", "15분", "30분", "1시간"]
-    var timeList = [0,5,10,15,30,60]
+    var time = ["없음", "5분 전", "10분 전", "15분 전", "30분 전", "1시간 전", "2시간 전"]
+    var timeList = [0,5,10,15,30,60,120]
     var selectTime: Int = 0
 
     private let timePanModalTableView: UITableView = {
@@ -81,9 +81,9 @@ extension TimeAttackPanModalVC: UITableViewDataSource, UITableViewDelegate {
         }
         selectTime = timeList[indexPath.row]
         PetCareRegistrationManager.shared.addInput(limitTime: selectTime)
+        ScheduleRegistrationManager.shared.addInput(notifyTime: selectTime)
 
         print(PetCareRegistrationManager.shared.limitTime)
-        print(PetCareRegistrationManager.shared.careName)
         
         tableView.deselectRow(at: indexPath, animated: true)
         print("selectTime: \(selectTime)")

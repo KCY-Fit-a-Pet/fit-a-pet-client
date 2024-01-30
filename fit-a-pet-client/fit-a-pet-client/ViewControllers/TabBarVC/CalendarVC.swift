@@ -2,16 +2,23 @@ import UIKit
 import SnapKit
 import FSCalendar
 import SwiftUI
-import PanModal
 
 class CalendarVC: UIViewController {
     let calendarStackView = CalendarStackView()
     let calendarView = CalendarView()
+    let scheduleView = CalendarScheduleView()
     
     private lazy var dateFormatter: DateFormatter = {
         let df = DateFormatter()
         df.locale = Locale(identifier: "ko_KR")
         df.dateFormat = "yyyy년 M월"
+        return df
+    }()
+    
+    private lazy var selectedDataFormatter: DateFormatter = {
+        let df = DateFormatter()
+        df.locale = Locale(identifier: "ko_KR")
+        df.dateFormat = "dd. E"
         return df
     }()
     
@@ -24,6 +31,7 @@ class CalendarVC: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
+        scheduleView.selectedDateLabel.text = self.selectedDataFormatter.string(from: Date())
         setCalendar()
     }
 
@@ -31,19 +39,34 @@ class CalendarVC: UIViewController {
         calendarStackView.delegate = self
         calendarView.calendar.delegate = self
         view.addSubview(calendarStackView)
+        view.addSubview(calendarView)
+        view.addSubview(scheduleView)
+        
+        scheduleView.backgroundColor = .white
+        scheduleView.layer.cornerRadius = 35
+        
+        scheduleView.scheduleListTableView.delegate = self
+        scheduleView.scheduleListTableView.dataSource = self
+        scheduleView.scheduleListTableView.register(ScheduleListTableViewCell.self, forCellReuseIdentifier: "ScheduleListTableViewCell")
+        
         calendarStackView.snp.makeConstraints { make in
             make.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(8)
             make.leading.trailing.equalToSuperview().inset(30)
             make.height.equalTo(40)
         }
-
-        view.addSubview(calendarView)
+        
         calendarView.snp.makeConstraints { make in
             make.top.equalTo(calendarStackView.snp.bottom)
             make.leading.trailing.equalToSuperview()
             let navigationBarHeight = navigationController?.navigationBar.frame.height ?? 0
-            let height = view.safeAreaLayoutGuide.layoutFrame.height / 2 - navigationBarHeight - 40
+            let height = view.safeAreaLayoutGuide.layoutFrame.height / 2 - navigationBarHeight - 100
             make.height.equalTo(height)
+        }
+        
+        scheduleView.snp.makeConstraints { make in
+            make.top.equalTo(calendarView.snp.bottom)
+            make.leading.trailing.equalToSuperview()
+            make.bottom.equalToSuperview()
         }
     }
 
@@ -86,23 +109,25 @@ extension CalendarVC: CalendarStackViewDelegate{
 
 extension CalendarVC: FSCalendarDelegate, FSCalendarDelegateAppearance{
     func calendar(_ calendar: FSCalendar, didSelect date: Date, at monthPosition: FSCalendarMonthPosition) {
-           
-           print("Selected Date: \(date)")
-       }
-    
-    func calendar(_ calendar: FSCalendar, appearance: FSCalendarAppearance, borderSelectionColorFor date: Date) -> UIColor? {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd"
         
-        print("[INFO] dateFormatter.string(from: date) : " + dateFormatter.string(from: date))
+        scheduleView.selectedDateLabel.text = self.selectedDataFormatter.string(from: date)
         
-        switch dateFormatter.string(from: date) {
-            case dateFormatter.string(from: Date()):
-            return .blue
-            default:
-                return nil
-        }
+        print("Selected Date: \(date)")
     }
+    
+//    func calendar(_ calendar: FSCalendar, appearance: FSCalendarAppearance, borderSelectionColorFor date: Date) -> UIColor? {
+//        let dateFormatter = DateFormatter()
+//        dateFormatter.dateFormat = "yyyy-MM-dd"
+//
+//        print("[INFO] dateFormatter.string(from: date) : " + dateFormatter.string(from: date))
+//
+//        switch dateFormatter.string(from: date) {
+//            case dateFormatter.string(from: Date()):
+//            return .blue
+//            default:
+//                return nil
+//        }
+//    }
     
     func setCalendar() {
         calendarView.calendar.scope = .month
@@ -111,6 +136,26 @@ extension CalendarVC: FSCalendarDelegate, FSCalendarDelegateAppearance{
     
     func calendarCurrentPageDidChange(_ calendar: FSCalendar) {
         calendarStackView.titleLabel.text = self.dateFormatter.string(from: calendarView.calendar.currentPage)
+    }
+}
+
+extension CalendarVC: UITableViewDelegate, UITableViewDataSource{
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 10
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
+        let cell = tableView.dequeueReusableCell(withIdentifier: "ScheduleListTableViewCell", for: indexPath) as! ScheduleListTableViewCell
+   
+        cell.scheduleDateLabel.text = "First Label"
+        cell.scheduleNameLabel.text = "Second Label"
+        
+        return cell
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 70
     }
 }
 

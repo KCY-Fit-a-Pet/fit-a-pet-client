@@ -82,4 +82,5 @@ extension PetPanModalVC: UITableViewDataSource, UITableViewDelegate {
         PetList.petsList[indexPath.row].selectPet.toggle()
         print(petList)
     }
+    
 }

@@ -1,7 +1,7 @@
 import UIKit
 import SnapKit
 
-
+//TODO: pet 등록 ui 설정
 class MainVC: UIViewController {
     
     private let layoutScrollView = UIScrollView()
