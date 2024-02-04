@@ -3,18 +3,32 @@ import SnapKit
 
 class ScheduleListTableViewCell: UITableViewCell {
 
-    let scheduleDateLabel: UILabel = {
+    let scheduleTimeLabel: UILabel = {
         let label = UILabel()
         label.font = .systemFont(ofSize: 12, weight: .regular)
-        label.textColor = UIColor(named: "Gray5")
+        label.textColor = UIColor(named: "PrimaryColor")
         return label
     }()
 
     let scheduleNameLabel: UILabel = {
         let label = UILabel()
-        label.font = .systemFont(ofSize: 14, weight: .medium)
+        label.font = .systemFont(ofSize: 18, weight: .medium)
         return label
     }()
+    
+    let scheduleLocationLabel: UILabel = {
+        let label = UILabel()
+        label.font = .systemFont(ofSize: 12, weight: .regular)
+        return label
+    }()
+    
+    let detailBtn: UIButton = {
+        let button = UIButton(type: .system)
+        button.setImage(UIImage(named: "detail_icon"), for: .normal)
+        button.tintColor = .black
+        return button
+    }()
+    
 
     private let scheduleInfoStackView: UIStackView = {
         let stackView = UIStackView()
@@ -22,6 +36,15 @@ class ScheduleListTableViewCell: UITableViewCell {
         stackView.spacing = 4
         return stackView
     }()
+    
+    var schedulesList: [PetScheduleInfo] = []  {
+        didSet {
+            petImagecollectionView.reloadData()
+            petImagecollectionView.snp.updateConstraints { make in
+                make.width.equalTo(schedulesList.count * 27)
+            }
+        }
+    }
 
     let petImagecollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -46,27 +69,41 @@ class ScheduleListTableViewCell: UITableViewCell {
         petImagecollectionView.dataSource = self
         
         contentView.addSubview(scheduleInfoStackView)
+        contentView.addSubview(detailBtn)
         contentView.addSubview(petImagecollectionView)
 
-        scheduleInfoStackView.addArrangedSubview(scheduleDateLabel)
+        scheduleInfoStackView.addArrangedSubview(scheduleTimeLabel)
         scheduleInfoStackView.addArrangedSubview(scheduleNameLabel)
+        scheduleInfoStackView.addArrangedSubview(scheduleLocationLabel)
 
         scheduleInfoStackView.snp.makeConstraints { make in
             make.top.leading.equalToSuperview().inset(16)
         }
-
-        petImagecollectionView.snp.makeConstraints { make in
-            make.top.equalTo(scheduleInfoStackView.snp.bottom).offset(8)
-            make.leading.trailing.equalToSuperview().inset(16)
+        
+        detailBtn.snp.makeConstraints{ make in
+            make.top.equalToSuperview().inset(20)
+            make.trailing.equalToSuperview().offset(-20)
             make.height.equalTo(20)
         }
+
+        petImagecollectionView.snp.makeConstraints { make in
+            make.top.equalTo(scheduleInfoStackView.snp.bottom)
+            make.trailing.equalToSuperview().offset(-16)
+            make.height.equalTo(25)
+            make.width.equalTo(27)
+        }
+
+    }
+    
+    func updatePetImage(_ schedules: [PetScheduleInfo]) {
+        schedulesList = schedules
     }
 }
 
 extension ScheduleListTableViewCell: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout{
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 3
+        return schedulesList.count 
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -77,11 +114,10 @@ extension ScheduleListTableViewCell: UICollectionViewDelegate, UICollectionViewD
         return cell
     }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: 20, height: 20)
+        return CGSize(width: 25, height: 25)
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-           return 2
-       }
-
+        return 2
+    }
 }

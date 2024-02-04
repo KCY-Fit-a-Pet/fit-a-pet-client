@@ -122,15 +122,10 @@ class CalendarVC: UIViewController {
                         
                         let schedules = self.scheduleListResponse!.data.schedules
                         self.scheduleView.scheduleListTableView.reloadData()
-                        for schedule in schedules {
-                            print("Reservation Date: \(schedule.reservationDate)")
-                            print("Schedule ID: \(schedule.scheduleId)")
-                            print("Schedule Name: \(schedule.scheduleName)")
-                            print("Location: \(schedule.location)")
-                            
-                            for pet in schedule.pets {
-                                print("Pet ID: \(pet.petId)")
-                                print("Pet Profile Image: \(pet.petProfileImage)")
+                        for (index, schedule) in schedules.enumerated() {
+
+                            if let cell = self.scheduleView.scheduleListTableView.cellForRow(at: IndexPath(row: index, section: 0)) as? ScheduleListTableViewCell {
+                                cell.updatePetImage(schedule.pets)
                             }
                         }
                     } catch {
@@ -178,20 +173,6 @@ extension CalendarVC: FSCalendarDelegate, FSCalendarDelegateAppearance{
         print("Selected Date: \(date)")
     }
     
-//    func calendar(_ calendar: FSCalendar, appearance: FSCalendarAppearance, borderSelectionColorFor date: Date) -> UIColor? {
-//        let dateFormatter = DateFormatter()
-//        dateFormatter.dateFormat = "yyyy-MM-dd"
-//
-//        print("[INFO] dateFormatter.string(from: date) : " + dateFormatter.string(from: date))
-//
-//        switch dateFormatter.string(from: date) {
-//            case dateFormatter.string(from: Date()):
-//            return .blue
-//            default:
-//                return nil
-//        }
-//    }
-    
     func setCalendar() {
         calendarView.calendar.scope = .month
         calendarStackView.titleLabel.text = self.dateFormatter.string(from: calendarView.calendar.currentPage)
@@ -212,14 +193,15 @@ extension CalendarVC: UITableViewDelegate, UITableViewDataSource{
         let cell = tableView.dequeueReusableCell(withIdentifier: "ScheduleListTableViewCell", for: indexPath) as! ScheduleListTableViewCell
         
         let date = scheduleListResponse?.data.schedules[indexPath.row].reservationDate
-        
-        cell.scheduleDateLabel.text = DateFormatterUtils.formatTotalDate(date!)
+        let formattedTime = DateFormatterUtils.formatTime(date!, from: "yyyy-MM-dd HH:mm:ss", to: "a h:mm")
+        cell.scheduleTimeLabel.text = formattedTime
         cell.scheduleNameLabel.text = scheduleListResponse?.data.schedules[indexPath.row].scheduleName
+        cell.scheduleLocationLabel.text = scheduleListResponse?.data.schedules[indexPath.row].location
         
         return cell
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 94
+        return 130
     }
 }

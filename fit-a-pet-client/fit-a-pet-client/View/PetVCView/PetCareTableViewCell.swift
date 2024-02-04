@@ -3,8 +3,6 @@ import SnapKit
 
 class PetCareTableViewCell: UITableViewCell {
     
-    private var hasAdjustedLayout = false
-
     private let careListCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
