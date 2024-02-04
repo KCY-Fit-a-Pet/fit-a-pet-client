@@ -10,9 +10,6 @@ class PetProfileView: UIView {
     var petAge = UILabel()
     var petFeed = UILabel()
     
-    let topic = ["성별", "나이", "사료"]
-    let date = ["암컷", "6세", "사료사료사료"]
-    
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupViews()
@@ -26,7 +23,7 @@ class PetProfileView: UIView {
         
         let stackView = UIStackView()
         stackView.axis = .horizontal
-        stackView.spacing = 8
+        stackView.spacing = 24
         stackView.alignment = .center
         
         stackView.addArrangedSubview(petGender)
@@ -35,7 +32,7 @@ class PetProfileView: UIView {
         petGender.font = .systemFont(ofSize: 14)
         petAge.font = .systemFont(ofSize: 14)
         petFeed.font = .systemFont(ofSize: 14)
-        petName.font = .systemFont(ofSize: 14)
+        petName.font = .boldSystemFont(ofSize: 16)
         petImageView.image = UIImage(named: "profileImage")
         
         addSubview(petImageView)

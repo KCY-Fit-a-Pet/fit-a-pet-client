@@ -99,7 +99,7 @@ extension PetVC: UICollectionViewDelegate{
         let selectedPet = PetDataManager.pets[indexPath.item]
         print("Selected Pet Name: \(selectedPet.id)")
         SelectedPetId.petId = selectedPet.id
-        let nextVC = PetCareRegistVC(title: "케어 등록하기")
+        let nextVC = PetDetailProfileVC()
         nextVC.hidesBottomBarWhenPushed = true
         navigationController?.pushViewController(nextVC, animated: true)
     }

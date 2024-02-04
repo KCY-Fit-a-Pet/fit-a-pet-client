@@ -40,23 +40,6 @@ class PetCollectionViewCell: UICollectionViewCell {
     }
     
     func petInfoSubviewConfigure(petName: String, gender: String, age: String, feed: String) {
-        petInfoSubview.petName.text = petName
-        if gender == "FEMALE"{
-            petInfoSubview.petGender.attributedText = createAttributedString(withTopic: "성별", data: "암컷")
-        }else{
-            petInfoSubview.petGender.attributedText = createAttributedString(withTopic: "성별", data: "수컷")
-        }
-        petInfoSubview.petAge.attributedText = createAttributedString(withTopic: "나이", data: age)
-        petInfoSubview.petFeed.attributedText = createAttributedString(withTopic: "사료", data: feed)
-    }
-    
-    func createAttributedString(withTopic topic: String, data: String) -> NSAttributedString {
-        let attributedString = NSMutableAttributedString(string: topic + " ")
-        attributedString.addAttribute(.foregroundColor, value: UIColor.gray, range: NSRange(location: 0, length: 2))
-
-        let dataAttributedString = NSAttributedString(string: data)
-        attributedString.append(dataAttributedString)
-
-        return attributedString
+        PetProfileUtils.configurePetInfoSubview(petInfoSubview, petName: petName, gender: gender, age: age, feed: feed)
     }
 }
