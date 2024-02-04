@@ -89,10 +89,14 @@ enum MySearchRouter: URLRequestConvertible {
             return "v2/users/\(UserDefaults.standard.string(forKey: "id")!)/pets/summary"
         case .careCategoryCheck:
             return "v2/users/\(UserDefaults.standard.string(forKey: "id")!)/pets/categories-check"
-        case .userPetInfoList, .userPetCareInfoList, .createCare, .checkCareCategory, .petCareComplete, .createSchedule:
+        case .userPetCareInfoList, .createCare, .checkCareCategory, .petCareComplete:
+            return "v2/pets"
+        case .userPetInfoList:
             return "v2/users/\(UserDefaults.standard.string(forKey: "id")!)/pets"
+        case .createSchedule:
+            return "v2/pets/schedules"
         case .petScheduleList:
-            return "v2/users/\(UserDefaults.standard.string(forKey: "id")!)/schedules"
+            return "v2/accounts/\(UserDefaults.standard.string(forKey: "id")!)/schedules"
         }
     }
     
@@ -302,7 +306,6 @@ enum MySearchRouter: URLRequestConvertible {
             request = URLRequest(url: url)
             request.httpMethod = method.rawValue
         case .createSchedule(let combinedData):
-            url = url.appendingPathComponent("/3/schedules")//임시 데이터 
             request = URLRequest(url: url)
             request.httpMethod = method.rawValue
             request = try JSONEncoding.default.encode(request, withJSONObject: combinedData)

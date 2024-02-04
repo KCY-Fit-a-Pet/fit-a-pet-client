@@ -32,7 +32,6 @@ class CalendarView: UIView, FSCalendarDelegateAppearance {
         calendar.appearance.titleTodayColor = UIColor(named: "PrimaryColor")
         calendar.appearance.todayColor = UIColor(named: "Secondary")
         
-
         calendar.appearance.borderRadius = 0.5
         calendar.appearance.todaySelectionColor = UIColor(named: "PrimaryColor")
 

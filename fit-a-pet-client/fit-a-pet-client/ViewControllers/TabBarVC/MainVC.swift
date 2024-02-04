@@ -102,11 +102,11 @@ class MainVC: UIViewController {
     
     private func initView(){
         
-        //petDataView.addSubview(mainInitView)
+//        mainView.addSubview(mainInitView)
         mainView.addSubview(petListView)
         mainView.addSubview(petCareCollectionView)
         mainView.addSubview(petCollectionView)
-        //mainInitViewConfigurations()
+        mainInitViewConfigurations()
         
         layoutScrollView.addSubview(mainView)
         view.addSubview(layoutScrollView)
@@ -124,8 +124,10 @@ class MainVC: UIViewController {
         }
         
 //        mainInitView.snp.makeConstraints{ make in
-//            make.centerX.equalToSuperview()
-//            make.top.equalToSuperview().offset(250)
+//            make.leading.equalTo(view.snp.leading)
+//            make.trailing.equalTo(view.snp.trailing)
+//            make.top.equalTo(mainView.snp.top).offset(250)
+//            make.height.equalTo(150)
 //        }
         
         petListView.snp.makeConstraints{make in
@@ -133,12 +135,12 @@ class MainVC: UIViewController {
             make.top.equalTo(mainView.snp.top)
             make.height.equalTo(80)
         }
-        
+
         petCollectionView.snp.makeConstraints{make in
             make.leading.trailing.equalToSuperview()
             make.height.equalTo(40)
         }
-        
+
         petCareCollectionView.snp.makeConstraints{make in
             make.leading.trailing.equalToSuperview().inset(16)
             make.top.equalTo(petListView.snp.bottom).offset(20)
