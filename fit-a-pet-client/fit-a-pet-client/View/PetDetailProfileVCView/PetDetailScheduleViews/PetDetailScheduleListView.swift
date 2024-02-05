@@ -6,9 +6,9 @@ class PetDetailScheduleListView: UIView{
     private let petDetailScheduleCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
-        layout.minimumInteritemSpacing = 8
+        layout.minimumLineSpacing = 8
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        collectionView.backgroundColor = .white
+        collectionView.backgroundColor = .clear
         collectionView.showsHorizontalScrollIndicator = false
         return collectionView
     }()
@@ -62,7 +62,7 @@ class PetDetailScheduleListView: UIView{
             make.height.equalTo(400)
         }
         
-        petDetailScheduleCollectionView.register(PetDetailCareCollectionViewCell.self, forCellWithReuseIdentifier: "PetDetailCareCollectionViewCell")
+        petDetailScheduleCollectionView.register(ScheduleListCollectionViewCell.self, forCellWithReuseIdentifier: "ScheduleListCollectionViewCell")
 
         petDetailScheduleCollectionView.delegate = self
         petDetailScheduleCollectionView.dataSource = self
@@ -73,24 +73,22 @@ class PetDetailScheduleListView: UIView{
 
 extension PetDetailScheduleListView: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 5
+        return 3
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PetDetailCareCollectionViewCell", for: indexPath) as? PetDetailCareCollectionViewCell else {
-            return UICollectionViewCell()
-        }
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ScheduleListCollectionViewCell", for: indexPath) as! ScheduleListCollectionViewCell
 
-        cell.careCategoryLabel.text = "Item \(indexPath.item + 1)"
-
+        cell.scheduleTimeLabel.text = "time"
+        cell.scheduleNameLabel.text = "name"
+        cell.scheduleLocationLabel.text = "위치"
+        
+        
         return cell
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let viewWidth = collectionView.bounds.width
-        let cellWidth = viewWidth / 2 - 5
-        
-        return CGSize(width: cellWidth, height: 120)
+        return CGSize(width: collectionView.bounds.width, height: 130)
     }
 
 }

@@ -8,6 +8,7 @@ class PetDetailProfileVC: UIViewController{
     let scrollView = UIScrollView()
     let petDetailDataView = UIView()
     let careProfileView = PetDetailCareListView()
+    let scheduleProfileView = PetDetailScheduleListView()
     var petData: Pet?
     
     override func viewDidLoad() {
@@ -24,6 +25,7 @@ class PetDetailProfileVC: UIViewController{
         
         scrollView.addSubview(petProfileView)
         petDetailDataView.addSubview(careProfileView)
+        petDetailDataView.addSubview(scheduleProfileView)
         scrollView.addSubview(petDetailDataView)
         petDetailDataView.backgroundColor = UIColor(named: "Gray1")
         view.addSubview(scrollView)
@@ -40,14 +42,19 @@ class PetDetailProfileVC: UIViewController{
         
         petDetailDataView.snp.makeConstraints{make in
             make.top.equalTo(petProfileView.snp.bottom)
-            make.height.equalTo(500)
+            make.height.equalTo(1000)
             make.leading.trailing.equalTo(view)
             make.bottom.equalTo(scrollView.snp.bottom)
         }
         careProfileView.snp.makeConstraints{make in
             make.top.equalTo(petDetailDataView.snp.top).offset(24)
             make.leading.trailing.equalTo(petDetailDataView).inset(16)
-            make.height.equalTo(340)
+            make.height.equalTo(440)
+        }
+        scheduleProfileView.snp.makeConstraints{make in
+            make.top.equalTo(careProfileView.snp.bottom).offset(24)
+            make.leading.trailing.equalTo(petDetailDataView).inset(16)
+            make.height.equalTo(440)
         }
     }
     func setpetProfileView(){

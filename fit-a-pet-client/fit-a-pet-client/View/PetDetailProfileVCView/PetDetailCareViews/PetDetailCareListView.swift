@@ -8,7 +8,7 @@ class PetDetailCareListView: UIView{
         layout.scrollDirection = .vertical
         layout.minimumInteritemSpacing = 7
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        collectionView.backgroundColor = .white
+        collectionView.backgroundColor = .clear
         collectionView.showsHorizontalScrollIndicator = false
         return collectionView
     }()
