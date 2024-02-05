@@ -18,6 +18,10 @@ class PetDetailProfileVC: UIViewController{
         setpetProfileView()
         setNavigationBar()
     }
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        petInfoListAPI()
+    }
     
     func initView(){
         
@@ -58,12 +62,7 @@ class PetDetailProfileVC: UIViewController{
         }
     }
     func setpetProfileView(){
-        for data in PetDataManager.pets{
-            if data.id == SelectedPetId.petId{
-                petData = data
-                PetProfileUtils.configurePetInfoSubview(petProfileView, petName: petData!.petName, gender: petData!.gender, age: String(petData!.age) + "세", feed: petData!.feed)
-            }
-        }
+    
         petProfileView.petImageView.snp.updateConstraints { make in
             make.width.height.equalTo(110)
             make.top.equalToSuperview().offset(16)
@@ -92,5 +91,45 @@ class PetDetailProfileVC: UIViewController{
     
     @objc func manageMembersButtonTapped() {
         print("관리 멤버 button tapped")
+    }
+    
+    func petInfoListAPI(){
+        
+        AuthorizationAlamofire.shared.userPetInfoList { result in
+            switch result {
+            case .success(let data):
+                if let responseData = data {
+                    PetDataManager.updatePets(with: responseData)
+           
+                    self.careProfileView.petDetailCareCollectionView.reloadData()
+                    
+                    for (index, pet) in PetDataManager.pets.enumerated() {
+                        
+                        if pet.id == SelectedPetId.petId{
+                            self.petData = pet
+                            PetProfileUtils.configurePetInfoSubview(self.petProfileView, petName: self.petData!.petName, gender: self.petData!.gender, age: String(self.petData!.age) + "세", feed: self.petData!.feed)
+                        }
+                        
+                        AuthorizationAlamofire.shared.userPetCareInfoList(pet.id) { careInfoResult in
+                            
+                            switch careInfoResult {
+                            case .success(let careInfoData):
+                                if let responseData = careInfoData {
+                                    
+                                    PetDataManager.updateCareInfo(with: responseData, petId: pet.id)
+                                    self.careProfileView.updateCareCategories(PetDataManager.careCategoriesByPetId[pet.id]!)
+                                }
+                                
+                            case .failure(let careInfoError):
+                                print("Error fetching pet care info for pet \(pet.id): \(careInfoError)")
+                            }
+                        }
+                    }
+                }
+                
+            case .failure(let profileError):
+                print("Error fetching user profile info: \(profileError)")
+            }
+        }
     }
 }

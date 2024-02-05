@@ -5,7 +5,7 @@ import SnapKit
 
 class PetDetailCareListCollectionViewCell: UICollectionViewCell {
 
-    let careNameLabel: UILabel = {
+    let careName: UILabel = {
         let label = UILabel()
         label.textAlignment = .center
         label.backgroundColor = UIColor(named: "Gray1")
@@ -24,13 +24,16 @@ class PetDetailCareListCollectionViewCell: UICollectionViewCell {
     }
 
     private func setupViews() {
-        addSubview(careNameLabel)
+        addSubview(careName)
         
         layer.cornerRadius = frame.width / 2
         layer.masksToBounds = true
 
-        careNameLabel.snp.makeConstraints { make in
+        careName.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
+    }
+    func configure(_ newText: String) {
+        careName.text = newText
     }
 }

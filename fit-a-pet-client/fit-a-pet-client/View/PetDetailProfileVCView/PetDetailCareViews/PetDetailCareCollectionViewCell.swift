@@ -19,6 +19,12 @@ class PetDetailCareCollectionViewCell: UICollectionViewCell {
         collectionView.backgroundColor = .clear
         return collectionView
     }()
+    
+    var caresList: [Care] = [] {
+        didSet {
+            careListCollectionView.reloadData()
+        }
+    }
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -52,10 +58,18 @@ class PetDetailCareCollectionViewCell: UICollectionViewCell {
         careListCollectionView.dataSource = self
         careListCollectionView.register(PetDetailCareListCollectionViewCell.self, forCellWithReuseIdentifier: "PetDetailCareListCollectionViewCell")
     }
+    
+    func updateCares(_ cares: [Care]) {
+        caresList = cares
+        careListCollectionView.reloadData()
+    }
+    func configure(_ category: String) {
+        careCategoryLabel.text = category
+    }
 }
 extension PetDetailCareCollectionViewCell: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 3
+        return caresList.count
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -63,7 +77,18 @@ extension PetDetailCareCollectionViewCell: UICollectionViewDataSource, UICollect
             return UICollectionViewCell()
         }
 
-        cell.careNameLabel.text = "Item"
+        let care = caresList[indexPath.row]
+        cell.configure(care.careName)
+        
+        if care.isClear {
+            cell.configure(care.careName)
+            cell.careName.textColor = UIColor(named: "Gray3")
+            cell.careName.backgroundColor = UIColor(named: "Gray1")
+        } else {
+            cell.configure(care.careName)
+            cell.careName.textColor = UIColor(named: "PrimaryColor")
+            cell.careName.backgroundColor = UIColor(named: "Secondary")
+        }
 
         return cell
     }

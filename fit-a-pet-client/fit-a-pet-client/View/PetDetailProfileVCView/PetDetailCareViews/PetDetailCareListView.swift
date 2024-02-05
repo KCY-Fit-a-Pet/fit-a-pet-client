@@ -3,7 +3,7 @@ import SnapKit
 
 class PetDetailCareListView: UIView{
 
-    private let petDetailCareCollectionView: UICollectionView = {
+    let petDetailCareCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
         layout.minimumInteritemSpacing = 7
@@ -19,6 +19,12 @@ class PetDetailCareListView: UIView{
         stackView.distribution = .equalSpacing
         return stackView
     }()
+    
+    var careCategories: [CareCategory] = [] {
+        didSet {
+            petDetailCareCollectionView.reloadData()
+        }
+    }
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -66,14 +72,16 @@ class PetDetailCareListView: UIView{
 
         petDetailCareCollectionView.delegate = self
         petDetailCareCollectionView.dataSource = self
-
     }
    
+    func updateCareCategories(_ categories: [CareCategory]) {
+        careCategories = categories
+    }
 }
 
 extension PetDetailCareListView: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 5
+        return careCategories.count
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -81,7 +89,9 @@ extension PetDetailCareListView: UICollectionViewDataSource, UICollectionViewDel
             return UICollectionViewCell()
         }
 
-        cell.careCategoryLabel.text = "Item \(indexPath.item + 1)"
+        let careCategory = careCategories[indexPath.row]
+        cell.configure(careCategory.categoryName)
+        cell.updateCares(careCategory.cares)
 
         return cell
     }
