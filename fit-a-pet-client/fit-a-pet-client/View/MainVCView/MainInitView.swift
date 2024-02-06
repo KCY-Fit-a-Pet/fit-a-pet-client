@@ -39,8 +39,6 @@ class MainInitView: UIView {
     private func setupUI() {
         addSubview(stackView)
         
-        stackView.layer.borderWidth = 2
-        
         stackView.addArrangedSubview(commentLabel)
         stackView.addArrangedSubview(registerButton)
         

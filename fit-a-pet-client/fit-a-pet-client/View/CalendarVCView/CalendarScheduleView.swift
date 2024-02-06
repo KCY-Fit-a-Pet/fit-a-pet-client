@@ -9,9 +9,11 @@ class CalendarScheduleView: UIView {
         return label
     }()
 
-    let scheduleListTableView: UITableView = {
-        let tableView = UITableView()
-        return tableView
+    let scheduleListCollectionView: UICollectionView = {
+        let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .vertical
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        return collectionView
     }()
 
     override init(frame: CGRect) {
@@ -25,16 +27,15 @@ class CalendarScheduleView: UIView {
     }
 
     private func setupUI() {
-        
         addSubview(selectedDateLabel)
-        addSubview(scheduleListTableView)
+        addSubview(scheduleListCollectionView)
 
         selectedDateLabel.snp.makeConstraints { make in
             make.top.equalToSuperview().offset(24)
             make.leading.trailing.equalToSuperview().inset(20)
         }
 
-        scheduleListTableView.snp.makeConstraints { make in
+        scheduleListCollectionView.snp.makeConstraints { make in
             make.top.equalTo(selectedDateLabel.snp.bottom).offset(16)
             make.leading.trailing.bottom.equalToSuperview().inset(16)
         }

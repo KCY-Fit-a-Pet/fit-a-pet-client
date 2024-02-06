@@ -61,9 +61,9 @@ class CalendarVC: UIViewController {
         scheduleView.backgroundColor = .white
         scheduleView.layer.cornerRadius = 35
         
-        scheduleView.scheduleListTableView.delegate = self
-        scheduleView.scheduleListTableView.dataSource = self
-        scheduleView.scheduleListTableView.register(ScheduleListTableViewCell.self, forCellReuseIdentifier: "ScheduleListTableViewCell")
+        scheduleView.scheduleListCollectionView.delegate = self
+        scheduleView.scheduleListCollectionView.dataSource = self
+        scheduleView.scheduleListCollectionView.register(ScheduleListCollectionViewCell.self, forCellWithReuseIdentifier: "ScheduleListCollectionViewCell")
         
         calendarStackView.snp.makeConstraints { make in
             make.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(8)
@@ -119,20 +119,8 @@ class CalendarVC: UIViewController {
                 if let responseData = data {
                     do {
                         self.scheduleListResponse = try JSONDecoder().decode(ScheduleListResponse.self, from: responseData)
+                        self.scheduleView.scheduleListCollectionView.reloadData()
                         
-                        let schedules = self.scheduleListResponse!.data.schedules
-                        self.scheduleView.scheduleListTableView.reloadData()
-                        for schedule in schedules {
-                            print("Reservation Date: \(schedule.reservationDate)")
-                            print("Schedule ID: \(schedule.scheduleId)")
-                            print("Schedule Name: \(schedule.scheduleName)")
-                            print("Location: \(schedule.location)")
-                            
-                            for pet in schedule.pets {
-                                print("Pet ID: \(pet.petId)")
-                                print("Pet Profile Image: \(pet.petProfileImage)")
-                            }
-                        }
                     } catch {
                         print("Error decoding schedule list JSON: \(error)")
                     }
@@ -172,25 +160,11 @@ extension CalendarVC: FSCalendarDelegate, FSCalendarDelegateAppearance{
            let month = components.month,
            let day = components.day {
             petScheduleListAPI(String(year),String(month),String(day))
-            self.scheduleView.scheduleListTableView.reloadData()
+            self.scheduleView.scheduleListCollectionView.reloadData()
         }
         
         print("Selected Date: \(date)")
     }
-    
-//    func calendar(_ calendar: FSCalendar, appearance: FSCalendarAppearance, borderSelectionColorFor date: Date) -> UIColor? {
-//        let dateFormatter = DateFormatter()
-//        dateFormatter.dateFormat = "yyyy-MM-dd"
-//
-//        print("[INFO] dateFormatter.string(from: date) : " + dateFormatter.string(from: date))
-//
-//        switch dateFormatter.string(from: date) {
-//            case dateFormatter.string(from: Date()):
-//            return .blue
-//            default:
-//                return nil
-//        }
-//    }
     
     func setCalendar() {
         calendarView.calendar.scope = .month
@@ -202,24 +176,27 @@ extension CalendarVC: FSCalendarDelegate, FSCalendarDelegateAppearance{
     }
 }
 
-extension CalendarVC: UITableViewDelegate, UITableViewDataSource{
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+extension CalendarVC: UICollectionViewDelegateFlowLayout, UICollectionViewDataSource {
+
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return scheduleListResponse?.data.schedules.count ?? 0
     }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ScheduleListCollectionViewCell", for: indexPath) as! ScheduleListCollectionViewCell
+
+        let date = scheduleListResponse?.data.schedules[indexPath.item].reservationDate
+        let formattedTime = DateFormatterUtils.formatTime(date!, from: "yyyy-MM-dd HH:mm:ss", to: "a h:mm")
+        cell.scheduleTimeLabel.text = formattedTime
+        cell.scheduleNameLabel.text = scheduleListResponse?.data.schedules[indexPath.item].scheduleName
+        cell.scheduleLocationLabel.text = scheduleListResponse?.data.schedules[indexPath.item].location
+        cell.updatePetImage((scheduleListResponse?.data.schedules[indexPath.item].pets)!)
         
-        let cell = tableView.dequeueReusableCell(withIdentifier: "ScheduleListTableViewCell", for: indexPath) as! ScheduleListTableViewCell
-        
-        let date = scheduleListResponse?.data.schedules[indexPath.row].reservationDate
-        
-        cell.scheduleDateLabel.text = DateFormatterUtils.formatTotalDate(date!)
-        cell.scheduleNameLabel.text = scheduleListResponse?.data.schedules[indexPath.row].scheduleName
         
         return cell
     }
-    
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 94
+
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return CGSize(width: collectionView.bounds.width, height: 130)
     }
 }

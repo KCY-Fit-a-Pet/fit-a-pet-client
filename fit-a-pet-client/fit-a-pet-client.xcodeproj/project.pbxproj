@@ -43,7 +43,7 @@
 		4A54A0BD2B5859AA0024B940 /* PetCareTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A54A0BC2B5859AA0024B940 /* PetCareTableViewCell.swift */; };
 		4A54A0BF2B585A7E0024B940 /* PetCareListCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A54A0BE2B585A7E0024B940 /* PetCareListCollectionViewCell.swift */; };
 		4A73392E2B68097D00216FB5 /* CalendarScheduleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A73392D2B68097D00216FB5 /* CalendarScheduleView.swift */; };
-		4A7339302B680AEC00216FB5 /* ScheduleListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A73392F2B680AEC00216FB5 /* ScheduleListTableViewCell.swift */; };
+		4A7339302B680AEC00216FB5 /* ScheduleListCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A73392F2B680AEC00216FB5 /* ScheduleListCollectionViewCell.swift */; };
 		4A7339322B68139700216FB5 /* SchedulePetImageCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A7339312B68139700216FB5 /* SchedulePetImageCollectionViewCell.swift */; };
 		4A80E4D12B487DF600CD5D05 /* TokenHandling.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A80E4D02B487DF600CD5D05 /* TokenHandling.swift */; };
 		4A80E4D42B49BA7800CD5D05 /* AnonymousAlamofire.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A80E4D32B49BA7800CD5D05 /* AnonymousAlamofire.swift */; };
@@ -63,7 +63,7 @@
 		4A9088772AC1681B000C7878 /* MainPetCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A9088752AC1681B000C7878 /* MainPetCollectionViewCell.swift */; };
 		4A9936522B64230600B7B21A /* CalendarHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A9936512B64230600B7B21A /* CalendarHeaderView.swift */; };
 		4A9936542B64231B00B7B21A /* CalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A9936532B64231B00B7B21A /* CalendarView.swift */; };
-		4A9936562B642A0800B7B21A /* CalendarPanModalVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A9936552B642A0800B7B21A /* CalendarPanModalVC.swift */; };
+		4A9936562B642A0800B7B21A /* CalendarRegistrationVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A9936552B642A0800B7B21A /* CalendarRegistrationVC.swift */; };
 		4A9936582B642B7E00B7B21A /* CustomVerticalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A9936572B642B7E00B7B21A /* CustomVerticalView.swift */; };
 		4A99365A2B65309F00B7B21A /* CalendarDateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A9936592B65309F00B7B21A /* CalendarDateView.swift */; };
 		4AA999922A8485A500E495FA /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AA999912A8485A500E495FA /* AppDelegate.swift */; };
@@ -89,6 +89,12 @@
 		4AD354292AAF7F55004A47B3 /* RecordVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AD354282AAF7F55004A47B3 /* RecordVC.swift */; };
 		4AD3542B2AAF7F6A004A47B3 /* PetVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AD3542A2AAF7F6A004A47B3 /* PetVC.swift */; };
 		4AD3542D2AAF7F83004A47B3 /* SettingVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AD3542C2AAF7F83004A47B3 /* SettingVC.swift */; };
+		4AE293F12B6FFA2800920C0B /* PetDetailProfileVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AE293F02B6FFA2800920C0B /* PetDetailProfileVC.swift */; };
+		4AE293F32B70041100920C0B /* PetProfileUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AE293F22B70041100920C0B /* PetProfileUtils.swift */; };
+		4AE293F62B713E9A00920C0B /* PetDetailCareListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AE293F52B713E9A00920C0B /* PetDetailCareListView.swift */; };
+		4AE293F82B7141BC00920C0B /* PetDetailCareCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AE293F72B7141BC00920C0B /* PetDetailCareCollectionViewCell.swift */; };
+		4AE293FA2B71495A00920C0B /* PetDetailCareListCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AE293F92B71495A00920C0B /* PetDetailCareListCollectionViewCell.swift */; };
+		4AE293FE2B714EC100920C0B /* PetDetailScheduleListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AE293FD2B714EC100920C0B /* PetDetailScheduleListView.swift */; };
 		4AEDCE012B4C718E0043E872 /* PetCareRegistVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AEDCE002B4C718E0043E872 /* PetCareRegistVC.swift */; };
 		4AF0C84E2B24667500A45EEE /* FidnInputIdVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AF0C84D2B24667500A45EEE /* FidnInputIdVC.swift */; };
 		4AF0C8502B24765400A45EEE /* ResetPwVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AF0C84F2B24765400A45EEE /* ResetPwVC.swift */; };
@@ -138,7 +144,7 @@
 		4A54A0BC2B5859AA0024B940 /* PetCareTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PetCareTableViewCell.swift; sourceTree = "<group>"; };
 		4A54A0BE2B585A7E0024B940 /* PetCareListCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PetCareListCollectionViewCell.swift; sourceTree = "<group>"; };
 		4A73392D2B68097D00216FB5 /* CalendarScheduleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarScheduleView.swift; sourceTree = "<group>"; };
-		4A73392F2B680AEC00216FB5 /* ScheduleListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleListTableViewCell.swift; sourceTree = "<group>"; };
+		4A73392F2B680AEC00216FB5 /* ScheduleListCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleListCollectionViewCell.swift; sourceTree = "<group>"; };
 		4A7339312B68139700216FB5 /* SchedulePetImageCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SchedulePetImageCollectionViewCell.swift; sourceTree = "<group>"; };
 		4A80E4D02B487DF600CD5D05 /* TokenHandling.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenHandling.swift; sourceTree = "<group>"; };
 		4A80E4D22B4882B500CD5D05 /* fit-a-pet-client.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "fit-a-pet-client.entitlements"; sourceTree = "<group>"; };
@@ -159,7 +165,7 @@
 		4A9088752AC1681B000C7878 /* MainPetCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainPetCollectionViewCell.swift; sourceTree = "<group>"; };
 		4A9936512B64230600B7B21A /* CalendarHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarHeaderView.swift; sourceTree = "<group>"; };
 		4A9936532B64231B00B7B21A /* CalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarView.swift; sourceTree = "<group>"; };
-		4A9936552B642A0800B7B21A /* CalendarPanModalVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarPanModalVC.swift; sourceTree = "<group>"; };
+		4A9936552B642A0800B7B21A /* CalendarRegistrationVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarRegistrationVC.swift; sourceTree = "<group>"; };
 		4A9936572B642B7E00B7B21A /* CustomVerticalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomVerticalView.swift; sourceTree = "<group>"; };
 		4A9936592B65309F00B7B21A /* CalendarDateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarDateView.swift; sourceTree = "<group>"; };
 		4AA9998E2A8485A500E495FA /* fit-a-pet-client.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "fit-a-pet-client.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -187,6 +193,12 @@
 		4AD354282AAF7F55004A47B3 /* RecordVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordVC.swift; sourceTree = "<group>"; };
 		4AD3542A2AAF7F6A004A47B3 /* PetVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PetVC.swift; sourceTree = "<group>"; };
 		4AD3542C2AAF7F83004A47B3 /* SettingVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingVC.swift; sourceTree = "<group>"; };
+		4AE293F02B6FFA2800920C0B /* PetDetailProfileVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PetDetailProfileVC.swift; sourceTree = "<group>"; };
+		4AE293F22B70041100920C0B /* PetProfileUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PetProfileUtils.swift; sourceTree = "<group>"; };
+		4AE293F52B713E9A00920C0B /* PetDetailCareListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PetDetailCareListView.swift; sourceTree = "<group>"; };
+		4AE293F72B7141BC00920C0B /* PetDetailCareCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PetDetailCareCollectionViewCell.swift; sourceTree = "<group>"; };
+		4AE293F92B71495A00920C0B /* PetDetailCareListCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PetDetailCareListCollectionViewCell.swift; sourceTree = "<group>"; };
+		4AE293FD2B714EC100920C0B /* PetDetailScheduleListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PetDetailScheduleListView.swift; sourceTree = "<group>"; };
 		4AEDCE002B4C718E0043E872 /* PetCareRegistVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PetCareRegistVC.swift; sourceTree = "<group>"; };
 		4AF0C84D2B24667500A45EEE /* FidnInputIdVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FidnInputIdVC.swift; sourceTree = "<group>"; };
 		4AF0C84F2B24765400A45EEE /* ResetPwVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResetPwVC.swift; sourceTree = "<group>"; };
@@ -286,7 +298,7 @@
 				4A9936532B64231B00B7B21A /* CalendarView.swift */,
 				4A9936592B65309F00B7B21A /* CalendarDateView.swift */,
 				4A73392D2B68097D00216FB5 /* CalendarScheduleView.swift */,
-				4A73392F2B680AEC00216FB5 /* ScheduleListTableViewCell.swift */,
+				4A73392F2B680AEC00216FB5 /* ScheduleListCollectionViewCell.swift */,
 				4A7339312B68139700216FB5 /* SchedulePetImageCollectionViewCell.swift */,
 			);
 			path = CalendarVCView;
@@ -335,6 +347,7 @@
 		4ABE58582A85E8B400E22C5F /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				4AE293EF2B6FF9EA00920C0B /* PetProfileVC */,
 				4AEDCDFF2B4C70AD0043E872 /* PetCareVC */,
 				4AF0C8572B2627BE00A45EEE /* EditUserVC */,
 				4ACDD49F2AD9B32400CD8F1A /* RegistPet */,
@@ -345,7 +358,7 @@
 				4AA999952A8485A500E495FA /* FirstVC.swift */,
 				4AC579862B2E004400735252 /* CustomAlarmPopupVC.swift */,
 				4A828D8E2B619447006AE70A /* CustomCheckPopupVC.swift */,
-				4A9936552B642A0800B7B21A /* CalendarPanModalVC.swift */,
+				4A9936552B642A0800B7B21A /* CalendarRegistrationVC.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -353,6 +366,7 @@
 		4ABE58592A85E8C100E22C5F /* View */ = {
 			isa = PBXGroup;
 			children = (
+				4AE293F42B713E7000920C0B /* PetDetailProfileVCView */,
 				4A9936502B64223D00B7B21A /* CalendarVCView */,
 				4A0C7EFD2B5C28E10097D753 /* MainVCView */,
 				4A54A0B72B584CDD0024B940 /* PetVCView */,
@@ -399,6 +413,7 @@
 				4A037FF12AED62E30073BB56 /* KeyChainHelper.swift */,
 				4AC579822B2DFD4B00735252 /* StructData.swift */,
 				4A828D8A2B618DF7006AE70A /* DateFormatterUtils.swift */,
+				4AE293F22B70041100920C0B /* PetProfileUtils.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -466,6 +481,41 @@
 				4AD3542C2AAF7F83004A47B3 /* SettingVC.swift */,
 			);
 			path = TabBarVC;
+			sourceTree = "<group>";
+		};
+		4AE293EF2B6FF9EA00920C0B /* PetProfileVC */ = {
+			isa = PBXGroup;
+			children = (
+				4AE293F02B6FFA2800920C0B /* PetDetailProfileVC.swift */,
+			);
+			path = PetProfileVC;
+			sourceTree = "<group>";
+		};
+		4AE293F42B713E7000920C0B /* PetDetailProfileVCView */ = {
+			isa = PBXGroup;
+			children = (
+				4AE293FC2B714EA500920C0B /* PetDetailScheduleViews */,
+				4AE293FB2B714E8F00920C0B /* PetDetailCareViews */,
+			);
+			path = PetDetailProfileVCView;
+			sourceTree = "<group>";
+		};
+		4AE293FB2B714E8F00920C0B /* PetDetailCareViews */ = {
+			isa = PBXGroup;
+			children = (
+				4AE293F52B713E9A00920C0B /* PetDetailCareListView.swift */,
+				4AE293F72B7141BC00920C0B /* PetDetailCareCollectionViewCell.swift */,
+				4AE293F92B71495A00920C0B /* PetDetailCareListCollectionViewCell.swift */,
+			);
+			path = PetDetailCareViews;
+			sourceTree = "<group>";
+		};
+		4AE293FC2B714EA500920C0B /* PetDetailScheduleViews */ = {
+			isa = PBXGroup;
+			children = (
+				4AE293FD2B714EC100920C0B /* PetDetailScheduleListView.swift */,
+			);
+			path = PetDetailScheduleViews;
 			sourceTree = "<group>";
 		};
 		4AEDCDFF2B4C70AD0043E872 /* PetCareVC */ = {
@@ -619,6 +669,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				4A7339322B68139700216FB5 /* SchedulePetImageCollectionViewCell.swift in Sources */,
+				4AE293F12B6FFA2800920C0B /* PetDetailProfileVC.swift in Sources */,
 				4A8662D82B262DA200D8DDE8 /* CustomEditNavigationBar.swift in Sources */,
 				4A0FEA492B1B5F6F0084CA6C /* FindInputPhoneNumVC.swift in Sources */,
 				4A8B9B4E2AD443FA009236EC /* MySearchRouter.swift in Sources */,
@@ -631,8 +682,10 @@
 				4A40561C2B52FDB000A95891 /* TimeAttackPanModalVC.swift in Sources */,
 				4AD3542D2AAF7F83004A47B3 /* SettingVC.swift in Sources */,
 				4A80E4D42B49BA7800CD5D05 /* AnonymousAlamofire.swift in Sources */,
+				4AE293FA2B71495A00920C0B /* PetDetailCareListCollectionViewCell.swift in Sources */,
+				4AE293FE2B714EC100920C0B /* PetDetailScheduleListView.swift in Sources */,
 				4AF0C8502B24765400A45EEE /* ResetPwVC.swift in Sources */,
-				4A9936562B642A0800B7B21A /* CalendarPanModalVC.swift in Sources */,
+				4A9936562B642A0800B7B21A /* CalendarRegistrationVC.swift in Sources */,
 				4A15F2122AA8B4880098F2F7 /* InputIdVC.swift in Sources */,
 				4A037FF22AED62E30073BB56 /* KeyChainHelper.swift in Sources */,
 				4A0750D42B0892B900281A4C /* CustomNavigationBar.swift in Sources */,
@@ -653,7 +706,7 @@
 				4ACDD4A52AD9B3DC00CD8F1A /* InputGenderVC.swift in Sources */,
 				4AD354152AACD390004A47B3 /* LoginVC.swift in Sources */,
 				4A15F2162AA8B4CA0098F2F7 /* InputNickVC.swift in Sources */,
-				4A7339302B680AEC00216FB5 /* ScheduleListTableViewCell.swift in Sources */,
+				4A7339302B680AEC00216FB5 /* ScheduleListCollectionViewCell.swift in Sources */,
 				4ACDD4A12AD9B37E00CD8F1A /* InputSpeciesVC.swift in Sources */,
 				4AC579832B2DFD4B00735252 /* StructData.swift in Sources */,
 				4AC579852B2DFF7500735252 /* CustomAlarmPopupView.swift in Sources */,
@@ -665,6 +718,7 @@
 				4AC579872B2E004400735252 /* CustomAlarmPopupVC.swift in Sources */,
 				4A828D8D2B619432006AE70A /* CustomCheckPopupView.swift in Sources */,
 				4A15F20E2AA8B4150098F2F7 /* InputPhoneNumVC.swift in Sources */,
+				4AE293F82B7141BC00920C0B /* PetDetailCareCollectionViewCell.swift in Sources */,
 				4AA999962A8485A500E495FA /* FirstVC.swift in Sources */,
 				4A54A0BF2B585A7E0024B940 /* PetCareListCollectionViewCell.swift in Sources */,
 				4AB6178E2B1CFAF300CED98E /* FindIdCheckVC.swift in Sources */,
@@ -699,7 +753,9 @@
 				4ACDD4A72AD9B3F600CD8F1A /* CheckCareVC.swift in Sources */,
 				4A8662D62B2629F500D8DDE8 /* EditUserNameVC.swift in Sources */,
 				4A40561F2B52FE7900A95891 /* TimeAttackPanModalTabelViewCell.swift in Sources */,
+				4AE293F62B713E9A00920C0B /* PetDetailCareListView.swift in Sources */,
 				4A54A0BB2B5858440024B940 /* PetCareListView.swift in Sources */,
+				4AE293F32B70041100920C0B /* PetProfileUtils.swift in Sources */,
 				4A54A0BD2B5859AA0024B940 /* PetCareTableViewCell.swift in Sources */,
 				4A8B9B502AD444D0009236EC /* Constants.swift in Sources */,
 				4A40561A2B52A7D100A95891 /* PetPanModalTableViewCell.swift in Sources */,
