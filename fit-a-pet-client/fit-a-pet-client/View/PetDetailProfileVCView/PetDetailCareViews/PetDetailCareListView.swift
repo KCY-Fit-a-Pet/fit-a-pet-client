@@ -69,11 +69,12 @@ class PetDetailCareListView: UIView{
         }
         
         petDetailCareCollectionView.register(PetDetailCareCollectionViewCell.self, forCellWithReuseIdentifier: "PetDetailCareCollectionViewCell")
-
+        
         petDetailCareCollectionView.delegate = self
         petDetailCareCollectionView.dataSource = self
+        
     }
-   
+    
     func updateCareCategories(_ categories: [CareCategory]) {
         careCategories = categories
     }
@@ -102,6 +103,32 @@ extension PetDetailCareListView: UICollectionViewDataSource, UICollectionViewDel
         
         return CGSize(width: cellWidth, height: 120)
     }
+    
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        DispatchQueue.main.async {
+            collectionView.collectionViewLayout.invalidateLayout()
+            collectionView.layoutIfNeeded()
 
+            let viewWidth = collectionView.bounds.width
+            let numberOfCells = CGFloat(collectionView.numberOfItems(inSection: 0))
+            let cellsPerRow = 2 // 한 행에 배치되는 셀의 수
+            let interItemSpacing: CGFloat = 7 // 셀 사이의 간겨
+            let cellHeight: CGFloat = 120 
+
+            var totalHeight: CGFloat
+            let numberOfCellsInt = Int(numberOfCells)
+
+            if numberOfCellsInt % cellsPerRow == 0 { // 짝수 개수일 때
+                totalHeight = (cellHeight + interItemSpacing) * numberOfCells / CGFloat(cellsPerRow)
+            } else { // 홀수 개수일 때
+                let rows = Int(ceil(numberOfCells / CGFloat(cellsPerRow)))
+                totalHeight = (cellHeight + interItemSpacing) * CGFloat(rows)
+            }
+
+            collectionView.snp.updateConstraints { make in
+                make.height.equalTo(totalHeight)
+            }
+        }
+    }
 }
 
