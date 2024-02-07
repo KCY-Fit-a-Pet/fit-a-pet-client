@@ -46,7 +46,7 @@ class PetDetailProfileVC: UIViewController{
         petProfileView.snp.makeConstraints{make in
             make.top.equalTo(scrollView.snp.top)
             make.height.equalTo(140)
-            make.leading.trailing.equalTo(scrollView)
+            make.leading.trailing.equalTo(view)
         }
         
         petDetailDataView.snp.makeConstraints{make in
@@ -80,7 +80,7 @@ class PetDetailProfileVC: UIViewController{
     }
     func setNavigationBar() {
 
-        //navigationController?.navigationBar.topItem?.title = petData?.petName
+        
         navigationController?.navigationBar.tintColor = .black
         
         let editProfileButton = UIBarButtonItem(title: "프로필 수정", style: .plain, target: self, action: #selector(editProfileButtonTapped))
@@ -96,6 +96,7 @@ class PetDetailProfileVC: UIViewController{
         careProfileView.snp.updateConstraints { make in
             make.height.equalTo(contentHeight + 32)
         }
+
     }
     
     @objc func editProfileButtonTapped() {

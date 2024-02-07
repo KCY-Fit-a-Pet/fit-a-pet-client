@@ -28,6 +28,8 @@ class PetVC: UIViewController{
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        
+        navigationItem.title = ""
         petInfoListAPI()
     }
     
@@ -80,7 +82,6 @@ class PetVC: UIViewController{
                                     
                                     if let cell = self.petListCollectionView.cellForItem(at: IndexPath(item: index, section: 0)) as? PetCollectionViewCell {
                                         cell.petCareSubview.updateCareCategories(PetDataManager.careCategoriesByPetId[pet.id]!)
-
                                     }
                                 }
                                 
@@ -104,7 +105,7 @@ extension PetVC: UICollectionViewDelegate{
         let selectedPet = PetDataManager.pets[indexPath.item]
         print("Selected Pet Name: \(selectedPet.id)")
         SelectedPetId.petId = selectedPet.id
-        let nextVC = PetDetailProfileVC()
+        let nextVC = PetProfileEditVC()
         self.navigationController?.navigationBar.topItem?.title = selectedPet.petName
         nextVC.hidesBottomBarWhenPushed = true
         navigationController?.pushViewController(nextVC, animated: true)

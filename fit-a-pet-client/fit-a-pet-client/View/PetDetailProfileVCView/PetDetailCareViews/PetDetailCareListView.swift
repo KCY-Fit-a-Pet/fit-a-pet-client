@@ -112,7 +112,7 @@ extension PetDetailCareListView: UICollectionViewDataSource, UICollectionViewDel
             let viewWidth = collectionView.bounds.width
             let numberOfCells = CGFloat(collectionView.numberOfItems(inSection: 0))
             let cellsPerRow = 2 // 한 행에 배치되는 셀의 수
-            let interItemSpacing: CGFloat = 7 // 셀 사이의 간겨
+            let interItemSpacing: CGFloat = 7 // 셀 사이의 간격
             let cellHeight: CGFloat = 120 
 
             var totalHeight: CGFloat
