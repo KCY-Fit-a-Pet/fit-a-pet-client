@@ -4,13 +4,18 @@ import UIKit
 import SnapKit
 import SwiftUI
 
-class PetProfileEditVC: UIViewController{
+class PetProfileEditVC: CustomNavigationBar{
     
     private let imagePickerUtil = ImagePickerUtil()
     private let choosePhotoBtn = UIButton()
     private let scrollView = UIScrollView()
+    private let basicSubTitleLabel = UILabel()
     private let nameInputView =  CustomVerticalView(labelText: "이름", placeholder: "이름")
     private let genderView = GenderView()
+    private let birthdayView = BirthdayView()
+    private let addInfoLabel = UILabel()
+    private let feedInputView = CustomVerticalView(labelText: "사료", placeholder: "사료")
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -22,11 +27,21 @@ class PetProfileEditVC: UIViewController{
     func initView(){
         view.backgroundColor = .white
         view.addSubview(scrollView)
+        scrollView.addSubview(basicSubTitleLabel)
         scrollView.addSubview(choosePhotoBtn)
         scrollView.addSubview(nameInputView)
         scrollView.addSubview(genderView)
+        scrollView.addSubview(birthdayView)
+        scrollView.addSubview(addInfoLabel)
+        scrollView.addSubview(feedInputView)
         
         choosePhotoBtn.setImage(UIImage(named: "uploadPhoto"), for: .normal)
+        basicSubTitleLabel.text = "기본 정보"
+        basicSubTitleLabel.font = .boldSystemFont(ofSize: 16)
+        
+        addInfoLabel.text = "추가 정보"
+        addInfoLabel.font = .boldSystemFont(ofSize: 16)
+        
         scrollView.snp.makeConstraints{make in
             make.top.bottom.leading.trailing.equalTo(view)
         }
@@ -35,12 +50,18 @@ class PetProfileEditVC: UIViewController{
             make.width.equalTo(120)
             make.height.equalTo(120)
             make.centerX.equalToSuperview()
-            make.top.equalTo(view.snp.top).offset(80)
+            make.top.equalTo(view.snp.top).offset(85)
+        }
+        
+        basicSubTitleLabel.snp.makeConstraints{make in
+            make.leading.trailing.equalTo(view).inset(16)
+            make.top.equalTo(choosePhotoBtn.snp.bottom).offset(16)
+            make.height.equalTo(24)
         }
         
         nameInputView.snp.makeConstraints{make in
             make.leading.trailing.equalTo(view).inset(16)
-            make.top.equalTo(choosePhotoBtn.snp.bottom).offset(40)
+            make.top.equalTo(basicSubTitleLabel.snp.bottom)
             make.height.equalTo(88)
         }
         
@@ -48,6 +69,24 @@ class PetProfileEditVC: UIViewController{
             make.leading.trailing.equalTo(view).inset(16)
             make.top.equalTo(nameInputView.snp.bottom).offset(16)
             make.height.equalTo(120)
+        }
+        
+        birthdayView.snp.makeConstraints{make in
+            make.leading.trailing.equalTo(view).inset(16)
+            make.top.equalTo(genderView.snp.bottom).offset(18)
+            make.height.equalTo(88)
+        }
+        
+        addInfoLabel.snp.makeConstraints{make in
+            make.leading.trailing.equalTo(view).inset(16)
+            make.top.equalTo(birthdayView.snp.bottom).offset(18)
+            make.height.equalTo(24)
+        }
+        
+        feedInputView.snp.makeConstraints{make in
+            make.leading.trailing.equalTo(view).inset(16)
+            make.top.equalTo(addInfoLabel.snp.bottom)
+            make.height.equalTo(88)
         }
       
     }
@@ -105,7 +144,7 @@ struct MainViewController_Previews: PreviewProvider {
   
   struct Container: UIViewControllerRepresentable {
     func makeUIViewController(context: Context) -> UIViewController {
-      let rootViewController = PetProfileEditVC() // ViewController name
+      let rootViewController = PetProfileEditVC(title: "반려동물 프로필") // ViewController name
       return UINavigationController(rootViewController: rootViewController)
     }
     func updateUIViewController(_ uiViewController: UIViewControllerType, context: Context) {}

@@ -105,6 +105,10 @@ class PetDetailProfileVC: UIViewController{
     
     @objc func editProfileButtonTapped() {
         print("프로필 수정 button tapped")
+        
+        let nextVC = PetProfileEditVC(title: "반려동물 프로필")
+        self.navigationController?.pushViewController(nextVC, animated: true)
+        
     }
     
     @objc func manageMembersButtonTapped() {
