@@ -24,11 +24,9 @@ class PetCareListView: UIView {
         addSubview(careCategoryListTableView)
         
         careCategoryListTableView.snp.makeConstraints { make in
-            make.top.equalToSuperview()
-            make.leading.trailing.equalToSuperview().inset(24)
+            make.top.leading.trailing.equalToSuperview().inset(24)
             make.bottom.equalToSuperview().offset(-24)
         }
-
         careCategoryListTableView.register(PetCareTableViewCell.self, forCellReuseIdentifier: "PetCareTableViewCell")
         careCategoryListTableView.separatorStyle = .none
 
@@ -38,10 +36,11 @@ class PetCareListView: UIView {
     
     func updateCareCategories(_ categories: [CareCategory]) {
         careCategories = categories
-    }
 
+    }
 }
-extension PetCareListView: UITableViewDelegate, UITableViewDataSource{
+
+extension PetCareListView: UITableViewDelegate, UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
@@ -60,11 +59,8 @@ extension PetCareListView: UITableViewDelegate, UITableViewDataSource{
         return cell
     }
     
-    // MARK: - UITableViewDelegate
-
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 36
     }
 }
-
 

@@ -255,5 +255,19 @@ class AuthorizationAlamofire: TokenHandling {
             }
     }
     
+    func petCountScheduleList(completion: @escaping (Result<Data?, Error>) -> Void) {
+        os_log("AuthorizationAlamofire - petCountScheduleList() called ", log: .default, type: .info)
+
+        self.session.request(MySearchRouter.petCountScheduleList)
+            .response { response in
+                switch response.result {
+                case .success(let data):
+                    completion(.success(data))
+                case .failure(let error):
+                    completion(.failure(error))
+                }
+            }
+    }
+    
 }
 

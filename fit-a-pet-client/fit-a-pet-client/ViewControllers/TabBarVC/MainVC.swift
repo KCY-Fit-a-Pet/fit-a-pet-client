@@ -280,16 +280,16 @@ class MainVC: UIViewController {
         
         for section in 0..<petCareMethod.numberOfSections(in: petCareCollectionView) {
             let numberOfCellsInSection = petCareMethod.collectionView(petCareCollectionView, numberOfItemsInSection: section)
-            totalHeight += sectionHeaderHeight
-            totalHeight += (numberOfCellsInSection % 2 == 0 ? cellHeight * CGFloat(numberOfCellsInSection/2) : cellHeight * CGFloat(numberOfCellsInSection/2+1))
+            let numberOfRows = numberOfCellsInSection / 2 + numberOfCellsInSection % 2 // 짝수 개수면 그대로, 홀수 개수면 1을 더한다
+            totalHeight += sectionHeaderHeight + (cellHeight * CGFloat(numberOfRows))
         }
-
-        if totalHeight < self.view.frame.height{
+        
+        if totalHeight < self.view.frame.height {
             petCareCollectionViewHeightConstraint.constant = self.view.frame.height
             mainView.snp.updateConstraints { make in
                 make.height.equalTo(self.view.frame.height)
             }
-        }else{
+        } else {
             petCareCollectionViewHeightConstraint.constant = totalHeight
             mainView.snp.updateConstraints { make in
                 make.height.equalTo(totalHeight)

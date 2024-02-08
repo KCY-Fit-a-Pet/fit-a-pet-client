@@ -27,10 +27,10 @@ class PetCollectionViewCell: UICollectionViewCell {
         contentView.layer.shadowOpacity = 0.2
         contentView.layer.shadowOffset = CGSize(width: 0, height: 2)
         contentView.layer.shadowRadius = 4
-        
+ 
         petInfoSubview.snp.makeConstraints { make in
             make.top.leading.trailing.equalToSuperview()
-            make.height.equalTo(120)
+            make.height.equalTo(90)
         }
 
         petCareSubview.snp.makeConstraints { make in

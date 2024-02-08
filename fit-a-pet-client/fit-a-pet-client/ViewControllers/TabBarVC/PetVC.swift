@@ -15,6 +15,8 @@ class PetVC: UIViewController{
         return collectionView
     }()
     
+    private var tableViewHeight: CGFloat = 0
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         initView()
@@ -26,6 +28,8 @@ class PetVC: UIViewController{
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        
+        navigationItem.title = ""
         petInfoListAPI()
     }
     
@@ -66,7 +70,7 @@ class PetVC: UIViewController{
                     PetDataManager.updatePets(with: responseData)
            
                     self.petListCollectionView.reloadData()
-                    
+            
                     for (index, pet) in PetDataManager.pets.enumerated() {
                         AuthorizationAlamofire.shared.userPetCareInfoList(pet.id) { careInfoResult in
                             
@@ -75,6 +79,7 @@ class PetVC: UIViewController{
                                 if let responseData = careInfoData {
                                     
                                     PetDataManager.updateCareInfo(with: responseData, petId: pet.id)
+                                    
                                     if let cell = self.petListCollectionView.cellForItem(at: IndexPath(item: index, section: 0)) as? PetCollectionViewCell {
                                         cell.petCareSubview.updateCareCategories(PetDataManager.careCategoriesByPetId[pet.id]!)
                                     }
@@ -85,6 +90,7 @@ class PetVC: UIViewController{
                             }
                         }
                     }
+                    self.petListCollectionView.reloadData()
                 }
                 
             case .failure(let profileError):
@@ -100,6 +106,7 @@ extension PetVC: UICollectionViewDelegate{
         print("Selected Pet Name: \(selectedPet.id)")
         SelectedPetId.petId = selectedPet.id
         let nextVC = PetDetailProfileVC()
+        self.navigationController?.navigationBar.topItem?.title = selectedPet.petName
         nextVC.hidesBottomBarWhenPushed = true
         navigationController?.pushViewController(nextVC, animated: true)
     }
@@ -110,6 +117,7 @@ extension PetVC: UICollectionViewDataSource{
         
         let pet = PetDataManager.pets[indexPath.item]
         cell.petInfoSubviewConfigure(petName: pet.petName, gender: pet.gender, age: String(pet.age) + "세", feed: pet.feed)
+ 
 
         return cell
     }
@@ -118,9 +126,31 @@ extension PetVC: UICollectionViewDataSource{
         return PetDataManager.pets.count
     }
 }
-extension PetVC: UICollectionViewDelegateFlowLayout{
+extension PetVC: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: 343, height: 296)
+        let viewWidth = view.bounds.width
+        let cellWidth = viewWidth - 36
+
+        // 해당 indexPath에 해당하는 펫의 케어 카테고리 배열을 가져옴
+        guard let categories = PetDataManager.careCategoriesByPetId[PetDataManager.pets[indexPath.item].id] else {
+            return CGSize(width: cellWidth, height: 130) // 기본 높이
+        }
+        
+        // 셀 높이를 구하기 위해 필요한 작업을 수행하고, 그 결과에 따라 높이를 계산
+        let cellHeight = calculateCellHeight(for: categories)
+        
+        return CGSize(width: cellWidth, height: cellHeight)
+    }
+    
+    func calculateCellHeight(for categories: [CareCategory]) -> CGFloat {
+        // 각 카테고리마다 셀 높이를 계산하고 모두 더함
+        var totalHeight: CGFloat = 130 // 기본 높이
+        let cellHeight: CGFloat = 44 // 각 카테고리의 셀 높이
+       
+        totalHeight += CGFloat(categories.count) * cellHeight
+    
+        
+        return totalHeight
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
