@@ -120,6 +120,10 @@ class CalendarVC: UIViewController {
                     do {
                         self.scheduleListResponse = try JSONDecoder().decode(ScheduleListResponse.self, from: responseData)
                         self.scheduleView.scheduleListCollectionView.reloadData()
+                        let jsonObject = try JSONSerialization.jsonObject(with: responseData, options: []) as? [String: Any] ?? [:]
+                        
+                        print("Response JSON Data (User Profile): \(jsonObject)")
+                        
                         
                     } catch {
                         print("Error decoding schedule list JSON: \(error)")

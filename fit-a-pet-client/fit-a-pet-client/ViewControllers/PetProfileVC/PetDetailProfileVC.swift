@@ -10,6 +10,7 @@ class PetDetailProfileVC: UIViewController{
     let careProfileView = PetDetailCareListView()
     let scheduleProfileView = PetDetailScheduleListView()
     var petData: Pet?
+    var scheduleListResponse: ScheduleListResponse?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -17,6 +18,9 @@ class PetDetailProfileVC: UIViewController{
         initView()
         setpetProfileView()
         setNavigationBar()
+        
+        self.scheduleProfileView.petDetailScheduleCollectionView.delegate = self
+        self.scheduleProfileView.petDetailScheduleCollectionView.dataSource = self
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -137,6 +141,31 @@ class PetDetailProfileVC: UIViewController{
                                     print("Error fetching pet care info for pet \(pet.id): \(careInfoError)")
                                 }
                             }
+                            
+                            AuthorizationAlamofire.shared.petCountScheduleList { scheduleInfoResult in
+                                
+                                switch scheduleInfoResult {
+                                case .success(let scheduleInfoData):
+                                    if let responseData = scheduleInfoData {
+                                        do {
+                                            let jsonObject = try JSONSerialization.jsonObject(with: responseData, options: []) as? [String: Any] ?? [:]
+                                            
+                                            self.scheduleListResponse = try JSONDecoder().decode(ScheduleListResponse.self, from: responseData)
+                                            self.scheduleProfileView.petDetailScheduleCollectionView.reloadData()
+                                            
+                                            print("Response JSON Data (User Profile): \(jsonObject)")
+                                        
+                                        } catch {
+                                            print("Error parsing user profile JSON: \(error)")
+                                        }
+                                    }
+                                    
+                                case .failure(let careInfoError):
+                                    print("Error fetching pet care info for pet \(pet.id): \(careInfoError)")
+                                }
+                            }
+                            
+                            
                         }
                     }
                 }
@@ -145,5 +174,30 @@ class PetDetailProfileVC: UIViewController{
                 print("Error fetching user profile info: \(profileError)")
             }
         }
+    }
+}
+
+
+extension PetDetailProfileVC: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return scheduleListResponse?.data.schedules.count ?? 0
+    }
+
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+    
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ScheduleListCollectionViewCell", for: indexPath) as! ScheduleListCollectionViewCell
+        
+        let date = (scheduleListResponse?.data.schedules[indexPath.item].reservationDate)!
+        let formattedTime = DateFormatterUtils.formatTotalDate(date)
+        cell.scheduleTimeLabel.text = formattedTime
+        cell.scheduleNameLabel.text = scheduleListResponse?.data.schedules[indexPath.item].scheduleName
+        cell.scheduleLocationLabel.text = scheduleListResponse?.data.schedules[indexPath.item].location
+        cell.updatePetImage((scheduleListResponse?.data.schedules[indexPath.item].pets)!)
+        
+        return cell
+    }
+
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return CGSize(width: collectionView.bounds.width, height: 130)
     }
 }

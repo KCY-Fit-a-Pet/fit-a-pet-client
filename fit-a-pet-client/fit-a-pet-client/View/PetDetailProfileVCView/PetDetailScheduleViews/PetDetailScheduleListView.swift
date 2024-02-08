@@ -3,7 +3,7 @@ import SnapKit
 
 class PetDetailScheduleListView: UIView{
 
-    private let petDetailScheduleCollectionView: UICollectionView = {
+    let petDetailScheduleCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
         layout.minimumLineSpacing = 8
@@ -64,32 +64,8 @@ class PetDetailScheduleListView: UIView{
         
         petDetailScheduleCollectionView.register(ScheduleListCollectionViewCell.self, forCellWithReuseIdentifier: "ScheduleListCollectionViewCell")
 
-        petDetailScheduleCollectionView.delegate = self
-        petDetailScheduleCollectionView.dataSource = self
-
     }
    
 }
 
-extension PetDetailScheduleListView: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 3
-    }
-
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ScheduleListCollectionViewCell", for: indexPath) as! ScheduleListCollectionViewCell
-
-        cell.scheduleTimeLabel.text = "time"
-        cell.scheduleNameLabel.text = "name"
-        cell.scheduleLocationLabel.text = "위치"
-        
-        
-        return cell
-    }
-
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: collectionView.bounds.width, height: 130)
-    }
-
-}
 
