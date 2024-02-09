@@ -11,6 +11,8 @@
 		4A01502F2B7407880069AF20 /* ImagePickerUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A01502E2B7407880069AF20 /* ImagePickerUtil.swift */; };
 		4A0150322B7410140069AF20 /* GenderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A0150312B7410140069AF20 /* GenderView.swift */; };
 		4A0150342B7545660069AF20 /* BirthdayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A0150332B7545660069AF20 /* BirthdayView.swift */; };
+		4A0150372B76906D0069AF20 /* RecordFolderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A0150362B76906D0069AF20 /* RecordFolderView.swift */; };
+		4A0150392B76919B0069AF20 /* FolderTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A0150382B76919B0069AF20 /* FolderTableViewCell.swift */; };
 		4A037FF22AED62E30073BB56 /* KeyChainHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A037FF12AED62E30073BB56 /* KeyChainHelper.swift */; };
 		4A0750D22B07D44000281A4C /* UploadPetPhotoVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A0750D12B07D44000281A4C /* UploadPetPhotoVC.swift */; };
 		4A0750D42B0892B900281A4C /* CustomNavigationBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A0750D32B0892B900281A4C /* CustomNavigationBar.swift */; };
@@ -115,6 +117,8 @@
 		4A01502E2B7407880069AF20 /* ImagePickerUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePickerUtil.swift; sourceTree = "<group>"; };
 		4A0150312B7410140069AF20 /* GenderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenderView.swift; sourceTree = "<group>"; };
 		4A0150332B7545660069AF20 /* BirthdayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BirthdayView.swift; sourceTree = "<group>"; };
+		4A0150362B76906D0069AF20 /* RecordFolderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordFolderView.swift; sourceTree = "<group>"; };
+		4A0150382B76919B0069AF20 /* FolderTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FolderTableViewCell.swift; sourceTree = "<group>"; };
 		4A037FF12AED62E30073BB56 /* KeyChainHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyChainHelper.swift; sourceTree = "<group>"; };
 		4A0750D12B07D44000281A4C /* UploadPetPhotoVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UploadPetPhotoVC.swift; sourceTree = "<group>"; };
 		4A0750D32B0892B900281A4C /* CustomNavigationBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomNavigationBar.swift; sourceTree = "<group>"; };
@@ -237,6 +241,15 @@
 				4A0150332B7545660069AF20 /* BirthdayView.swift */,
 			);
 			path = PetProfileEditView;
+			sourceTree = "<group>";
+		};
+		4A0150352B7690530069AF20 /* RecordView */ = {
+			isa = PBXGroup;
+			children = (
+				4A0150362B76906D0069AF20 /* RecordFolderView.swift */,
+				4A0150382B76919B0069AF20 /* FolderTableViewCell.swift */,
+			);
+			path = RecordView;
 			sourceTree = "<group>";
 		};
 		4A0C7EFD2B5C28E10097D753 /* MainVCView */ = {
@@ -383,6 +396,7 @@
 		4ABE58592A85E8C100E22C5F /* View */ = {
 			isa = PBXGroup;
 			children = (
+				4A0150352B7690530069AF20 /* RecordView */,
 				4A0150302B740FF80069AF20 /* PetProfileEditView */,
 				4AE293F42B713E7000920C0B /* PetDetailProfileVCView */,
 				4A9936502B64223D00B7B21A /* CalendarVCView */,
@@ -733,6 +747,7 @@
 				4ACDD4A12AD9B37E00CD8F1A /* InputSpeciesVC.swift in Sources */,
 				4AC579832B2DFD4B00735252 /* StructData.swift in Sources */,
 				4AC579852B2DFF7500735252 /* CustomAlarmPopupView.swift in Sources */,
+				4A0150372B76906D0069AF20 /* RecordFolderView.swift in Sources */,
 				4A4056162B529DFC00A95891 /* OtherSettingsView.swift in Sources */,
 				4AD0896A2AFBFD9400E79E52 /* CheckCareCollectionViewCell.swift in Sources */,
 				4A8B9B462AD443C9009236EC /* AuthorizationAlamofire.swift in Sources */,
@@ -764,6 +779,7 @@
 				4A8B9B482AD443D5009236EC /* BaseInterceptor.swift in Sources */,
 				4A3D7C012B51BB1F00E3BBF8 /* CareDateTableViewCell.swift in Sources */,
 				4AD354272AAF7EF5004A47B3 /* CalendarVC.swift in Sources */,
+				4A0150392B76919B0069AF20 /* FolderTableViewCell.swift in Sources */,
 				4AF0C8542B24E1A800A45EEE /* MyInfoTableViewCell.swift in Sources */,
 				4A4BFDCA2AD26B0F0062BDB8 /* RegistrationManager.swift in Sources */,
 				4A54A0B92B584D110024B940 /* PetProfileView.swift in Sources */,
