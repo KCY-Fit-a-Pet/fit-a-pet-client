@@ -1,6 +1,20 @@
 import Foundation
 
 class DateFormatterUtils {
+
+   var dateFormatter: DateFormatter = {
+        let df = DateFormatter()
+        df.dateFormat = "yyyy-MM-dd HH:mm:ss"
+        return df
+    }()
+    
+    func formatDateString(_ dateString: String) -> String? {
+        if let date = dateFormatter.date(from: dateString) {
+            return dateFormatter.string(from: date)
+        }
+        return nil
+    }
+    
     static func formatTime(_ timeString: String, from format: String = "HH:mm:ss", to newFormat: String = "a h:mm") -> String? {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = format

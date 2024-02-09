@@ -17,12 +17,9 @@ class CalendarRegistrationVC: UIViewController, CalendarDateViewDelegate {
     
     var selecteDateTime = ""
     var reloadClosure: (() -> Void)?
-    private lazy var dateFormatter: DateFormatter = {
-        let df = DateFormatter()
-        df.dateFormat = "yyyy-MM-dd HH:mm:ss"
-        return df
-    }()
-
+    
+    let dateFormatterUtils = DateFormatterUtils()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupNavigationBar()
@@ -33,7 +30,8 @@ class CalendarRegistrationVC: UIViewController, CalendarDateViewDelegate {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        let formattedDate = dateFormatter.string(from: dateTimePicker.date)
+        let formattedDate = dateFormatterUtils.formatDateString(dateFormatterUtils.dateFormatter.string(from: dateTimePicker.date))
+
         ScheduleRegistrationManager.shared.addInput(reservationDate: formattedDate)
         
     }
@@ -194,15 +192,14 @@ class CalendarRegistrationVC: UIViewController, CalendarDateViewDelegate {
         }
     }
     @objc func datePickerValueChanged() {
-
-        let formattedDate = dateFormatter.string(from: dateTimePicker.date)
+        let formattedDate = dateFormatterUtils.formatDateString(dateFormatterUtils.dateFormatter.string(from: dateTimePicker.date))
 
         if selecteDateTime == "time" {
-            if let formattedTime = DateFormatterUtils.formatTime(formattedDate, from: "yyyy-MM-dd HH:mm:ss", to: "a h:mm") {
+            if let formattedTime = DateFormatterUtils.formatTime(formattedDate!, from: "yyyy-MM-dd HH:mm:ss", to: "a h:mm") {
                 dateView.timePickerBtn.setTitle(formattedTime, for: .normal)
             }
         }else{
-            if let formattedFullDate = DateFormatterUtils.formatFullDate(formattedDate, from: "yyyy-MM-dd HH:mm:ss", to: "yyyy.MM.dd (E)") {
+            if let formattedFullDate = DateFormatterUtils.formatFullDate(formattedDate!, from: "yyyy-MM-dd HH:mm:ss", to: "yyyy.MM.dd (E)") {
                 dateView.datePickerBtn.setTitle(formattedFullDate, for: .normal)
             }
         }
