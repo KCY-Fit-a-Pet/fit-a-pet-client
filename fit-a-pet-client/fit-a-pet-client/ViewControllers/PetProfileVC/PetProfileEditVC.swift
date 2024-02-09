@@ -134,9 +134,7 @@ class PetProfileEditVC: CustomNavigationBar{
     }
     
     @objc func datePickerButtonTapped() {
-        
-        print("클릭")
-         
+
         if datePicker.isHidden {
             datePicker.isHidden = false
            
@@ -192,8 +190,6 @@ class PetProfileEditVC: CustomNavigationBar{
                }
            }
        }
-    
-    
 }
 
 
