@@ -37,7 +37,7 @@ class CustomNavigationBar: UIViewController {
     }
     
     @objc func closeButtonTapped() {
-        if currentTitle == "반려동물 등록하기" || currentTitle == "일정 등록하기" {
+        if currentTitle == "반려동물 등록하기" || currentTitle == "일정 등록하기" || currentTitle == "반려동물 프로필" {
             navigationController?.popToRootViewController(animated: true)
         } else {
             if let loginVC = navigationController?.viewControllers.first(where: { $0 is LoginVC }) {

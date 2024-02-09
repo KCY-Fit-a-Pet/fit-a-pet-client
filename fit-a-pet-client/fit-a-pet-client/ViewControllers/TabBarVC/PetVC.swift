@@ -90,7 +90,6 @@ class PetVC: UIViewController{
                             }
                         }
                     }
-                    self.petListCollectionView.reloadData()
                 }
                 
             case .failure(let profileError):
@@ -131,21 +130,18 @@ extension PetVC: UICollectionViewDelegateFlowLayout {
         let viewWidth = view.bounds.width
         let cellWidth = viewWidth - 36
 
-        // 해당 indexPath에 해당하는 펫의 케어 카테고리 배열을 가져옴
         guard let categories = PetDataManager.careCategoriesByPetId[PetDataManager.pets[indexPath.item].id] else {
-            return CGSize(width: cellWidth, height: 130) // 기본 높이
+            return CGSize(width: cellWidth, height: 130)
         }
         
-        // 셀 높이를 구하기 위해 필요한 작업을 수행하고, 그 결과에 따라 높이를 계산
         let cellHeight = calculateCellHeight(for: categories)
         
         return CGSize(width: cellWidth, height: cellHeight)
     }
     
     func calculateCellHeight(for categories: [CareCategory]) -> CGFloat {
-        // 각 카테고리마다 셀 높이를 계산하고 모두 더함
-        var totalHeight: CGFloat = 130 // 기본 높이
-        let cellHeight: CGFloat = 44 // 각 카테고리의 셀 높이
+        var totalHeight: CGFloat = 130
+        let cellHeight: CGFloat = 55
        
         totalHeight += CGFloat(categories.count) * cellHeight
     

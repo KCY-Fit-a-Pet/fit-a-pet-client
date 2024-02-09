@@ -3,8 +3,8 @@ import SnapKit
 
 class BirthdayView: UIView {
 
-    let firstStackView = UIStackView()
-    let secondStackView = UIStackView()
+    let totalBirthdayStackView = UIStackView()
+    let totalAgeStackView = UIStackView()
     let birthdayStackView = UIStackView()
     let birthdayChangeBtn = UIButton()
     
@@ -15,6 +15,8 @@ class BirthdayView: UIView {
     let ageLabel = UILabel()
     let ageCheckLabel = UILabel()
     let textLabel = UILabel()
+    
+    let dateFormatterUtils = DateFormatterUtils()
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -33,7 +35,7 @@ class BirthdayView: UIView {
         ageLabel.text = "나이"
         ageLabel.font = .boldSystemFont(ofSize: 18)
         
-        ageCheckLabel.text = "4"
+        ageCheckLabel.text = "0"
         ageCheckLabel.textAlignment = .center
         ageCheckLabel.backgroundColor = UIColor(named: "Gray1")
         
@@ -60,22 +62,25 @@ class BirthdayView: UIView {
         ageStackView.addArrangedSubview(textLabel)
 
         selectedBirthdayLabel.font = .systemFont(ofSize: 14)
-        selectedBirthdayLabel.text = "날짜"
+        
+        let formattedDate = dateFormatterUtils.formatDateString(dateFormatterUtils.dateFormatter.string(from: Date()))
+        
+        selectedBirthdayLabel.text =  DateFormatterUtils.formatFullDate(formattedDate!, from: "yyyy-MM-dd HH:mm:ss", to: "yyyy.MM.dd (E)")
 
         birthdayChangeBtn.setImage(UIImage(named: "calendar"), for: .normal)
         
-        firstStackView.axis = .vertical
-        firstStackView.addArrangedSubview(birthdayLabel)
-        firstStackView.addArrangedSubview(birthdayStackView)
+        totalBirthdayStackView.axis = .vertical
+        totalBirthdayStackView.addArrangedSubview(birthdayLabel)
+        totalBirthdayStackView.addArrangedSubview(birthdayStackView)
 
-        secondStackView.axis = .vertical
-        secondStackView.addArrangedSubview(ageLabel)
-        secondStackView.addArrangedSubview(ageStackView)
+        totalAgeStackView.axis = .vertical
+        totalAgeStackView.addArrangedSubview(ageLabel)
+        totalAgeStackView.addArrangedSubview(ageStackView)
 
         let horizontalStackView = UIStackView()
         horizontalStackView.axis = .horizontal
-        horizontalStackView.addArrangedSubview(firstStackView)
-        horizontalStackView.addArrangedSubview(secondStackView)
+        horizontalStackView.addArrangedSubview(totalBirthdayStackView)
+        horizontalStackView.addArrangedSubview(totalAgeStackView)
         horizontalStackView.spacing = 10
 
     
@@ -90,7 +95,6 @@ class BirthdayView: UIView {
         }
         
         birthdayChangeBtn.snp.makeConstraints{make in
-            make.height.equalTo(22)
             make.width.equalTo(50)
         }
         
