@@ -107,7 +107,8 @@ class RecordVC: UIViewController{
         navigationItem.rightBarButtonItems = [folderButton, recordButton]
     }
     @objc func didTapfolederAddButton(){
-        
+        let nextVC = CreateFolderVC(title: "폴더 만들기")
+        self.navigationController?.pushViewController(nextVC, animated: true)
     }
     
     @objc func didTapRecordAddButton(){
