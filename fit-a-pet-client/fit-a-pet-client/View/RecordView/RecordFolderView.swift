@@ -21,11 +21,6 @@ class RecordFolderView: UIView{
       
         addSubview(folderTableView)
         
- 
-        folderTableView.delegate = self
-        folderTableView.dataSource = self
-        
-        
         folderTableView.register(FolderTableViewCell.self, forCellReuseIdentifier: "FolderTableViewCell")
         
     
@@ -35,26 +30,3 @@ class RecordFolderView: UIView{
     }
 }
 
-extension RecordFolderView: UITableViewDataSource, UITableViewDelegate {
-    // MARK: - UITableViewDataSource methods
-    
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 5
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
-        let cell = tableView.dequeueReusableCell(withIdentifier: "FolderTableViewCell", for: indexPath) as! FolderTableViewCell
- 
-        cell.setTitle("Cell \(indexPath.row + 1)", "(123)")
-        
-        
-        return cell
-    }
-    
-    // MARK: - UITableViewDelegate methods
-    
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 56
-    }
-}

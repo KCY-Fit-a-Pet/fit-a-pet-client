@@ -9,12 +9,23 @@ class RecordVC: UIViewController{
     private let dataScrollView = UIScrollView()
     private let folderView = RecordFolderView()
     private let listView = RecordListView()
+
+    private let folderTableViewMethod = RecordFolderTableViewMethod()
+    private let listTableViewMethod = RecordListTableViewMethod()
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         initView()
         setupNavigationBar()
+        
+        folderView.folderTableView.delegate = folderTableViewMethod
+        folderView.folderTableView.dataSource = folderTableViewMethod
+        
+        listView.recordListTableView.delegate = listTableViewMethod
+        listView.recordListTableView.dataSource = listTableViewMethod
+        
     }
     
     override func viewDidLayoutSubviews() {
