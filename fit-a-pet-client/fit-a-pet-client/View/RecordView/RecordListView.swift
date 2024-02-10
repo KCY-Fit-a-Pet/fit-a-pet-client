@@ -2,9 +2,9 @@
 import UIKit
 import SnapKit
 
-class RecordFolderView: UIView{
+class RecordListView: UIView{
     
-    let folderTableView = UITableView()
+    let recordListTableView = UITableView()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -19,23 +19,23 @@ class RecordFolderView: UIView{
     
     func setupView() {
       
-        addSubview(folderTableView)
+        addSubview(recordListTableView)
         
  
-        folderTableView.delegate = self
-        folderTableView.dataSource = self
+        recordListTableView.delegate = self
+        recordListTableView.dataSource = self
         
         
-        folderTableView.register(FolderTableViewCell.self, forCellReuseIdentifier: "FolderTableViewCell")
+        recordListTableView.register(RecordListTableViewCell.self, forCellReuseIdentifier: "RecordListTableViewCell")
         
     
-        folderTableView.snp.makeConstraints { make in
+        recordListTableView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
     }
 }
 
-extension RecordFolderView: UITableViewDataSource, UITableViewDelegate {
+extension RecordListView: UITableViewDataSource, UITableViewDelegate {
     // MARK: - UITableViewDataSource methods
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -44,9 +44,9 @@ extension RecordFolderView: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let cell = tableView.dequeueReusableCell(withIdentifier: "FolderTableViewCell", for: indexPath) as! FolderTableViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: "RecordListTableViewCell", for: indexPath) as! RecordListTableViewCell
  
-        cell.setTitle("Cell \(indexPath.row + 1)", "(123)")
+        cell.setTitle("Cell \(indexPath.row + 1)", "2023.04.05", "임시 데이터ㅓㅓㅓㅓㅓㅓㅓㅓㅓ", "parent", "/child")
         
         
         return cell
@@ -55,6 +55,6 @@ extension RecordFolderView: UITableViewDataSource, UITableViewDelegate {
     // MARK: - UITableViewDelegate methods
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 56
+        return 88
     }
 }

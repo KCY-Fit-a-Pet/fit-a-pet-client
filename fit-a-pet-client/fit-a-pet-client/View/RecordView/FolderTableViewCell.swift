@@ -10,17 +10,16 @@ class FolderTableViewCell: UITableViewCell {
         return imageView
     }()
     
-    let titleLabel: UILabel = {
+    let folderLabel: UILabel = {
         let label = UILabel()
         label.font = .boldSystemFont(ofSize: 14)
         return label
     }()
     
-    let detailLabel: UILabel = {
+    let subFolderLabel: UILabel = {
         let label = UILabel()
         label.font = .systemFont(ofSize: 12, weight: .regular)
-        label.textColor = .gray
-        label.text = "()"
+        label.textColor = UIColor(named: "Gray5")
         return label
     }()
     
@@ -35,8 +34,8 @@ class FolderTableViewCell: UITableViewCell {
         addSubview(iconImageView)
         addSubview(containerView)
         
-        containerView.addSubview(titleLabel)
-        containerView.addSubview(detailLabel)
+        containerView.addSubview(folderLabel)
+        containerView.addSubview(subFolderLabel)
         
         iconImageView.snp.makeConstraints { make in
             make.leading.equalToSuperview().offset(10)
@@ -51,14 +50,14 @@ class FolderTableViewCell: UITableViewCell {
             make.trailing.equalToSuperview()
         }
         
-        titleLabel.snp.makeConstraints { make in
+        folderLabel.snp.makeConstraints { make in
             make.leading.equalToSuperview()
             make.centerY.equalToSuperview()
-            make.width.equalTo(titleLabel.intrinsicContentSize.width)
+            make.width.equalTo(folderLabel.intrinsicContentSize.width)
         }
         
-        detailLabel.snp.makeConstraints { make in
-            make.leading.equalTo(titleLabel.snp.trailing).offset(8)
+        subFolderLabel.snp.makeConstraints { make in
+            make.leading.equalTo(folderLabel.snp.trailing).offset(8)
             make.trailing.equalToSuperview()
             make.centerY.equalToSuperview()
         }
@@ -68,11 +67,12 @@ class FolderTableViewCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func setTitle(_ title: String) {
-        titleLabel.text = title
-        titleLabel.sizeToFit()
-        titleLabel.snp.updateConstraints { make in
-            make.width.equalTo(titleLabel.intrinsicContentSize.width)
+    func setTitle(_ folder: String, _ subFolder: String ) {
+        folderLabel.text = folder
+        subFolderLabel.text = subFolder
+        folderLabel.sizeToFit()
+        folderLabel.snp.updateConstraints { make in
+            make.width.equalTo(folderLabel.intrinsicContentSize.width)
         }
     }
 }

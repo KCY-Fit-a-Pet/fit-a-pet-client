@@ -42,6 +42,8 @@
 		4A40561A2B52A7D100A95891 /* PetPanModalTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A4056192B52A7D100A95891 /* PetPanModalTableViewCell.swift */; };
 		4A40561C2B52FDB000A95891 /* TimeAttackPanModalVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A40561B2B52FDB000A95891 /* TimeAttackPanModalVC.swift */; };
 		4A40561F2B52FE7900A95891 /* TimeAttackPanModalTabelViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A40561E2B52FE7900A95891 /* TimeAttackPanModalTabelViewCell.swift */; };
+		4A4B08582B77AE3200959683 /* RecordListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A4B08572B77AE3200959683 /* RecordListView.swift */; };
+		4A4B085A2B77B15400959683 /* RecordListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A4B08592B77B15400959683 /* RecordListTableViewCell.swift */; };
 		4A4BFDCA2AD26B0F0062BDB8 /* RegistrationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A4BFDC92AD26B0F0062BDB8 /* RegistrationManager.swift */; };
 		4A54A0B62B5849230024B940 /* PetCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A54A0B52B5849230024B940 /* PetCollectionViewCell.swift */; };
 		4A54A0B92B584D110024B940 /* PetProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A54A0B82B584D110024B940 /* PetProfileView.swift */; };
@@ -149,6 +151,8 @@
 		4A4056192B52A7D100A95891 /* PetPanModalTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PetPanModalTableViewCell.swift; sourceTree = "<group>"; };
 		4A40561B2B52FDB000A95891 /* TimeAttackPanModalVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeAttackPanModalVC.swift; sourceTree = "<group>"; };
 		4A40561E2B52FE7900A95891 /* TimeAttackPanModalTabelViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = TimeAttackPanModalTabelViewCell.swift; path = ../../../../../../Documents/TimeAttackPanModalTabelViewCell.swift; sourceTree = "<group>"; };
+		4A4B08572B77AE3200959683 /* RecordListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordListView.swift; sourceTree = "<group>"; };
+		4A4B08592B77B15400959683 /* RecordListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordListTableViewCell.swift; sourceTree = "<group>"; };
 		4A4BFDC92AD26B0F0062BDB8 /* RegistrationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationManager.swift; sourceTree = "<group>"; };
 		4A54A0B52B5849230024B940 /* PetCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PetCollectionViewCell.swift; sourceTree = "<group>"; };
 		4A54A0B82B584D110024B940 /* PetProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PetProfileView.swift; sourceTree = "<group>"; };
@@ -248,6 +252,8 @@
 			children = (
 				4A0150362B76906D0069AF20 /* RecordFolderView.swift */,
 				4A0150382B76919B0069AF20 /* FolderTableViewCell.swift */,
+				4A4B08572B77AE3200959683 /* RecordListView.swift */,
+				4A4B08592B77B15400959683 /* RecordListTableViewCell.swift */,
 			);
 			path = RecordView;
 			sourceTree = "<group>";
@@ -704,6 +710,7 @@
 			files = (
 				4A7339322B68139700216FB5 /* SchedulePetImageCollectionViewCell.swift in Sources */,
 				4AE293F12B6FFA2800920C0B /* PetDetailProfileVC.swift in Sources */,
+				4A4B085A2B77B15400959683 /* RecordListTableViewCell.swift in Sources */,
 				4A8662D82B262DA200D8DDE8 /* CustomEditNavigationBar.swift in Sources */,
 				4A0FEA492B1B5F6F0084CA6C /* FindInputPhoneNumVC.swift in Sources */,
 				4A8B9B4E2AD443FA009236EC /* MySearchRouter.swift in Sources */,
@@ -743,6 +750,7 @@
 				4ACDD4A52AD9B3DC00CD8F1A /* InputGenderVC.swift in Sources */,
 				4AD354152AACD390004A47B3 /* LoginVC.swift in Sources */,
 				4A15F2162AA8B4CA0098F2F7 /* InputNickVC.swift in Sources */,
+				4A4B08582B77AE3200959683 /* RecordListView.swift in Sources */,
 				4A7339302B680AEC00216FB5 /* ScheduleListCollectionViewCell.swift in Sources */,
 				4ACDD4A12AD9B37E00CD8F1A /* InputSpeciesVC.swift in Sources */,
 				4AC579832B2DFD4B00735252 /* StructData.swift in Sources */,

@@ -1,12 +1,14 @@
 
 import UIKit
 import SnapKit
+import SwiftUI
 
 class RecordVC: UIViewController{
     
     private let searchRecordTextField =  UITextField()
     private let dataScrollView = UIScrollView()
     private let folderView = RecordFolderView()
+    private let listView = RecordListView()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -18,6 +20,7 @@ class RecordVC: UIViewController{
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         updatefolderViewHeight()
+        updatelistViewHeight()
     }
     
     func initView(){
@@ -26,6 +29,7 @@ class RecordVC: UIViewController{
         view.addSubview(searchRecordTextField)
         view.addSubview(dataScrollView)
         dataScrollView.addSubview(folderView)
+        dataScrollView.addSubview(listView)
         
         let imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: 20, height: 20))
         imageView.image = UIImage(named: "search")
@@ -65,6 +69,12 @@ class RecordVC: UIViewController{
             make.top.equalTo(dataScrollView.snp.top)
             make.leading.trailing.equalTo(view).inset(16)
             make.height.equalTo(0)
+        }
+        
+        listView.snp.makeConstraints{make in
+            make.top.equalTo(folderView.snp.bottom)
+            make.leading.trailing.equalTo(view).inset(16)
+            make.height.equalTo(0)
             make.bottom.equalTo(dataScrollView.snp.bottom)
         }
         
@@ -102,4 +112,28 @@ class RecordVC: UIViewController{
             make.height.equalTo(totalCellHeight)
         }
     }
+    func updatelistViewHeight() {
+        
+        let heightForRow:CGFloat = 88
+        let totalCellHeight = CGFloat(folderView.folderTableView.numberOfRows(inSection: 0)) * heightForRow
+      
+        listView.snp.updateConstraints { make in
+            make.height.equalTo(totalCellHeight)
+        }
+    }
+}
+
+struct MainViewController_Previews: PreviewProvider {
+  static var previews: some View {
+    Container().edgesIgnoringSafeArea(.all)
+  }
+  
+  struct Container: UIViewControllerRepresentable {
+    func makeUIViewController(context: Context) -> UIViewController {
+      let rootViewController = RecordVC()
+      return UINavigationController(rootViewController: RecordVC())
+    }
+    func updateUIViewController(_ uiViewController: UIViewControllerType, context: Context) {}
+    typealias UIViewControllerType = UIViewController
+  }
 }
