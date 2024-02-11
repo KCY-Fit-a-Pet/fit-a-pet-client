@@ -108,11 +108,15 @@ class RecordVC: UIViewController{
     }
     @objc func didTapfolederAddButton(){
         let nextVC = CreateFolderVC(title: "폴더 만들기")
+        nextVC.hidesBottomBarWhenPushed = true
         self.navigationController?.pushViewController(nextVC, animated: true)
+
     }
     
     @objc func didTapRecordAddButton(){
-        
+        let nextVC = CreateRecordVC(title: "")
+        nextVC.hidesBottomBarWhenPushed = true
+        self.navigationController?.pushViewController(nextVC, animated: true)
     }
     
     func updatefolderViewHeight() {

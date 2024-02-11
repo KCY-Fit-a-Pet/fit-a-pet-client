@@ -18,8 +18,6 @@ class CalendarRegistrationVC: UIViewController, CalendarDateViewDelegate {
     var selecteDateTime = ""
     var reloadClosure: (() -> Void)?
     
-    let dateFormatterUtils = DateFormatterUtils()
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupNavigationBar()
@@ -30,7 +28,7 @@ class CalendarRegistrationVC: UIViewController, CalendarDateViewDelegate {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        let formattedDate = dateFormatterUtils.formatDateString(dateFormatterUtils.dateFormatter.string(from: dateTimePicker.date))
+        let formattedDate = DateFormatterUtils.formatDateString(DateFormatterUtils.dateFormatter.string(from: dateTimePicker.date))
 
         ScheduleRegistrationManager.shared.addInput(reservationDate: formattedDate)
         
@@ -192,7 +190,7 @@ class CalendarRegistrationVC: UIViewController, CalendarDateViewDelegate {
         }
     }
     @objc func datePickerValueChanged() {
-        let formattedDate = dateFormatterUtils.formatDateString(dateFormatterUtils.dateFormatter.string(from: dateTimePicker.date))
+        let formattedDate = DateFormatterUtils.formatDateString(DateFormatterUtils.dateFormatter.string(from: dateTimePicker.date))
 
         if selecteDateTime == "time" {
             if let formattedTime = DateFormatterUtils.formatTime(formattedDate!, from: "yyyy-MM-dd HH:mm:ss", to: "a h:mm") {

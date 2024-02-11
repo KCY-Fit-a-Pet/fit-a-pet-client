@@ -10,6 +10,8 @@ class CreateFolderVC: CustomNavigationBar{
     
     let folderNameInputView = CustomVerticalView(labelText: "폴더 이름", placeholder: "이름")
     
+    let createButton = CustomNextBtn(title: "폴더 만들기")
+
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -17,11 +19,11 @@ class CreateFolderVC: CustomNavigationBar{
         
         folderButton.addTarget(self, action: #selector(showMenu), for: .touchUpInside)
     }
-
+    
     func initView(){
         
         view.backgroundColor = .white
-       
+        
         let stackView = UIStackView()
         stackView.axis = .horizontal
         stackView.spacing = 8
@@ -31,8 +33,9 @@ class CreateFolderVC: CustomNavigationBar{
         stackView.layer.borderColor = UIColor(named: "Gray3")?.cgColor
         stackView.addArrangedSubview(selectedFolderLabel)
         stackView.addArrangedSubview(folderButton)
-   
+        
         selectedFolderLabel.text = "선택"
+        selectedFolderLabel.font = .systemFont(ofSize: 14, weight: .regular)
         
         folderButton.setImage(UIImage(named: "category"), for: .normal)
         
@@ -42,6 +45,7 @@ class CreateFolderVC: CustomNavigationBar{
         view.addSubview(parentFolderLabel)
         view.addSubview(stackView)
         view.addSubview(folderNameInputView)
+        view.addSubview(createButton)
         
         parentFolderLabel.snp.makeConstraints { make in
             make.height.equalTo(25)
@@ -65,22 +69,26 @@ class CreateFolderVC: CustomNavigationBar{
             make.height.equalTo(88)
         }
         
+        createButton.snp.makeConstraints{make in
+            make.bottom.equalTo(view.snp.bottom).offset(-50)
+            make.leading.trailing.equalToSuperview().inset(16)
+        }
     }
     
     @objc private func showMenu() {
-
-        let maleMenuItem = UIAction(title: "data1") { _ in
-            self.selectedFolderLabel.text = "data1"
+        
+        let dataArray = ["data1", "data2"]
+        
+        var menuItems = [UIAction]()
+        
+        for data in dataArray {
+            let action = UIAction(title: data) { _ in
+                self.selectedFolderLabel.text = data
+            }
+            menuItems.append(action)
         }
         
-        let femaleMenuItem = UIAction(title: "data2") { _ in
-            self.selectedFolderLabel.text = "data2"
-        }
-        
-        let menu = UIMenu(
-            title: "",
-            children: [maleMenuItem, femaleMenuItem]
-        )
+        let menu = UIMenu(title: "title", options: .displayInline, children: menuItems)
         
         self.folderButton.menu = menu
         self.folderButton.showsMenuAsPrimaryAction = true

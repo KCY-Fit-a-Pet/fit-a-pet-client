@@ -32,6 +32,7 @@
 		4A15F2122AA8B4880098F2F7 /* InputIdVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A15F2112AA8B4880098F2F7 /* InputIdVC.swift */; };
 		4A15F2142AA8B4A50098F2F7 /* InputPwVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A15F2132AA8B4A50098F2F7 /* InputPwVC.swift */; };
 		4A15F2162AA8B4CA0098F2F7 /* InputNickVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A15F2152AA8B4CA0098F2F7 /* InputNickVC.swift */; };
+		4A1B5E472B79210E00A076A7 /* CreateRecordVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A1B5E462B79210E00A076A7 /* CreateRecordVC.swift */; };
 		4A2440712B374C0F0086D2AB /* CryptoHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A2440702B374C0F0086D2AB /* CryptoHelpers.swift */; };
 		4A3D7BFA2B4F120900E3BBF8 /* CareDateCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A3D7BF92B4F120900E3BBF8 /* CareDateCollectionViewCell.swift */; };
 		4A3D7BFD2B4F1F4500E3BBF8 /* CategoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A3D7BFC2B4F1F4500E3BBF8 /* CategoryView.swift */; };
@@ -142,6 +143,7 @@
 		4A15F2112AA8B4880098F2F7 /* InputIdVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputIdVC.swift; sourceTree = "<group>"; };
 		4A15F2132AA8B4A50098F2F7 /* InputPwVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputPwVC.swift; sourceTree = "<group>"; };
 		4A15F2152AA8B4CA0098F2F7 /* InputNickVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputNickVC.swift; sourceTree = "<group>"; };
+		4A1B5E462B79210E00A076A7 /* CreateRecordVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateRecordVC.swift; sourceTree = "<group>"; };
 		4A24406F2B36A9D20086D2AB /* Secrets.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Secrets.xcconfig; sourceTree = "<group>"; };
 		4A2440702B374C0F0086D2AB /* CryptoHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CryptoHelpers.swift; sourceTree = "<group>"; };
 		4A3D7BF92B4F120900E3BBF8 /* CareDateCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CareDateCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -311,6 +313,7 @@
 			isa = PBXGroup;
 			children = (
 				4A4B085E2B77D89300959683 /* CreateFolderVC.swift */,
+				4A1B5E462B79210E00A076A7 /* CreateRecordVC.swift */,
 			);
 			path = RecordRelatedVC;
 			sourceTree = "<group>";
@@ -773,6 +776,7 @@
 				4A0150372B76906D0069AF20 /* RecordFolderView.swift in Sources */,
 				4A4056162B529DFC00A95891 /* OtherSettingsView.swift in Sources */,
 				4AD0896A2AFBFD9400E79E52 /* CheckCareCollectionViewCell.swift in Sources */,
+				4A1B5E472B79210E00A076A7 /* CreateRecordVC.swift in Sources */,
 				4A8B9B462AD443C9009236EC /* AuthorizationAlamofire.swift in Sources */,
 				4A15F20B2AA799C50098F2F7 /* ConstomLabel.swift in Sources */,
 				4A15F2102AA8B45A0098F2F7 /* InputAuthNumVC.swift in Sources */,

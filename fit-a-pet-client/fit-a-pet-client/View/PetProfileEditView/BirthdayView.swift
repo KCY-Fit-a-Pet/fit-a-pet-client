@@ -16,8 +16,6 @@ class BirthdayView: UIView {
     let ageCheckLabel = UILabel()
     let textLabel = UILabel()
     
-    let dateFormatterUtils = DateFormatterUtils()
-
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupViews()
@@ -63,7 +61,7 @@ class BirthdayView: UIView {
 
         selectedBirthdayLabel.font = .systemFont(ofSize: 14)
         
-        let formattedDate = dateFormatterUtils.formatDateString(dateFormatterUtils.dateFormatter.string(from: Date()))
+        let formattedDate = DateFormatterUtils.formatDateString(DateFormatterUtils.dateFormatter.string(from: Date()))
         
         selectedBirthdayLabel.text =  DateFormatterUtils.formatFullDate(formattedDate!, from: "yyyy-MM-dd HH:mm:ss", to: "yyyy.MM.dd (E)")
 

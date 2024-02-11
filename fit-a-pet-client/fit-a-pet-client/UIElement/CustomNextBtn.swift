@@ -1,9 +1,4 @@
-//
-//  SignUpNextBtn.swift
-//  fit-a-pet-client
-//
-//  Created by 최희진 on 2023/09/05.
-//
+
 
 import Foundation
 import UIKit
@@ -11,7 +6,6 @@ import UIKit
 class CustomNextBtn: UIButton {
     
     var GRAY3 = UIColor(named: "Gray3")
-    var GRAY0 = UIColor(named: "Gray0")
     var PRIMARYCOLOR = UIColor(named: "PrimaryColor")
 
     init(title: String) {

@@ -16,7 +16,6 @@ class PetProfileEditVC: CustomNavigationBar{
     private let feedInputView = CustomVerticalView(labelText: "사료", placeholder: "사료")
     
     let datePicker = UIDatePicker()
-    let dateFormatterUtils = DateFormatterUtils()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -156,7 +155,7 @@ class PetProfileEditVC: CustomNavigationBar{
     
     @objc func datePickerValueChanged() {
 
-        let formattedDate = dateFormatterUtils.formatDateString(dateFormatterUtils.dateFormatter.string(from: datePicker.date))
+        let formattedDate = DateFormatterUtils.formatDateString(DateFormatterUtils.dateFormatter.string(from: datePicker.date))
         
         birthdayView.selectedBirthdayLabel.text = DateFormatterUtils.formatFullDate(formattedDate!, from: "yyyy-MM-dd HH:mm:ss", to: "yyyy.MM.dd (E)")
         
