@@ -5,26 +5,49 @@ import SnapKit
 
 class CreateRecordVC: CustomEditNavigationBar{
     
-    let dataScrollView = UIScrollView()
+    private let dataScrollView = UIScrollView()
 
-    let folderButton = UIButton()
-    let selectedFolderLabel = UILabel()
+    private let folderButton = UIButton()
+    private let selectedFolderLabel = UILabel()
     
-    let folderImageView: UIImageView = {
+    private let folderImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFit
         return imageView
     }()
     
-    let titleTextFiled = UITextField()
-    let contentTextView = UITextView()
+    private let titleTextFiled = UITextField()
+    private let contentTextView = UITextView()
+    
+    private let imageAddButton: UIButton = {
+        let button = UIButton()
+        button.setImage(UIImage(named: "addPhoto"), for: .normal)
+        button.addTarget(self, action: #selector(imageAddButtonTapped), for: .touchUpInside)
+        return button
+    }()
+    
+    private let keyboardHideButton: UIButton = {
+        let button = UIButton()
+        button.setImage(UIImage(named: "keyboardHide"), for: .normal)
+        button.addTarget(self, action: #selector(keyboardHideButtonTapped), for: .touchUpInside)
+        return button
+    }()
+    private let btnStackView = UIStackView()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         initView()
+        setupTextView()
+        setupTapGesture()
    
         folderButton.addTarget(self, action: #selector(showMenu), for: .touchUpInside)
+        
+        // 키보드 올라올 때의 알림을 등록
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(notification:)), name: UIResponder.keyboardWillShowNotification, object: nil)
+        // 키보드 내려갈 때의 알림을 등록
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(notification:)), name: UIResponder.keyboardWillHideNotification, object: nil)
+        
     }
     
     func initView(){
@@ -47,15 +70,24 @@ class CreateRecordVC: CustomEditNavigationBar{
         selectedFolderLabel.font = .systemFont(ofSize: 14, weight: .regular)
         folderButton.setImage(UIImage(named: "category"), for: .normal)
         titleTextFiled.placeholder = "제목을 입력해주세요."
+        titleTextFiled.font = .systemFont(ofSize: 18, weight: .regular)
+        titleTextFiled.textColor = UIColor(named: "Gray3")
         
+        btnStackView.axis = .horizontal
+        btnStackView.spacing = 8
+        btnStackView.distribution = .equalSpacing
+        btnStackView.addArrangedSubview(imageAddButton)
+        btnStackView.addArrangedSubview(keyboardHideButton)
         
         dataScrollView.addSubview(stackView)
         dataScrollView.addSubview(titleTextFiled)
         dataScrollView.addSubview(contentTextView)
         view.addSubview(dataScrollView)
+        view.addSubview(btnStackView)
         
         dataScrollView.snp.makeConstraints{make in
-            make.leading.top.trailing.bottom.equalToSuperview()
+            make.leading.top.trailing.equalToSuperview()
+            make.bottom.equalTo(btnStackView.snp.top)
         }
         
         folderImageView.snp.makeConstraints{make in
@@ -63,6 +95,13 @@ class CreateRecordVC: CustomEditNavigationBar{
         }
         selectedFolderLabel.snp.makeConstraints{make in
             make.leading.equalTo(folderImageView.snp.trailing).inset(16)
+        }
+        
+        imageAddButton.snp.makeConstraints{make in
+            make.width.height.equalTo(44)
+        }
+        keyboardHideButton.snp.makeConstraints{make in
+            make.width.height.equalTo(44)
         }
         
         stackView.snp.makeConstraints { make in
@@ -73,14 +112,21 @@ class CreateRecordVC: CustomEditNavigationBar{
         
         titleTextFiled.snp.makeConstraints{make in
             make.height.equalTo(24)
-            make.leading.trailing.equalToSuperview().inset(16)
-            make.top.equalTo(stackView.snp.bottom).offset(28)
+            make.leading.trailing.equalTo(view).inset(20)
+            make.top.equalTo(stackView.snp.bottom).offset(10)
         }
         contentTextView.snp.makeConstraints{make in
             make.height.equalTo(700)
-            make.leading.trailing.equalToSuperview().inset(16)
+            make.leading.trailing.equalTo(view).inset(16)
             make.top.equalTo(titleTextFiled.snp.bottom).offset(8)
             make.bottom.equalTo(dataScrollView.snp.bottom)
+        }
+        
+        btnStackView.snp.makeConstraints{make in
+            make.height.equalTo(56)
+            make.leading.trailing.equalTo(view).inset(16)
+            make.bottom.equalTo(view.snp.bottom).offset(-20)
+            
         }
     }
     
@@ -133,6 +179,78 @@ class CreateRecordVC: CustomEditNavigationBar{
         self.folderButton.menu = mainMenu
         self.folderButton.showsMenuAsPrimaryAction = true
     }
+    
+    @objc func imageAddButtonTapped() {
+        
+    }
+    @objc func keyboardHideButtonTapped() {
+        dismissKeyboard()
+    }
 
 }
 
+extension CreateRecordVC {
+    @objc private func keyboardWillShow(notification: Notification) {
+            guard let userInfo = notification.userInfo,
+                  let keyboardFrame = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect else { return }
+            
+            let keyboardHeight = keyboardFrame.height
+            let buttonBottomSpace: CGFloat = 10
+            
+            let contentInset = UIEdgeInsets(top: 0, left: 0, bottom: keyboardHeight + buttonBottomSpace, right: 0)
+            dataScrollView.contentInset = contentInset
+            dataScrollView.scrollIndicatorInsets = contentInset
+        
+            let offsetData = keyboardHeight
+            
+
+            btnStackView.snp.updateConstraints { make in
+                make.bottom.equalTo(view.snp.bottom).offset(-offsetData)
+            }
+        }
+    
+    @objc private func keyboardWillHide(notification: Notification) {
+        dataScrollView.contentInset = .zero
+        dataScrollView.scrollIndicatorInsets = .zero
+        
+        btnStackView.snp.updateConstraints { make in
+            make.bottom.equalTo(view.snp.bottom).offset(-20)
+        }
+    }
+    
+    private func setupTapGesture() {
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+        tapGesture.cancelsTouchesInView = false
+        view.addGestureRecognizer(tapGesture)
+    }
+    
+    @objc private func dismissKeyboard() {
+        view.endEditing(true)
+    }
+}
+
+extension CreateRecordVC: UITextViewDelegate {
+    func setupTextView() {
+        contentTextView.delegate = self
+        contentTextView.text = "내용을 입력해주세요."
+        contentTextView.textColor = UIColor(named: "Gray3")
+        contentTextView.font = .systemFont(ofSize: 14, weight: .medium)
+    }
+    
+    func textViewDidBeginEditing(_ textView: UITextView) {
+        if contentTextView.textColor == UIColor(named: "Gray3") {
+            contentTextView.text = nil
+            contentTextView.textColor = UIColor.black
+        }
+        if titleTextFiled.textColor == UIColor(named: "Gray3") {
+            titleTextFiled.textColor = UIColor.black
+        }
+    }
+    
+    func textViewDidEndEditing(_ textView: UITextView) {
+        if textView.text.isEmpty {
+            textView.text = "내용을 입력해주세요."
+            textView.textColor = UIColor(named: "Gray3")
+        }
+    }
+}
