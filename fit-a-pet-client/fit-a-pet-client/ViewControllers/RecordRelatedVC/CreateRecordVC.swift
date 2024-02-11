@@ -3,36 +3,26 @@
 import UIKit
 import SnapKit
 
-class CreateRecordVC: CustomEditNavigationBar{
+class CreateRecordVC: CustomEditNavigationBar {
     
     private let dataScrollView = UIScrollView()
-
     private let folderButton = UIButton()
     private let selectedFolderLabel = UILabel()
-    
-    private let folderImageView: UIImageView = {
-        let imageView = UIImageView()
-        imageView.contentMode = .scaleAspectFit
-        return imageView
-    }()
-    
+    private let folderImageView = UIImageView()
     private let titleTextFiled = UITextField()
     private let contentTextView = UITextView()
-    
-    private let imageAddButton: UIButton = {
-        let button = UIButton()
-        button.setImage(UIImage(named: "addPhoto"), for: .normal)
-        button.addTarget(self, action: #selector(imageAddButtonTapped), for: .touchUpInside)
-        return button
-    }()
-    
-    private let keyboardHideButton: UIButton = {
-        let button = UIButton()
-        button.setImage(UIImage(named: "keyboardHide"), for: .normal)
-        button.addTarget(self, action: #selector(keyboardHideButtonTapped), for: .touchUpInside)
-        return button
-    }()
+    private let imageAddButton = UIButton()
+    private let keyboardHideButton = UIButton()
     private let btnStackView = UIStackView()
+    private let stackView = UIStackView() // 추가
+    
+    let petImageCollectionView: UICollectionView = {
+        let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .horizontal
+        layout.minimumInteritemSpacing = 12
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        return collectionView
+    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -40,25 +30,42 @@ class CreateRecordVC: CustomEditNavigationBar{
         initView()
         setupTextView()
         setupTapGesture()
-   
+        
         folderButton.addTarget(self, action: #selector(showMenu), for: .touchUpInside)
         
-        // 키보드 올라올 때의 알림을 등록
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(notification:)), name: UIResponder.keyboardWillShowNotification, object: nil)
-        // 키보드 내려갈 때의 알림을 등록
+        
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(notification:)), name: UIResponder.keyboardWillHideNotification, object: nil)
         
+        petImageCollectionView.delegate = self
+        petImageCollectionView.dataSource = self
+        petImageCollectionView.register(PetImageCollectionViewCell.self, forCellWithReuseIdentifier: "PetImageCollectionViewCell")
     }
     
-    func initView(){
-        
+    func initView() {
         view.backgroundColor = .white
         
-        let stackView = UIStackView()
+        setupStackView() // stackView 설정
+        setupButtonStackView() // btnStackView 설정
+
+        // 추가: 각 view를 scrollView에 추가
+        dataScrollView.addSubview(stackView)
+        dataScrollView.addSubview(titleTextFiled)
+        dataScrollView.addSubview(petImageCollectionView)
+        dataScrollView.addSubview(contentTextView)
+        
+        // 레이아웃에 scrollView 추가
+        view.addSubview(dataScrollView)
+        view.addSubview(btnStackView)
+        
+        setupConstraints()
+    }
+    
+    private func setupStackView() {
         stackView.axis = .horizontal
         stackView.spacing = 8
         stackView.distribution = .equalSpacing
- 
+        
         stackView.layer.borderColor = UIColor(named: "Gray3")?.cgColor
         
         stackView.addArrangedSubview(folderImageView)
@@ -69,38 +76,42 @@ class CreateRecordVC: CustomEditNavigationBar{
         selectedFolderLabel.textColor = UIColor(named: "Gray3")
         selectedFolderLabel.font = .systemFont(ofSize: 14, weight: .regular)
         folderButton.setImage(UIImage(named: "category"), for: .normal)
-        titleTextFiled.placeholder = "제목을 입력해주세요."
-        titleTextFiled.font = .systemFont(ofSize: 18, weight: .regular)
-        titleTextFiled.textColor = UIColor(named: "Gray3")
-        
+    }
+    
+    private func setupButtonStackView() {
         btnStackView.axis = .horizontal
         btnStackView.spacing = 8
         btnStackView.distribution = .equalSpacing
+        
         btnStackView.addArrangedSubview(imageAddButton)
         btnStackView.addArrangedSubview(keyboardHideButton)
         
-        dataScrollView.addSubview(stackView)
-        dataScrollView.addSubview(titleTextFiled)
-        dataScrollView.addSubview(contentTextView)
-        view.addSubview(dataScrollView)
-        view.addSubview(btnStackView)
+        imageAddButton.setImage(UIImage(named: "addPhoto"), for: .normal)
+        imageAddButton.addTarget(self, action: #selector(imageAddButtonTapped), for: .touchUpInside)
         
-        dataScrollView.snp.makeConstraints{make in
+        keyboardHideButton.setImage(UIImage(named: "keyboardHide"), for: .normal)
+        keyboardHideButton.addTarget(self, action: #selector(keyboardHideButtonTapped), for: .touchUpInside)
+    }
+
+    private func setupConstraints() {
+        dataScrollView.snp.makeConstraints { make in
             make.leading.top.trailing.equalToSuperview()
             make.bottom.equalTo(btnStackView.snp.top)
         }
         
-        folderImageView.snp.makeConstraints{make in
+        folderImageView.snp.makeConstraints { make in
             make.width.height.equalTo(24)
         }
-        selectedFolderLabel.snp.makeConstraints{make in
+        
+        selectedFolderLabel.snp.makeConstraints { make in
             make.leading.equalTo(folderImageView.snp.trailing).inset(16)
         }
         
-        imageAddButton.snp.makeConstraints{make in
+        imageAddButton.snp.makeConstraints { make in
             make.width.height.equalTo(44)
         }
-        keyboardHideButton.snp.makeConstraints{make in
+        
+        keyboardHideButton.snp.makeConstraints { make in
             make.width.height.equalTo(44)
         }
         
@@ -110,23 +121,29 @@ class CreateRecordVC: CustomEditNavigationBar{
             make.leading.trailing.equalTo(view).inset(16)
         }
         
-        titleTextFiled.snp.makeConstraints{make in
+        titleTextFiled.snp.makeConstraints { make in
             make.height.equalTo(24)
             make.leading.trailing.equalTo(view).inset(20)
             make.top.equalTo(stackView.snp.bottom).offset(10)
         }
-        contentTextView.snp.makeConstraints{make in
-            make.height.equalTo(700)
+        
+        petImageCollectionView.snp.makeConstraints { make in
+            make.height.equalTo(80)
             make.leading.trailing.equalTo(view).inset(16)
             make.top.equalTo(titleTextFiled.snp.bottom).offset(8)
+        }
+        
+        contentTextView.snp.makeConstraints { make in
+            make.height.equalTo(700)
+            make.leading.trailing.equalTo(view).inset(16)
+            make.top.equalTo(petImageCollectionView.snp.bottom).offset(8)
             make.bottom.equalTo(dataScrollView.snp.bottom)
         }
         
-        btnStackView.snp.makeConstraints{make in
+        btnStackView.snp.makeConstraints { make in
             make.height.equalTo(56)
-            make.leading.trailing.equalTo(view).inset(16)
-            make.bottom.equalTo(view.snp.bottom).offset(-20)
-            
+            make.leading.trailing.equalToSuperview().inset(16)
+            make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom).offset(-20)
         }
     }
     
@@ -252,5 +269,23 @@ extension CreateRecordVC: UITextViewDelegate {
             textView.text = "내용을 입력해주세요."
             textView.textColor = UIColor(named: "Gray3")
         }
+    }
+}
+
+extension CreateRecordVC: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return 5
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PetImageCollectionViewCell", for: indexPath) as! PetImageCollectionViewCell
+        // 셀에 데이터 설정
+        // 예: cell.imageView.image = yourImage
+        return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        // 셀의 크기 설정
+        return CGSize(width: 80, height: 80)
     }
 }

@@ -33,6 +33,7 @@
 		4A15F2142AA8B4A50098F2F7 /* InputPwVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A15F2132AA8B4A50098F2F7 /* InputPwVC.swift */; };
 		4A15F2162AA8B4CA0098F2F7 /* InputNickVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A15F2152AA8B4CA0098F2F7 /* InputNickVC.swift */; };
 		4A1B5E472B79210E00A076A7 /* CreateRecordVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A1B5E462B79210E00A076A7 /* CreateRecordVC.swift */; };
+		4A1B5E492B79476A00A076A7 /* PetImageCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A1B5E482B79476A00A076A7 /* PetImageCollectionViewCell.swift */; };
 		4A2440712B374C0F0086D2AB /* CryptoHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A2440702B374C0F0086D2AB /* CryptoHelpers.swift */; };
 		4A3D7BFA2B4F120900E3BBF8 /* CareDateCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A3D7BF92B4F120900E3BBF8 /* CareDateCollectionViewCell.swift */; };
 		4A3D7BFD2B4F1F4500E3BBF8 /* CategoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A3D7BFC2B4F1F4500E3BBF8 /* CategoryView.swift */; };
@@ -144,6 +145,7 @@
 		4A15F2132AA8B4A50098F2F7 /* InputPwVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputPwVC.swift; sourceTree = "<group>"; };
 		4A15F2152AA8B4CA0098F2F7 /* InputNickVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputNickVC.swift; sourceTree = "<group>"; };
 		4A1B5E462B79210E00A076A7 /* CreateRecordVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateRecordVC.swift; sourceTree = "<group>"; };
+		4A1B5E482B79476A00A076A7 /* PetImageCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PetImageCollectionViewCell.swift; sourceTree = "<group>"; };
 		4A24406F2B36A9D20086D2AB /* Secrets.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Secrets.xcconfig; sourceTree = "<group>"; };
 		4A2440702B374C0F0086D2AB /* CryptoHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CryptoHelpers.swift; sourceTree = "<group>"; };
 		4A3D7BF92B4F120900E3BBF8 /* CareDateCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CareDateCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -260,6 +262,7 @@
 				4A0150382B76919B0069AF20 /* FolderTableViewCell.swift */,
 				4A4B08572B77AE3200959683 /* RecordListView.swift */,
 				4A4B08592B77B15400959683 /* RecordListTableViewCell.swift */,
+				4A1B5E482B79476A00A076A7 /* PetImageCollectionViewCell.swift */,
 			);
 			path = RecordView;
 			sourceTree = "<group>";
@@ -790,6 +793,7 @@
 				4A0750D82B0D130F00281A4C /* PetRegistrationManager.swift in Sources */,
 				4AA999922A8485A500E495FA /* AppDelegate.swift in Sources */,
 				4A9936582B642B7E00B7B21A /* CustomVerticalView.swift in Sources */,
+				4A1B5E492B79476A00A076A7 /* PetImageCollectionViewCell.swift in Sources */,
 				4ABE53002B5AD92F000EA41D /* PetDataManager.swift in Sources */,
 				4A88D6172B53ABD2003A2D0F /* PetCareRegistrationManager.swift in Sources */,
 				4A4B085C2B77D2DF00959683 /* CalendarVCMethod.swift in Sources */,
