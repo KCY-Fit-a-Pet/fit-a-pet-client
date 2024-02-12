@@ -8,8 +8,9 @@ protocol TokenHandling {
 
 extension TokenHandling {
     func extractAndStoreToken(from response: AFDataResponse<Data?>) {
+    
         if let responseHeaders = response.response?.allHeaderFields as? [String: String],
-           let accessToken = responseHeaders["accessToken"] {
+           let accessToken = responseHeaders["accesstoken"] {
             
             if let data = response.value {
                 let cookies = HTTPCookie.cookies(withResponseHeaderFields: responseHeaders, for: response.response!.url!)

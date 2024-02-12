@@ -313,36 +313,12 @@ extension CreateRecordVC: UICollectionViewDataSource, UICollectionViewDelegateFl
     }
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PetImageCollectionViewCell", for: indexPath) as! PetImageCollectionViewCell
-        
-//        // 선택된 이미지를 가져오기 위해 selections 딕셔너리를 순회합니다.
-//        for (_, result) in selections {
-//            let assetIdentifier = result.assetIdentifier
-//
-//            // 선택된 이미지의 식별자로 PHAsset을 가져옵니다.
-//            if let assetIdentifier = assetIdentifier {
-//                let fetchResult = PHAsset.fetchAssets(withLocalIdentifiers: [assetIdentifier], options: nil)
-//                if let phAsset = fetchResult.firstObject {
-//                    let options = PHImageRequestOptions()
-//                    options.isSynchronous = false
-//
-//                    PHImageManager.default().requestImage(for: phAsset, targetSize: CGSize(width: 80, height: 80), contentMode: .aspectFill, options: options) { image, _ in
-//                        DispatchQueue.main.async {
-//                            print("???")
-//                            cell.updatePetImage(image)
-//                        }
-//                    }
-//                }
-//            }
-//        }
-        
+
         
         let identifier = selectedAssetIdentifiers[indexPath.item]
-            guard let image = imagesDict[identifier] else {
-                // 해당 식별자에 해당하는 이미지가 없으면 기본 이미지를 표시하거나 아무 작업을 하지 않습니다.
-                return cell
-            }
+  
 
-            cell.updatePetImage(image)
+        cell.updatePetImage(image)
         
         return cell
     }
@@ -380,7 +356,4 @@ extension CreateRecordVC: UICollectionViewDataSource, UICollectionViewDelegateFl
         }
     }
 
-
-
-    
 }

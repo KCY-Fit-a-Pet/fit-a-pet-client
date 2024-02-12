@@ -88,10 +88,8 @@ class MainVC: UIViewController {
                 
                 let customPopupVC = CareCustomCheckPopupVC()
                 customPopupVC.modalPresentationStyle = .overFullScreen
-                customPopupVC.titleText = "\(selectedCare.careName) 케어를 완료할까요?"
-                customPopupVC.subtitleText = "케어 완료 알림을 케어 구성원에게 보내요."
-                self.present(customPopupVC, animated: false
-                             , completion: nil)
+                customPopupVC.updateText("\(selectedCare.careName) 케어를 완료할까요?", "케어 완료 알림을 케어 구성원에게 보내요.", "완료하기", "돌아가기")
+                self.present(customPopupVC, animated: true, completion: nil)
                 
                 customPopupVC.dismissalCompletion = {
                     self.fetchUserPetCaresList()
@@ -227,10 +225,10 @@ class MainVC: UIViewController {
                         print("User Pets List: \(PetDataManager.summaryPets)")
                         self.petCareMethod.seletedPetId(pets[0].id)
                         careCompleteData.petId = PetDataManager.summaryPets[0].id
-                        
+
                         self.updateUIWithFetchedData()
                         self.fetchUserPetCaresList()
-                        
+
                         print("Response JSON Data (User Pets List): \(jsonObject)")
                     } catch {
                         print("Error parsing user pets list JSON: \(error)")
