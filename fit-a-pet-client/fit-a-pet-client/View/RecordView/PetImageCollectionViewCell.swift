@@ -4,20 +4,18 @@ import SnapKit
 
 class PetImageCollectionViewCell: UICollectionViewCell {
     
-    // 이미지 표시를 위한 이미지 뷰
-    let imageView: UIImageView = {
+    let petImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
         imageView.image = UIImage(named: "profileImage")
+        imageView.layer.cornerRadius = 4
         return imageView
     }()
     
-    // 삭제 버튼
     let deleteButton: UIButton = {
         let button = UIButton()
-        button.setImage(UIImage(systemName: "xmark.circle.fill"), for: .normal)
-        button.tintColor = .red
+        button.setImage(UIImage(named: "delete"), for: .normal)
         return button
     }()
     
@@ -32,18 +30,20 @@ class PetImageCollectionViewCell: UICollectionViewCell {
     }
     
     private func setupUI() {
-        // 이미지 뷰를 셀에 추가
-        addSubview(imageView)
-        imageView.snp.makeConstraints { make in
-            make.edges.equalToSuperview()
+        
+        addSubview(petImageView)
+        petImageView.snp.makeConstraints { make in
+            make.edges.equalToSuperview().inset(8)
         }
         
-        // 삭제 버튼을 이미지 뷰에 추가
         addSubview(deleteButton)
         deleteButton.snp.makeConstraints { make in
-            make.width.height.equalTo(20)
-            make.top.equalToSuperview().offset(5)
-            make.trailing.equalToSuperview().offset(-5)
+            make.width.height.equalTo(22)
+            make.top.equalToSuperview().offset(2)
+            make.trailing.equalToSuperview().offset(-2)
         }
+    }
+    func updatePetImage(_ image: UIImage?){
+        petImageView.image = image
     }
 }

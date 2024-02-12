@@ -2,6 +2,7 @@
 
 import UIKit
 import SnapKit
+import PhotosUI
 
 class CreateRecordVC: CustomEditNavigationBar {
     
@@ -14,12 +15,15 @@ class CreateRecordVC: CustomEditNavigationBar {
     private let imageAddButton = UIButton()
     private let keyboardHideButton = UIButton()
     private let btnStackView = UIStackView()
-    private let stackView = UIStackView() // 추가
+    private let stackView = UIStackView()
+    private var selections = [String : PHPickerResult]()
+    private var selectedAssetIdentifiers = [String]()
+    var imagesDict: [String : UIImage] = [:]
     
     let petImageCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
-        layout.minimumInteritemSpacing = 12
+        layout.minimumLineSpacing = 0
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         return collectionView
     }()
@@ -45,16 +49,16 @@ class CreateRecordVC: CustomEditNavigationBar {
     func initView() {
         view.backgroundColor = .white
         
-        setupStackView() // stackView 설정
-        setupButtonStackView() // btnStackView 설정
+        setupStackView()
+        setupButtonStackView()
 
-        // 추가: 각 view를 scrollView에 추가
         dataScrollView.addSubview(stackView)
         dataScrollView.addSubview(titleTextFiled)
         dataScrollView.addSubview(petImageCollectionView)
         dataScrollView.addSubview(contentTextView)
         
-        // 레이아웃에 scrollView 추가
+        titleTextFiled.placeholder = "제목을 입력해주세요."
+        
         view.addSubview(dataScrollView)
         view.addSubview(btnStackView)
         
@@ -72,6 +76,7 @@ class CreateRecordVC: CustomEditNavigationBar {
         stackView.addArrangedSubview(selectedFolderLabel)
         stackView.addArrangedSubview(folderButton)
         
+        folderImageView.contentMode = .scaleAspectFit
         selectedFolderLabel.text = "폴더를 선택해주세요"
         selectedFolderLabel.textColor = UIColor(named: "Gray3")
         selectedFolderLabel.font = .systemFont(ofSize: 14, weight: .regular)
@@ -87,9 +92,8 @@ class CreateRecordVC: CustomEditNavigationBar {
         btnStackView.addArrangedSubview(keyboardHideButton)
         
         imageAddButton.setImage(UIImage(named: "addPhoto"), for: .normal)
-        imageAddButton.addTarget(self, action: #selector(imageAddButtonTapped), for: .touchUpInside)
+        imageAddButton.addTarget(self, action: #selector(presentPHPicker), for: .touchUpInside)
         
-        keyboardHideButton.setImage(UIImage(named: "keyboardHide"), for: .normal)
         keyboardHideButton.addTarget(self, action: #selector(keyboardHideButtonTapped), for: .touchUpInside)
     }
 
@@ -128,7 +132,7 @@ class CreateRecordVC: CustomEditNavigationBar {
         }
         
         petImageCollectionView.snp.makeConstraints { make in
-            make.height.equalTo(80)
+            make.height.equalTo(0)
             make.leading.trailing.equalTo(view).inset(16)
             make.top.equalTo(titleTextFiled.snp.bottom).offset(8)
         }
@@ -143,7 +147,7 @@ class CreateRecordVC: CustomEditNavigationBar {
         btnStackView.snp.makeConstraints { make in
             make.height.equalTo(56)
             make.leading.trailing.equalToSuperview().inset(16)
-            make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom).offset(-20)
+            make.bottom.equalTo(view.snp.bottom).offset(-20)
         }
     }
     
@@ -154,14 +158,11 @@ class CreateRecordVC: CustomEditNavigationBar {
         var menuItems = [UIMenuElement]()
         
         for (index, parentFolder) in parentFolderData.enumerated() {
-            // 자식 폴더가 있는지 확인하고, 없으면 상위 폴더만 메뉴에 추가
             if !childFolderData[index].isEmpty {
                 var childItems = [UIMenuElement]()
                 
-                // 자식 폴더 생성
                 for childFolder in childFolderData[index] {
                     let action = UIAction(title: childFolder) { _ in
-                        // 자식 폴더를 선택한 후 수행할 작업
                         self.selectedFolderLabel.text = childFolder
                         self.selectedFolderLabel.textColor = .black
                         self.folderImageView.image = UIImage(named: "subFolder")
@@ -171,12 +172,11 @@ class CreateRecordVC: CustomEditNavigationBar {
                     }
                     childItems.append(action)
                 }
-                
-                // 상위 폴더와 해당 상위 폴더의 자식 폴더로 UIMenu 생성
+ 
                 let parentMenu = UIMenu(title: parentFolder, children: childItems)
                 menuItems.append(parentMenu)
             } else {
-                // 자식 폴더가 없는 경우 상위 폴더만 메뉴에 추가
+
                 let action = UIAction(title: parentFolder) { _ in
                     self.selectedFolderLabel.text = parentFolder
                     self.selectedFolderLabel.textColor = .black
@@ -190,20 +190,51 @@ class CreateRecordVC: CustomEditNavigationBar {
             }
         }
         
-        // 메인 메뉴 생성
         let mainMenu = UIMenu(title: "", children: menuItems)
         
         self.folderButton.menu = mainMenu
         self.folderButton.showsMenuAsPrimaryAction = true
     }
     
-    @objc func imageAddButtonTapped() {
-        
+    @objc func presentPHPicker() {
+       
+            var configuration = PHPickerConfiguration(photoLibrary: .shared())
+            configuration.filter = .images
+            configuration.selectionLimit = 6
+            configuration.preselectedAssetIdentifiers = self.selectedAssetIdentifiers
+            let picker = PHPickerViewController(configuration: configuration)
+            picker.delegate = self
+            self.present(picker, animated: true, completion: nil)
     }
+
     @objc func keyboardHideButtonTapped() {
         dismissKeyboard()
     }
 
+}
+
+extension CreateRecordVC: PHPickerViewControllerDelegate {
+    func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
+        picker.dismiss(animated: true, completion: nil)
+        
+        var newSelections = [String: PHPickerResult]()
+        
+        for result in results {
+            let identifier = result.assetIdentifier!
+            newSelections[identifier] = selections[identifier] ?? result
+        }
+        
+        selections = newSelections
+        selectedAssetIdentifiers = results.compactMap { $0.assetIdentifier }
+        
+        if !selections.isEmpty {
+            loadImages()
+            self.petImageCollectionView.reloadData()
+            petImageCollectionView.snp.updateConstraints { make in
+                make.height.equalTo(100)
+            }
+        }
+    }
 }
 
 extension CreateRecordVC {
@@ -218,6 +249,8 @@ extension CreateRecordVC {
             dataScrollView.contentInset = contentInset
             dataScrollView.scrollIndicatorInsets = contentInset
         
+            keyboardHideButton.setImage(UIImage(named: "keyboardHide"), for: .normal)
+        
             let offsetData = keyboardHeight
             
 
@@ -229,6 +262,8 @@ extension CreateRecordVC {
     @objc private func keyboardWillHide(notification: Notification) {
         dataScrollView.contentInset = .zero
         dataScrollView.scrollIndicatorInsets = .zero
+        
+        keyboardHideButton.setImage(UIImage(named: ""), for: .normal)
         
         btnStackView.snp.updateConstraints { make in
             make.bottom.equalTo(view.snp.bottom).offset(-20)
@@ -274,18 +309,78 @@ extension CreateRecordVC: UITextViewDelegate {
 
 extension CreateRecordVC: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 5
+        return selections.count
     }
-    
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PetImageCollectionViewCell", for: indexPath) as! PetImageCollectionViewCell
-        // 셀에 데이터 설정
-        // 예: cell.imageView.image = yourImage
+        
+//        // 선택된 이미지를 가져오기 위해 selections 딕셔너리를 순회합니다.
+//        for (_, result) in selections {
+//            let assetIdentifier = result.assetIdentifier
+//
+//            // 선택된 이미지의 식별자로 PHAsset을 가져옵니다.
+//            if let assetIdentifier = assetIdentifier {
+//                let fetchResult = PHAsset.fetchAssets(withLocalIdentifiers: [assetIdentifier], options: nil)
+//                if let phAsset = fetchResult.firstObject {
+//                    let options = PHImageRequestOptions()
+//                    options.isSynchronous = false
+//
+//                    PHImageManager.default().requestImage(for: phAsset, targetSize: CGSize(width: 80, height: 80), contentMode: .aspectFill, options: options) { image, _ in
+//                        DispatchQueue.main.async {
+//                            print("???")
+//                            cell.updatePetImage(image)
+//                        }
+//                    }
+//                }
+//            }
+//        }
+        
+        
+        let identifier = selectedAssetIdentifiers[indexPath.item]
+            guard let image = imagesDict[identifier] else {
+                // 해당 식별자에 해당하는 이미지가 없으면 기본 이미지를 표시하거나 아무 작업을 하지 않습니다.
+                return cell
+            }
+
+            cell.updatePetImage(image)
+        
         return cell
     }
-    
+
+
+
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        // 셀의 크기 설정
-        return CGSize(width: 80, height: 80)
+        return CGSize(width: 100, height: 100)
     }
+    
+    
+    func loadImages() {
+        let dispatchGroup = DispatchGroup()
+
+        for (identifier, result) in selections {
+            dispatchGroup.enter()
+
+            let itemProvider = result.itemProvider
+            if itemProvider.canLoadObject(ofClass: UIImage.self) {
+                itemProvider.loadObject(ofClass: UIImage.self) { image, error in
+                    guard let image = image as? UIImage else { return }
+
+                    self.imagesDict[identifier] = image
+                    dispatchGroup.leave()
+                }
+            } else {
+                dispatchGroup.leave()
+            }
+        }
+
+        dispatchGroup.notify(queue: DispatchQueue.main) { [weak self] in
+            guard let self = self else { return }
+
+            self.petImageCollectionView.reloadData()
+        }
+    }
+
+
+
+    
 }

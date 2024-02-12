@@ -10,6 +10,7 @@ class PetDetailCareListCollectionViewCell: UICollectionViewCell {
         label.textAlignment = .center
         label.backgroundColor = UIColor(named: "Gray1")
         label.textColor = UIColor(named: "Gray3")
+        label.font = .systemFont(ofSize: 14, weight: .medium)
         return label
     }()
 

@@ -61,7 +61,7 @@
 		4A80E4D42B49BA7800CD5D05 /* AnonymousAlamofire.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A80E4D32B49BA7800CD5D05 /* AnonymousAlamofire.swift */; };
 		4A828D8B2B618DF7006AE70A /* DateFormatterUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A828D8A2B618DF7006AE70A /* DateFormatterUtils.swift */; };
 		4A828D8D2B619432006AE70A /* CustomCheckPopupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A828D8C2B619432006AE70A /* CustomCheckPopupView.swift */; };
-		4A828D8F2B619447006AE70A /* CustomCheckPopupVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A828D8E2B619447006AE70A /* CustomCheckPopupVC.swift */; };
+		4A828D8F2B619447006AE70A /* CareCustomCheckPopupVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A828D8E2B619447006AE70A /* CareCustomCheckPopupVC.swift */; };
 		4A8662D42B26299F00D8DDE8 /* EditUserPwVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A8662D32B26299F00D8DDE8 /* EditUserPwVC.swift */; };
 		4A8662D62B2629F500D8DDE8 /* EditUserNameVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A8662D52B2629F500D8DDE8 /* EditUserNameVC.swift */; };
 		4A8662D82B262DA200D8DDE8 /* CustomEditNavigationBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A8662D72B262DA200D8DDE8 /* CustomEditNavigationBar.swift */; };
@@ -175,7 +175,7 @@
 		4A80E4D32B49BA7800CD5D05 /* AnonymousAlamofire.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnonymousAlamofire.swift; sourceTree = "<group>"; };
 		4A828D8A2B618DF7006AE70A /* DateFormatterUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateFormatterUtils.swift; sourceTree = "<group>"; };
 		4A828D8C2B619432006AE70A /* CustomCheckPopupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomCheckPopupView.swift; sourceTree = "<group>"; };
-		4A828D8E2B619447006AE70A /* CustomCheckPopupVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomCheckPopupVC.swift; sourceTree = "<group>"; };
+		4A828D8E2B619447006AE70A /* CareCustomCheckPopupVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CareCustomCheckPopupVC.swift; sourceTree = "<group>"; };
 		4A8662D32B26299F00D8DDE8 /* EditUserPwVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditUserPwVC.swift; sourceTree = "<group>"; };
 		4A8662D52B2629F500D8DDE8 /* EditUserNameVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditUserNameVC.swift; sourceTree = "<group>"; };
 		4A8662D72B262DA200D8DDE8 /* CustomEditNavigationBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomEditNavigationBar.swift; sourceTree = "<group>"; };
@@ -412,7 +412,7 @@
 				4AD354142AACD390004A47B3 /* LoginVC.swift */,
 				4AA999952A8485A500E495FA /* FirstVC.swift */,
 				4AC579862B2E004400735252 /* CustomAlarmPopupVC.swift */,
-				4A828D8E2B619447006AE70A /* CustomCheckPopupVC.swift */,
+				4A828D8E2B619447006AE70A /* CareCustomCheckPopupVC.swift */,
 				4A9936552B642A0800B7B21A /* CalendarRegistrationVC.swift */,
 			);
 			path = ViewControllers;
@@ -754,7 +754,7 @@
 				4AD354292AAF7F55004A47B3 /* RecordVC.swift in Sources */,
 				4A0C7F072B5C568D0097D753 /* PetCareHeaderView.swift in Sources */,
 				4AEDCE012B4C718E0043E872 /* PetCareRegistVC.swift in Sources */,
-				4A828D8F2B619447006AE70A /* CustomCheckPopupVC.swift in Sources */,
+				4A828D8F2B619447006AE70A /* CareCustomCheckPopupVC.swift in Sources */,
 				4A8662D42B26299F00D8DDE8 /* EditUserPwVC.swift in Sources */,
 				4A0150322B7410140069AF20 /* GenderView.swift in Sources */,
 				4A15F2092AA790D60098F2F7 /* CustomProgressBar.swift in Sources */,

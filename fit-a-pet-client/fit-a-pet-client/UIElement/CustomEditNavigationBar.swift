@@ -6,7 +6,6 @@ class CustomEditNavigationBar: UIViewController {
     private var cancleButton: UIBarButtonItem!
     var saveButton: UIBarButtonItem!
     
-    //data
     private var currentTitle = ""
     var userPwData: [String: String] = [:]
     var userName = ""
