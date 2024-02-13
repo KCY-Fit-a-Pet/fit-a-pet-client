@@ -43,51 +43,7 @@ class CreateRecordVC: CustomEditNavigationBar {
         petImageCollectionView.dataSource = self
         petImageCollectionView.register(PetImageCollectionViewCell.self, forCellWithReuseIdentifier: "PetImageCollectionViewCell")
     }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
-        AnonymousAlamofire.shared.presignedURL("record", "jpeg") { result in
-            switch result {
-            case .success(let data):
-                if let responseData = data {
-                    do {
-                        let jsonObject = try JSONSerialization.jsonObject(with: responseData, options: []) as? [String: Any]
 
-                        if let payloadValue = jsonObject?["payload"] as? String,
-                           let payloadURL = URL(string: payloadValue),
-                           let components = URLComponents(url: payloadURL, resolvingAgainstBaseURL: false),
-                           let queryItems = components.queryItems {
-
-                            if let range = payloadValue.range(of: "?") {
-                                PAYLOADURL.PAYLOAD = String(payloadValue[..<range.lowerBound])
-                            } else {
-                                PAYLOADURL.PAYLOAD = payloadValue
-                            }
-
-                            PAYLOADURL.algorithm = queryItems[0].value ?? ""
-                            PAYLOADURL.credential = queryItems[1].value ?? ""
-                            PAYLOADURL.date = queryItems[2].value ?? ""
-                            PAYLOADURL.expires = queryItems[3].value ?? ""
-                            PAYLOADURL.signature = queryItems[4].value ?? ""
-                            PAYLOADURL.signedHeaders = queryItems[5].value ?? ""
-                            PAYLOADURL.acl = queryItems[6].value ?? ""
-
-                            print("JSON Object: \(jsonObject ?? [:])")
-            
-                        } else {
-                            print("Payload key not found in the JSON response.")
-                        }
-                    } catch {
-                        print("Error parsing JSON: \(error)")
-                    }
-                }
-            case .failure(let error):
-                print("Error: \(error)")
-            }
-        }
-    }
-    
     func initView() {
         view.backgroundColor = .white
         
@@ -306,6 +262,23 @@ extension CreateRecordVC: UITextViewDelegate {
             textView.text = "내용을 입력해주세요."
             textView.textColor = UIColor(named: "Gray3")
         }
+        
+        if let text = titleTextFiled.text {
+            
+            RecordCreateManager.shared.addInput(title: text)
+            print("Entered Text: \(text)")
+        }
+        if let text = contentTextView.text {
+            RecordCreateManager.shared.addInput(content: text)
+            
+            print("Entered Text: \(text)")
+        }
+        
+        RecordCreateManager.shared.performRegistration()
+    }
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
     }
 }
 
@@ -344,6 +317,7 @@ extension CreateRecordVC: UICollectionViewDataSource, UICollectionViewDelegateFl
 
                     self.imagesDict[identifier] = image
                     self.images.append(image)
+                    print("image1: \(image)")
 
                     dispatchGroup.leave()
                 }

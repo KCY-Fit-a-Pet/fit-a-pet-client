@@ -27,6 +27,10 @@ class RecordVC: UIViewController{
         listView.recordListTableView.dataSource = listTableViewMethod
         
     }
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        userTotalFolderListAPI()
+    }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
@@ -135,6 +139,21 @@ class RecordVC: UIViewController{
       
         listView.snp.updateConstraints { make in
             make.height.equalTo(totalCellHeight)
+        }
+    }
+    func userTotalFolderListAPI(){
+        AuthorizationAlamofire.shared.recordTotalFolderList{ result in
+            switch result {
+            case .success(let data):
+                if let responseData = data {
+                    let object = try?JSONSerialization.jsonObject(with: responseData, options: []) as? NSDictionary
+                    guard let jsonObject = object else {return}
+                    print("respose jsonData: \(jsonObject)")
+                }
+                
+            case .failure(let careInfoError):
+                print("Error fetching")
+            }
         }
     }
 }

@@ -68,6 +68,8 @@ class CustomEditNavigationBar: UIViewController {
             return editUserNameAPI()
         case "케어 등록하기":
             return careCategoryCheckAPI()
+        case "":
+            return createRecordAPI()
         default:
             return
         }
@@ -110,6 +112,7 @@ extension CustomEditNavigationBar{
             }
         }
     }
+    
     func careCategoryCheckAPI(){
         
         var selectedPetIds: [Int] = []
@@ -197,5 +200,68 @@ extension CustomEditNavigationBar{
         customPopupVC.dismissalCompletion = {
             self.navigationController?.popToRootViewController(animated: true)
         }
+    }
+    private func createRecordAPI() {
+        
+        let images: [UIImage] = RecordCreateManager.shared.memoImageUrls!
+        
+        for image in images{
+            
+            AnonymousAlamofire.shared.presignedURL("record", "jpeg") { result in
+                switch result {
+                case .success(let data):
+                    if let responseData = data {
+                        do {
+                            let jsonObject = try JSONSerialization.jsonObject(with: responseData, options: []) as? [String: Any]
+
+                            if let payloadValue = jsonObject?["payload"] as? String,
+                               let payloadURL = URL(string: payloadValue),
+                               let components = URLComponents(url: payloadURL, resolvingAgainstBaseURL: false),
+                               let queryItems = components.queryItems {
+
+                                if let range = payloadValue.range(of: "?") {
+                                    PAYLOADURL.PAYLOAD = String(payloadValue[..<range.lowerBound])
+                                } else {
+                                    PAYLOADURL.PAYLOAD = payloadValue
+                                }
+
+                                PAYLOADURL.algorithm = queryItems[0].value ?? ""
+                                PAYLOADURL.credential = queryItems[1].value ?? ""
+                                PAYLOADURL.date = queryItems[2].value ?? ""
+                                PAYLOADURL.expires = queryItems[3].value ?? ""
+                                PAYLOADURL.signature = queryItems[4].value ?? ""
+                                PAYLOADURL.signedHeaders = queryItems[5].value ?? ""
+                                PAYLOADURL.acl = queryItems[6].value ?? ""
+
+                                print("JSON Object: \(jsonObject ?? [:])")
+                                
+                                AnonymousAlamofire.shared.uploadImage(image) { result in
+                                    switch result {
+                                    case .success(let data):
+                                        if let unwrappedData = data,
+                                           let resultString = String(data: unwrappedData, encoding: .utf8) {
+                                            print("Success: \(resultString)")
+                                        } else {
+                                            print("Success with nil or non-text data")
+                                        }
+                                        
+                                    case .failure(let error):
+                                        print("Error: \(error)")
+                                    }
+                                }
+                            } else {
+                                print("Payload key not found in the JSON response.")
+                            }
+                        } catch {
+                            print("Error parsing JSON: \(error)")
+                        }
+                    }
+                case .failure(let error):
+                    print("Error: \(error)")
+                }
+            }
+        
+        }
+       
     }
 }
