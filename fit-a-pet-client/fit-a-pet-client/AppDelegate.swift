@@ -4,11 +4,14 @@ import UIKit
 import KakaoSDKCommon
 import GoogleSignIn
 import NaverThirdPartyLogin
+import FirebaseCore
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
-
+    
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+        
+        FirebaseApp.configure()
         
         let kakaoAppKey = Bundle.main.infoDictionary?["KakaoAppKey"] as! String
         let naverClientId = Bundle.main.infoDictionary?["NaverClientID"] as! String
@@ -57,4 +60,3 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
 }
-

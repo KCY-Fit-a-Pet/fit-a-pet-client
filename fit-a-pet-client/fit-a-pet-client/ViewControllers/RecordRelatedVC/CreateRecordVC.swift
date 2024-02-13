@@ -7,18 +7,16 @@ import PhotosUI
 class CreateRecordVC: CustomEditNavigationBar {
     
     private let dataScrollView = UIScrollView()
-    private let folderButton = UIButton()
-    private let selectedFolderLabel = UILabel()
-    private let folderImageView = UIImageView()
+
     private let titleTextFiled = UITextField()
     private let contentTextView = UITextView()
-    private let imageAddButton = UIButton()
-    private let keyboardHideButton = UIButton()
-    private let btnStackView = UIStackView()
-    private let stackView = UIStackView()
+
+    private var folderStackView = FolderStackView()
+    private var buttonStackView = ButtonStackView()
     private var selections = [String : PHPickerResult]()
     private var selectedAssetIdentifiers = [String]()
-    var imagesDict: [String : UIImage] = [:]
+    private var imagesDict: [String : UIImage] = [:]
+    private var images: [UIImage] = []
     
     let petImageCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -35,7 +33,7 @@ class CreateRecordVC: CustomEditNavigationBar {
         setupTextView()
         setupTapGesture()
         
-        folderButton.addTarget(self, action: #selector(showMenu), for: .touchUpInside)
+        folderStackView.folderButton.addTarget(self, action: #selector(showMenu), for: .touchUpInside)
         
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(notification:)), name: UIResponder.keyboardWillShowNotification, object: nil)
         
@@ -46,13 +44,56 @@ class CreateRecordVC: CustomEditNavigationBar {
         petImageCollectionView.register(PetImageCollectionViewCell.self, forCellWithReuseIdentifier: "PetImageCollectionViewCell")
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        AnonymousAlamofire.shared.presignedURL("record", "jpeg") { result in
+            switch result {
+            case .success(let data):
+                if let responseData = data {
+                    do {
+                        let jsonObject = try JSONSerialization.jsonObject(with: responseData, options: []) as? [String: Any]
+
+                        if let payloadValue = jsonObject?["payload"] as? String,
+                           let payloadURL = URL(string: payloadValue),
+                           let components = URLComponents(url: payloadURL, resolvingAgainstBaseURL: false),
+                           let queryItems = components.queryItems {
+
+                            if let range = payloadValue.range(of: "?") {
+                                PAYLOADURL.PAYLOAD = String(payloadValue[..<range.lowerBound])
+                            } else {
+                                PAYLOADURL.PAYLOAD = payloadValue
+                            }
+
+                            PAYLOADURL.algorithm = queryItems[0].value ?? ""
+                            PAYLOADURL.credential = queryItems[1].value ?? ""
+                            PAYLOADURL.date = queryItems[2].value ?? ""
+                            PAYLOADURL.expires = queryItems[3].value ?? ""
+                            PAYLOADURL.signature = queryItems[4].value ?? ""
+                            PAYLOADURL.signedHeaders = queryItems[5].value ?? ""
+                            PAYLOADURL.acl = queryItems[6].value ?? ""
+
+                            print("JSON Object: \(jsonObject ?? [:])")
+            
+                        } else {
+                            print("Payload key not found in the JSON response.")
+                        }
+                    } catch {
+                        print("Error parsing JSON: \(error)")
+                    }
+                }
+            case .failure(let error):
+                print("Error: \(error)")
+            }
+        }
+    }
+    
     func initView() {
         view.backgroundColor = .white
         
-        setupStackView()
         setupButtonStackView()
 
-        dataScrollView.addSubview(stackView)
+        dataScrollView.addSubview(folderStackView)
         dataScrollView.addSubview(titleTextFiled)
         dataScrollView.addSubview(petImageCollectionView)
         dataScrollView.addSubview(contentTextView)
@@ -60,66 +101,25 @@ class CreateRecordVC: CustomEditNavigationBar {
         titleTextFiled.placeholder = "제목을 입력해주세요."
         
         view.addSubview(dataScrollView)
-        view.addSubview(btnStackView)
+        view.addSubview(buttonStackView)
         
         setupConstraints()
     }
-    
-    private func setupStackView() {
-        stackView.axis = .horizontal
-        stackView.spacing = 8
-        stackView.distribution = .equalSpacing
-        
-        stackView.layer.borderColor = UIColor(named: "Gray3")?.cgColor
-        
-        stackView.addArrangedSubview(folderImageView)
-        stackView.addArrangedSubview(selectedFolderLabel)
-        stackView.addArrangedSubview(folderButton)
-        
-        folderImageView.contentMode = .scaleAspectFit
-        selectedFolderLabel.text = "폴더를 선택해주세요"
-        selectedFolderLabel.textColor = UIColor(named: "Gray3")
-        selectedFolderLabel.font = .systemFont(ofSize: 14, weight: .regular)
-        folderButton.setImage(UIImage(named: "category"), for: .normal)
-    }
-    
+
     private func setupButtonStackView() {
-        btnStackView.axis = .horizontal
-        btnStackView.spacing = 8
-        btnStackView.distribution = .equalSpacing
+
+        self.buttonStackView.imageAddButton.addTarget(self, action: #selector(presentPHPicker), for: .touchUpInside)
         
-        btnStackView.addArrangedSubview(imageAddButton)
-        btnStackView.addArrangedSubview(keyboardHideButton)
-        
-        imageAddButton.setImage(UIImage(named: "addPhoto"), for: .normal)
-        imageAddButton.addTarget(self, action: #selector(presentPHPicker), for: .touchUpInside)
-        
-        keyboardHideButton.addTarget(self, action: #selector(keyboardHideButtonTapped), for: .touchUpInside)
+        self.buttonStackView.keyboardHideButton.addTarget(self, action: #selector(keyboardHideButtonTapped), for: .touchUpInside)
     }
 
     private func setupConstraints() {
         dataScrollView.snp.makeConstraints { make in
             make.leading.top.trailing.equalToSuperview()
-            make.bottom.equalTo(btnStackView.snp.top)
+            make.bottom.equalTo(buttonStackView.snp.top)
         }
         
-        folderImageView.snp.makeConstraints { make in
-            make.width.height.equalTo(24)
-        }
-        
-        selectedFolderLabel.snp.makeConstraints { make in
-            make.leading.equalTo(folderImageView.snp.trailing).inset(16)
-        }
-        
-        imageAddButton.snp.makeConstraints { make in
-            make.width.height.equalTo(44)
-        }
-        
-        keyboardHideButton.snp.makeConstraints { make in
-            make.width.height.equalTo(44)
-        }
-        
-        stackView.snp.makeConstraints { make in
+        folderStackView.snp.makeConstraints { make in
             make.height.equalTo(56)
             make.top.equalTo(dataScrollView.snp.top).offset(8)
             make.leading.trailing.equalTo(view).inset(16)
@@ -128,7 +128,7 @@ class CreateRecordVC: CustomEditNavigationBar {
         titleTextFiled.snp.makeConstraints { make in
             make.height.equalTo(24)
             make.leading.trailing.equalTo(view).inset(20)
-            make.top.equalTo(stackView.snp.bottom).offset(10)
+            make.top.equalTo(folderStackView.snp.bottom).offset(10)
         }
         
         petImageCollectionView.snp.makeConstraints { make in
@@ -140,11 +140,11 @@ class CreateRecordVC: CustomEditNavigationBar {
         contentTextView.snp.makeConstraints { make in
             make.height.equalTo(700)
             make.leading.trailing.equalTo(view).inset(16)
-            make.top.equalTo(petImageCollectionView.snp.bottom).offset(8)
+            make.top.equalTo(petImageCollectionView.snp.bottom)
             make.bottom.equalTo(dataScrollView.snp.bottom)
         }
         
-        btnStackView.snp.makeConstraints { make in
+        buttonStackView.snp.makeConstraints { make in
             make.height.equalTo(56)
             make.leading.trailing.equalToSuperview().inset(16)
             make.bottom.equalTo(view.snp.bottom).offset(-20)
@@ -163,11 +163,11 @@ class CreateRecordVC: CustomEditNavigationBar {
                 
                 for childFolder in childFolderData[index] {
                     let action = UIAction(title: childFolder) { _ in
-                        self.selectedFolderLabel.text = childFolder
-                        self.selectedFolderLabel.textColor = .black
-                        self.folderImageView.image = UIImage(named: "subFolder")
-                        self.selectedFolderLabel.snp.updateConstraints{make in
-                            make.leading.equalTo(self.folderImageView.snp.trailing).offset(8)
+                        self.folderStackView.selectedFolderLabel.text = childFolder
+                        self.folderStackView.selectedFolderLabel.textColor = .black
+                        self.folderStackView.folderImageView.image = UIImage(named: "subFolder")
+                        self.folderStackView.selectedFolderLabel.snp.updateConstraints{make in
+                            make.leading.equalTo(self.folderStackView.folderImageView.snp.trailing).offset(8)
                         }
                     }
                     childItems.append(action)
@@ -178,12 +178,12 @@ class CreateRecordVC: CustomEditNavigationBar {
             } else {
 
                 let action = UIAction(title: parentFolder) { _ in
-                    self.selectedFolderLabel.text = parentFolder
-                    self.selectedFolderLabel.textColor = .black
+                    self.folderStackView.selectedFolderLabel.text = parentFolder
+                    self.folderStackView.selectedFolderLabel.textColor = .black
                     
-                    self.folderImageView.image = UIImage(named: "folder")
-                    self.selectedFolderLabel.snp.updateConstraints{make in
-                        make.leading.equalTo(self.folderImageView.snp.trailing).offset(8)
+                    self.folderStackView.folderImageView.image = UIImage(named: "folder")
+                    self.folderStackView.selectedFolderLabel.snp.updateConstraints{make in
+                        make.leading.equalTo(self.folderStackView.folderImageView.snp.trailing).offset(8)
                     }
                 }
                 menuItems.append(action)
@@ -192,19 +192,21 @@ class CreateRecordVC: CustomEditNavigationBar {
         
         let mainMenu = UIMenu(title: "", children: menuItems)
         
-        self.folderButton.menu = mainMenu
-        self.folderButton.showsMenuAsPrimaryAction = true
+        self.folderStackView.folderButton.menu = mainMenu
+        self.folderStackView.folderButton.showsMenuAsPrimaryAction = true
     }
     
     @objc func presentPHPicker() {
-       
-            var configuration = PHPickerConfiguration(photoLibrary: .shared())
-            configuration.filter = .images
-            configuration.selectionLimit = 6
-            configuration.preselectedAssetIdentifiers = self.selectedAssetIdentifiers
-            let picker = PHPickerViewController(configuration: configuration)
-            picker.delegate = self
-            self.present(picker, animated: true, completion: nil)
+        
+        images.removeAll()
+        
+        var configuration = PHPickerConfiguration(photoLibrary: .shared())
+        configuration.filter = .images
+        configuration.selectionLimit = 6
+        configuration.preselectedAssetIdentifiers = self.selectedAssetIdentifiers
+        let picker = PHPickerViewController(configuration: configuration)
+        picker.delegate = self
+        self.present(picker, animated: true, completion: nil)
     }
 
     @objc func keyboardHideButtonTapped() {
@@ -249,12 +251,12 @@ extension CreateRecordVC {
             dataScrollView.contentInset = contentInset
             dataScrollView.scrollIndicatorInsets = contentInset
         
-            keyboardHideButton.setImage(UIImage(named: "keyboardHide"), for: .normal)
+            self.buttonStackView.keyboardHideButton.setImage(UIImage(named: "keyboardHide"), for: .normal)
         
             let offsetData = keyboardHeight
             
 
-            btnStackView.snp.updateConstraints { make in
+            self.buttonStackView.snp.updateConstraints { make in
                 make.bottom.equalTo(view.snp.bottom).offset(-offsetData)
             }
         }
@@ -263,9 +265,9 @@ extension CreateRecordVC {
         dataScrollView.contentInset = .zero
         dataScrollView.scrollIndicatorInsets = .zero
         
-        keyboardHideButton.setImage(UIImage(named: ""), for: .normal)
+        self.buttonStackView.keyboardHideButton.setImage(UIImage(named: ""), for: .normal)
         
-        btnStackView.snp.updateConstraints { make in
+        self.buttonStackView.snp.updateConstraints { make in
             make.bottom.equalTo(view.snp.bottom).offset(-20)
         }
     }
@@ -341,6 +343,8 @@ extension CreateRecordVC: UICollectionViewDataSource, UICollectionViewDelegateFl
                     guard let image = image as? UIImage else { return }
 
                     self.imagesDict[identifier] = image
+                    self.images.append(image)
+
                     dispatchGroup.leave()
                 }
             } else {
@@ -350,9 +354,9 @@ extension CreateRecordVC: UICollectionViewDataSource, UICollectionViewDelegateFl
 
         dispatchGroup.notify(queue: DispatchQueue.main) { [weak self] in
             guard let self = self else { return }
-
+            
+            RecordCreateManager.shared.addInput(memoImageUrls: self.images)      
             self.petImageCollectionView.reloadData()
         }
     }
-
 }

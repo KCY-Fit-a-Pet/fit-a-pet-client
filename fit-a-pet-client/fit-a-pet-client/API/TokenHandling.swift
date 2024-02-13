@@ -9,7 +9,6 @@ protocol TokenHandling {
 extension TokenHandling {
     func extractAndStoreToken(from response: AFDataResponse<Data?>) {
         
-//        print(response.response?.allHeaderFields as? [String: String])
     
         if let responseHeaders = response.response?.allHeaderFields as? [String: String],
            let accessToken = responseHeaders["Authorization"] {
