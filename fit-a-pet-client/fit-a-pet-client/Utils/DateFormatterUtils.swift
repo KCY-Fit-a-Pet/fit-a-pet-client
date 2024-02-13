@@ -2,13 +2,13 @@ import Foundation
 
 class DateFormatterUtils {
 
-   var dateFormatter: DateFormatter = {
+   static let dateFormatter: DateFormatter = {
         let df = DateFormatter()
         df.dateFormat = "yyyy-MM-dd HH:mm:ss"
         return df
     }()
     
-    func formatDateString(_ dateString: String) -> String? {
+    static func formatDateString(_ dateString: String) -> String? {
         if let date = dateFormatter.date(from: dateString) {
             return dateFormatter.string(from: date)
         }

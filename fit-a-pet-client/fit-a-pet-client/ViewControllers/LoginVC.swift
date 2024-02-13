@@ -188,6 +188,7 @@ class LoginVC: UIViewController{
                                 
                                 self?.present(mainVC, animated: false, completion: nil)
                             }
+                            print(json)
                         }
                     } catch {
                         print("Error parsing JSON: \(error)")

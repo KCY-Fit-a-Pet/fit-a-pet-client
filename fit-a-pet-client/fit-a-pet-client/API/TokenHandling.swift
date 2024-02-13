@@ -8,10 +8,13 @@ protocol TokenHandling {
 
 extension TokenHandling {
     func extractAndStoreToken(from response: AFDataResponse<Data?>) {
+        
+//        print(response.response?.allHeaderFields as? [String: String])
+    
         if let responseHeaders = response.response?.allHeaderFields as? [String: String],
-           let accessToken = responseHeaders["accessToken"] {
+           let accessToken = responseHeaders["Authorization"] {
             
-            if let data = response.value {
+            if response.value != nil {
                 let cookies = HTTPCookie.cookies(withResponseHeaderFields: responseHeaders, for: response.response!.url!)
                 for cookie in cookies {
                     print("Cookie name: \(cookie.name), value: \(cookie.value)")
@@ -30,7 +33,7 @@ extension TokenHandling {
             }
             
             KeychainHelper.saveAccessToken(accessToken: accessToken)
-            os_log("accesstoken: %@", log: .default, type: .info, accessToken)
+            os_log("accessToken: %@", log: .default, type: .info, accessToken)
         }
     }
 }

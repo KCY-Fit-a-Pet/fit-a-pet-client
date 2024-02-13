@@ -1,21 +1,18 @@
 import UIKit
 
-class CustomCheckPopupVC: UIViewController {
+class CareCustomCheckPopupVC: UIViewController {
 
     let popupView = CustomCheckPopupView()
-    var titleText: String?
-    var subtitleText: String?
+
     var dismissalCompletion: (() -> Void)?
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
         view.backgroundColor = UIColor(white: 0, alpha: 0.5)
-        popupView.titleLabel.text = titleText
-        popupView.subtitleLabel.text = subtitleText
 
-        popupView.confirmButton.addTarget(self, action: #selector(confirmButtonTapped(_:)), for: .touchUpInside)
-        popupView.cancelButton.addTarget(self, action: #selector(cancelButtonTapped(_:)), for: .touchUpInside)
+        popupView.customButton1.addTarget(self, action: #selector(confirmButtonTapped(_:)), for: .touchUpInside)
+        popupView.customButton2.addTarget(self, action: #selector(cancelButtonTapped(_:)), for: .touchUpInside)
 
         view.addSubview(popupView)
 
@@ -24,6 +21,12 @@ class CustomCheckPopupVC: UIViewController {
             make.leading.trailing.equalToSuperview().inset(15)
             make.height.equalTo(250)
         }
+    }
+    func updateText(_ title: String, _ sub: String, _ confirm: String, _ cancel: String){
+        popupView.titleLabel.text = title
+        popupView.subtitleLabel.text = sub
+        popupView.customButton1.setTitle(confirm, for: .normal)
+        popupView.customButton2.setTitle(cancel, for: .normal)
     }
 
     @objc func confirmButtonTapped(_ sender: UIButton) {

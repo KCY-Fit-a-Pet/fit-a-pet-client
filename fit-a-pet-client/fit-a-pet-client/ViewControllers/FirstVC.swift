@@ -116,12 +116,13 @@ extension FirstVC{
         naverLogin.addTarget(self, action: #selector(naverLoginBtnTapped(_ :)), for:  .touchUpInside)
         appleLogin.addTarget(self, action: #selector(appleLoginBtnTapped(_ :)), for:  .touchUpInside)
         
-        let loginButtons = [naverLogin, kakaoLogin, googleLogin, appleLogin]
+        let loginButtons = [kakaoLogin, googleLogin, appleLogin]
         
         let loginIcon = UIStackView(arrangedSubviews: loginButtons)
         
         loginIcon.axis = .horizontal
-        loginIcon.distribution = .fillEqually
+        loginIcon.distribution = .fill
+        loginIcon.alignment = .center
         loginIcon.spacing = 16
         
         loginView.addSubview(loginLabel)
@@ -159,8 +160,7 @@ extension FirstVC{
         
         loginIcon.snp.makeConstraints { make in
             make.top.equalTo(loginLabel.snp.bottom).offset(24)
-            make.left.equalTo(loginView.snp.left).offset(52)
-            make.right.equalTo(loginView.snp.right).offset(-52)
+            make.centerX.equalToSuperview()
             make.height.equalTo(60) 
         }
     }

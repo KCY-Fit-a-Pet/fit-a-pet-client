@@ -6,7 +6,6 @@ class CustomEditNavigationBar: UIViewController {
     private var cancleButton: UIBarButtonItem!
     var saveButton: UIBarButtonItem!
     
-    //data
     private var currentTitle = ""
     var userPwData: [String: String] = [:]
     var userName = ""
@@ -50,7 +49,14 @@ class CustomEditNavigationBar: UIViewController {
     }
     
     @objc func cancelButtonTapped() {
-        navigationController?.popToRootViewController(animated: true)
+        
+        switch (currentTitle) {
+        case "":
+            return presentPopupView()
+        default:
+            return
+        }
+//        navigationController?.popToRootViewController(animated: true)
     }
 
     @objc func saveButtonTapped() {
@@ -180,6 +186,16 @@ extension CustomEditNavigationBar{
             case .failure(let error):
                 print("Error: \(error)")
             }
+        }
+    }
+    private func presentPopupView(){
+        let customPopupVC = RecordCustomCheckPopupVC()
+        customPopupVC.modalPresentationStyle = .overFullScreen
+        customPopupVC.updateText("등록을 취소할까요?", "작성중인 글은 삭제됩니다.", "등록 취소하기", "계속 작성하기")
+        self.present(customPopupVC, animated: true, completion: nil)
+        
+        customPopupVC.dismissalCompletion = {
+            self.navigationController?.popToRootViewController(animated: true)
         }
     }
 }

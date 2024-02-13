@@ -27,9 +27,8 @@ class CustomCheckPopupView: UIView {
         return stackView
     }()
 
-    let confirmButton: UIButton = {
+    let customButton1: UIButton = {
         let button = UIButton()
-        button.setTitle("완료하기", for: .normal)
         button.titleLabel?.font = UIFont.systemFont(ofSize: 14)
         button.setTitleColor(.white, for: .normal)
         button.backgroundColor = UIColor(named: "PrimaryColor")
@@ -37,9 +36,8 @@ class CustomCheckPopupView: UIView {
         return button
     }()
 
-    let cancelButton: UIButton = {
+    let customButton2: UIButton = {
         let button = UIButton()
-        button.setTitle("돌아가기", for: .normal)
         button.titleLabel?.font = UIFont.systemFont(ofSize: 14)
         button.setTitleColor(UIColor(named: "PrimaryColor"), for: .normal)
         button.backgroundColor = .white
@@ -64,8 +62,8 @@ class CustomCheckPopupView: UIView {
         self.layer.cornerRadius = 8
         
         addSubview(stackView)
-        addSubview(confirmButton)
-        addSubview(cancelButton)
+        addSubview(customButton1)
+        addSubview(customButton2)
 
         stackView.addArrangedSubview(titleLabel)
         stackView.addArrangedSubview(subtitleLabel)
@@ -76,14 +74,14 @@ class CustomCheckPopupView: UIView {
             make.height.equalTo(60)
         }
 
-        confirmButton.snp.makeConstraints { make in
+        customButton1.snp.makeConstraints { make in
             make.top.equalTo(stackView.snp.bottom).offset(30)
             make.leading.trailing.equalToSuperview().inset(8)
             make.height.equalTo(56)
         }
 
-        cancelButton.snp.makeConstraints { make in
-            make.top.equalTo(confirmButton.snp.bottom).offset(8)
+        customButton2.snp.makeConstraints { make in
+            make.top.equalTo(customButton1.snp.bottom).offset(8)
             make.leading.trailing.equalToSuperview().inset(8)
             make.height.equalTo(56)
         }

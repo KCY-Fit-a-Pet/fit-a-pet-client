@@ -71,7 +71,9 @@ class PetCareCollectionViewMethod: NSObject, UICollectionViewDataSource, UIColle
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: 168, height: 150)
+        let viewWidth = collectionView.bounds.width
+        let cellWidth = viewWidth / 2 - 5
+        return CGSize(width: cellWidth, height: 150)
     }
 
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {

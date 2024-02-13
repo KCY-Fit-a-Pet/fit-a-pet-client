@@ -86,12 +86,10 @@ class MainVC: UIViewController {
                 careCompleteData.careId = selectedCare.careId
                 careCompleteData.caredateId = selectedCare.careDateId
                 
-                let customPopupVC = CustomCheckPopupVC()
+                let customPopupVC = CareCustomCheckPopupVC()
                 customPopupVC.modalPresentationStyle = .overFullScreen
-                customPopupVC.titleText = "\(selectedCare.careName) 케어를 완료할까요?"
-                customPopupVC.subtitleText = "케어 완료 알림을 케어 구성원에게 보내요."
-                self.present(customPopupVC, animated: false
-                             , completion: nil)
+                customPopupVC.updateText("\(selectedCare.careName) 케어를 완료할까요?", "케어 완료 알림을 케어 구성원에게 보내요.", "완료하기", "돌아가기")
+                self.present(customPopupVC, animated: true, completion: nil)
                 
                 customPopupVC.dismissalCompletion = {
                     self.fetchUserPetCaresList()
@@ -227,10 +225,10 @@ class MainVC: UIViewController {
                         print("User Pets List: \(PetDataManager.summaryPets)")
                         self.petCareMethod.seletedPetId(pets[0].id)
                         careCompleteData.petId = PetDataManager.summaryPets[0].id
-                        
+
                         self.updateUIWithFetchedData()
                         self.fetchUserPetCaresList()
-                        
+
                         print("Response JSON Data (User Pets List): \(jsonObject)")
                     } catch {
                         print("Error parsing user pets list JSON: \(error)")
@@ -274,8 +272,8 @@ class MainVC: UIViewController {
     }
     
     private func updatePetCareCollectionViewHeight() {
-        let cellHeight: CGFloat = 150
-        let sectionHeaderHeight: CGFloat = 80
+        let cellHeight: CGFloat = 180
+        let sectionHeaderHeight: CGFloat = 90
         var totalHeight: CGFloat = 0
         
         for section in 0..<petCareMethod.numberOfSections(in: petCareCollectionView) {
@@ -283,7 +281,7 @@ class MainVC: UIViewController {
             let numberOfRows = numberOfCellsInSection / 2 + numberOfCellsInSection % 2 // 짝수 개수면 그대로, 홀수 개수면 1을 더한다
             totalHeight += sectionHeaderHeight + (cellHeight * CGFloat(numberOfRows))
         }
-        
+
         if totalHeight < self.view.frame.height {
             petCareCollectionViewHeightConstraint.constant = self.view.frame.height
             mainView.snp.updateConstraints { make in

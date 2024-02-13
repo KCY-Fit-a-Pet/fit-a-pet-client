@@ -37,13 +37,15 @@ class CustomNavigationBar: UIViewController {
     }
     
     @objc func closeButtonTapped() {
-        if currentTitle == "반려동물 등록하기" || currentTitle == "일정 등록하기" || currentTitle == "반려동물 프로필" {
-            navigationController?.popToRootViewController(animated: true)
-        } else {
+        
+        if currentTitle == "아이디 찾기" || currentTitle == "비밀번호 찾기" {
             if let loginVC = navigationController?.viewControllers.first(where: { $0 is LoginVC }) {
                 navigationController?.popToViewController(loginVC, animated: true)
             }
+        } else {
+            navigationController?.popToRootViewController(animated: true)
         }
+
     }
     
     override func viewWillAppear(_ animated: Bool) {

@@ -106,11 +106,9 @@ class CalendarVC: UIViewController {
         
         calendarRegistrationVC.reloadClosure = { [weak self] in
             self?.viewWillAppear(true)
-          
         }
         
         self.present(navigationController, animated: true)
-      
     }
     func petScheduleListAPI(_ year: String, _ month: String, _ day: String){
         AuthorizationAlamofire.shared.petScheduleList(year, month, day){ result in
