@@ -104,7 +104,7 @@ class RecordVC: UIViewController{
         let recordButton = UIBarButtonItem(image: UIImage(named: "record_add"), style: .plain, target: self, action: #selector(didTapRecordAddButton))
         folderButton.tintColor = .black
         recordButton.tintColor = .black
-        navigationItem.rightBarButtonItems = [folderButton, recordButton]
+        navigationItem.rightBarButtonItems = [recordButton, folderButton]
     }
     @objc func didTapfolederAddButton(){
         let nextVC = CreateFolderVC(title: "폴더 만들기")

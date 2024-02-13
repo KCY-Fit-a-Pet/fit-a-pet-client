@@ -272,8 +272,8 @@ class MainVC: UIViewController {
     }
     
     private func updatePetCareCollectionViewHeight() {
-        let cellHeight: CGFloat = 150
-        let sectionHeaderHeight: CGFloat = 80
+        let cellHeight: CGFloat = 180
+        let sectionHeaderHeight: CGFloat = 90
         var totalHeight: CGFloat = 0
         
         for section in 0..<petCareMethod.numberOfSections(in: petCareCollectionView) {
@@ -281,7 +281,7 @@ class MainVC: UIViewController {
             let numberOfRows = numberOfCellsInSection / 2 + numberOfCellsInSection % 2 // 짝수 개수면 그대로, 홀수 개수면 1을 더한다
             totalHeight += sectionHeaderHeight + (cellHeight * CGFloat(numberOfRows))
         }
-        
+
         if totalHeight < self.view.frame.height {
             petCareCollectionViewHeightConstraint.constant = self.view.frame.height
             mainView.snp.updateConstraints { make in

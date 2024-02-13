@@ -314,10 +314,9 @@ extension CreateRecordVC: UICollectionViewDataSource, UICollectionViewDelegateFl
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PetImageCollectionViewCell", for: indexPath) as! PetImageCollectionViewCell
 
-        
         let identifier = selectedAssetIdentifiers[indexPath.item]
-  
-
+        let image = imagesDict[identifier]
+        
         cell.updatePetImage(image)
         
         return cell
