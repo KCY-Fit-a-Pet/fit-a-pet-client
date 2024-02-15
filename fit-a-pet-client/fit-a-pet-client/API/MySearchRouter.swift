@@ -183,8 +183,6 @@ enum MySearchRouter: URLRequestConvertible {
             request = createURLRequestWithBodyAndQuery(url: url, bodyParameters: bodyParameters, queryParameters: queryParameters)
             
         case .uploadImage(let image):
-            request = createURLRequestForImage(url: baseURL, image: image)
-            print("baseURL: \(baseURL)")
             
             let queryParameters = [URLQueryItem(name: "X-Amz-Algorithm", value: PAYLOADURL.algorithm),
              URLQueryItem(name: "X-Amz-Credential", value: PAYLOADURL.credential),
@@ -195,8 +193,8 @@ enum MySearchRouter: URLRequestConvertible {
              URLQueryItem(name: "x-amz-acl", value: PAYLOADURL.acl)
             ]
            
-            request = createURLRequestWithQuery(url: baseURL, queryParameters: queryParameters)
-            
+            request = createURLRequestForImage(url: baseURL, image: image, queryParameters: queryParameters)
+          
 //        case .registPet:
 //            request = createURLRequestWithBody(url: url)
             
@@ -383,23 +381,32 @@ enum MySearchRouter: URLRequestConvertible {
         return request
     }
     
-    private func createURLRequestForImage(url: URL, image: UIImage) -> URLRequest {
+    private func createURLRequestForImage(url: URL, image: UIImage, queryParameters: [URLQueryItem]) -> URLRequest {
         var request = URLRequest(url: url)
         request.httpMethod = method.rawValue
+        
+        print("image??: \(image)")
         
         guard let imageData = image.jpegData(compressionQuality: 0.8) else {
             return request
         }
-        
+        print("imageData??: \(imageData)")
+        let base64Image = imageData.base64EncodedString()
+           
         request.httpBody = imageData
-        request.setValue("image/jpeg", forHTTPHeaderField: "Content-Type")
+        
+        var components = URLComponents(url: url, resolvingAgainstBaseURL: false)
+        components?.queryItems = queryParameters
+        
+        if let urlWithQuery = components?.url {
+            print("requestURL: \(urlWithQuery)")
+            request.url = urlWithQuery
+        }
         
         //os_log
         let log = OSLog(subsystem: Bundle.main.bundleIdentifier!, category: "AlamofireRequest")
         os_log("Request URL: %@", log: log, type: .debug, "\(String(describing: request.url))")
-        os_log("Request Headers: %@", log: log, type: .debug, "\(request.allHTTPHeaderFields ?? [:])")
-        os_log("Request Body: %@", log: log, type: .debug, "\(String(data: request.httpBody ?? Data(), encoding: .utf8) ?? "Body not available")")
-        
+    
         return request
     }
 }

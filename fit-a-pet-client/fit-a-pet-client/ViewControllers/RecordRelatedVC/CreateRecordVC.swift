@@ -293,6 +293,7 @@ extension CreateRecordVC: UICollectionViewDataSource, UICollectionViewDelegateFl
         let image = imagesDict[identifier]
         
         cell.updatePetImage(image)
+        print("image2: \(image)")
         
         return cell
     }

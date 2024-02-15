@@ -207,6 +207,8 @@ extension CustomEditNavigationBar{
         
         for image in images{
             
+            print("??: \(image)")
+            
             AnonymousAlamofire.shared.presignedURL("record", "jpeg") { result in
                 switch result {
                 case .success(let data):
@@ -235,7 +237,7 @@ extension CustomEditNavigationBar{
 
                                 print("JSON Object: \(jsonObject ?? [:])")
                                 
-                                AnonymousAlamofire.shared.uploadImage(image) { result in
+                                AnonymousAlamofire.shared.uploadImage(UIImage(systemName: "pencil")!) { result in
                                     switch result {
                                     case .success(let data):
                                         if let unwrappedData = data,
