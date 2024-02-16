@@ -297,5 +297,18 @@ class AuthorizationAlamofire: TokenHandling {
             }
     }
     
+    func createFolder(_ rootMemoCategoryId: Int, _ categoryName: String, completion: @escaping (Result<Data?, Error>) -> Void) {
+        os_log("AuthorizationAlamofire - createFolder() called ", log: .default, type: .info)
+
+        self.session.request(MySearchRouter.createFolder(rootMemoCategoryId: rootMemoCategoryId, categoryName: categoryName))
+            .response { response in
+                switch response.result {
+                case .success(let data):
+                    completion(.success(data))
+                case .failure(let error):
+                    completion(.failure(error))
+                }
+            }
+    }
 }
 

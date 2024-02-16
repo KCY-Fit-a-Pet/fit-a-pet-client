@@ -11,6 +11,7 @@ class CreateFolderVC: CustomNavigationBar{
     let folderNameInputView = CustomVerticalView(labelText: "폴더 이름", placeholder: "이름")
     
     let createButton = CustomNextBtn(title: "폴더 만들기")
+    var inputCategoryName = ""
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -18,6 +19,8 @@ class CreateFolderVC: CustomNavigationBar{
         initView()
         
         folderButton.addTarget(self, action: #selector(showMenu), for: .touchUpInside)
+        createButton.addTarget(self, action: #selector(createFolderAPI), for: .touchUpInside)
+        folderNameInputView.textInputField.delegate = self
     }
     
     func initView(){
@@ -92,5 +95,34 @@ class CreateFolderVC: CustomNavigationBar{
         
         self.folderButton.menu = menu
         self.folderButton.showsMenuAsPrimaryAction = true
+    }
+    
+    @objc func createFolderAPI(){
+        AuthorizationAlamofire.shared.createFolder(1, inputCategoryName) { result in
+            switch result {
+            case .success(let data):
+                if let responseData = data,
+                   let jsonObject = try? JSONSerialization.jsonObject(with: responseData, options: []) as? [String: Any] {
+                    print("response jsonData: \(jsonObject)")
+                }
+
+            case .failure(let error):
+                print("Error: \(error)")
+            }
+        }
+    }
+}
+
+extension CreateFolderVC: UITextFieldDelegate{
+    func textFieldDidEndEditing(_ textView: UITextField) {      
+        
+        if let text = folderNameInputView.textInputField.text {
+            inputCategoryName = text
+            print("Entered Text: \(text)")
+        }
+    }
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
     }
 }

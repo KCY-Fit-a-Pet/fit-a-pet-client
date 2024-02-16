@@ -31,6 +31,7 @@ enum MySearchRouter: URLRequestConvertible {
     case createSchedule(combinedData: [String:Any])
     case petScheduleList(year: String, month: String, day: String)
     case createRecord(combinedData: [String:Any], memoCategoriesId: Int)
+    case createFolder(rootMemoCategoryId: Int, categoryName: String)
     
     var baseURL: URL {
         switch self {
@@ -45,7 +46,7 @@ enum MySearchRouter: URLRequestConvertible {
     
     var method: HTTPMethod {
         switch self {
-        case .sendSms, .checkSms, .login, .regist, .presignedurl, .registPet,.sendAuthSms, .checkAuthSms, .findId, .findPw, .oauthLogin, .oauthSendSms, .oauthCheckSms, .oauthRegistUser, .createCare, .careCategoryCheck, .createSchedule, .createRecord:
+        case .sendSms, .checkSms, .login, .regist, .presignedurl, .registPet,.sendAuthSms, .checkAuthSms, .findId, .findPw, .oauthLogin, .oauthSendSms, .oauthCheckSms, .oauthRegistUser, .createCare, .careCategoryCheck, .createSchedule, .createRecord, .createFolder:
             return .post
         case .existId, .userProfileInfo, .userNotifyType, .refresh ,.checkCareCategory, .userPetsList, .userPetInfoList, .userPetCareInfoList, .petCareComplete, .petScheduleList, .petCountScheduleList, .recordTotalFolderList:
             return .get
@@ -100,6 +101,8 @@ enum MySearchRouter: URLRequestConvertible {
             return "v2/accounts/\(UserDefaults.standard.string(forKey: "id")!)/schedules"
         case .createRecord:
             return "v2/pets/1/memo-categories/8/memos"
+        case .createFolder:
+            return "v2/pets/1/root-memo-categories/1"
         }
     }
     
@@ -140,6 +143,8 @@ enum MySearchRouter: URLRequestConvertible {
             return ["categoryName": categoryName, "pets": pets]
         case let .petScheduleList(year, month, day):
             return ["year": year, "month": month, "day": day]
+        case let .createFolder(_ ,categoryName):
+            return ["subMemoCategoryName": categoryName]
         case .uploadImage(_), .userProfileInfo, .oauthLogin, .oauthSendSms, .refresh, .checkCareCategory, .userPetsList, .createCare, .userPetInfoList, .userPetCareInfoList, .petCareComplete, .createSchedule, .petCountScheduleList, .recordTotalFolderList, .createRecord:
             return [:]
         
@@ -327,6 +332,11 @@ enum MySearchRouter: URLRequestConvertible {
             request = URLRequest(url: url)
             request.httpMethod = method.rawValue
             request = try JSONEncoding.default.encode(request, withJSONObject: combinedData)
+            
+        case .createFolder(let rootMemoCategoryId, let categoryName):
+            request = createURLRequestWithBody(url: url)
+            //let queryParameters = [URLQueryItem(name: "rootMemoCategoryId", value: "3")]
+            //request = createURLRequestWithQuery(url: url, queryParameters: queryParameters)
         
         default:
             request = createURLRequestWithBody(url: url)
