@@ -5,7 +5,8 @@ struct RecordCreateManager {
 
     var title: String?
     var content: String?
-    var memoImageUrls: [UIImage]?
+    var memoImages: [UIImage]?
+    var memoImageUrls: [String]?
 
     private init() {
         title = nil
@@ -13,12 +14,15 @@ struct RecordCreateManager {
         memoImageUrls = nil
     }
 
-    mutating func addInput(title: String? = nil, content: String? = nil, memoImageUrls: [UIImage]? = nil) {
+    mutating func addInput(title: String? = nil, content: String? = nil, memoImages: [UIImage]? = nil, memoImageUrls: [String]? = nil) {
         if let title = title {
             self.title = title
         }
         if let content = content {
             self.content = content
+        }
+        if let memoImages = memoImages {
+            self.memoImages = memoImages
         }
         if let memoImageUrls = memoImageUrls {
             self.memoImageUrls = memoImageUrls

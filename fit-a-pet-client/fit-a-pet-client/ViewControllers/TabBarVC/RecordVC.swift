@@ -7,10 +7,10 @@ class RecordVC: UIViewController{
     
     private let searchRecordTextField =  UITextField()
     private let dataScrollView = UIScrollView()
-    private let folderView = RecordFolderView()
+    //private let folderView = RecordFolderView()
     private let listView = RecordListView()
 
-    private let folderTableViewMethod = RecordFolderTableViewMethod()
+    //private let folderTableViewMethod = RecordFolderTableViewMethod()
     private let listTableViewMethod = RecordListTableViewMethod()
     
     
@@ -20,8 +20,8 @@ class RecordVC: UIViewController{
         initView()
         setupNavigationBar()
         
-        folderView.folderTableView.delegate = folderTableViewMethod
-        folderView.folderTableView.dataSource = folderTableViewMethod
+//        folderView.folderTableView.delegate = folderTableViewMethod
+//        folderView.folderTableView.dataSource = folderTableViewMethod
         
         listView.recordListTableView.delegate = listTableViewMethod
         listView.recordListTableView.dataSource = listTableViewMethod
@@ -34,7 +34,7 @@ class RecordVC: UIViewController{
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        updatefolderViewHeight()
+        //updatefolderViewHeight()
         updatelistViewHeight()
     }
     
@@ -43,7 +43,7 @@ class RecordVC: UIViewController{
         
         view.addSubview(searchRecordTextField)
         view.addSubview(dataScrollView)
-        dataScrollView.addSubview(folderView)
+        //dataScrollView.addSubview(folderView)
         dataScrollView.addSubview(listView)
         
         let imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: 20, height: 20))
@@ -80,14 +80,14 @@ class RecordVC: UIViewController{
             make.leading.trailing.bottom.equalToSuperview()
         }
         
-        folderView.snp.makeConstraints{make in
-            make.top.equalTo(dataScrollView.snp.top)
-            make.leading.trailing.equalTo(view).inset(16)
-            make.height.equalTo(0)
-        }
+//        folderView.snp.makeConstraints{make in
+//            make.top.equalTo(dataScrollView.snp.top)
+//            make.leading.trailing.equalTo(view).inset(16)
+//            make.height.equalTo(0)
+//        }
         
         listView.snp.makeConstraints{make in
-            make.top.equalTo(folderView.snp.bottom)
+            make.top.equalTo(dataScrollView.snp.top)
             make.leading.trailing.equalTo(view).inset(16)
             make.height.equalTo(0)
             make.bottom.equalTo(dataScrollView.snp.bottom)
@@ -123,19 +123,19 @@ class RecordVC: UIViewController{
         self.navigationController?.pushViewController(nextVC, animated: true)
     }
     
-    func updatefolderViewHeight() {
-        
-        let heightForRow:CGFloat = 56
-        let totalCellHeight = CGFloat(folderView.folderTableView.numberOfRows(inSection: 0)) * heightForRow
-      
-        folderView.snp.updateConstraints { make in
-            make.height.equalTo(totalCellHeight)
-        }
-    }
+//    func updatefolderViewHeight() {
+//
+//        let heightForRow:CGFloat = 56
+//        let totalCellHeight = CGFloat(folderView.folderTableView.numberOfRows(inSection: 0)) * heightForRow
+//
+//        folderView.snp.updateConstraints { make in
+//            make.height.equalTo(totalCellHeight)
+//        }
+//    }
     func updatelistViewHeight() {
         
         let heightForRow:CGFloat = 88
-        let totalCellHeight = CGFloat(folderView.folderTableView.numberOfRows(inSection: 0)) * heightForRow
+        let totalCellHeight = CGFloat(listView.recordListTableView.numberOfRows(inSection: 0)) * heightForRow
       
         listView.snp.updateConstraints { make in
             make.height.equalTo(totalCellHeight)
@@ -151,24 +151,9 @@ class RecordVC: UIViewController{
                     print("respose jsonData: \(jsonObject)")
                 }
                 
-            case .failure(let careInfoError):
+            case .failure(let error):
                 print("Error fetching")
             }
         }
     }
-}
-
-struct MainViewController_Previews: PreviewProvider {
-  static var previews: some View {
-    Container().edgesIgnoringSafeArea(.all)
-  }
-  
-  struct Container: UIViewControllerRepresentable {
-    func makeUIViewController(context: Context) -> UIViewController {
-      let rootViewController = RecordVC()
-      return UINavigationController(rootViewController: RecordVC())
-    }
-    func updateUIViewController(_ uiViewController: UIViewControllerType, context: Context) {}
-    typealias UIViewControllerType = UIViewController
-  }
 }

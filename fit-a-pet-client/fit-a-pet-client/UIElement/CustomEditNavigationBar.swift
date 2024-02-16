@@ -203,13 +203,19 @@ extension CustomEditNavigationBar{
     }
     private func createRecordAPI() {
         
-        let images: [UIImage] = RecordCreateManager.shared.memoImageUrls!
+        let images: [UIImage] = RecordCreateManager.shared.memoImages!
+        var urls = [String]()
         
-        for image in images{
+        let dispatchGroup = DispatchGroup()
+
+        for image in images {
+            dispatchGroup.enter() // Enter the group
             
-            print("??: \(image)")
-            
-            AnonymousAlamofire.shared.presignedURL("record", "jpeg") { result in
+            AnonymousAlamofire.shared.presignedURL("memos", "jpeg") { result in
+                defer {
+                    dispatchGroup.leave() 
+                }
+                
                 switch result {
                 case .success(let data):
                     if let responseData = data {
@@ -220,13 +226,13 @@ extension CustomEditNavigationBar{
                                let payloadURL = URL(string: payloadValue),
                                let components = URLComponents(url: payloadURL, resolvingAgainstBaseURL: false),
                                let queryItems = components.queryItems {
-
+                                
                                 if let range = payloadValue.range(of: "?") {
                                     PAYLOADURL.PAYLOAD = String(payloadValue[..<range.lowerBound])
                                 } else {
                                     PAYLOADURL.PAYLOAD = payloadValue
                                 }
-
+                                
                                 PAYLOADURL.algorithm = queryItems[0].value ?? ""
                                 PAYLOADURL.credential = queryItems[1].value ?? ""
                                 PAYLOADURL.date = queryItems[2].value ?? ""
@@ -234,10 +240,12 @@ extension CustomEditNavigationBar{
                                 PAYLOADURL.signature = queryItems[4].value ?? ""
                                 PAYLOADURL.signedHeaders = queryItems[5].value ?? ""
                                 PAYLOADURL.acl = queryItems[6].value ?? ""
-
-                                print("JSON Object: \(jsonObject ?? [:])")
                                 
-                                AnonymousAlamofire.shared.uploadImage(UIImage(systemName: "pencil")!) { result in
+                                print("JSON Object: \(jsonObject ?? [:]) + \(PAYLOADURL.PAYLOAD)")
+                                
+                                urls.append(PAYLOADURL.PAYLOAD)
+                                
+                                AnonymousAlamofire.shared.uploadImage(image) { result in
                                     switch result {
                                     case .success(let data):
                                         if let unwrappedData = data,
@@ -262,8 +270,36 @@ extension CustomEditNavigationBar{
                     print("Error: \(error)")
                 }
             }
-        
         }
-       
+
+        dispatchGroup.notify(queue: .main) {
+            RecordCreateManager.shared.addInput(memoImageUrls: urls)
+            
+            let title = RecordCreateManager.shared.title ?? ""
+            let content = RecordCreateManager.shared.content ?? ""
+            let memoImageUrls = RecordCreateManager.shared.memoImageUrls ?? []
+
+            let combinedData: [String: Any] = [
+                "title": title,
+                "content": content,
+                "memoImageUrls": memoImageUrls
+            ]
+
+            print("combinedData: \(combinedData)")
+
+            AuthorizationAlamofire.shared.createRecord(combinedData, 8) { result in
+                switch result {
+                case .success(let data):
+                    if let responseData = data,
+                       let jsonObject = try? JSONSerialization.jsonObject(with: responseData, options: []) as? [String: Any] {
+                        print("response jsonData: \(jsonObject)")
+                    }
+
+                case .failure(let error):
+                    print("Error: \(error)")
+                }
+            }
+        }
+        
     }
 }

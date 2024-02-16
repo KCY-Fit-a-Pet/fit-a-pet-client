@@ -293,7 +293,6 @@ extension CreateRecordVC: UICollectionViewDataSource, UICollectionViewDelegateFl
         let image = imagesDict[identifier]
         
         cell.updatePetImage(image)
-        print("image2: \(image)")
         
         return cell
     }
@@ -318,7 +317,6 @@ extension CreateRecordVC: UICollectionViewDataSource, UICollectionViewDelegateFl
 
                     self.imagesDict[identifier] = image
                     self.images.append(image)
-                    print("image1: \(image)")
 
                     dispatchGroup.leave()
                 }
@@ -330,7 +328,7 @@ extension CreateRecordVC: UICollectionViewDataSource, UICollectionViewDelegateFl
         dispatchGroup.notify(queue: DispatchQueue.main) { [weak self] in
             guard let self = self else { return }
             
-            RecordCreateManager.shared.addInput(memoImageUrls: self.images)      
+            RecordCreateManager.shared.addInput(memoImages: self.images)
             self.petImageCollectionView.reloadData()
         }
     }

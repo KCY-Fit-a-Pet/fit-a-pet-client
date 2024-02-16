@@ -30,6 +30,7 @@ enum MySearchRouter: URLRequestConvertible {
     case petCareComplete(petId: Int, careId: Int, caredateId: Int)
     case createSchedule(combinedData: [String:Any])
     case petScheduleList(year: String, month: String, day: String)
+    case createRecord(combinedData: [String:Any], memoCategoriesId: Int)
     
     var baseURL: URL {
         switch self {
@@ -44,7 +45,7 @@ enum MySearchRouter: URLRequestConvertible {
     
     var method: HTTPMethod {
         switch self {
-        case .sendSms, .checkSms, .login, .regist, .presignedurl, .registPet,.sendAuthSms, .checkAuthSms, .findId, .findPw, .oauthLogin, .oauthSendSms, .oauthCheckSms, .oauthRegistUser, .createCare, .careCategoryCheck, .createSchedule:
+        case .sendSms, .checkSms, .login, .regist, .presignedurl, .registPet,.sendAuthSms, .checkAuthSms, .findId, .findPw, .oauthLogin, .oauthSendSms, .oauthCheckSms, .oauthRegistUser, .createCare, .careCategoryCheck, .createSchedule, .createRecord:
             return .post
         case .existId, .userProfileInfo, .userNotifyType, .refresh ,.checkCareCategory, .userPetsList, .userPetInfoList, .userPetCareInfoList, .petCareComplete, .petScheduleList, .petCountScheduleList, .recordTotalFolderList:
             return .get
@@ -97,6 +98,8 @@ enum MySearchRouter: URLRequestConvertible {
             return "v2/schedules"
         case .petScheduleList:
             return "v2/accounts/\(UserDefaults.standard.string(forKey: "id")!)/schedules"
+        case .createRecord:
+            return "v2/pets/1/memo-categories/8/memos"
         }
     }
     
@@ -137,7 +140,7 @@ enum MySearchRouter: URLRequestConvertible {
             return ["categoryName": categoryName, "pets": pets]
         case let .petScheduleList(year, month, day):
             return ["year": year, "month": month, "day": day]
-        case .uploadImage(_), .userProfileInfo, .oauthLogin, .oauthSendSms, .refresh, .checkCareCategory, .userPetsList, .createCare, .userPetInfoList, .userPetCareInfoList, .petCareComplete, .createSchedule, .petCountScheduleList, .recordTotalFolderList:
+        case .uploadImage(_), .userProfileInfo, .oauthLogin, .oauthSendSms, .refresh, .checkCareCategory, .userPetsList, .createCare, .userPetInfoList, .userPetCareInfoList, .petCareComplete, .createSchedule, .petCountScheduleList, .recordTotalFolderList, .createRecord:
             return [:]
         
         }
@@ -174,7 +177,7 @@ enum MySearchRouter: URLRequestConvertible {
             
         case .presignedurl(let dirname, let extensionType, _, _):
             
-            let bodyParameters = ["dirname": dirname, "extension": extensionType] //TODO: 추후 수정
+            let bodyParameters = ["dirname": dirname, "extension": extensionType] 
            
             let queryParameters = [
                 URLQueryItem(name: "result", value: "true"),
@@ -319,6 +322,11 @@ enum MySearchRouter: URLRequestConvertible {
             url = url.appendingPathComponent("/memo-categories")
             request = URLRequest(url: url)
             request.httpMethod = method.rawValue
+            
+        case .createRecord(let combinedData, _):
+            request = URLRequest(url: url)
+            request.httpMethod = method.rawValue
+            request = try JSONEncoding.default.encode(request, withJSONObject: combinedData)
         
         default:
             request = createURLRequestWithBody(url: url)
@@ -385,12 +393,9 @@ enum MySearchRouter: URLRequestConvertible {
         var request = URLRequest(url: url)
         request.httpMethod = method.rawValue
         
-        print("image??: \(image)")
-        
         guard let imageData = image.jpegData(compressionQuality: 0.8) else {
             return request
         }
-        print("imageData??: \(imageData)")
         let base64Image = imageData.base64EncodedString()
            
         request.httpBody = imageData
@@ -399,14 +404,12 @@ enum MySearchRouter: URLRequestConvertible {
         components?.queryItems = queryParameters
         
         if let urlWithQuery = components?.url {
-            print("requestURL: \(urlWithQuery)")
             request.url = urlWithQuery
         }
         
         //os_log
         let log = OSLog(subsystem: Bundle.main.bundleIdentifier!, category: "AlamofireRequest")
         os_log("Request URL: %@", log: log, type: .debug, "\(String(describing: request.url))")
-    
         return request
     }
 }
