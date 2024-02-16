@@ -22,8 +22,8 @@ class RecordListView: UIView{
         addSubview(recordListTableView)
         
         recordListTableView.register(RecordListTableViewCell.self, forCellReuseIdentifier: "RecordListTableViewCell")
+        recordListTableView.isScrollEnabled = false
         
-    
         recordListTableView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }

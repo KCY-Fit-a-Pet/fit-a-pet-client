@@ -128,12 +128,12 @@ class CalendarRegistrationVC: UIViewController, CalendarDateViewDelegate {
         registrationBtn.addTarget(self, action: #selector(registrationBtnTapped), for: .touchUpInside)
     }
     @objc private func carePetButtonTapped() {
-        let petPanModalVC = PetPanModalVC(title: "반려동물을 선택하세요")
+        let petPanModalVC = PetPanModalVC()
         
         self.presentPanModal(petPanModalVC)
     }
     @objc private func timeAttackButtonTapped() {
-        let timePanModalVC = TimeAttackPanModalVC(title: "시간 제한")
+        let timePanModalVC = TimeAttackPanModalVC()
 
         self.presentPanModal(timePanModalVC)
     }

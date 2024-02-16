@@ -7,6 +7,7 @@ class RecordVC: UIViewController{
     
     private let searchRecordTextField =  UITextField()
     private let dataScrollView = UIScrollView()
+    private let folderView = CustomStackView(label: "전체보기")
     //private let folderView = RecordFolderView()
     private let listView = RecordListView()
 
@@ -19,9 +20,11 @@ class RecordVC: UIViewController{
         
         initView()
         setupNavigationBar()
-        
 //        folderView.folderTableView.delegate = folderTableViewMethod
 //        folderView.folderTableView.dataSource = folderTableViewMethod
+        
+        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(folderViewTapped))
+        folderView.addGestureRecognizer(tapGestureRecognizer)
         
         listView.recordListTableView.delegate = listTableViewMethod
         listView.recordListTableView.dataSource = listTableViewMethod
@@ -43,7 +46,7 @@ class RecordVC: UIViewController{
         
         view.addSubview(searchRecordTextField)
         view.addSubview(dataScrollView)
-        //dataScrollView.addSubview(folderView)
+        dataScrollView.addSubview(folderView)
         dataScrollView.addSubview(listView)
         
         let imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: 20, height: 20))
@@ -76,18 +79,17 @@ class RecordVC: UIViewController{
         }
         
         dataScrollView.snp.makeConstraints { make in
-            make.top.equalTo(searchRecordTextField.snp.bottom).offset(16)
+            make.top.equalTo(searchRecordTextField.snp.bottom).offset(8)
             make.leading.trailing.bottom.equalToSuperview()
         }
         
-//        folderView.snp.makeConstraints{make in
-//            make.top.equalTo(dataScrollView.snp.top)
-//            make.leading.trailing.equalTo(view).inset(16)
-//            make.height.equalTo(0)
-//        }
+        folderView.snp.makeConstraints{make in
+            make.top.equalTo(dataScrollView.snp.top)
+            make.leading.trailing.equalTo(view).inset(16)
+        }
         
         listView.snp.makeConstraints{make in
-            make.top.equalTo(dataScrollView.snp.top)
+            make.top.equalTo(folderView.snp.bottom).offset(8)
             make.leading.trailing.equalTo(view).inset(16)
             make.height.equalTo(0)
             make.bottom.equalTo(dataScrollView.snp.bottom)
@@ -121,6 +123,10 @@ class RecordVC: UIViewController{
         let nextVC = CreateRecordVC(title: "")
         nextVC.hidesBottomBarWhenPushed = true
         self.navigationController?.pushViewController(nextVC, animated: true)
+    }
+    @objc func folderViewTapped(){
+        let nextVC = FolderPanModalVC()
+        self.presentPanModal(nextVC)
     }
     
 //    func updatefolderViewHeight() {

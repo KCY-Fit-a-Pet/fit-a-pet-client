@@ -1,6 +1,5 @@
 
 
-import Foundation
 import UIKit
 
 class CustomNextBtn: UIButton {
@@ -18,8 +17,7 @@ class CustomNextBtn: UIButton {
         layer.cornerRadius = 5
        
        snp.makeConstraints { make in
-           make.height.equalTo(55)
-          // make.centerX.centerY.equalToSuperview()
+           make.height.equalTo(56)
        }
    }
        

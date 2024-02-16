@@ -406,7 +406,6 @@ enum MySearchRouter: URLRequestConvertible {
         guard let imageData = image.jpegData(compressionQuality: 0.8) else {
             return request
         }
-        let base64Image = imageData.base64EncodedString()
            
         request.httpBody = imageData
         
