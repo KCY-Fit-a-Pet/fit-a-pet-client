@@ -61,8 +61,10 @@ class FolderPanModalVC: UIViewController {
         guard let memoCategoryId = notification.object as? Int else {
             return
         }
-        
         print("Selected memoCategoryId: \(memoCategoryId)")
+        
+        NotificationCenter.default.removeObserver(self, name: .cellSelectedNotification, object: nil)
+        NotificationCenter.default.post(name: .cellSelectedNotificationFromPanModal, object: memoCategoryId)
 
         self.dismiss(animated: true, completion: nil)
     }

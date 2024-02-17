@@ -70,7 +70,6 @@ class RecordFolderTableViewMethod: NSObject, UITableViewDataSource, UITableViewD
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard indexPath.row != 0 else {
-            print("Selected memoCategoryId: 전체")
             NotificationCenter.default.post(name: .cellSelectedNotification, object: 00)
             return
         }
@@ -91,13 +90,9 @@ class RecordFolderTableViewMethod: NSObject, UITableViewDataSource, UITableViewD
         
         if adjustedIndex < allCategories.count {
             let memoCategory = allCategories[adjustedIndex]
-            print("Selected memoCategoryId: \(memoCategory.memoCategoryId)")
             NotificationCenter.default.post(name: .cellSelectedNotification, object: memoCategory.memoCategoryId)
         }
     }
-}
-extension Notification.Name {
-    static let cellSelectedNotification = Notification.Name("CellSelectedNotification")
 }
 
 class RecordListTableViewMethod: NSObject, UITableViewDataSource, UITableViewDelegate {

@@ -23,6 +23,7 @@
 		4A0C7F052B5C549D0097D753 /* MainVCMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A0C7F042B5C549D0097D753 /* MainVCMethod.swift */; };
 		4A0C7F072B5C568D0097D753 /* PetCareHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A0C7F062B5C568D0097D753 /* PetCareHeaderView.swift */; };
 		4A0CC35E2B80C56C004A9D77 /* RecordTotalFolderManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A0CC35D2B80C56C004A9D77 /* RecordTotalFolderManager.swift */; };
+		4A0CC3602B810147004A9D77 /* NotificationName.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A0CC35F2B810147004A9D77 /* NotificationName.swift */; };
 		4A0FEA492B1B5F6F0084CA6C /* FindInputPhoneNumVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A0FEA482B1B5F6F0084CA6C /* FindInputPhoneNumVC.swift */; };
 		4A0FEA4B2B1B5F820084CA6C /* FindInputAuthNumVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A0FEA4A2B1B5F820084CA6C /* FindInputAuthNumVC.swift */; };
 		4A15F2072AA641910098F2F7 /* CustomNextBtn.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A15F2062AA641910098F2F7 /* CustomNextBtn.swift */; };
@@ -145,6 +146,7 @@
 		4A0C7F042B5C549D0097D753 /* MainVCMethod.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainVCMethod.swift; sourceTree = "<group>"; };
 		4A0C7F062B5C568D0097D753 /* PetCareHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PetCareHeaderView.swift; sourceTree = "<group>"; };
 		4A0CC35D2B80C56C004A9D77 /* RecordTotalFolderManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordTotalFolderManager.swift; sourceTree = "<group>"; };
+		4A0CC35F2B810147004A9D77 /* NotificationName.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationName.swift; sourceTree = "<group>"; };
 		4A0FEA482B1B5F6F0084CA6C /* FindInputPhoneNumVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindInputPhoneNumVC.swift; sourceTree = "<group>"; };
 		4A0FEA4A2B1B5F820084CA6C /* FindInputAuthNumVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindInputAuthNumVC.swift; sourceTree = "<group>"; };
 		4A15F2062AA641910098F2F7 /* CustomNextBtn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomNextBtn.swift; sourceTree = "<group>"; };
@@ -520,6 +522,7 @@
 			children = (
 				4A0C7F042B5C549D0097D753 /* MainVCMethod.swift */,
 				4A4B085B2B77D2DF00959683 /* RecordVCMethod.swift */,
+				4A0CC35F2B810147004A9D77 /* NotificationName.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -793,6 +796,7 @@
 				4AE293FE2B714EC100920C0B /* PetDetailScheduleListView.swift in Sources */,
 				4ABB933E2B7BDBED00E1EA73 /* FolderStackView.swift in Sources */,
 				4AF0C8502B24765400A45EEE /* ResetPwVC.swift in Sources */,
+				4A0CC3602B810147004A9D77 /* NotificationName.swift in Sources */,
 				4A9936562B642A0800B7B21A /* CalendarRegistrationVC.swift in Sources */,
 				4A15F2122AA8B4880098F2F7 /* InputIdVC.swift in Sources */,
 				4A037FF22AED62E30073BB56 /* KeyChainHelper.swift in Sources */,

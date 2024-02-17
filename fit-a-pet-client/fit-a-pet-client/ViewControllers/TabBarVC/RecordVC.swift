@@ -9,18 +9,16 @@ class RecordVC: UIViewController{
     private let dataScrollView = UIScrollView()
     private let folderView = CustomStackView(label: "전체보기")
     private let listView = RecordListView()
-
-    //private let folderTableViewMethod = RecordFolderTableViewMethod()
     private let listTableViewMethod = RecordListTableViewMethod()
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        userTotalFolderListAPI()
+        NotificationCenter.default.addObserver(self, selector: #selector(handleCellSelectionNotificationFromPanModal(_:)), name: .cellSelectedNotificationFromPanModal, object: nil)
+        
         initView()
         setupNavigationBar()
-//        folderView.folderTableView.delegate = folderTableViewMethod
-//        folderView.folderTableView.dataSource = folderTableViewMethod
         
         let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(folderViewTapped))
         folderView.addGestureRecognizer(tapGestureRecognizer)
@@ -31,13 +29,15 @@ class RecordVC: UIViewController{
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        userTotalFolderListAPI()
     }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        //updatefolderViewHeight()
         updatelistViewHeight()
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
     }
     
     func initView(){
@@ -127,16 +127,15 @@ class RecordVC: UIViewController{
         let nextVC = FolderPanModalVC()
         self.presentPanModal(nextVC)
     }
-    
-//    func updatefolderViewHeight() {
-//
-//        let heightForRow:CGFloat = 56
-//        let totalCellHeight = CGFloat(folderView.folderTableView.numberOfRows(inSection: 0)) * heightForRow
-//
-//        folderView.snp.updateConstraints { make in
-//            make.height.equalTo(totalCellHeight)
-//        }
-//    }
+    @objc func handleCellSelectionNotificationFromPanModal(_ notification: Notification) {
+        guard let memoCategoryId = notification.object as? Int else {
+            return
+        }
+        
+        print(memoCategoryId)
+        userTotalFolderListAPI()
+    }
+
     func updatelistViewHeight() {
         
         let heightForRow:CGFloat = 88
@@ -191,9 +190,6 @@ class RecordVC: UIViewController{
                             print(RecordTotalFolderManager.shared.categoryData)
                         }
                     } catch {
-                        print("Error parsing JSON: \(error)")
-                    }
-                    catch {
                         print("Error parsing JSON: \(error)")
                     }
                 }
