@@ -7,7 +7,7 @@ class RecordVC: UIViewController{
     
     private let searchRecordTextField =  UITextField()
     private let dataScrollView = UIScrollView()
-    private let folderView = CustomStackView(label: "전체보기")
+    private let folderView = CustomCategoryStackView(label: "전체보기")
     private let listView = RecordListView()
     private let listTableViewMethod = RecordListTableViewMethod()
     
@@ -124,15 +124,17 @@ class RecordVC: UIViewController{
         self.navigationController?.pushViewController(nextVC, animated: true)
     }
     @objc func folderViewTapped(){
-        let nextVC = FolderPanModalVC()
+        let nextVC = TotalFolderPanModalVC()
         self.presentPanModal(nextVC)
     }
     @objc func handleCellSelectionNotificationFromPanModal(_ notification: Notification) {
-        guard let memoCategoryId = notification.object as? Int else {
+        guard let userInfo = notification.userInfo as? [String: Any],
+              let memoCategoryId = userInfo["memoCategoryId"] as? Int,
+              let memoCategoryName = userInfo["memoCategoryName"] as? String else {
             return
         }
-        
-        print(memoCategoryId)
+        print("Selected memoCategoryId: \(memoCategoryId), memoCategoryName: \(memoCategoryName)")
+        folderView.selectedText = memoCategoryName
         userTotalFolderListAPI()
     }
 

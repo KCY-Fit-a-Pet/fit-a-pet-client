@@ -1,7 +1,7 @@
 
 import UIKit
 
-class RecordFolderTableViewMethod: NSObject, UITableViewDataSource, UITableViewDelegate {
+class RecordTotalFolderTableViewMethod: NSObject, UITableViewDataSource, UITableViewDelegate {
     
     private let folderData = RecordTotalFolderManager.shared.categoryData
     
@@ -90,10 +90,82 @@ class RecordFolderTableViewMethod: NSObject, UITableViewDataSource, UITableViewD
         
         if adjustedIndex < allCategories.count {
             let memoCategory = allCategories[adjustedIndex]
-            NotificationCenter.default.post(name: .cellSelectedNotification, object: memoCategory.memoCategoryId)
+            let userInfo: [AnyHashable: Any] = ["memoCategoryId": memoCategory.memoCategoryId, "memoCategoryName": memoCategory.memoCategoryName]
+            NotificationCenter.default.post(name: .cellSelectedNotification, object: nil, userInfo: userInfo)
         }
     }
 }
+
+class RecordFolderTableViewMethod: NSObject, UITableViewDataSource, UITableViewDelegate {
+    
+    private let folderData = RecordTotalFolderManager.shared.categoryData
+    
+    // MARK: - UITableViewDataSource methods
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        var totalCount = 0
+        
+        for (_, categories) in folderData {
+            for category in categories {
+                if category.type == "ROOT" {
+                    totalCount += 1
+                }
+            }
+        }
+        
+        return totalCount
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "FolderTableViewCell", for: indexPath) as! FolderTableViewCell
+        
+        var allCategories: [MemoCategory] = []
+        for (_, categories) in folderData {
+            for category in categories {
+                if category.type == "ROOT" {
+                    allCategories.append(category)
+                }
+            }
+        }
+        let adjustedIndex = indexPath.row
+        
+        if adjustedIndex < allCategories.count {
+            let memoCategory = allCategories[adjustedIndex]
+            let title = memoCategory.memoCategoryName
+            cell.setTitle(title, "(\(memoCategory.totalMemoCount))")
+        }
+        
+        return cell
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 56
+    }
+    
+    // MARK: - UITableViewDelegate methods
+
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    
+        var allCategories: [MemoCategory] = []
+        for (_, categories) in folderData {
+            for category in categories {
+                if category.type == "ROOT"{
+                    allCategories.append(category)
+                }
+            }
+        }
+        
+        let adjustedIndex = indexPath.row
+        
+        if adjustedIndex < allCategories.count {
+            let memoCategory = allCategories[adjustedIndex]
+            let userInfo: [AnyHashable: Any] = ["memoCategoryId": memoCategory.memoCategoryId, "memoCategoryName": memoCategory.memoCategoryName]
+            NotificationCenter.default.post(name: .cellSelectedNotification, object: nil, userInfo: userInfo)
+        }
+    }
+}
+
+
 
 class RecordListTableViewMethod: NSObject, UITableViewDataSource, UITableViewDelegate {
     

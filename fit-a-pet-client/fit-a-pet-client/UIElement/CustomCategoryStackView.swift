@@ -1,6 +1,6 @@
 import UIKit
 
-class CustomStackView: UIStackView {
+class CustomCategoryStackView: UIStackView {
     let imageView = UIImageView()
     let selectedLabel = UILabel()
     
@@ -9,6 +9,12 @@ class CustomStackView: UIStackView {
         selectedLabel.text = label
         setupView()
    }
+    
+    var selectedText: String? {
+        didSet {
+            selectedLabel.text = selectedText
+        }
+    }
     
     required init(coder: NSCoder) {
         super.init(coder: coder)

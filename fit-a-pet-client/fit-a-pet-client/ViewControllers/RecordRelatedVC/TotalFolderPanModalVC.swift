@@ -3,11 +3,11 @@ import UIKit
 import PanModal
 import SnapKit
 
-class FolderPanModalVC: UIViewController {
+class TotalFolderPanModalVC: UIViewController {
     
     private lazy var customPanModalView = CustomPanModalView()
     private let folderView = RecordFolderView()
-    private let folderTableViewMethod = RecordFolderTableViewMethod()
+    private let folderTableViewMethod = RecordTotalFolderTableViewMethod()
     let heightForRow:CGFloat = 56
     
     override func viewDidLoad() {
@@ -58,13 +58,15 @@ class FolderPanModalVC: UIViewController {
     }
     
     @objc func handleCellSelectionNotification(_ notification: Notification) {
-        guard let memoCategoryId = notification.object as? Int else {
+        guard let userInfo = notification.userInfo as? [String: Any],
+              let memoCategoryId = userInfo["memoCategoryId"] as? Int,
+              let memoCategoryName = userInfo["memoCategoryName"] as? String else {
             return
         }
-        print("Selected memoCategoryId: \(memoCategoryId)")
+        print("Selected memoCategoryId: \(memoCategoryId), memoCategoryName: \(memoCategoryName)")
         
         NotificationCenter.default.removeObserver(self, name: .cellSelectedNotification, object: nil)
-        NotificationCenter.default.post(name: .cellSelectedNotificationFromPanModal, object: memoCategoryId)
+        NotificationCenter.default.post(name: .cellSelectedNotificationFromPanModal, object: nil, userInfo: userInfo)
 
         self.dismiss(animated: true, completion: nil)
     }
@@ -75,7 +77,7 @@ class FolderPanModalVC: UIViewController {
 
 }
 
-extension FolderPanModalVC: PanModalPresentable{
+extension TotalFolderPanModalVC: PanModalPresentable{
     var panScrollable: UIScrollView? {
         return nil
     }
@@ -88,5 +90,4 @@ extension FolderPanModalVC: PanModalPresentable{
     var longFormHeight: PanModalHeight {
         return .maxHeightWithTopInset(40)
     }//유빈님 질문할 거
-    
 }
