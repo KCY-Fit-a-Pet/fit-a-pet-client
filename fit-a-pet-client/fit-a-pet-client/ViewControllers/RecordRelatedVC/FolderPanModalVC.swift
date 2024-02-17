@@ -16,6 +16,8 @@ class FolderPanModalVC: UIViewController {
         
         folderView.folderTableView.delegate = folderTableViewMethod
         folderView.folderTableView.dataSource = folderTableViewMethod
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(handleCellSelectionNotification(_:)), name: .cellSelectedNotification, object: nil)
     }
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
@@ -53,8 +55,22 @@ class FolderPanModalVC: UIViewController {
         folderView.snp.updateConstraints { make in
             make.height.equalTo(totalCellHeight)
         }
-        
     }
+    
+    @objc func handleCellSelectionNotification(_ notification: Notification) {
+        guard let memoCategoryId = notification.object as? Int else {
+            return
+        }
+        
+        print("Selected memoCategoryId: \(memoCategoryId)")
+
+        self.dismiss(animated: true, completion: nil)
+    }
+
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
+
 }
 
 extension FolderPanModalVC: PanModalPresentable{
