@@ -23,16 +23,6 @@ class RootFolderPanModalVC: UIViewController {
         updatefolderViewHeight()
     }
     
-//    init(_ titleText: String, _ leftTitleText: String ) {
-//        super.init(nibName: nil, bundle: nil)
-//        self.customPanModalView.titleText = titleText
-//        self.customPanModalView.leftTitleText = leftTitleText
-//    }
-//
-//    required init?(coder: NSCoder) {
-//        fatalError("init(coder:) has not been implemented")
-//    }
-    
     func initView(){
         view.addSubview(customPanModalView)
         

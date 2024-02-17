@@ -10,8 +10,7 @@ class CreateRecordVC: CustomEditNavigationBar {
 
     private let titleTextFiled = UITextField()
     private let contentTextView = UITextView()
-
-    private var folderStackView = FolderStackView()
+    private let selecteFolderView = CustomCategoryStackView(label: "폴더를 선택해주세요")
     private var buttonStackView = ButtonStackView()
     private var selections = [String : PHPickerResult]()
     private var selectedAssetIdentifiers = [String]()
@@ -33,7 +32,6 @@ class CreateRecordVC: CustomEditNavigationBar {
         setupTextView()
         setupTapGesture()
         
-        folderStackView.folderButton.addTarget(self, action: #selector(showMenu), for: .touchUpInside)
         
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(notification:)), name: UIResponder.keyboardWillShowNotification, object: nil)
         
@@ -42,6 +40,9 @@ class CreateRecordVC: CustomEditNavigationBar {
         petImageCollectionView.delegate = self
         petImageCollectionView.dataSource = self
         petImageCollectionView.register(PetImageCollectionViewCell.self, forCellWithReuseIdentifier: "PetImageCollectionViewCell")
+        
+        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(folderViewTapped))
+        selecteFolderView.addGestureRecognizer(tapGestureRecognizer)
     }
 
     func initView() {
@@ -49,12 +50,13 @@ class CreateRecordVC: CustomEditNavigationBar {
         
         setupButtonStackView()
 
-        dataScrollView.addSubview(folderStackView)
+        dataScrollView.addSubview(selecteFolderView)
         dataScrollView.addSubview(titleTextFiled)
         dataScrollView.addSubview(petImageCollectionView)
         dataScrollView.addSubview(contentTextView)
         
         titleTextFiled.placeholder = "제목을 입력해주세요."
+        selecteFolderView.layer.borderWidth = 0
         
         view.addSubview(dataScrollView)
         view.addSubview(buttonStackView)
@@ -75,8 +77,7 @@ class CreateRecordVC: CustomEditNavigationBar {
             make.bottom.equalTo(buttonStackView.snp.top)
         }
         
-        folderStackView.snp.makeConstraints { make in
-            make.height.equalTo(56)
+        selecteFolderView.snp.makeConstraints{make in
             make.top.equalTo(dataScrollView.snp.top).offset(8)
             make.leading.trailing.equalTo(view).inset(16)
         }
@@ -84,7 +85,7 @@ class CreateRecordVC: CustomEditNavigationBar {
         titleTextFiled.snp.makeConstraints { make in
             make.height.equalTo(24)
             make.leading.trailing.equalTo(view).inset(20)
-            make.top.equalTo(folderStackView.snp.bottom).offset(10)
+            make.top.equalTo(selecteFolderView.snp.bottom).offset(20)
         }
         
         petImageCollectionView.snp.makeConstraints { make in
@@ -107,49 +108,9 @@ class CreateRecordVC: CustomEditNavigationBar {
         }
     }
     
-    @objc private func showMenu() {
-        let parentFolderData = ["동물 1", "동물 2", "동물 3"]
-        let childFolderData = [[], ["동물 2.1", "동물 2.2"], []]
-        
-        var menuItems = [UIMenuElement]()
-        
-        for (index, parentFolder) in parentFolderData.enumerated() {
-            if !childFolderData[index].isEmpty {
-                var childItems = [UIMenuElement]()
-                
-                for childFolder in childFolderData[index] {
-                    let action = UIAction(title: childFolder) { _ in
-                        self.folderStackView.selectedFolderLabel.text = childFolder
-                        self.folderStackView.selectedFolderLabel.textColor = .black
-                        self.folderStackView.folderImageView.image = UIImage(named: "subFolder")
-                        self.folderStackView.selectedFolderLabel.snp.updateConstraints{make in
-                            make.leading.equalTo(self.folderStackView.folderImageView.snp.trailing).offset(8)
-                        }
-                    }
-                    childItems.append(action)
-                }
- 
-                let parentMenu = UIMenu(title: parentFolder, children: childItems)
-                menuItems.append(parentMenu)
-            } else {
-
-                let action = UIAction(title: parentFolder) { _ in
-                    self.folderStackView.selectedFolderLabel.text = parentFolder
-                    self.folderStackView.selectedFolderLabel.textColor = .black
-                    
-                    self.folderStackView.folderImageView.image = UIImage(named: "folder")
-                    self.folderStackView.selectedFolderLabel.snp.updateConstraints{make in
-                        make.leading.equalTo(self.folderStackView.folderImageView.snp.trailing).offset(8)
-                    }
-                }
-                menuItems.append(action)
-            }
-        }
-        
-        let mainMenu = UIMenu(title: "", children: menuItems)
-        
-        self.folderStackView.folderButton.menu = mainMenu
-        self.folderStackView.folderButton.showsMenuAsPrimaryAction = true
+    @objc func folderViewTapped(){
+        let nextVC = TotalFolderPanModalVC()
+        self.presentPanModal(nextVC)
     }
     
     @objc func presentPHPicker() {

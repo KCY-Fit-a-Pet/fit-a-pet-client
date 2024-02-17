@@ -102,7 +102,7 @@ enum MySearchRouter: URLRequestConvertible {
         case .createRecord:
             return "v2/pets/1/memo-categories/8/memos"
         case .createFolder:
-            return "v2/pets/1/root-memo-categories/1"
+            return "v2/pets/2"
         }
     }
     
@@ -333,10 +333,9 @@ enum MySearchRouter: URLRequestConvertible {
             request.httpMethod = method.rawValue
             request = try JSONEncoding.default.encode(request, withJSONObject: combinedData)
             
-        case .createFolder(let rootMemoCategoryId, let categoryName):
+        case .createFolder(let rootMemoCategoryId, _):
+            url = url.appendingPathComponent("/root-memo-categories/\(rootMemoCategoryId)")
             request = createURLRequestWithBody(url: url)
-            //let queryParameters = [URLQueryItem(name: "rootMemoCategoryId", value: "3")]
-            //request = createURLRequestWithQuery(url: url, queryParameters: queryParameters)
         
         default:
             request = createURLRequestWithBody(url: url)

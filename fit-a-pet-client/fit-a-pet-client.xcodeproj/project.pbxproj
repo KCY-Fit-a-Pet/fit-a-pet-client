@@ -93,7 +93,6 @@
 		4ABB93352B7BA35800E1EA73 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4ABB93342B7BA35800E1EA73 /* GoogleService-Info.plist */; };
 		4ABB93382B7BA6FB00E1EA73 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 4ABB93372B7BA6FB00E1EA73 /* FirebaseAnalytics */; };
 		4ABB933B2B7BD60F00E1EA73 /* RecordCreateManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ABB933A2B7BD60F00E1EA73 /* RecordCreateManager.swift */; };
-		4ABB933E2B7BDBED00E1EA73 /* FolderStackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ABB933D2B7BDBED00E1EA73 /* FolderStackView.swift */; };
 		4ABB93402B7BDCB900E1EA73 /* ButtonStackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ABB933F2B7BDCB900E1EA73 /* ButtonStackView.swift */; };
 		4ABE53002B5AD92F000EA41D /* PetDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ABE52FF2B5AD92F000EA41D /* PetDataManager.swift */; };
 		4AC579832B2DFD4B00735252 /* StructData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AC579822B2DFD4B00735252 /* StructData.swift */; };
@@ -221,7 +220,6 @@
 		4ABB93342B7BA35800E1EA73 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		4ABB93392B7BA78600E1EA73 /* fit-a-pet-clientRelease.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "fit-a-pet-clientRelease.entitlements"; sourceTree = "<group>"; };
 		4ABB933A2B7BD60F00E1EA73 /* RecordCreateManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordCreateManager.swift; sourceTree = "<group>"; };
-		4ABB933D2B7BDBED00E1EA73 /* FolderStackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FolderStackView.swift; sourceTree = "<group>"; };
 		4ABB933F2B7BDCB900E1EA73 /* ButtonStackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonStackView.swift; sourceTree = "<group>"; };
 		4ABE52FF2B5AD92F000EA41D /* PetDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PetDataManager.swift; sourceTree = "<group>"; };
 		4AC579822B2DFD4B00735252 /* StructData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StructData.swift; sourceTree = "<group>"; };
@@ -376,6 +374,17 @@
 			path = Manager;
 			sourceTree = "<group>";
 		};
+		4A8DCC952B81333D003E35E8 /* CustomView */ = {
+			isa = PBXGroup;
+			children = (
+				4AC579842B2DFF7500735252 /* CustomAlarmPopupView.swift */,
+				4A828D8C2B619432006AE70A /* CustomCheckPopupView.swift */,
+				4A9936572B642B7E00B7B21A /* CustomVerticalView.swift */,
+				4A2974A72B7FD5D100587AF8 /* CustomPanModalView.swift */,
+			);
+			path = CustomView;
+			sourceTree = "<group>";
+		};
 		4A9936502B64223D00B7B21A /* CalendarVCView */ = {
 			isa = PBXGroup;
 			children = (
@@ -434,7 +443,6 @@
 		4ABB933C2B7BDBC200E1EA73 /* CreateRecordView */ = {
 			isa = PBXGroup;
 			children = (
-				4ABB933D2B7BDBED00E1EA73 /* FolderStackView.swift */,
 				4ABB933F2B7BDCB900E1EA73 /* ButtonStackView.swift */,
 			);
 			path = CreateRecordView;
@@ -464,6 +472,7 @@
 		4ABE58592A85E8C100E22C5F /* View */ = {
 			isa = PBXGroup;
 			children = (
+				4A8DCC952B81333D003E35E8 /* CustomView */,
 				4A0150352B7690530069AF20 /* RecordView */,
 				4A0150302B740FF80069AF20 /* PetProfileEditView */,
 				4AE293F42B713E7000920C0B /* PetDetailProfileVCView */,
@@ -475,10 +484,6 @@
 				4AF0C8552B25A93500A45EEE /* AlarmTableViewCell.swift */,
 				4AD089692AFBFD9400E79E52 /* CheckCareCollectionViewCell.swift */,
 				4AF0C8532B24E1A800A45EEE /* MyInfoTableViewCell.swift */,
-				4AC579842B2DFF7500735252 /* CustomAlarmPopupView.swift */,
-				4A828D8C2B619432006AE70A /* CustomCheckPopupView.swift */,
-				4A9936572B642B7E00B7B21A /* CustomVerticalView.swift */,
-				4A2974A72B7FD5D100587AF8 /* CustomPanModalView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -798,7 +803,6 @@
 				4AE293FA2B71495A00920C0B /* PetDetailCareListCollectionViewCell.swift in Sources */,
 				4AE293FE2B714EC100920C0B /* PetDetailScheduleListView.swift in Sources */,
 				4A0CC3622B810C6E004A9D77 /* RootFolderPanModalVC.swift in Sources */,
-				4ABB933E2B7BDBED00E1EA73 /* FolderStackView.swift in Sources */,
 				4AF0C8502B24765400A45EEE /* ResetPwVC.swift in Sources */,
 				4A0CC3602B810147004A9D77 /* NotificationName.swift in Sources */,
 				4A9936562B642A0800B7B21A /* CalendarRegistrationVC.swift in Sources */,

@@ -124,6 +124,7 @@ class RecordVC: UIViewController{
         self.navigationController?.pushViewController(nextVC, animated: true)
     }
     @objc func folderViewTapped(){
+        userTotalFolderListAPI()
         let nextVC = TotalFolderPanModalVC()
         self.presentPanModal(nextVC)
     }
@@ -135,7 +136,7 @@ class RecordVC: UIViewController{
         }
         print("Selected memoCategoryId: \(memoCategoryId), memoCategoryName: \(memoCategoryName)")
         folderView.selectedText = memoCategoryName
-        userTotalFolderListAPI()
+        //userTotalFolderListAPI()
     }
 
     func updatelistViewHeight() {

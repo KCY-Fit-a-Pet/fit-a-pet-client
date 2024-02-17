@@ -10,6 +10,7 @@ class CreateFolderVC: CustomNavigationBar{
     
     private let createButton = CustomNextBtn(title: "폴더 만들기")
     private var inputCategoryName = ""
+    private var categoryId = 0
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -71,17 +72,19 @@ class CreateFolderVC: CustomNavigationBar{
               let memoCategoryName = userInfo["memoCategoryName"] as? String else {
             return
         }
+        categoryId = memoCategoryId
         print("Selected memoCategoryId: \(memoCategoryId), memoCategoryName: \(memoCategoryName)")
         selecteFolderView.selectedText = memoCategoryName
     }
     
     @objc func createFolderAPI(){
-        AuthorizationAlamofire.shared.createFolder(1, inputCategoryName) { result in
+        AuthorizationAlamofire.shared.createFolder(categoryId, inputCategoryName) { result in
             switch result {
             case .success(let data):
                 if let responseData = data,
                    let jsonObject = try? JSONSerialization.jsonObject(with: responseData, options: []) as? [String: Any] {
                     print("response jsonData: \(jsonObject)")
+                    self.navigationController?.popToRootViewController(animated: true)
                 }
 
             case .failure(let error):

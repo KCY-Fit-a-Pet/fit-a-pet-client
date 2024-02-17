@@ -53,7 +53,7 @@ class RecordTotalFolderTableViewMethod: NSObject, UITableViewDataSource, UITable
             let memoCategory = allCategories[adjustedIndex]
             var title = memoCategory.memoCategoryName
             if memoCategory.type == "SUB" {
-                title = "  /" + title
+                title = "  / " + title
                 cell.folderLabel.font = .systemFont(ofSize: 14, weight: .medium)
             }
             cell.setTitle(title, "(\(memoCategory.totalMemoCount))")
