@@ -8,7 +8,6 @@ class RecordVC: UIViewController{
     private let searchRecordTextField =  UITextField()
     private let dataScrollView = UIScrollView()
     private let folderView = CustomStackView(label: "전체보기")
-    //private let folderView = RecordFolderView()
     private let listView = RecordListView()
 
     //private let folderTableViewMethod = RecordFolderTableViewMethod()
@@ -148,18 +147,60 @@ class RecordVC: UIViewController{
         }
     }
     func userTotalFolderListAPI(){
-        AuthorizationAlamofire.shared.recordTotalFolderList{ result in
+        AuthorizationAlamofire.shared.recordTotalFolderList { result in
             switch result {
             case .success(let data):
                 if let responseData = data {
-                    let object = try?JSONSerialization.jsonObject(with: responseData, options: []) as? NSDictionary
-                    guard let jsonObject = object else {return}
-                    print("respose jsonData: \(jsonObject)")
+                    do {
+                        if let jsonObject = try JSONSerialization.jsonObject(with: responseData, options: []) as? [String: Any],
+                           let jsonData = jsonObject["data"] as? [String: Any],
+                           let rootCategoriesData = jsonData["rootMemoCategories"] as? [[String: Any]] {
+                            
+                            for categoryInfo in rootCategoriesData {
+                                if let memoCategoryId = categoryInfo["memoCategoryId"] as? Int,
+                                   let memoCategoryName = categoryInfo["memoCategoryName"] as? String,
+                                   let totalMemoCount = categoryInfo["totalMemoCount"] as? Int,
+                                   let type = categoryInfo["type"] as? String {
+                                    
+                                    var subCategories: [MemoCategory] = []
+                                    
+                                    if let subCategoriesData = categoryInfo["subMemoCategories"] as? [[String: Any]] {
+                                        for subCategoryInfo in subCategoriesData {
+                                            if let subMemoCategoryId = subCategoryInfo["memoCategoryId"] as? Int,
+                                               let subMemoCategoryName = subCategoryInfo["memoCategoryName"] as? String,
+                                               let subTotalMemoCount = subCategoryInfo["totalMemoCount"] as? Int,
+                                               let subType = subCategoryInfo["type"] as? String {
+                                                
+                                                let subCategory = MemoCategory(memoCategoryId: subMemoCategoryId,
+                                                                               memoCategoryName: subMemoCategoryName,
+                                                                               totalMemoCount: subTotalMemoCount,
+                                                                               type: subType)
+                                                subCategories.append(subCategory)
+                                            }
+                                        }
+                                    }
+                                    
+                                    let memoCategory = MemoCategory(memoCategoryId: memoCategoryId,
+                                                                    memoCategoryName: memoCategoryName,
+                                                                    totalMemoCount: totalMemoCount,
+                                                                    type: type,
+                                                                    subCategories: subCategories)
+                                    RecordTotalFolderManager.shared.updateCategoryData(categoryName: memoCategoryName, newData: [memoCategory])
+                                }
+                            }
+                            print(RecordTotalFolderManager.shared.categoryData)
+                        }
+                    } catch {
+                        print("Error parsing JSON: \(error)")
+                    }
+                    catch {
+                        print("Error parsing JSON: \(error)")
+                    }
                 }
-                
             case .failure(let error):
-                print("Error fetching")
+                print("Error fetching: \(error)")
             }
         }
+
     }
 }
