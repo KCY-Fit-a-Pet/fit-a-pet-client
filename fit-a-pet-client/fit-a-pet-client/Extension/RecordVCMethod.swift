@@ -4,6 +4,7 @@ import UIKit
 class RecordTotalFolderTableViewMethod: NSObject, UITableViewDataSource, UITableViewDelegate {
     
     private let folderData = RecordTotalFolderManager.shared.categoryData
+    private let petData = PetDataManager.summaryPets
     
     // MARK: - UITableViewDataSource methods
     
@@ -53,8 +54,8 @@ class RecordTotalFolderTableViewMethod: NSObject, UITableViewDataSource, UITable
             let memoCategory = allCategories[adjustedIndex]
             var title = memoCategory.memoCategoryName
             if memoCategory.type == "SUB" {
-                title = "  / " + title
-                cell.folderLabel.font = .systemFont(ofSize: 14, weight: .medium)
+                title = "  /" + title
+                cell.folderLabel.font = .systemFont(ofSize: 14, weight: .regular)
             }
             cell.setTitle(title, "(\(memoCategory.totalMemoCount))")
         }
@@ -88,10 +89,16 @@ class RecordTotalFolderTableViewMethod: NSObject, UITableViewDataSource, UITable
         
         let adjustedIndex = indexPath.row - 1
         
+        
         if adjustedIndex < allCategories.count {
             let memoCategory = allCategories[adjustedIndex]
-            let userInfo: [AnyHashable: Any] = ["memoCategoryId": memoCategory.memoCategoryId, "memoCategoryName": memoCategory.memoCategoryName]
-            NotificationCenter.default.post(name: .cellSelectedNotification, object: nil, userInfo: userInfo)
+            
+            for pet in petData{
+                if pet.id == memoCategory.petId{
+                    let userInfo: [AnyHashable: Any] = ["memoCategoryId": memoCategory.memoCategoryId, "memoCategoryName": memoCategory.memoCategoryName, "petName": pet.petName, "type": memoCategory.type]
+                    NotificationCenter.default.post(name: .cellSelectedNotification, object: nil, userInfo: userInfo)
+                }
+            }
         }
     }
 }
@@ -172,7 +179,7 @@ class RecordListTableViewMethod: NSObject, UITableViewDataSource, UITableViewDel
     // MARK: - UITableViewDataSource methods
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 5
+        return 8
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {

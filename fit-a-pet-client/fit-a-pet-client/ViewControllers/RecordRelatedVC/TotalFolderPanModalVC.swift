@@ -17,6 +17,10 @@ class TotalFolderPanModalVC: UIViewController {
         folderView.folderTableView.delegate = folderTableViewMethod
         folderView.folderTableView.dataSource = folderTableViewMethod
         
+        customPanModalView.closeButtonAction = {
+            self.closeButtonTapped()
+        }
+        
         NotificationCenter.default.addObserver(self, selector: #selector(handleCellSelectionNotification(_:)), name: .cellSelectedNotification, object: nil)
     }
     override func viewDidLayoutSubviews() {
@@ -46,6 +50,7 @@ class TotalFolderPanModalVC: UIViewController {
     }
     
     @objc func closeButtonTapped() {
+        NotificationCenter.default.removeObserver(self, name: .cellSelectedNotification, object: nil)
         self.dismiss(animated: true, completion: nil)
     }
     
@@ -60,10 +65,13 @@ class TotalFolderPanModalVC: UIViewController {
     @objc func handleCellSelectionNotification(_ notification: Notification) {
         guard let userInfo = notification.userInfo as? [String: Any],
               let memoCategoryId = userInfo["memoCategoryId"] as? Int,
-              let memoCategoryName = userInfo["memoCategoryName"] as? String else {
+              let memoCategoryName = userInfo["memoCategoryName"] as? String,
+              let petName = userInfo["petName"] as? String,
+              let type = userInfo["type"] as? String
+        else {
             return
         }
-        print("Selected memoCategoryId: \(memoCategoryId), memoCategoryName: \(memoCategoryName)")
+        print("Selected memoCategoryId: \(memoCategoryId), memoCategoryName: \(memoCategoryName), petName: \(petName), type: \(type)")
         
         NotificationCenter.default.removeObserver(self, name: .cellSelectedNotification, object: nil)
         NotificationCenter.default.post(name: .cellSelectedNotificationFromPanModal, object: nil, userInfo: userInfo)

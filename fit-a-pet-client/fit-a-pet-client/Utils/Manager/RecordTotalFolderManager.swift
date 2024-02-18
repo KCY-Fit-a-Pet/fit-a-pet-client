@@ -2,6 +2,7 @@
 import UIKit
 
 struct MemoCategory {
+    let petId: Int
     let memoCategoryId: Int
     let memoCategoryName: String
     let totalMemoCount: Int

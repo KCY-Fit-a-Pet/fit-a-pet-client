@@ -73,8 +73,9 @@ class CreateFolderVC: CustomNavigationBar{
             return
         }
         categoryId = memoCategoryId
-        print("Selected memoCategoryId: \(memoCategoryId), memoCategoryName: \(memoCategoryName)")
+        print("VC Selected memoCategoryId: \(memoCategoryId), memoCategoryName: \(memoCategoryName)")
         selecteFolderView.selectedText = memoCategoryName
+       //NotificationCenter.default.removeObserver(self, name: .cellSelectedNotificationFromRootPanModal, object: nil)
     }
     
     @objc func createFolderAPI(){

@@ -96,7 +96,7 @@ class CustomPanModalView: UIView {
     }
     
     @objc private func closeButtonTapped() {
-           closeButtonAction?()
-       }
+        closeButtonAction?()
+    }
 }
 

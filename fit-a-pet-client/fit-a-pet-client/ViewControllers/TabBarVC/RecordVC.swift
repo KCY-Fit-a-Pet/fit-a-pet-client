@@ -45,7 +45,7 @@ class RecordVC: UIViewController{
         
         view.addSubview(searchRecordTextField)
         view.addSubview(dataScrollView)
-        dataScrollView.addSubview(folderView)
+        view.addSubview(folderView)
         dataScrollView.addSubview(listView)
         
         let imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: 20, height: 20))
@@ -78,17 +78,17 @@ class RecordVC: UIViewController{
         }
         
         dataScrollView.snp.makeConstraints { make in
-            make.top.equalTo(searchRecordTextField.snp.bottom).offset(8)
+            make.top.equalTo(folderView.snp.bottom).offset(8)
             make.leading.trailing.bottom.equalToSuperview()
         }
         
         folderView.snp.makeConstraints{make in
-            make.top.equalTo(dataScrollView.snp.top)
+            make.top.equalTo(searchRecordTextField.snp.bottom).offset(8)
             make.leading.trailing.equalTo(view).inset(16)
         }
         
         listView.snp.makeConstraints{make in
-            make.top.equalTo(folderView.snp.bottom).offset(8)
+            make.top.equalTo(dataScrollView.snp.top).offset(8)
             make.leading.trailing.equalTo(view).inset(16)
             make.height.equalTo(0)
             make.bottom.equalTo(dataScrollView.snp.bottom)
@@ -131,11 +131,19 @@ class RecordVC: UIViewController{
     @objc func handleCellSelectionNotificationFromPanModal(_ notification: Notification) {
         guard let userInfo = notification.userInfo as? [String: Any],
               let memoCategoryId = userInfo["memoCategoryId"] as? Int,
-              let memoCategoryName = userInfo["memoCategoryName"] as? String else {
+              let memoCategoryName = userInfo["memoCategoryName"] as? String,
+              let petName = userInfo["petName"] as? String,
+              let type = userInfo["type"] as? String
+        else {
             return
         }
-        print("Selected memoCategoryId: \(memoCategoryId), memoCategoryName: \(memoCategoryName)")
-        folderView.selectedText = memoCategoryName
+        print("VC Selected memoCategoryId: \(memoCategoryId), memoCategoryName: \(memoCategoryName), petName: \(petName), type: \(type)")
+        if type == "ROOT"{
+            folderView.selectedText = memoCategoryName
+        }else{
+            folderView.selectedText = petName + "/" + memoCategoryName
+        }
+        
         //userTotalFolderListAPI()
     }
 
@@ -145,7 +153,7 @@ class RecordVC: UIViewController{
         let totalCellHeight = CGFloat(listView.recordListTableView.numberOfRows(inSection: 0)) * heightForRow
       
         listView.snp.updateConstraints { make in
-            make.height.equalTo(totalCellHeight)
+            make.height.equalTo(totalCellHeight + 200)
         }
     }
     func userTotalFolderListAPI(){
@@ -159,7 +167,8 @@ class RecordVC: UIViewController{
                            let rootCategoriesData = jsonData["rootMemoCategories"] as? [[String: Any]] {
                             
                             for categoryInfo in rootCategoriesData {
-                                if let memoCategoryId = categoryInfo["memoCategoryId"] as? Int,
+                                if let petId = categoryInfo["petId"] as? Int,
+                                   let memoCategoryId = categoryInfo["memoCategoryId"] as? Int,
                                    let memoCategoryName = categoryInfo["memoCategoryName"] as? String,
                                    let totalMemoCount = categoryInfo["totalMemoCount"] as? Int,
                                    let type = categoryInfo["type"] as? String {
@@ -168,12 +177,14 @@ class RecordVC: UIViewController{
                                     
                                     if let subCategoriesData = categoryInfo["subMemoCategories"] as? [[String: Any]] {
                                         for subCategoryInfo in subCategoriesData {
-                                            if let subMemoCategoryId = subCategoryInfo["memoCategoryId"] as? Int,
+                                            if let rootPetId = subCategoryInfo["petId"] as? Int,
+                                               let subMemoCategoryId = subCategoryInfo["memoCategoryId"] as? Int,
                                                let subMemoCategoryName = subCategoryInfo["memoCategoryName"] as? String,
                                                let subTotalMemoCount = subCategoryInfo["totalMemoCount"] as? Int,
                                                let subType = subCategoryInfo["type"] as? String {
                                                 
-                                                let subCategory = MemoCategory(memoCategoryId: subMemoCategoryId,
+                                                let subCategory = MemoCategory(petId: rootPetId,
+                                                                               memoCategoryId: subMemoCategoryId,
                                                                                memoCategoryName: subMemoCategoryName,
                                                                                totalMemoCount: subTotalMemoCount,
                                                                                type: subType)
@@ -182,7 +193,8 @@ class RecordVC: UIViewController{
                                         }
                                     }
                                     
-                                    let memoCategory = MemoCategory(memoCategoryId: memoCategoryId,
+                                    let memoCategory = MemoCategory(petId: petId,
+                                                                    memoCategoryId: memoCategoryId,
                                                                     memoCategoryName: memoCategoryName,
                                                                     totalMemoCount: totalMemoCount,
                                                                     type: type,

@@ -16,6 +16,10 @@ class RootFolderPanModalVC: UIViewController {
         folderView.folderTableView.delegate = folderTableViewMethod
         folderView.folderTableView.dataSource = folderTableViewMethod
         
+        customPanModalView.closeButtonAction = {
+            self.closeButtonTapped()
+        }
+        
         NotificationCenter.default.addObserver(self, selector: #selector(handleCellSelectionNotification(_:)), name: .cellSelectedNotification, object: nil)
     }
     override func viewDidLayoutSubviews() {
@@ -45,6 +49,7 @@ class RootFolderPanModalVC: UIViewController {
     }
     
     @objc func closeButtonTapped() {
+        NotificationCenter.default.removeObserver(self, name: .cellSelectedNotification, object: nil)
         self.dismiss(animated: true, completion: nil)
     }
     
