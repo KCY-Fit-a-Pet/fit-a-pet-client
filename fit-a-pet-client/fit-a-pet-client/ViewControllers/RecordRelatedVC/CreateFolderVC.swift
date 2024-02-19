@@ -11,6 +11,7 @@ class CreateFolderVC: CustomNavigationBar{
     private let createButton = CustomNextBtn(title: "폴더 만들기")
     private var inputCategoryName = ""
     private var categoryId = 0
+    private var categoryPetId = 0
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -69,17 +70,20 @@ class CreateFolderVC: CustomNavigationBar{
     @objc func handleCellSelectedNotificationFromRootPanModal(_ notification: Notification) {
         guard let userInfo = notification.userInfo as? [String: Any],
               let memoCategoryId = userInfo["memoCategoryId"] as? Int,
-              let memoCategoryName = userInfo["memoCategoryName"] as? String else {
+              let memoCategoryName = userInfo["memoCategoryName"] as? String,
+              let petId = userInfo["petId"] as? Int
+        else {
             return
         }
+        print("Selected memoCategoryId: \(memoCategoryId), memoCategoryName: \(memoCategoryName), petId: \(petId)")
+              
         categoryId = memoCategoryId
-        print("VC Selected memoCategoryId: \(memoCategoryId), memoCategoryName: \(memoCategoryName)")
         selecteFolderView.selectedText = memoCategoryName
-       //NotificationCenter.default.removeObserver(self, name: .cellSelectedNotificationFromRootPanModal, object: nil)
+        categoryPetId = petId
     }
     
     @objc func createFolderAPI(){
-        AuthorizationAlamofire.shared.createFolder(categoryId, inputCategoryName) { result in
+        AuthorizationAlamofire.shared.createFolder(categoryPetId, categoryId, inputCategoryName) { result in
             switch result {
             case .success(let data):
                 if let responseData = data,

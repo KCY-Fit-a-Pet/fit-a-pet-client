@@ -30,8 +30,9 @@ enum MySearchRouter: URLRequestConvertible {
     case petCareComplete(petId: Int, careId: Int, caredateId: Int)
     case createSchedule(combinedData: [String:Any])
     case petScheduleList(year: String, month: String, day: String)
-    case createRecord(combinedData: [String:Any], memoCategoriesId: Int)
-    case createFolder(rootMemoCategoryId: Int, categoryName: String)
+    case createRecord(petId: Int, combinedData: [String:Any], memoCategoryId: Int)
+    case createFolder(petId: Int, rootMemoCategoryId: Int, categoryName: String)
+    case recordDataListInquiry(petId: Int, memoCategoryId: Int, searchData: String)
     
     var baseURL: URL {
         switch self {
@@ -48,7 +49,7 @@ enum MySearchRouter: URLRequestConvertible {
         switch self {
         case .sendSms, .checkSms, .login, .regist, .presignedurl, .registPet,.sendAuthSms, .checkAuthSms, .findId, .findPw, .oauthLogin, .oauthSendSms, .oauthCheckSms, .oauthRegistUser, .createCare, .careCategoryCheck, .createSchedule, .createRecord, .createFolder:
             return .post
-        case .existId, .userProfileInfo, .userNotifyType, .refresh ,.checkCareCategory, .userPetsList, .userPetInfoList, .userPetCareInfoList, .petCareComplete, .petScheduleList, .petCountScheduleList, .recordTotalFolderList:
+        case .existId, .userProfileInfo, .userNotifyType, .refresh ,.checkCareCategory, .userPetsList, .userPetInfoList, .userPetCareInfoList, .petCareComplete, .petScheduleList, .petCountScheduleList, .recordTotalFolderList, .recordDataListInquiry:
             return .get
         case .uploadImage, .editUserPw, .editUserName:
             return .put
@@ -91,7 +92,7 @@ enum MySearchRouter: URLRequestConvertible {
             return "v2/users/\(UserDefaults.standard.string(forKey: "id")!)/pets/summary"
         case .careCategoryCheck:
             return "v2/users/\(UserDefaults.standard.string(forKey: "id")!)/pets/categories-check"
-        case .userPetCareInfoList, .createCare, .checkCareCategory, .petCareComplete, .petCountScheduleList:
+        case .userPetCareInfoList, .createCare, .checkCareCategory, .petCareComplete, .petCountScheduleList, .createFolder, .createRecord, .recordDataListInquiry:
             return "v2/pets"
         case .userPetInfoList:
             return "v2/users/\(UserDefaults.standard.string(forKey: "id")!)/pets"
@@ -99,10 +100,7 @@ enum MySearchRouter: URLRequestConvertible {
             return "v2/schedules"
         case .petScheduleList:
             return "v2/accounts/\(UserDefaults.standard.string(forKey: "id")!)/schedules"
-        case .createRecord:
-            return "v2/pets/1/memo-categories/8/memos"
-        case .createFolder:
-            return "v2/pets/2"
+
         }
     }
     
@@ -143,9 +141,9 @@ enum MySearchRouter: URLRequestConvertible {
             return ["categoryName": categoryName, "pets": pets]
         case let .petScheduleList(year, month, day):
             return ["year": year, "month": month, "day": day]
-        case let .createFolder(_ ,categoryName):
+        case let .createFolder(_, _ ,categoryName):
             return ["subMemoCategoryName": categoryName]
-        case .uploadImage(_), .userProfileInfo, .oauthLogin, .oauthSendSms, .refresh, .checkCareCategory, .userPetsList, .createCare, .userPetInfoList, .userPetCareInfoList, .petCareComplete, .createSchedule, .petCountScheduleList, .recordTotalFolderList, .createRecord:
+        case .uploadImage(_), .userProfileInfo, .oauthLogin, .oauthSendSms, .refresh, .checkCareCategory, .userPetsList, .createCare, .userPetInfoList, .userPetCareInfoList, .petCareComplete, .createSchedule, .petCountScheduleList, .recordTotalFolderList, .createRecord, .recordDataListInquiry:
             return [:]
         
         }
@@ -273,14 +271,14 @@ enum MySearchRouter: URLRequestConvertible {
         case .oauthSendSms:
             let idToken = KeychainHelper.loadTempToken()!
             
-            let bodyParameters = ["to": RegistrationManager.shared.phone, "idToken": idToken, "nonce": OauthInfo.nonce] as [String : Any]
+            let bodyParameters = ["to": RegistrationManager.shared.phone!, "idToken": idToken, "nonce": OauthInfo.nonce] as [String : Any]
             let queryParameters = [URLQueryItem(name: "provider", value: OauthInfo.provider)]
             
             request = createURLRequestWithBodyAndQuery(url: url, bodyParameters: bodyParameters, queryParameters: queryParameters)
         case .oauthCheckSms(let code):
             let idToken = KeychainHelper.loadTempToken()!
             
-            let bodyParameters = ["to": RegistrationManager.shared.phone, "idToken": idToken, "nonce": OauthInfo.nonce] as [String : Any]
+            let bodyParameters = ["to": RegistrationManager.shared.phone!, "idToken": idToken, "nonce": OauthInfo.nonce] as [String : Any]
             let queryParameters = [URLQueryItem(name: "provider", value: OauthInfo.provider), URLQueryItem(name: "code", value: code)]
             
             request = createURLRequestWithBodyAndQuery(url: url, bodyParameters: bodyParameters, queryParameters: queryParameters)
@@ -328,14 +326,20 @@ enum MySearchRouter: URLRequestConvertible {
             request = URLRequest(url: url)
             request.httpMethod = method.rawValue
             
-        case .createRecord(let combinedData, _):
+        case .createRecord(let petId, let combinedData, let memoCategoryId):
+            url = url.appendingPathComponent("/\(petId)/memo-categories/\(memoCategoryId)/memos")
             request = URLRequest(url: url)
             request.httpMethod = method.rawValue
             request = try JSONEncoding.default.encode(request, withJSONObject: combinedData)
             
-        case .createFolder(let rootMemoCategoryId, _):
-            url = url.appendingPathComponent("/root-memo-categories/\(rootMemoCategoryId)")
+        case .createFolder(let petId, let rootMemoCategoryId, _):
+            url = url.appendingPathComponent("/\(petId)/root-memo-categories/\(rootMemoCategoryId)")
             request = createURLRequestWithBody(url: url)
+            
+        case .recordDataListInquiry(let petId, let memoCategoryId, let searchData):
+            url = url.appendingPathComponent("/\(petId)/memo-categories/\(memoCategoryId)/memos")
+            request = URLRequest(url: url)
+            request.httpMethod = method.rawValue
         
         default:
             request = createURLRequestWithBody(url: url)

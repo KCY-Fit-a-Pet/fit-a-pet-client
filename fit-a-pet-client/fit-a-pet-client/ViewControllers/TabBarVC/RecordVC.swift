@@ -29,6 +29,8 @@ class RecordVC: UIViewController{
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        
+        recordDataListAPI()
     }
     
     override func viewDidLayoutSubviews() {
@@ -212,6 +214,23 @@ class RecordVC: UIViewController{
                 print("Error fetching: \(error)")
             }
         }
-
+    }
+    
+    func recordDataListAPI(){
+        AuthorizationAlamofire.shared.recordDataListInquiry(1, 8, "") { result in
+            switch result {
+            case .success(let data):
+                if let responseData = data {
+                    do {
+                        let jsonObject = try JSONSerialization.jsonObject(with: responseData, options: []) as? [String: Any] ?? [:]
+                        print(jsonObject)
+                    } catch {
+                        print("Error parsing JSON: \(error)")
+                    }
+                }
+            case .failure(let error):
+                print("Error fetching: \(error)")
+            }
+        }
     }
 }

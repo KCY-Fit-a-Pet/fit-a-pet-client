@@ -106,6 +106,7 @@ class RecordTotalFolderTableViewMethod: NSObject, UITableViewDataSource, UITable
 class RecordFolderTableViewMethod: NSObject, UITableViewDataSource, UITableViewDelegate {
     
     private let folderData = RecordTotalFolderManager.shared.categoryData
+    private let petData = PetDataManager.summaryPets
     
     // MARK: - UITableViewDataSource methods
     
@@ -166,8 +167,13 @@ class RecordFolderTableViewMethod: NSObject, UITableViewDataSource, UITableViewD
         
         if adjustedIndex < allCategories.count {
             let memoCategory = allCategories[adjustedIndex]
-            let userInfo: [AnyHashable: Any] = ["memoCategoryId": memoCategory.memoCategoryId, "memoCategoryName": memoCategory.memoCategoryName]
-            NotificationCenter.default.post(name: .cellSelectedNotification, object: nil, userInfo: userInfo)
+            
+            for pet in petData{
+                if pet.id == memoCategory.petId{
+                    let userInfo: [AnyHashable: Any] = ["memoCategoryId": memoCategory.memoCategoryId, "memoCategoryName": memoCategory.memoCategoryName, "petId": pet.id]
+                    NotificationCenter.default.post(name: .cellSelectedNotification, object: nil, userInfo: userInfo)
+                }
+            }
         }
     }
 }

@@ -67,7 +67,6 @@ class CreateRecordVC: CustomEditNavigationBar {
     private func setupButtonStackView() {
 
         self.buttonStackView.imageAddButton.addTarget(self, action: #selector(presentPHPicker), for: .touchUpInside)
-        
         self.buttonStackView.keyboardHideButton.addTarget(self, action: #selector(keyboardHideButtonTapped), for: .touchUpInside)
     }
 

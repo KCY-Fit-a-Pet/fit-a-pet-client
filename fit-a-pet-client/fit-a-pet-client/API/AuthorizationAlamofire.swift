@@ -283,10 +283,10 @@ class AuthorizationAlamofire: TokenHandling {
             }
     }
     
-    func createRecord(_ combinedData: [String: Any],_ memoCategoriesId: Int, completion: @escaping (Result<Data?, Error>) -> Void) {
+    func createRecord(_ petId: Int ,_ combinedData: [String: Any], _ memoCategoryId: Int, completion: @escaping (Result<Data?, Error>) -> Void) {
         os_log("AuthorizationAlamofire - createRecord() called ", log: .default, type: .info)
 
-        self.session.request(MySearchRouter.createRecord(combinedData: combinedData, memoCategoriesId: memoCategoriesId))
+        self.session.request(MySearchRouter.createRecord(petId: petId, combinedData: combinedData, memoCategoryId: memoCategoryId))
             .response { response in
                 switch response.result {
                 case .success(let data):
@@ -297,10 +297,23 @@ class AuthorizationAlamofire: TokenHandling {
             }
     }
     
-    func createFolder(_ rootMemoCategoryId: Int, _ categoryName: String, completion: @escaping (Result<Data?, Error>) -> Void) {
+    func createFolder(_ petId: Int ,_ rootMemoCategoryId: Int, _ categoryName: String, completion: @escaping (Result<Data?, Error>) -> Void) {
         os_log("AuthorizationAlamofire - createFolder() called ", log: .default, type: .info)
 
-        self.session.request(MySearchRouter.createFolder(rootMemoCategoryId: rootMemoCategoryId, categoryName: categoryName))
+        self.session.request(MySearchRouter.createFolder(petId: petId, rootMemoCategoryId: rootMemoCategoryId, categoryName: categoryName))
+            .response { response in
+                switch response.result {
+                case .success(let data):
+                    completion(.success(data))
+                case .failure(let error):
+                    completion(.failure(error))
+                }
+            }
+    }
+    func recordDataListInquiry(_ petId: Int , _ memoCategoryId: Int, _ searchData: String, completion: @escaping (Result<Data?, Error>) -> Void) {
+        os_log("AuthorizationAlamofire - recordDataListInquiry() called ", log: .default, type: .info)
+
+        self.session.request(MySearchRouter.recordDataListInquiry(petId: petId, memoCategoryId: memoCategoryId, searchData: searchData))
             .response { response in
                 switch response.result {
                 case .success(let data):

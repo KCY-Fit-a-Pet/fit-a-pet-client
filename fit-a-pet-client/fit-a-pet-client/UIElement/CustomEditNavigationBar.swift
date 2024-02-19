@@ -209,7 +209,7 @@ extension CustomEditNavigationBar{
         let dispatchGroup = DispatchGroup()
 
         for image in images {
-            dispatchGroup.enter() // Enter the group
+            dispatchGroup.enter() 
             
             AnonymousAlamofire.shared.presignedURL("memos", "jpeg") { result in
                 defer {
@@ -287,7 +287,7 @@ extension CustomEditNavigationBar{
 
             print("combinedData: \(combinedData)")
 
-            AuthorizationAlamofire.shared.createRecord(combinedData, 8) { result in
+            AuthorizationAlamofire.shared.createRecord(1,combinedData, 8) { result in
                 switch result {
                 case .success(let data):
                     if let responseData = data,
