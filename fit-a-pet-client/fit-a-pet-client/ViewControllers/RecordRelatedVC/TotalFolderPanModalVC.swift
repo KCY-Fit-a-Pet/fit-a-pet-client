@@ -67,11 +67,12 @@ class TotalFolderPanModalVC: UIViewController {
               let memoCategoryId = userInfo["memoCategoryId"] as? Int,
               let memoCategoryName = userInfo["memoCategoryName"] as? String,
               let petName = userInfo["petName"] as? String,
-              let type = userInfo["type"] as? String
+              let type = userInfo["type"] as? String,
+              let petId = userInfo["petId"] as? Int
         else {
             return
         }
-        print("Selected memoCategoryId: \(memoCategoryId), memoCategoryName: \(memoCategoryName), petName: \(petName), type: \(type)")
+        print("Selected memoCategoryId: \(memoCategoryId), memoCategoryName: \(memoCategoryName), petName: \(petName), type: \(type), petId: \(petId)")
         
         NotificationCenter.default.removeObserver(self, name: .cellSelectedNotification, object: nil)
         NotificationCenter.default.post(name: .cellSelectedNotificationFromPanModal, object: nil, userInfo: userInfo)

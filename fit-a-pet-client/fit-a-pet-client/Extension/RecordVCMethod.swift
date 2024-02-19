@@ -95,7 +95,7 @@ class RecordTotalFolderTableViewMethod: NSObject, UITableViewDataSource, UITable
             
             for pet in petData{
                 if pet.id == memoCategory.petId{
-                    let userInfo: [AnyHashable: Any] = ["memoCategoryId": memoCategory.memoCategoryId, "memoCategoryName": memoCategory.memoCategoryName, "petName": pet.petName, "type": memoCategory.type]
+                    let userInfo: [AnyHashable: Any] = ["memoCategoryId": memoCategory.memoCategoryId, "memoCategoryName": memoCategory.memoCategoryName, "petName": pet.petName, "type": memoCategory.type, "petId": pet.id]
                     NotificationCenter.default.post(name: .cellSelectedNotification, object: nil, userInfo: userInfo)
                 }
             }
@@ -182,18 +182,26 @@ class RecordFolderTableViewMethod: NSObject, UITableViewDataSource, UITableViewD
 
 class RecordListTableViewMethod: NSObject, UITableViewDataSource, UITableViewDelegate {
     
+    private var recordData: [Memo] {
+        return RecordDataListManager.shared.recordData
+    }
+    
     // MARK: - UITableViewDataSource methods
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 8
+        return recordData.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "RecordListTableViewCell", for: indexPath) as! RecordListTableViewCell
- 
-        cell.setTitle("Cell \(indexPath.row + 1)", "2023.04.05", "임시 데이터ㅓㅓㅓㅓㅓㅓㅓㅓㅓ", "parent", "/child")
-        
+        let data = recordData[indexPath.row]
+        cell.setTitle(data.title, data.createdAt, data.content, data.categorySuffix, "/child")
+
+
+       // let data = recordData[indexPath.row]
+//            cell.setTitle(title, "(\(memoCategory.totalMemoCount))")
+//
         
         return cell
     }

@@ -21,14 +21,6 @@ class RecordTotalFolderManager {
         categoryData[categoryName] = newData
     }
     
-//    func getCategoryData(for categoryName: String) -> [MemoCategory]? {
-//        return categoryData[categoryName]
-//    }
-//
-//    func getAllCategoryData() -> [String: [MemoCategory]] {
-//        return categoryData
-//    }
-    
     func clearAllData() {
         categoryData.removeAll()
     }

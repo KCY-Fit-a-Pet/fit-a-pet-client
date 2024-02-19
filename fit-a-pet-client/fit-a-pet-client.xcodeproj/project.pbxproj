@@ -112,6 +112,7 @@
 		4AD354292AAF7F55004A47B3 /* RecordVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AD354282AAF7F55004A47B3 /* RecordVC.swift */; };
 		4AD3542B2AAF7F6A004A47B3 /* PetVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AD3542A2AAF7F6A004A47B3 /* PetVC.swift */; };
 		4AD3542D2AAF7F83004A47B3 /* SettingVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AD3542C2AAF7F83004A47B3 /* SettingVC.swift */; };
+		4ADFA58F2B83DAEF003AA76C /* RecordDataListManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ADFA58E2B83DAEF003AA76C /* RecordDataListManager.swift */; };
 		4AE293F12B6FFA2800920C0B /* PetDetailProfileVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AE293F02B6FFA2800920C0B /* PetDetailProfileVC.swift */; };
 		4AE293F32B70041100920C0B /* PetProfileUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AE293F22B70041100920C0B /* PetProfileUtils.swift */; };
 		4AE293F62B713E9A00920C0B /* PetDetailCareListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AE293F52B713E9A00920C0B /* PetDetailCareListView.swift */; };
@@ -239,6 +240,7 @@
 		4AD354282AAF7F55004A47B3 /* RecordVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordVC.swift; sourceTree = "<group>"; };
 		4AD3542A2AAF7F6A004A47B3 /* PetVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PetVC.swift; sourceTree = "<group>"; };
 		4AD3542C2AAF7F83004A47B3 /* SettingVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingVC.swift; sourceTree = "<group>"; };
+		4ADFA58E2B83DAEF003AA76C /* RecordDataListManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordDataListManager.swift; sourceTree = "<group>"; };
 		4AE293F02B6FFA2800920C0B /* PetDetailProfileVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PetDetailProfileVC.swift; sourceTree = "<group>"; };
 		4AE293F22B70041100920C0B /* PetProfileUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PetProfileUtils.swift; sourceTree = "<group>"; };
 		4AE293F52B713E9A00920C0B /* PetDetailCareListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PetDetailCareListView.swift; sourceTree = "<group>"; };
@@ -363,13 +365,12 @@
 		4A828D892B618D2D006AE70A /* Manager */ = {
 			isa = PBXGroup;
 			children = (
+				4ADFA5902B83DBDE003AA76C /* RecordManager */,
 				4A0750D72B0D130F00281A4C /* PetRegistrationManager.swift */,
 				4A4BFDC92AD26B0F0062BDB8 /* RegistrationManager.swift */,
 				4A88D6162B53ABD2003A2D0F /* PetCareRegistrationManager.swift */,
 				4ABE52FF2B5AD92F000EA41D /* PetDataManager.swift */,
 				4AFBBBAE2B66DDFF00166643 /* ScheduleRegistrationManager.swift */,
-				4ABB933A2B7BD60F00E1EA73 /* RecordCreateManager.swift */,
-				4A0CC35D2B80C56C004A9D77 /* RecordTotalFolderManager.swift */,
 			);
 			path = Manager;
 			sourceTree = "<group>";
@@ -592,6 +593,16 @@
 			path = TabBarVC;
 			sourceTree = "<group>";
 		};
+		4ADFA5902B83DBDE003AA76C /* RecordManager */ = {
+			isa = PBXGroup;
+			children = (
+				4A0CC35D2B80C56C004A9D77 /* RecordTotalFolderManager.swift */,
+				4ABB933A2B7BD60F00E1EA73 /* RecordCreateManager.swift */,
+				4ADFA58E2B83DAEF003AA76C /* RecordDataListManager.swift */,
+			);
+			path = RecordManager;
+			sourceTree = "<group>";
+		};
 		4AE293EF2B6FF9EA00920C0B /* PetProfileVC */ = {
 			isa = PBXGroup;
 			children = (
@@ -787,6 +798,7 @@
 			files = (
 				4A7339322B68139700216FB5 /* SchedulePetImageCollectionViewCell.swift in Sources */,
 				4AE293F12B6FFA2800920C0B /* PetDetailProfileVC.swift in Sources */,
+				4ADFA58F2B83DAEF003AA76C /* RecordDataListManager.swift in Sources */,
 				4A4B085A2B77B15400959683 /* RecordListTableViewCell.swift in Sources */,
 				4A8662D82B262DA200D8DDE8 /* CustomEditNavigationBar.swift in Sources */,
 				4A0FEA492B1B5F6F0084CA6C /* FindInputPhoneNumVC.swift in Sources */,

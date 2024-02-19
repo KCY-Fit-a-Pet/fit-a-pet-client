@@ -10,6 +10,8 @@ class RecordVC: UIViewController{
     private let folderView = CustomCategoryStackView(label: "전체보기")
     private let listView = RecordListView()
     private let listTableViewMethod = RecordListTableViewMethod()
+    private var selectedMemoCategoryId = 0
+    private var selectedPetId = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,8 +31,7 @@ class RecordVC: UIViewController{
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
-        recordDataListAPI()
+
     }
     
     override func viewDidLayoutSubviews() {
@@ -135,18 +136,21 @@ class RecordVC: UIViewController{
               let memoCategoryId = userInfo["memoCategoryId"] as? Int,
               let memoCategoryName = userInfo["memoCategoryName"] as? String,
               let petName = userInfo["petName"] as? String,
-              let type = userInfo["type"] as? String
+              let type = userInfo["type"] as? String,
+              let petId = userInfo["petId"] as? Int
         else {
             return
         }
-        print("VC Selected memoCategoryId: \(memoCategoryId), memoCategoryName: \(memoCategoryName), petName: \(petName), type: \(type)")
+        print("VC Selected memoCategoryId: \(memoCategoryId), memoCategoryName: \(memoCategoryName), petName: \(petName), type: \(type), petId: \(petId)")
+        selectedMemoCategoryId = memoCategoryId
+        selectedPetId = petId
         if type == "ROOT"{
             folderView.selectedText = memoCategoryName
         }else{
             folderView.selectedText = petName + "/" + memoCategoryName
         }
         
-        //userTotalFolderListAPI()
+        recordDataListAPI()
     }
 
     func updatelistViewHeight() {
@@ -217,13 +221,39 @@ class RecordVC: UIViewController{
     }
     
     func recordDataListAPI(){
-        AuthorizationAlamofire.shared.recordDataListInquiry(1, 8, "") { result in
+        AuthorizationAlamofire.shared.recordDataListInquiry(selectedPetId, selectedMemoCategoryId, "") { result in
             switch result {
             case .success(let data):
                 if let responseData = data {
                     do {
-                        let jsonObject = try JSONSerialization.jsonObject(with: responseData, options: []) as? [String: Any] ?? [:]
-                        print(jsonObject)
+                        var memoList: [Memo] = []
+                        if let jsonObject = try JSONSerialization.jsonObject(with: responseData, options: []) as? [String: Any],
+                           let jsonData = jsonObject["data"] as? [String: Any],
+                           let memoDatas = jsonData["memos"] as? [[String: Any]] {
+                            for memoData in memoDatas {
+                                let memoImageDict = memoData["memoImage"] as? [String: Any]
+                                let memoImage: MemoImage?
+                                if let memoImageDict = memoImageDict {
+                                    memoImage = MemoImage(imgUrl: memoImageDict["imgUrl"] as? String ?? "",
+                                                          memoImageId: memoImageDict["memoImageId"] as? Int ?? 0)
+                                } else {
+                                    memoImage = nil
+                                }
+                                let memo = Memo(categorySuffix: memoData["categorySuffix"] as? String ?? "",
+                                                content: memoData["content"] as? String ?? "",
+                                                createdAt: memoData["createdAt"] as? String ?? "",
+                                                memoId: memoData["memoId"] as? Int ?? 0,
+                                                memoImage: memoImage,
+                                                title: memoData["title"] as? String ?? "")
+                                memoList.append(memo)
+                            }
+                        }
+                        
+                        RecordDataListManager.shared.updateRecordData(newData: memoList)
+                        print( RecordDataListManager.shared.recordData)
+
+                        self.listView.recordListTableView.reloadData()
+                        
                     } catch {
                         print("Error parsing JSON: \(error)")
                     }
