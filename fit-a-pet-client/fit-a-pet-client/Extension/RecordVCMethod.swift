@@ -170,7 +170,7 @@ class RecordFolderTableViewMethod: NSObject, UITableViewDataSource, UITableViewD
             
             for pet in petData{
                 if pet.id == memoCategory.petId{
-                    let userInfo: [AnyHashable: Any] = ["memoCategoryId": memoCategory.memoCategoryId, "memoCategoryName": memoCategory.memoCategoryName, "petId": pet.id]
+                    let userInfo: [AnyHashable: Any] = ["memoCategoryId": memoCategory.memoCategoryId, "memoCategoryName": memoCategory.memoCategoryName, "petId": pet.id, "petName": pet.petName]
                     NotificationCenter.default.post(name: .cellSelectedNotification, object: nil, userInfo: userInfo)
                 }
             }

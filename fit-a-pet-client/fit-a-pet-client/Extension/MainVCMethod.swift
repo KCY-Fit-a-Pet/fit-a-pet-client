@@ -79,7 +79,7 @@ class PetCareCollectionViewMethod: NSObject, UICollectionViewDataSource, UIColle
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         if kind == UICollectionView.elementKindSectionHeader {
             let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "PetCareHeaderView", for: indexPath) as! PetCareHeaderView
-            if let careCategory = petCareData[3]?[indexPath.section] {
+            if let careCategory = petCareData[selectedPet]?[indexPath.section] {
                 headerView.titleLabel.text = careCategory.categoryName
             }
             return headerView

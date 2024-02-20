@@ -5,13 +5,14 @@ import SnapKit
 class CreateFolderVC: CustomNavigationBar{
     
     private let parentFolderLabel = UILabel()
-    let selecteFolderView = CustomCategoryStackView(label: "전체보기")
+    let selectFolderView = CustomCategoryStackView(label: "전체보기")
     private let folderNameInputView = CustomVerticalView(labelText: "폴더 이름", placeholder: "이름")
     
     private let createButton = CustomNextBtn(title: "폴더 만들기")
     private var inputCategoryName = ""
     private var categoryId = 0
     private var categoryPetId = 0
+    private var seletedPetName = ""
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -21,7 +22,7 @@ class CreateFolderVC: CustomNavigationBar{
         NotificationCenter.default.addObserver(self, selector: #selector(handleCellSelectedNotificationFromRootPanModal(_:)), name: .cellSelectedNotificationFromRootPanModal, object: nil)
         
         let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(folderViewTapped))
-        selecteFolderView.addGestureRecognizer(tapGestureRecognizer)
+        selectFolderView.addGestureRecognizer(tapGestureRecognizer)
         
         createButton.addTarget(self, action: #selector(createFolderAPI), for: .touchUpInside)
         folderNameInputView.textInputField.delegate = self
@@ -35,7 +36,7 @@ class CreateFolderVC: CustomNavigationBar{
         parentFolderLabel.font = .boldSystemFont(ofSize: 18)
         
         view.addSubview(parentFolderLabel)
-        view.addSubview(selecteFolderView)
+        view.addSubview(selectFolderView)
         view.addSubview(folderNameInputView)
         view.addSubview(createButton)
         
@@ -45,13 +46,13 @@ class CreateFolderVC: CustomNavigationBar{
             make.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(32)
         }
         
-        selecteFolderView.snp.makeConstraints{make in
+        selectFolderView.snp.makeConstraints{make in
             make.top.equalTo(parentFolderLabel.snp.bottom).offset(8)
             make.leading.trailing.equalTo(view).inset(16)
         }
         
         folderNameInputView.snp.makeConstraints{make in
-            make.top.equalTo(selecteFolderView.snp.bottom).offset(24)
+            make.top.equalTo(selectFolderView.snp.bottom).offset(24)
             make.leading.trailing.equalToSuperview().inset(16)
             make.height.equalTo(88)
         }
@@ -71,27 +72,31 @@ class CreateFolderVC: CustomNavigationBar{
         guard let userInfo = notification.userInfo as? [String: Any],
               let memoCategoryId = userInfo["memoCategoryId"] as? Int,
               let memoCategoryName = userInfo["memoCategoryName"] as? String,
-              let petId = userInfo["petId"] as? Int
+              let petId = userInfo["petId"] as? Int,
+              let petName = userInfo["petName"] as? String
         else {
             return
         }
-        print("Selected memoCategoryId: \(memoCategoryId), memoCategoryName: \(memoCategoryName), petId: \(petId)")
+        print("Selected memoCategoryId: \(memoCategoryId), memoCategoryName: \(memoCategoryName), petId: \(petId), petName: \(petName)")
               
         categoryId = memoCategoryId
-        selecteFolderView.selectedText = memoCategoryName
+        selectFolderView.selectedText = memoCategoryName
         categoryPetId = petId
+        seletedPetName = petName
     }
     
     @objc func createFolderAPI(){
-        AuthorizationAlamofire.shared.createFolder(categoryPetId, categoryId, inputCategoryName) { result in
+        AuthorizationAlamofire.shared.createFolder(categoryPetId, categoryId, inputCategoryName) { [self] result in
             switch result {
             case .success(let data):
                 if let responseData = data,
                    let jsonObject = try? JSONSerialization.jsonObject(with: responseData, options: []) as? [String: Any] {
                     print("response jsonData: \(jsonObject)")
+                    
+                    NotificationCenter.default.post(name: Notification.Name("FolderCreatedNotification"), object: nil, userInfo: ["categoryId": categoryId, "categoryPetId": categoryPetId, "inputCategoryName": inputCategoryName, "petName": seletedPetName])
                     self.navigationController?.popToRootViewController(animated: true)
                 }
-
+                
             case .failure(let error):
                 print("Error: \(error)")
             }

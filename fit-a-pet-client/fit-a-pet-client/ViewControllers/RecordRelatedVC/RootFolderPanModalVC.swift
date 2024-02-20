@@ -65,11 +65,12 @@ class RootFolderPanModalVC: UIViewController {
         guard let userInfo = notification.userInfo as? [String: Any],
               let memoCategoryId = userInfo["memoCategoryId"] as? Int,
               let memoCategoryName = userInfo["memoCategoryName"] as? String,
-              let petId = userInfo["petId"] as? Int
+              let petId = userInfo["petId"] as? Int,
+              let petName = userInfo["petName"] as? String
         else {
             return
         }
-        print("Selected memoCategoryId: \(memoCategoryId), memoCategoryName: \(memoCategoryName), petId: \(petId)")
+        print("Selected memoCategoryId: \(memoCategoryId), memoCategoryName: \(memoCategoryName), petId: \(petId), petName: \(petName)")
         
         NotificationCenter.default.removeObserver(self, name: .cellSelectedNotification, object: nil)
         NotificationCenter.default.post(name: .cellSelectedNotificationFromRootPanModal, object: nil, userInfo: userInfo)

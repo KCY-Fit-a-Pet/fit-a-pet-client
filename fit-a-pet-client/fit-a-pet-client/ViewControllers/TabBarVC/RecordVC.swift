@@ -10,6 +10,7 @@ class RecordVC: UIViewController{
     private let folderView = CustomCategoryStackView(label: "전체보기")
     private let listView = RecordListView()
     private let listTableViewMethod = RecordListTableViewMethod()
+    private let noListDataView = NoRecordDataView()
     private var selectedMemoCategoryId = 0
     private var selectedPetId = 0
     
@@ -18,6 +19,7 @@ class RecordVC: UIViewController{
         
         userTotalFolderListAPI()
         NotificationCenter.default.addObserver(self, selector: #selector(handleCellSelectionNotificationFromPanModal(_:)), name: .cellSelectedNotificationFromPanModal, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(handleFolderCreatedNotification(_:)), name: Notification.Name("FolderCreatedNotification"), object: nil)
         
         initView()
         setupNavigationBar()
@@ -50,6 +52,9 @@ class RecordVC: UIViewController{
         view.addSubview(dataScrollView)
         view.addSubview(folderView)
         dataScrollView.addSubview(listView)
+        dataScrollView.addSubview(noListDataView)
+        
+        noListDataView.isHidden = true
         
         let imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: 20, height: 20))
         imageView.image = UIImage(named: "search")
@@ -82,7 +87,8 @@ class RecordVC: UIViewController{
         
         dataScrollView.snp.makeConstraints { make in
             make.top.equalTo(folderView.snp.bottom).offset(8)
-            make.leading.trailing.bottom.equalToSuperview()
+            make.leading.trailing.equalToSuperview()
+            make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)
         }
         
         folderView.snp.makeConstraints{make in
@@ -95,6 +101,10 @@ class RecordVC: UIViewController{
             make.leading.trailing.equalTo(view).inset(16)
             make.height.equalTo(0)
             make.bottom.equalTo(dataScrollView.snp.bottom)
+        }
+        noListDataView.snp.makeConstraints{make in
+            make.centerX.centerY.equalTo(dataScrollView)
+            make.height.equalTo(50)
         }
         
     }
@@ -114,6 +124,17 @@ class RecordVC: UIViewController{
         recordButton.tintColor = .black
         navigationItem.rightBarButtonItems = [recordButton, folderButton]
     }
+    
+    func updatelistViewHeight() {
+        
+        let heightForRow:CGFloat = 88
+        let totalCellHeight = CGFloat(listView.recordListTableView.numberOfRows(inSection: 0)) * heightForRow
+      
+        listView.snp.updateConstraints { make in
+            make.height.equalTo(totalCellHeight + 200)
+        }
+    }
+    
     @objc func didTapfolederAddButton(){
         let nextVC = CreateFolderVC(title: "폴더 만들기")
         nextVC.hidesBottomBarWhenPushed = true
@@ -131,6 +152,7 @@ class RecordVC: UIViewController{
         let nextVC = TotalFolderPanModalVC()
         self.presentPanModal(nextVC)
     }
+    
     @objc func handleCellSelectionNotificationFromPanModal(_ notification: Notification) {
         guard let userInfo = notification.userInfo as? [String: Any],
               let memoCategoryId = userInfo["memoCategoryId"] as? Int,
@@ -152,16 +174,23 @@ class RecordVC: UIViewController{
         
         recordDataListAPI()
     }
-
-    func updatelistViewHeight() {
-        
-        let heightForRow:CGFloat = 88
-        let totalCellHeight = CGFloat(listView.recordListTableView.numberOfRows(inSection: 0)) * heightForRow
-      
-        listView.snp.updateConstraints { make in
-            make.height.equalTo(totalCellHeight + 200)
+    
+    @objc func handleFolderCreatedNotification(_ notification: Notification) {
+        guard let userInfo = notification.userInfo as? [String: Any],
+           let categoryId = userInfo["categoryId"] as? Int,
+           let categoryPetId = userInfo["categoryPetId"] as? Int,
+           let inputCategoryName = userInfo["inputCategoryName"] as? String,
+           let petName = userInfo["petName"] as? String
+        else {
+            return
         }
+        
+        self.folderView.selectedText = "\(petName)/\(inputCategoryName)"
+        selectedMemoCategoryId = categoryId
+        selectedPetId = categoryPetId
+        recordDataListAPI()
     }
+
     func userTotalFolderListAPI(){
         AuthorizationAlamofire.shared.recordTotalFolderList { result in
             switch result {
@@ -248,11 +277,18 @@ class RecordVC: UIViewController{
                                 memoList.append(memo)
                             }
                         }
-                        
+                        if memoList.count == 0{
+                            self.noListDataView.isHidden = false
+                            self.listView.isHidden = true
+                        }else{
+                            self.noListDataView.isHidden = true
+                            self.listView.isHidden =  false
+                        }
                         RecordDataListManager.shared.updateRecordData(newData: memoList)
                         print( RecordDataListManager.shared.recordData)
 
                         self.listView.recordListTableView.reloadData()
+                        self.updatelistViewHeight()
                         
                     } catch {
                         print("Error parsing JSON: \(error)")

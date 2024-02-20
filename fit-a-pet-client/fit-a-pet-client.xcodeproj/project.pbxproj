@@ -41,6 +41,7 @@
 		4A2974A62B7FCD7E00587AF8 /* CustomCategoryStackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A2974A52B7FCD7E00587AF8 /* CustomCategoryStackView.swift */; };
 		4A2974A82B7FD5D100587AF8 /* CustomPanModalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A2974A72B7FD5D100587AF8 /* CustomPanModalView.swift */; };
 		4A2974AA2B7FD70700587AF8 /* TotalFolderPanModalVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A2974A92B7FD70700587AF8 /* TotalFolderPanModalVC.swift */; };
+		4A2D55D52B84C87F0079FDC7 /* NoRecordDataView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A2D55D42B84C87F0079FDC7 /* NoRecordDataView.swift */; };
 		4A3D7BFA2B4F120900E3BBF8 /* CareDateCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A3D7BF92B4F120900E3BBF8 /* CareDateCollectionViewCell.swift */; };
 		4A3D7BFD2B4F1F4500E3BBF8 /* CategoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A3D7BFC2B4F1F4500E3BBF8 /* CategoryView.swift */; };
 		4A3D7BFF2B4F231500E3BBF8 /* ScheduleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A3D7BFE2B4F231500E3BBF8 /* ScheduleView.swift */; };
@@ -166,6 +167,7 @@
 		4A2974A52B7FCD7E00587AF8 /* CustomCategoryStackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomCategoryStackView.swift; sourceTree = "<group>"; };
 		4A2974A72B7FD5D100587AF8 /* CustomPanModalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomPanModalView.swift; sourceTree = "<group>"; };
 		4A2974A92B7FD70700587AF8 /* TotalFolderPanModalVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TotalFolderPanModalVC.swift; sourceTree = "<group>"; };
+		4A2D55D42B84C87F0079FDC7 /* NoRecordDataView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoRecordDataView.swift; sourceTree = "<group>"; };
 		4A3D7BF92B4F120900E3BBF8 /* CareDateCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CareDateCollectionViewCell.swift; sourceTree = "<group>"; };
 		4A3D7BFC2B4F1F4500E3BBF8 /* CategoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryView.swift; sourceTree = "<group>"; };
 		4A3D7BFE2B4F231500E3BBF8 /* ScheduleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleView.swift; sourceTree = "<group>"; };
@@ -288,7 +290,7 @@
 				4A0150382B76919B0069AF20 /* FolderTableViewCell.swift */,
 				4A4B08572B77AE3200959683 /* RecordListView.swift */,
 				4A4B08592B77B15400959683 /* RecordListTableViewCell.swift */,
-				4A1B5E482B79476A00A076A7 /* PetImageCollectionViewCell.swift */,
+				4A2D55D42B84C87F0079FDC7 /* NoRecordDataView.swift */,
 			);
 			path = RecordView;
 			sourceTree = "<group>";
@@ -444,6 +446,7 @@
 		4ABB933C2B7BDBC200E1EA73 /* CreateRecordView */ = {
 			isa = PBXGroup;
 			children = (
+				4A1B5E482B79476A00A076A7 /* PetImageCollectionViewCell.swift */,
 				4ABB933F2B7BDCB900E1EA73 /* ButtonStackView.swift */,
 			);
 			path = CreateRecordView;
@@ -874,6 +877,7 @@
 				4ABE53002B5AD92F000EA41D /* PetDataManager.swift in Sources */,
 				4A88D6172B53ABD2003A2D0F /* PetCareRegistrationManager.swift in Sources */,
 				4A4B085C2B77D2DF00959683 /* RecordVCMethod.swift in Sources */,
+				4A2D55D52B84C87F0079FDC7 /* NoRecordDataView.swift in Sources */,
 				4A9936542B64231B00B7B21A /* CalendarView.swift in Sources */,
 				4ACDD4A92ADAFFD100CD8F1A /* InputPetBirthVC.swift in Sources */,
 				4ABB933B2B7BD60F00E1EA73 /* RecordCreateManager.swift in Sources */,
