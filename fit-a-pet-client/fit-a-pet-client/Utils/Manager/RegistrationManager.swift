@@ -25,7 +25,6 @@ struct RegistrationManager {
         }
     }
 
-    // 회원가입 처리 또는 다른 작업을 수행하는 메서드
     func performRegistration() {
         if let id = id, let pw = pw, let nickname = nickname, let phone = phone {
             print("Registered User: ID - \(id), PW - \(pw), Nickname - \(nickname), Phone - \(phone)")

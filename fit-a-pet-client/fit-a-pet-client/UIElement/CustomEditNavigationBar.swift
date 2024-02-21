@@ -68,6 +68,8 @@ class CustomEditNavigationBar: UIViewController {
             return editUserNameAPI()
         case "케어 등록하기":
             return careCategoryCheckAPI()
+        case "":
+            return createRecordAPI()
         default:
             return
         }
@@ -110,6 +112,7 @@ extension CustomEditNavigationBar{
             }
         }
     }
+    
     func careCategoryCheckAPI(){
         
         var selectedPetIds: [Int] = []
@@ -197,5 +200,106 @@ extension CustomEditNavigationBar{
         customPopupVC.dismissalCompletion = {
             self.navigationController?.popToRootViewController(animated: true)
         }
+    }
+    private func createRecordAPI() {
+        
+        let images: [UIImage] = RecordCreateManager.shared.memoImages!
+        var urls = [String]()
+        
+        let dispatchGroup = DispatchGroup()
+
+        for image in images {
+            dispatchGroup.enter() 
+            
+            AnonymousAlamofire.shared.presignedURL("memos", "jpeg") { result in
+                defer {
+                    dispatchGroup.leave() 
+                }
+                
+                switch result {
+                case .success(let data):
+                    if let responseData = data {
+                        do {
+                            let jsonObject = try JSONSerialization.jsonObject(with: responseData, options: []) as? [String: Any]
+
+                            if let payloadValue = jsonObject?["payload"] as? String,
+                               let payloadURL = URL(string: payloadValue),
+                               let components = URLComponents(url: payloadURL, resolvingAgainstBaseURL: false),
+                               let queryItems = components.queryItems {
+                                
+                                if let range = payloadValue.range(of: "?") {
+                                    PAYLOADURL.PAYLOAD = String(payloadValue[..<range.lowerBound])
+                                } else {
+                                    PAYLOADURL.PAYLOAD = payloadValue
+                                }
+                                
+                                PAYLOADURL.algorithm = queryItems[0].value ?? ""
+                                PAYLOADURL.credential = queryItems[1].value ?? ""
+                                PAYLOADURL.date = queryItems[2].value ?? ""
+                                PAYLOADURL.expires = queryItems[3].value ?? ""
+                                PAYLOADURL.signature = queryItems[4].value ?? ""
+                                PAYLOADURL.signedHeaders = queryItems[5].value ?? ""
+                                PAYLOADURL.acl = queryItems[6].value ?? ""
+                                
+                                print("JSON Object: \(jsonObject ?? [:]) + \(PAYLOADURL.PAYLOAD)")
+                                
+                                urls.append(PAYLOADURL.PAYLOAD)
+                                
+                                AnonymousAlamofire.shared.uploadImage(image) { result in
+                                    switch result {
+                                    case .success(let data):
+                                        if let unwrappedData = data,
+                                           let resultString = String(data: unwrappedData, encoding: .utf8) {
+                                            print("Success: \(resultString)")
+                                        } else {
+                                            print("Success with nil or non-text data")
+                                        }
+                                        
+                                    case .failure(let error):
+                                        print("Error: \(error)")
+                                    }
+                                }
+                            } else {
+                                print("Payload key not found in the JSON response.")
+                            }
+                        } catch {
+                            print("Error parsing JSON: \(error)")
+                        }
+                    }
+                case .failure(let error):
+                    print("Error: \(error)")
+                }
+            }
+        }
+
+        dispatchGroup.notify(queue: .main) {
+            RecordCreateManager.shared.addInput(memoImageUrls: urls)
+            
+            let title = RecordCreateManager.shared.title ?? ""
+            let content = RecordCreateManager.shared.content ?? ""
+            let memoImageUrls = RecordCreateManager.shared.memoImageUrls ?? []
+
+            let combinedData: [String: Any] = [
+                "title": title,
+                "content": content,
+                "memoImageUrls": memoImageUrls
+            ]
+
+            print("combinedData: \(combinedData)")
+
+            AuthorizationAlamofire.shared.createRecord(1,combinedData, 8) { result in
+                switch result {
+                case .success(let data):
+                    if let responseData = data,
+                       let jsonObject = try? JSONSerialization.jsonObject(with: responseData, options: []) as? [String: Any] {
+                        print("response jsonData: \(jsonObject)")
+                    }
+
+                case .failure(let error):
+                    print("Error: \(error)")
+                }
+            }
+        }
+        
     }
 }

@@ -120,7 +120,7 @@ class MainVC: UIViewController {
             make.leading.equalTo(view.snp.leading)
             make.trailing.equalTo(view.snp.trailing)
         }
-        
+//
 //        mainInitView.snp.makeConstraints{ make in
 //            make.leading.equalTo(view.snp.leading)
 //            make.trailing.equalTo(view.snp.trailing)
@@ -142,7 +142,6 @@ class MainVC: UIViewController {
         petCareCollectionView.snp.makeConstraints{make in
             make.leading.trailing.equalToSuperview().inset(16)
             make.top.equalTo(petListView.snp.bottom).offset(20)
-            //make.bottom.equalTo(mainView.snp.bottom)
         }
 
         mainView.snp.makeConstraints{ make in

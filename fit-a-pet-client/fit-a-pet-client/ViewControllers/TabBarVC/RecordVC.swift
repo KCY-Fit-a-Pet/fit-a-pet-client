@@ -7,31 +7,42 @@ class RecordVC: UIViewController{
     
     private let searchRecordTextField =  UITextField()
     private let dataScrollView = UIScrollView()
-    private let folderView = RecordFolderView()
+    private let folderView = CustomCategoryStackView(label: "전체보기")
     private let listView = RecordListView()
-
-    private let folderTableViewMethod = RecordFolderTableViewMethod()
     private let listTableViewMethod = RecordListTableViewMethod()
-    
+    private let noListDataView = NoRecordDataView()
+    private var selectedMemoCategoryId = 0
+    private var selectedPetId = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        userTotalFolderListAPI()
+        NotificationCenter.default.addObserver(self, selector: #selector(handleCellSelectionNotificationFromPanModal(_:)), name: .cellSelectedNotificationFromPanModal, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(handleFolderCreatedNotification(_:)), name: Notification.Name("FolderCreatedNotification"), object: nil)
+        
         initView()
         setupNavigationBar()
         
-        folderView.folderTableView.delegate = folderTableViewMethod
-        folderView.folderTableView.dataSource = folderTableViewMethod
+        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(folderViewTapped))
+        folderView.addGestureRecognizer(tapGestureRecognizer)
         
         listView.recordListTableView.delegate = listTableViewMethod
         listView.recordListTableView.dataSource = listTableViewMethod
         
     }
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+
+    }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        updatefolderViewHeight()
         updatelistViewHeight()
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
     }
     
     func initView(){
@@ -39,8 +50,11 @@ class RecordVC: UIViewController{
         
         view.addSubview(searchRecordTextField)
         view.addSubview(dataScrollView)
-        dataScrollView.addSubview(folderView)
+        view.addSubview(folderView)
         dataScrollView.addSubview(listView)
+        dataScrollView.addSubview(noListDataView)
+        
+        noListDataView.isHidden = true
         
         let imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: 20, height: 20))
         imageView.image = UIImage(named: "search")
@@ -72,21 +86,25 @@ class RecordVC: UIViewController{
         }
         
         dataScrollView.snp.makeConstraints { make in
-            make.top.equalTo(searchRecordTextField.snp.bottom).offset(16)
-            make.leading.trailing.bottom.equalToSuperview()
+            make.top.equalTo(folderView.snp.bottom).offset(8)
+            make.leading.trailing.equalToSuperview()
+            make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)
         }
         
         folderView.snp.makeConstraints{make in
-            make.top.equalTo(dataScrollView.snp.top)
+            make.top.equalTo(searchRecordTextField.snp.bottom).offset(8)
             make.leading.trailing.equalTo(view).inset(16)
-            make.height.equalTo(0)
         }
         
         listView.snp.makeConstraints{make in
-            make.top.equalTo(folderView.snp.bottom)
+            make.top.equalTo(dataScrollView.snp.top).offset(8)
             make.leading.trailing.equalTo(view).inset(16)
             make.height.equalTo(0)
             make.bottom.equalTo(dataScrollView.snp.bottom)
+        }
+        noListDataView.snp.makeConstraints{make in
+            make.centerX.centerY.equalTo(dataScrollView)
+            make.height.equalTo(50)
         }
         
     }
@@ -106,6 +124,17 @@ class RecordVC: UIViewController{
         recordButton.tintColor = .black
         navigationItem.rightBarButtonItems = [recordButton, folderButton]
     }
+    
+    func updatelistViewHeight() {
+        
+        let heightForRow:CGFloat = 88
+        let totalCellHeight = CGFloat(listView.recordListTableView.numberOfRows(inSection: 0)) * heightForRow
+      
+        listView.snp.updateConstraints { make in
+            make.height.equalTo(totalCellHeight + 200)
+        }
+    }
+    
     @objc func didTapfolederAddButton(){
         let nextVC = CreateFolderVC(title: "폴더 만들기")
         nextVC.hidesBottomBarWhenPushed = true
@@ -118,38 +147,156 @@ class RecordVC: UIViewController{
         nextVC.hidesBottomBarWhenPushed = true
         self.navigationController?.pushViewController(nextVC, animated: true)
     }
+    @objc func folderViewTapped(){
+        userTotalFolderListAPI()
+        let nextVC = TotalFolderPanModalVC()
+        self.presentPanModal(nextVC)
+    }
     
-    func updatefolderViewHeight() {
-        
-        let heightForRow:CGFloat = 56
-        let totalCellHeight = CGFloat(folderView.folderTableView.numberOfRows(inSection: 0)) * heightForRow
-      
-        folderView.snp.updateConstraints { make in
-            make.height.equalTo(totalCellHeight)
+    @objc func handleCellSelectionNotificationFromPanModal(_ notification: Notification) {
+        guard let userInfo = notification.userInfo as? [String: Any],
+              let memoCategoryId = userInfo["memoCategoryId"] as? Int,
+              let memoCategoryName = userInfo["memoCategoryName"] as? String,
+              let petName = userInfo["petName"] as? String,
+              let type = userInfo["type"] as? String,
+              let petId = userInfo["petId"] as? Int
+        else {
+            return
         }
-    }
-    func updatelistViewHeight() {
-        
-        let heightForRow:CGFloat = 88
-        let totalCellHeight = CGFloat(folderView.folderTableView.numberOfRows(inSection: 0)) * heightForRow
-      
-        listView.snp.updateConstraints { make in
-            make.height.equalTo(totalCellHeight)
+        print("VC Selected memoCategoryId: \(memoCategoryId), memoCategoryName: \(memoCategoryName), petName: \(petName), type: \(type), petId: \(petId)")
+        selectedMemoCategoryId = memoCategoryId
+        selectedPetId = petId
+        if type == "ROOT"{
+            folderView.selectedText = memoCategoryName
+        }else{
+            folderView.selectedText = petName + "/" + memoCategoryName
         }
+        
+        recordDataListAPI()
     }
-}
+    
+    @objc func handleFolderCreatedNotification(_ notification: Notification) {
+        guard let userInfo = notification.userInfo as? [String: Any],
+           let categoryId = userInfo["categoryId"] as? Int,
+           let categoryPetId = userInfo["categoryPetId"] as? Int,
+           let inputCategoryName = userInfo["inputCategoryName"] as? String,
+           let petName = userInfo["petName"] as? String
+        else {
+            return
+        }
+        
+        self.folderView.selectedText = "\(petName)/\(inputCategoryName)"
+        selectedMemoCategoryId = categoryId
+        selectedPetId = categoryPetId
+        recordDataListAPI()
+    }
 
-struct MainViewController_Previews: PreviewProvider {
-  static var previews: some View {
-    Container().edgesIgnoringSafeArea(.all)
-  }
-  
-  struct Container: UIViewControllerRepresentable {
-    func makeUIViewController(context: Context) -> UIViewController {
-      let rootViewController = RecordVC()
-      return UINavigationController(rootViewController: RecordVC())
+    func userTotalFolderListAPI(){
+        AuthorizationAlamofire.shared.recordTotalFolderList { result in
+            switch result {
+            case .success(let data):
+                if let responseData = data {
+                    do {
+                        if let jsonObject = try JSONSerialization.jsonObject(with: responseData, options: []) as? [String: Any],
+                           let jsonData = jsonObject["data"] as? [String: Any],
+                           let rootCategoriesData = jsonData["rootMemoCategories"] as? [[String: Any]] {
+                            
+                            for categoryInfo in rootCategoriesData {
+                                if let petId = categoryInfo["petId"] as? Int,
+                                   let memoCategoryId = categoryInfo["memoCategoryId"] as? Int,
+                                   let memoCategoryName = categoryInfo["memoCategoryName"] as? String,
+                                   let totalMemoCount = categoryInfo["totalMemoCount"] as? Int,
+                                   let type = categoryInfo["type"] as? String {
+                                    
+                                    var subCategories: [MemoCategory] = []
+                                    
+                                    if let subCategoriesData = categoryInfo["subMemoCategories"] as? [[String: Any]] {
+                                        for subCategoryInfo in subCategoriesData {
+                                            if let rootPetId = subCategoryInfo["petId"] as? Int,
+                                               let subMemoCategoryId = subCategoryInfo["memoCategoryId"] as? Int,
+                                               let subMemoCategoryName = subCategoryInfo["memoCategoryName"] as? String,
+                                               let subTotalMemoCount = subCategoryInfo["totalMemoCount"] as? Int,
+                                               let subType = subCategoryInfo["type"] as? String {
+                                                
+                                                let subCategory = MemoCategory(petId: rootPetId,
+                                                                               memoCategoryId: subMemoCategoryId,
+                                                                               memoCategoryName: subMemoCategoryName,
+                                                                               totalMemoCount: subTotalMemoCount,
+                                                                               type: subType)
+                                                subCategories.append(subCategory)
+                                            }
+                                        }
+                                    }
+                                    
+                                    let memoCategory = MemoCategory(petId: petId,
+                                                                    memoCategoryId: memoCategoryId,
+                                                                    memoCategoryName: memoCategoryName,
+                                                                    totalMemoCount: totalMemoCount,
+                                                                    type: type,
+                                                                    subCategories: subCategories)
+                                    RecordTotalFolderManager.shared.updateCategoryData(categoryName: memoCategoryName, newData: [memoCategory])
+                                }
+                            }
+                            print(RecordTotalFolderManager.shared.categoryData)
+                        }
+                    } catch {
+                        print("Error parsing JSON: \(error)")
+                    }
+                }
+            case .failure(let error):
+                print("Error fetching: \(error)")
+            }
+        }
     }
-    func updateUIViewController(_ uiViewController: UIViewControllerType, context: Context) {}
-    typealias UIViewControllerType = UIViewController
-  }
+    
+    func recordDataListAPI(){
+        AuthorizationAlamofire.shared.recordDataListInquiry(selectedPetId, selectedMemoCategoryId, "") { result in
+            switch result {
+            case .success(let data):
+                if let responseData = data {
+                    do {
+                        var memoList: [Memo] = []
+                        if let jsonObject = try JSONSerialization.jsonObject(with: responseData, options: []) as? [String: Any],
+                           let jsonData = jsonObject["data"] as? [String: Any],
+                           let memoDatas = jsonData["memos"] as? [[String: Any]] {
+                            for memoData in memoDatas {
+                                let memoImageDict = memoData["memoImage"] as? [String: Any]
+                                let memoImage: MemoImage?
+                                if let memoImageDict = memoImageDict {
+                                    memoImage = MemoImage(imgUrl: memoImageDict["imgUrl"] as? String ?? "",
+                                                          memoImageId: memoImageDict["memoImageId"] as? Int ?? 0)
+                                } else {
+                                    memoImage = nil
+                                }
+                                let memo = Memo(categorySuffix: memoData["categorySuffix"] as? String ?? "",
+                                                content: memoData["content"] as? String ?? "",
+                                                createdAt: memoData["createdAt"] as? String ?? "",
+                                                memoId: memoData["memoId"] as? Int ?? 0,
+                                                memoImage: memoImage,
+                                                title: memoData["title"] as? String ?? "")
+                                memoList.append(memo)
+                            }
+                        }
+                        if memoList.count == 0{
+                            self.noListDataView.isHidden = false
+                            self.listView.isHidden = true
+                        }else{
+                            self.noListDataView.isHidden = true
+                            self.listView.isHidden =  false
+                        }
+                        RecordDataListManager.shared.updateRecordData(newData: memoList)
+                        print( RecordDataListManager.shared.recordData)
+
+                        self.listView.recordListTableView.reloadData()
+                        self.updatelistViewHeight()
+                        
+                    } catch {
+                        print("Error parsing JSON: \(error)")
+                    }
+                }
+            case .failure(let error):
+                print("Error fetching: \(error)")
+            }
+        }
+    }
 }

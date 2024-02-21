@@ -3,7 +3,7 @@ import UIKit
 import SnapKit
 import PanModal
 
-class TimeAttackPanModalVC: CustomEditNavigationBar {
+class TimeAttackPanModalVC: UIViewController {
     
     var time = ["없음", "5분 전", "10분 전", "15분 전", "30분 전", "1시간 전", "2시간 전"]
     var timeList = [0,5,10,15,30,60,120]

@@ -2,7 +2,7 @@ import UIKit
 import SnapKit
 import PanModal
 
-class PetPanModalVC: CustomEditNavigationBar {
+class PetPanModalVC: UIViewController {
     
     var petList: [PetList] = PetList.petsList
 
