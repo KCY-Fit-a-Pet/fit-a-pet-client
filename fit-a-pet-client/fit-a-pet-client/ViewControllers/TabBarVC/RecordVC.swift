@@ -17,12 +17,12 @@ class RecordVC: UIViewController{
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        userTotalFolderListAPI()
         NotificationCenter.default.addObserver(self, selector: #selector(handleCellSelectionNotificationFromPanModal(_:)), name: .cellSelectedNotificationFromPanModal, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(handleFolderCreatedNotification(_:)), name: Notification.Name("FolderCreatedNotification"), object: nil)
         
         initView()
         setupNavigationBar()
+        userTotalFolderListAPI()
         
         let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(folderViewTapped))
         folderView.addGestureRecognizer(tapGestureRecognizer)
