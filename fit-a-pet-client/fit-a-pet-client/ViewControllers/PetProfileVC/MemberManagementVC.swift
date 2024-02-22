@@ -17,6 +17,9 @@ class MemberManagementVC: UIViewController{
         
         memberView.memberTableView.dataSource = self
         memberView.memberTableView.delegate = self
+        
+        memberView.memberInviteBtn.addTarget(self, action: #selector(inviteButtonTapped), for: .touchUpInside)
+        
     }
     
     func initView(){
@@ -45,6 +48,13 @@ class MemberManagementVC: UIViewController{
             make.leading.trailing.equalToSuperview()
         }
         
+    }
+    @objc func inviteButtonTapped(){
+        
+        let nextVC = InviteMemberVC()
+        
+         let navigationController = UINavigationController(rootViewController: nextVC)
+        self.present(navigationController, animated: true)
     }
     
 }

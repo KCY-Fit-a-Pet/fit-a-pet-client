@@ -5,7 +5,7 @@ import SwiftUI
 
 class RecordVC: UIViewController{
     
-    private let searchRecordTextField =  UITextField()
+    private let searchRecordTextField =  CustomSearchTextField()
     private let dataScrollView = UIScrollView()
     private let folderView = CustomCategoryStackView(label: "전체보기")
     private let listView = RecordListView()
@@ -56,35 +56,13 @@ class RecordVC: UIViewController{
         
         noListDataView.isHidden = true
         
-        let imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: 20, height: 20))
-        imageView.image = UIImage(named: "search")
-
-        let iconContainerView: UIView = UIView()
-        iconContainerView.addSubview(imageView)
-        
-        
-        searchRecordTextField.font = .systemFont(ofSize: 14)
-        searchRecordTextField.layer.cornerRadius = 8
-        searchRecordTextField.placeholder = "검색"
-        searchRecordTextField.backgroundColor = UIColor(named: "Gray1")
-        searchRecordTextField.leftView = iconContainerView
-        searchRecordTextField.leftViewMode = .always
-
-        imageView.snp.makeConstraints { make in
-            make.leading.equalTo(iconContainerView).offset(10)
-            make.centerY.equalTo(iconContainerView)
-        }
+        searchRecordTextField.placeholderText = "검색"
         searchRecordTextField.snp.makeConstraints { make in
             make.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(8)
             make.leading.trailing.equalToSuperview().inset(16)
             make.height.equalTo(56)
         }
 
-        iconContainerView.snp.makeConstraints { make in
-            make.width.equalTo(38)
-            make.height.equalTo(20)
-        }
-        
         dataScrollView.snp.makeConstraints { make in
             make.top.equalTo(folderView.snp.bottom).offset(8)
             make.leading.trailing.equalToSuperview()

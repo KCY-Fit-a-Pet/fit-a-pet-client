@@ -28,7 +28,7 @@ class MemberTableViewCell: UITableViewCell {
         menuButton.setImage(UIImage(named: "detail_icon"), for: .normal)
         
         menuButton.snp.makeConstraints { make in
-            make.trailing.equalToSuperview().offset(-16)
+            make.trailing.equalToSuperview()
             make.centerY.equalToSuperview()
             make.width.height.equalTo(44)
         }

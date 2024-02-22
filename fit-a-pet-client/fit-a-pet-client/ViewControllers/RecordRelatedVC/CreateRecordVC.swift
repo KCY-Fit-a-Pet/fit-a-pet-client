@@ -103,7 +103,7 @@ class CreateRecordVC: CustomEditNavigationBar {
         buttonStackView.snp.makeConstraints { make in
             make.height.equalTo(56)
             make.leading.trailing.equalToSuperview().inset(16)
-            make.bottom.equalTo(view.snp.bottom).offset(-20)
+            make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom).offset(-10)
         }
     }
     
@@ -173,7 +173,7 @@ extension CreateRecordVC {
             
 
             self.buttonStackView.snp.updateConstraints { make in
-                make.bottom.equalTo(view.snp.bottom).offset(-offsetData)
+                make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom).offset(-(offsetData-20))
             }
         }
     
@@ -184,7 +184,7 @@ extension CreateRecordVC {
         self.buttonStackView.keyboardHideButton.setImage(UIImage(named: ""), for: .normal)
         
         self.buttonStackView.snp.updateConstraints { make in
-            make.bottom.equalTo(view.snp.bottom).offset(-20)
+            make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom).offset(-10)
         }
     }
     

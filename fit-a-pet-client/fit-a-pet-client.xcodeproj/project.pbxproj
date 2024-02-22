@@ -47,6 +47,8 @@
 		4A2D55DC2B866ECB0079FDC7 /* UserDataView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A2D55DB2B866ECB0079FDC7 /* UserDataView.swift */; };
 		4A2D55DE2B86734D0079FDC7 /* MemberView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A2D55DD2B86734D0079FDC7 /* MemberView.swift */; };
 		4A2D55E02B8674520079FDC7 /* MemberTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A2D55DF2B8674520079FDC7 /* MemberTableViewCell.swift */; };
+		4A2D55E22B87B7170079FDC7 /* InviteMemberVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A2D55E12B87B7170079FDC7 /* InviteMemberVC.swift */; };
+		4A2D55E42B87B86C0079FDC7 /* CustomSearchTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A2D55E32B87B86C0079FDC7 /* CustomSearchTextField.swift */; };
 		4A3D7BFA2B4F120900E3BBF8 /* CareDateCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A3D7BF92B4F120900E3BBF8 /* CareDateCollectionViewCell.swift */; };
 		4A3D7BFD2B4F1F4500E3BBF8 /* CategoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A3D7BFC2B4F1F4500E3BBF8 /* CategoryView.swift */; };
 		4A3D7BFF2B4F231500E3BBF8 /* ScheduleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A3D7BFE2B4F231500E3BBF8 /* ScheduleView.swift */; };
@@ -178,6 +180,8 @@
 		4A2D55DB2B866ECB0079FDC7 /* UserDataView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDataView.swift; sourceTree = "<group>"; };
 		4A2D55DD2B86734D0079FDC7 /* MemberView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemberView.swift; sourceTree = "<group>"; };
 		4A2D55DF2B8674520079FDC7 /* MemberTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemberTableViewCell.swift; sourceTree = "<group>"; };
+		4A2D55E12B87B7170079FDC7 /* InviteMemberVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InviteMemberVC.swift; sourceTree = "<group>"; };
+		4A2D55E32B87B86C0079FDC7 /* CustomSearchTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSearchTextField.swift; sourceTree = "<group>"; };
 		4A3D7BF92B4F120900E3BBF8 /* CareDateCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CareDateCollectionViewCell.swift; sourceTree = "<group>"; };
 		4A3D7BFC2B4F1F4500E3BBF8 /* CategoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryView.swift; sourceTree = "<group>"; };
 		4A3D7BFE2B4F231500E3BBF8 /* ScheduleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleView.swift; sourceTree = "<group>"; };
@@ -602,6 +606,7 @@
 				4A0750D32B0892B900281A4C /* CustomNavigationBar.swift */,
 				4A8662D72B262DA200D8DDE8 /* CustomEditNavigationBar.swift */,
 				4A2974A52B7FCD7E00587AF8 /* CustomCategoryStackView.swift */,
+				4A2D55E32B87B86C0079FDC7 /* CustomSearchTextField.swift */,
 			);
 			path = UIElement;
 			sourceTree = "<group>";
@@ -634,6 +639,7 @@
 				4AE293F02B6FFA2800920C0B /* PetDetailProfileVC.swift */,
 				4A01502C2B7404270069AF20 /* PetProfileEditVC.swift */,
 				4A2D55D62B8663FE0079FDC7 /* MemberManagementVC.swift */,
+				4A2D55E12B87B7170079FDC7 /* InviteMemberVC.swift */,
 			);
 			path = PetProfileVC;
 			sourceTree = "<group>";
@@ -871,6 +877,7 @@
 				4A8B9B4C2AD443EE009236EC /* MyLogger.swift in Sources */,
 				4A0150342B7545660069AF20 /* BirthdayView.swift in Sources */,
 				4A3D7BFD2B4F1F4500E3BBF8 /* CategoryView.swift in Sources */,
+				4A2D55E22B87B7170079FDC7 /* InviteMemberVC.swift in Sources */,
 				4ACDD4A52AD9B3DC00CD8F1A /* InputGenderVC.swift in Sources */,
 				4AD354152AACD390004A47B3 /* LoginVC.swift in Sources */,
 				4A4B085F2B77D89300959683 /* CreateFolderVC.swift in Sources */,
@@ -923,6 +930,7 @@
 				4A0150392B76919B0069AF20 /* FolderTableViewCell.swift in Sources */,
 				4AF0C8542B24E1A800A45EEE /* MyInfoTableViewCell.swift in Sources */,
 				4A4BFDCA2AD26B0F0062BDB8 /* RegistrationManager.swift in Sources */,
+				4A2D55E42B87B86C0079FDC7 /* CustomSearchTextField.swift in Sources */,
 				4A54A0B92B584D110024B940 /* PetProfileView.swift in Sources */,
 				4A54A0B62B5849230024B940 /* PetCollectionViewCell.swift in Sources */,
 				4AD354202AAF7CD6004A47B3 /* MainVC.swift in Sources */,

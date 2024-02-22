@@ -6,6 +6,8 @@ class MemberView: UIView {
     
     let memberStackView = UIStackView()
     let memberTableView = UITableView()
+    let memberTitleLabel = UILabel()
+    let memberInviteBtn = UIButton()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -24,22 +26,20 @@ class MemberView: UIView {
         
         memberTableView.register(MemberTableViewCell.self, forCellReuseIdentifier: "MemberTableViewCell")
         
-        let label = UILabel()
-        label.text = "멤버"
-        label.font = .boldSystemFont(ofSize: 16)
-        
-        let button = UIButton()
-        button.setTitle("초대하기", for: .normal)
-        button.setTitleColor(UIColor(named: "PrimaryColor"), for: .normal)
-        button.titleLabel?.font = UIFont.systemFont(ofSize: 14, weight: .medium)
+        memberTitleLabel.text = "멤버"
+        memberTitleLabel.font = .boldSystemFont(ofSize: 16)
+
+        memberInviteBtn.setTitle("초대하기", for: .normal)
+        memberInviteBtn.setTitleColor(UIColor(named: "PrimaryColor"), for: .normal)
+        memberInviteBtn.titleLabel?.font = UIFont.systemFont(ofSize: 14, weight: .medium)
 
         memberStackView.axis = .horizontal
         memberStackView.alignment = .center
         memberStackView.spacing = 8
         memberStackView.distribution = .equalSpacing
         
-        memberStackView.addArrangedSubview(label)
-        memberStackView.addArrangedSubview(button)
+        memberStackView.addArrangedSubview(memberTitleLabel)
+        memberStackView.addArrangedSubview(memberInviteBtn)
         
         memberStackView.snp.makeConstraints { make in
             make.height.equalTo(24)
