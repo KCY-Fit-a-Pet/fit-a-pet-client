@@ -1,61 +1,124 @@
 import UIKit
 import SnapKit
 
-class EditUserNameVC: CustomEditNavigationBar {
+class EditUserNameVC: CustomNavigationBar {
 
-    private var currentUserNameTextField: UITextField!
+    private var currentUserNameTextField = UITextField()
+    private let editButton = CustomNextBtn(title: "이름 변경하기")
+    private var userName = ""
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        setupTapGesture()
+        initView()
 
         self.view.backgroundColor = .white
 
-        currentUserNameTextField = createTextField(with: "이름", placeholder: "이름")
-
-        let mainStackView = UIStackView(arrangedSubviews: [currentUserNameTextField])
-        mainStackView.axis = .vertical
-        mainStackView.spacing = 16
-
-        view.addSubview(mainStackView)
-
-        mainStackView.snp.makeConstraints { make in
-            make.top.equalTo(view.safeAreaLayoutGuide).offset(20)
-            make.leading.trailing.equalToSuperview().inset(16)
-        }
-
-        currentUserNameTextField.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
+        editButton.addTarget(self, action: #selector(editButtonTapped), for: .touchUpInside)
+        
+        currentUserNameTextField.delegate = self
     }
-
-    private func createTextField(with labelText: String, placeholder: String) -> UITextField {
-        let label = UILabel()
-        label.text = labelText
-        label.font = .boldSystemFont(ofSize: 18)
-
-        let textField = UITextField()
-        textField.font = .systemFont(ofSize: 14)
-        textField.placeholder = placeholder
-        textField.leftView = UIView(frame: CGRect(x: 0.0, y: 0.0, width: 8.0, height: 0.0))
-        textField.leftViewMode = .always
-        textField.borderStyle = .roundedRect
-
-        textField.snp.makeConstraints { make in
+    
+    func initView(){
+        currentUserNameTextField.placeholder = "이름"
+        currentUserNameTextField.layer.borderWidth = 1
+        currentUserNameTextField.layer.cornerRadius = 5
+        currentUserNameTextField.layer.borderColor = UIColor(named: "Gray3")?.cgColor
+        currentUserNameTextField.font = .systemFont(ofSize:14)
+        
+        currentUserNameTextField.leftView = UIView(frame: CGRect(x: 0.0, y: 0.0, width: 16.0, height: 0.0))
+        currentUserNameTextField.leftViewMode = .always
+        
+        view.addSubview(currentUserNameTextField)
+        view.addSubview(editButton)
+        
+        currentUserNameTextField.snp.makeConstraints { make in
+            make.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(32)
+            make.leading.trailing.equalToSuperview().inset(16)
             make.height.equalTo(56)
         }
-
-        let stackView = UIStackView(arrangedSubviews: [label, textField])
-        stackView.axis = .vertical
-        stackView.spacing = 8
-
-        view.addSubview(stackView)
-
-        return textField
+        
+        editButton.snp.makeConstraints{make in
+            make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom).offset(-10)
+            make.leading.trailing.equalToSuperview().inset(16)
+        }
     }
 
-    @objc private func textFieldDidChange() {
-        let fieldsFilled = !(currentUserNameTextField.text?.isEmpty ?? true)
-        userName = currentUserNameTextField.text!
-        saveButton.tintColor = fieldsFilled ? UIColor(named: "PrimaryColor") : UIColor(named: "Gray3")
+    
+    @objc private func editButtonTapped(){
+        AuthorizationAlamofire.shared.editUserName("name", userName){ [self]
+            result in
+            switch result {
+            case .success(let data):
+                if let responseData = data {
+                    let object = try?JSONSerialization.jsonObject(with: responseData, options: []) as? NSDictionary
+                    guard let jsonObject = object else {return}
+                    print("respose jsonData: \(jsonObject)")
+                    UserDefaults.standard.set(userName, forKey: "name")
+                    self.navigationController?.popToRootViewController(animated: true)
+                }
+            case .failure(let error):
+                print("Error: \(error)")
+            }
+        }
     }
 }
 
 
+extension EditUserNameVC: UITextFieldDelegate{
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+
+        let updatedText = (textField.text! as NSString).replacingCharacters(in: range, with: string)
+        editButton.updateButtonColor(updatedText, false)
+        
+        if updatedText.isEmpty{
+            currentUserNameTextField.layer.borderColor = UIColor(named: "Gray3")?.cgColor
+        }else{
+            currentUserNameTextField.layer.borderColor = UIColor(named: "PrimaryColor")?.cgColor
+        }
+
+        return true
+    }
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        
+        if let text = textField.text {
+            userName = text
+            print("Entered Text: \(text)")
+        }
+    }
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
+    }
+}
+
+extension EditUserNameVC {
+    @objc private func keyboardWillShow(notification: Notification) {
+            guard let userInfo = notification.userInfo,
+                  let keyboardFrame = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect else { return }
+            
+            let keyboardHeight = keyboardFrame.height
+            let offsetData = keyboardHeight
+
+            self.editButton.snp.updateConstraints { make in
+                make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom).offset(-(offsetData-20))
+            }
+        }
+    
+    @objc private func keyboardWillHide(notification: Notification) {
+        
+        self.editButton.snp.updateConstraints { make in
+            make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom).offset(-10)
+        }
+    }
+    
+    private func setupTapGesture() {
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+        tapGesture.cancelsTouchesInView = false
+        view.addGestureRecognizer(tapGesture)
+    }
+    
+    @objc private func dismissKeyboard() {
+        view.endEditing(true)
+    }
+}
