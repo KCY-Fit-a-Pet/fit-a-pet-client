@@ -133,6 +133,9 @@
 		4AF0C8522B24E0F000A45EEE /* TableViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AF0C8512B24E0F000A45EEE /* TableViewModel.swift */; };
 		4AF0C8542B24E1A800A45EEE /* MyInfoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AF0C8532B24E1A800A45EEE /* MyInfoTableViewCell.swift */; };
 		4AF0C8562B25A93500A45EEE /* AlarmTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AF0C8552B25A93500A45EEE /* AlarmTableViewCell.swift */; };
+		4AF2409C2B88BDB000E224AE /* InviteWaitingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AF2409B2B88BDB000E224AE /* InviteWaitingView.swift */; };
+		4AF2409E2B88C25000E224AE /* MemberManagementVCMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AF2409D2B88C25000E224AE /* MemberManagementVCMethod.swift */; };
+		4AF240A02B88C45D00E224AE /* InviteMemberTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AF2409F2B88C45D00E224AE /* InviteMemberTableViewCell.swift */; };
 		4AFBBBAF2B66DDFF00166643 /* ScheduleRegistrationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AFBBBAE2B66DDFF00166643 /* ScheduleRegistrationManager.swift */; };
 		5F3351521D53411AE096AE11 /* Pods_fit_a_pet_client.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB1D3740B0C5A796E5D597B2 /* Pods_fit_a_pet_client.framework */; };
 /* End PBXBuildFile section */
@@ -269,6 +272,9 @@
 		4AF0C8512B24E0F000A45EEE /* TableViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewModel.swift; sourceTree = "<group>"; };
 		4AF0C8532B24E1A800A45EEE /* MyInfoTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyInfoTableViewCell.swift; sourceTree = "<group>"; };
 		4AF0C8552B25A93500A45EEE /* AlarmTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlarmTableViewCell.swift; sourceTree = "<group>"; };
+		4AF2409B2B88BDB000E224AE /* InviteWaitingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InviteWaitingView.swift; sourceTree = "<group>"; };
+		4AF2409D2B88C25000E224AE /* MemberManagementVCMethod.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemberManagementVCMethod.swift; sourceTree = "<group>"; };
+		4AF2409F2B88C45D00E224AE /* InviteMemberTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InviteMemberTableViewCell.swift; sourceTree = "<group>"; };
 		4AFBBBAE2B66DDFF00166643 /* ScheduleRegistrationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleRegistrationManager.swift; sourceTree = "<group>"; };
 		A8CCF3AF04A53824C263132B /* Pods-fit-a-pet-client.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-fit-a-pet-client.debug.xcconfig"; path = "Target Support Files/Pods-fit-a-pet-client/Pods-fit-a-pet-client.debug.xcconfig"; sourceTree = "<group>"; };
 		AB1D3740B0C5A796E5D597B2 /* Pods_fit_a_pet_client.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_fit_a_pet_client.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -340,6 +346,8 @@
 				4A2D55DB2B866ECB0079FDC7 /* UserDataView.swift */,
 				4A2D55DD2B86734D0079FDC7 /* MemberView.swift */,
 				4A2D55DF2B8674520079FDC7 /* MemberTableViewCell.swift */,
+				4AF2409F2B88C45D00E224AE /* InviteMemberTableViewCell.swift */,
+				4AF2409B2B88BDB000E224AE /* InviteWaitingView.swift */,
 			);
 			path = MemberManagementView;
 			sourceTree = "<group>";
@@ -561,6 +569,7 @@
 				4A0C7F042B5C549D0097D753 /* MainVCMethod.swift */,
 				4A4B085B2B77D2DF00959683 /* RecordVCMethod.swift */,
 				4A0CC35F2B810147004A9D77 /* NotificationName.swift */,
+				4AF2409D2B88C25000E224AE /* MemberManagementVCMethod.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -878,8 +887,10 @@
 				4A0150342B7545660069AF20 /* BirthdayView.swift in Sources */,
 				4A3D7BFD2B4F1F4500E3BBF8 /* CategoryView.swift in Sources */,
 				4A2D55E22B87B7170079FDC7 /* InviteMemberVC.swift in Sources */,
+				4AF240A02B88C45D00E224AE /* InviteMemberTableViewCell.swift in Sources */,
 				4ACDD4A52AD9B3DC00CD8F1A /* InputGenderVC.swift in Sources */,
 				4AD354152AACD390004A47B3 /* LoginVC.swift in Sources */,
+				4AF2409E2B88C25000E224AE /* MemberManagementVCMethod.swift in Sources */,
 				4A4B085F2B77D89300959683 /* CreateFolderVC.swift in Sources */,
 				4A15F2162AA8B4CA0098F2F7 /* InputNickVC.swift in Sources */,
 				4A4B08582B77AE3200959683 /* RecordListView.swift in Sources */,
@@ -943,6 +954,7 @@
 				4A8662D62B2629F500D8DDE8 /* EditUserNameVC.swift in Sources */,
 				4A40561F2B52FE7900A95891 /* TimeAttackPanModalTabelViewCell.swift in Sources */,
 				4AE293F62B713E9A00920C0B /* PetDetailCareListView.swift in Sources */,
+				4AF2409C2B88BDB000E224AE /* InviteWaitingView.swift in Sources */,
 				4A54A0BB2B5858440024B940 /* PetCareListView.swift in Sources */,
 				4AE293F32B70041100920C0B /* PetProfileUtils.swift in Sources */,
 				4A01502F2B7407880069AF20 /* ImagePickerUtil.swift in Sources */,

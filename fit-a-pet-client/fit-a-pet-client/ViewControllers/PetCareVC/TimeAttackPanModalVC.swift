@@ -83,7 +83,7 @@ extension TimeAttackPanModalVC: UITableViewDataSource, UITableViewDelegate {
         PetCareRegistrationManager.shared.addInput(limitTime: selectTime)
         ScheduleRegistrationManager.shared.addInput(notifyTime: selectTime)
 
-        print(PetCareRegistrationManager.shared.limitTime)
+        print(PetCareRegistrationManager.shared.limitTime as Any)
         
         tableView.deselectRow(at: indexPath, animated: true)
         print("selectTime: \(selectTime)")

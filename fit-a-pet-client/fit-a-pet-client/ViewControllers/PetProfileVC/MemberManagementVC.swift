@@ -4,32 +4,50 @@ import UIKit
 import SnapKit
 import SwiftUI
 
-class MemberManagementVC: UIViewController{
+class MemberManagementVC: UIViewController, MemberListTableViewMethodDelegate{
     
     private let layoutView = UIView()
     private let managerView = ManagerView()
+    private let containerView = UIView()
     private let memberView = MemberView()
-    private var userDataArray: [String] = ["User 1", "User 2", "User 3"]
+    private let inviteWaitingView = InviteWaitingView()
+    
+    private let memberMethod = MemberListTableViewMethod()
+    private let inviteMemberMethod = MemberInviteListTableViewMethod()
+    
+    private let heightForRow: CGFloat = 76
     
     override func viewDidLoad() {
         super.viewDidLoad()
         initView()
         
-        memberView.memberTableView.dataSource = self
-        memberView.memberTableView.delegate = self
+        memberMethod.delegate = self
+        memberView.memberTableView.dataSource = memberMethod
+        memberView.memberTableView.delegate = memberMethod
+        
+        inviteWaitingView.inviteMemberTableView.dataSource = inviteMemberMethod
+        inviteWaitingView.inviteMemberTableView.delegate = inviteMemberMethod
         
         memberView.memberInviteBtn.addTarget(self, action: #selector(inviteButtonTapped), for: .touchUpInside)
         
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        updateMemberViewHeight()
     }
     
     func initView(){
         view.backgroundColor = .white
         
         layoutView.backgroundColor = UIColor(named: "Gray0")
+        containerView.backgroundColor = .white
 
         view.addSubview(layoutView)
         layoutView.addSubview(managerView)
-        layoutView.addSubview(memberView)
+        layoutView.addSubview(containerView)
+        containerView.addSubview(memberView)
+        containerView.addSubview(inviteWaitingView)
         
         memberView.backgroundColor = .white
      
@@ -41,37 +59,44 @@ class MemberManagementVC: UIViewController{
             make.top.equalTo(layoutView.snp.top)
             make.leading.trailing.equalToSuperview()
         }
+        
+        containerView.snp.makeConstraints{make in
+            make.top.equalTo(managerView.snp.bottom).offset(8)
+            make.leading.trailing.equalToSuperview()
+            make.bottom.equalToSuperview()
+        }
 
         memberView.snp.makeConstraints{make in
-            make.bottom.equalToSuperview()
-            make.top.equalTo(managerView.snp.bottom).offset(8)
+            make.height.equalTo(0)
+            make.top.equalToSuperview().offset(8)
             make.leading.trailing.equalToSuperview()
         }
         
+        inviteWaitingView.snp.makeConstraints{make in
+            make.bottom.equalToSuperview()
+            make.top.equalTo(memberView.snp.bottom).offset(8)
+            make.leading.trailing.equalToSuperview()
+        }
     }
+    
+    func pushViewController(_ viewController: UIViewController, animated: Bool) {
+        navigationController?.pushViewController(viewController, animated: animated)
+    }
+    
+    func updateMemberViewHeight() {
+        let totalCellHeight = CGFloat(memberView.memberTableView.numberOfRows(inSection: 0)) * heightForRow
+        
+        memberView.snp.updateConstraints { make in
+            make.height.equalTo(totalCellHeight + 62)
+        }
+    }
+    
     @objc func inviteButtonTapped(){
         
         let nextVC = InviteMemberVC()
         
          let navigationController = UINavigationController(rootViewController: nextVC)
         self.present(navigationController, animated: true)
-    }
-    
-}
-
-
-extension MemberManagementVC: UITableViewDataSource, UITableViewDelegate{
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return userDataArray.count
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "MemberTableViewCell", for: indexPath) as! MemberTableViewCell
-        cell.userDataView.profileUserName.text = userDataArray[indexPath.row]
-        return cell
-    }
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 76
     }
 }
 

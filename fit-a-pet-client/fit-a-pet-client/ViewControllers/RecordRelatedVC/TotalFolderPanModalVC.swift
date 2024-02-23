@@ -8,7 +8,7 @@ class TotalFolderPanModalVC: UIViewController {
     private lazy var customPanModalView = CustomPanModalView()
     private let folderView = RecordFolderView()
     private let folderTableViewMethod = RecordTotalFolderTableViewMethod()
-    let heightForRow:CGFloat = 56
+    private let heightForRow:CGFloat = 56
     
     override func viewDidLoad() {
         super.viewDidLoad()

@@ -2,14 +2,22 @@
 import UIKit
 import SnapKit
 
+protocol MemberTableViewCellDelegate: AnyObject {
+    func didTapChangeName()
+}
+
 class MemberTableViewCell: UITableViewCell {
     
     let userDataView = UserDataView()
     let menuButton = UIButton()
+    weak var delegate: MemberTableViewCellDelegate?
+
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setupView()
+        
+        menuButton.addTarget(self, action: #selector(showMenu), for: .touchUpInside)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -32,5 +40,18 @@ class MemberTableViewCell: UITableViewCell {
             make.centerY.equalToSuperview()
             make.width.height.equalTo(44)
         }
+    }
+    
+    
+    @objc private func showMenu() {
+        let menu = UIMenu(title: "", children: [
+            UIAction(title: "이름 변경") { [weak self] action in
+                self?.delegate?.didTapChangeName()
+            },
+        ])
+        
+        self.menuButton.menu = menu
+        self.menuButton.showsMenuAsPrimaryAction = true
+        self.menuButton.isUserInteractionEnabled = true
     }
 }
