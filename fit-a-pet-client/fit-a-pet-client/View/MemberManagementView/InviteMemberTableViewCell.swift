@@ -20,7 +20,7 @@ class InviteMemberTableViewCell: UITableViewCell {
     private func setupView() {
         contentView.addSubview(userDataView)
         contentView.addSubview(cancleBtn)
-        userDataView.layer.borderWidth = 2
+ 
         userDataView.snp.makeConstraints { make in
             make.centerY.equalToSuperview()
             make.height.equalTo(76)

@@ -34,6 +34,7 @@ enum MySearchRouter: URLRequestConvertible {
     case createFolder(petId: Int, rootMemoCategoryId: Int, categoryName: String)
     case recordDataListInquiry(petId: Int, memoCategoryId: Int, searchData: String)
     case petManagersList(petId: Int)
+    case searchUserProfile(searchId: String)
     
     var baseURL: URL {
         switch self {
@@ -50,7 +51,7 @@ enum MySearchRouter: URLRequestConvertible {
         switch self {
         case .sendSms, .checkSms, .login, .regist, .presignedurl, .registPet,.sendAuthSms, .checkAuthSms, .findId, .findPw, .oauthLogin, .oauthSendSms, .oauthCheckSms, .oauthRegistUser, .createCare, .careCategoryCheck, .createSchedule, .createRecord, .createFolder:
             return .post
-        case .existId, .userProfileInfo, .userNotifyType, .refresh ,.checkCareCategory, .userPetsList, .userPetInfoList, .userPetCareInfoList, .petCareComplete, .petScheduleList, .petCountScheduleList, .recordTotalFolderList, .recordDataListInquiry, .petManagersList:
+        case .existId, .userProfileInfo, .userNotifyType, .refresh ,.checkCareCategory, .userPetsList, .userPetInfoList, .userPetCareInfoList, .petCareComplete, .petScheduleList, .petCountScheduleList, .recordTotalFolderList, .recordDataListInquiry, .petManagersList, .searchUserProfile:
             return .get
         case .uploadImage, .editUserPw, .editUserName:
             return .put
@@ -81,6 +82,8 @@ enum MySearchRouter: URLRequestConvertible {
             return "v1/auth/oauth/\(OauthInfo.oauthId)/sms"
         case .oauthRegistUser:
             return "v1/auth/oauth/\(OauthInfo.oauthId)"
+        case .searchUserProfile:
+            return "v2/accounts"
         case .findId, .findPw:
             return "v2/accounts/search"
         case .existId:
@@ -143,7 +146,7 @@ enum MySearchRouter: URLRequestConvertible {
             return ["year": year, "month": month, "day": day]
         case let .createFolder(_, _ ,categoryName):
             return ["subMemoCategoryName": categoryName]
-        case .uploadImage(_), .userProfileInfo, .oauthLogin, .oauthSendSms, .refresh, .checkCareCategory, .userPetsList, .createCare, .userPetInfoList, .userPetCareInfoList, .petCareComplete, .createSchedule, .petCountScheduleList, .recordTotalFolderList, .createRecord, .recordDataListInquiry, .petManagersList:
+        case .uploadImage(_), .userProfileInfo, .oauthLogin, .oauthSendSms, .refresh, .checkCareCategory, .userPetsList, .createCare, .userPetInfoList, .userPetCareInfoList, .petCareComplete, .createSchedule, .petCountScheduleList, .recordTotalFolderList, .createRecord, .recordDataListInquiry, .petManagersList, .searchUserProfile:
             return [:]
         
         }
@@ -160,9 +163,6 @@ enum MySearchRouter: URLRequestConvertible {
             let queryParameters = [URLQueryItem(name: "code", value: "\(code)")]
             
             request = createURLRequestWithBodyAndQuery(url: url, bodyParameters: bodyParameters, queryParameters: queryParameters)
-            
-//        case .regist:
-//            request = createURLRequestWithBody(url: url)
        
         case .createCare(let combinedData, let petId):
             url = url.appendingPathComponent("/\(petId)/cares")
@@ -200,9 +200,6 @@ enum MySearchRouter: URLRequestConvertible {
             ]
            
             request = createURLRequestForImage(url: baseURL, image: image, queryParameters: queryParameters)
-          
-//        case .registPet:
-//            request = createURLRequestWithBody(url: url)
             
         case .sendAuthSms(let to, let uid):
             var bodyParameters: [String: String] = [:]
@@ -346,6 +343,10 @@ enum MySearchRouter: URLRequestConvertible {
             request = URLRequest(url: url)
             request.httpMethod = method.rawValue
             
+        case .searchUserProfile(let searchId):
+            let queryParameters = [URLQueryItem(name: "search", value: searchId)]
+            request = createURLRequestWithQuery(url: url, queryParameters: queryParameters)
+        
         default:
             request = createURLRequestWithBody(url: url)
         }

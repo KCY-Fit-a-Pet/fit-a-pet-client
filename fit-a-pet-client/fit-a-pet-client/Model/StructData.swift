@@ -43,5 +43,3 @@ struct ScheduleListData: Codable {
 struct SelectedDate {
     static var date: Date? = Date()
 }
-
-

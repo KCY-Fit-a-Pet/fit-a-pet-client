@@ -5,11 +5,11 @@ import os.log
 class AuthorizationAlamofire: TokenHandling {
     
     // 싱글턴 적용
-    static let shared = AuthorizationAlamofire() // 자기 자신의 인스턴스를 가져옴
+    static let shared = AuthorizationAlamofire()
     
     // 로거 설정
     // 자료형이 EventMonitor
-    let monitors = [MyLogger(), ApiStatusLogger()] as [EventMonitor] // 여러 개 추가 가능
+    let monitors = [MyLogger(), ApiStatusLogger()] as [EventMonitor]
     
     let interceptors = Interceptor(interceptors:[BaseInterceptor()])
     
@@ -337,5 +337,20 @@ class AuthorizationAlamofire: TokenHandling {
                 }
             }
     }
+    
+    func searchUserProfile(_ searchId: String, completion: @escaping (Result<Data?, Error>) -> Void) {
+        os_log("AuthorizationAlamofire - searchUserProfile() called ", log: .default, type: .info)
+
+        self.session.request(MySearchRouter.searchUserProfile(searchId: searchId))
+            .response { response in
+                switch response.result {
+                case .success(let data):
+                    completion(.success(data))
+                case .failure(let error):
+                    completion(.failure(error))
+                }
+            }
+    }
+    
 }
 
