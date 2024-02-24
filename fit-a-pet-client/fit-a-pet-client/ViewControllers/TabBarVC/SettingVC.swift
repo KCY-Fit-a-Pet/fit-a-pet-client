@@ -22,7 +22,7 @@ class SettingVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        view.backgroundColor = UIColor(named: "Gray0")
+        view.backgroundColor = .white
         
         initView()
     }
@@ -84,9 +84,10 @@ class SettingVC: UIViewController {
         view.addSubview(setScrollView)
         
         profileImageView.image = UIImage(named: "profileImage")
+        setScrollView.backgroundColor = UIColor(named: "Gray0")
         
         setScrollView.snp.makeConstraints { make in
-            make.top.equalTo(view.snp.top)
+            make.top.equalTo(view.safeAreaLayoutGuide.snp.top)
             make.bottom.equalTo(view.snp.bottom)
             make.leading.equalTo(view.snp.leading)
             make.trailing.equalTo(view.snp.trailing)
@@ -94,7 +95,7 @@ class SettingVC: UIViewController {
         
         profileView.snp.makeConstraints { make in
             make.height.equalTo(124)
-            make.top.equalTo(setScrollView.snp.top).offset(10)
+            make.top.equalTo(setScrollView.snp.top)
             make.leading.equalTo(view.snp.leading)
             make.trailing.equalTo(view.snp.trailing)
         }

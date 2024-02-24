@@ -11,6 +11,7 @@ class PetDetailProfileVC: UIViewController{
     let scheduleProfileView = PetDetailScheduleListView()
     var petData: Pet?
     var scheduleListResponse: ScheduleListResponse?
+    var selectedPet = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -24,6 +25,7 @@ class PetDetailProfileVC: UIViewController{
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        navigationItem.title = ""
         petInfoListAPI()
     }
     
@@ -113,6 +115,9 @@ class PetDetailProfileVC: UIViewController{
     
     @objc func manageMembersButtonTapped() {
         print("관리 멤버 button tapped")
+        let nextVC = MemberManagementVC()
+        self.navigationController?.navigationBar.topItem?.title = selectedPet
+        navigationController?.pushViewController(nextVC, animated: true)
     }
     
     func petInfoListAPI(){

@@ -43,7 +43,7 @@ class PetCareRegistVC: CustomEditNavigationBar {
         datePicker.locale = Locale(identifier: "ko_KR")
         datePicker.datePickerMode = .time
         datePicker.preferredDatePickerStyle = .wheels
-        datePicker.addTarget(self, action: #selector(datePickerValueChanged(_:)), for: .valueChanged)
+        datePicker.addTarget(PetCareRegistVC.self, action: #selector(datePickerValueChanged(_:)), for: .valueChanged)
         return datePicker
     }()
     

@@ -64,8 +64,6 @@ class CustomEditNavigationBar: UIViewController {
         switch (currentTitle) {
         case "비밀번호 변경":
             return editUserPwAPI()
-        case "이름 변경하기":
-            return editUserNameAPI()
         case "케어 등록하기":
             return careCategoryCheckAPI()
         case "":
@@ -90,24 +88,6 @@ extension CustomEditNavigationBar{
                 }
             case .failure(let error):
 
-                print("Error: \(error)")
-            }
-        }
-    }
-    
-    func editUserNameAPI(){
-        AuthorizationAlamofire.shared.editUserName("name", userName){ [self]
-            result in
-            switch result {
-            case .success(let data):
-                if let responseData = data {
-                    let object = try?JSONSerialization.jsonObject(with: responseData, options: []) as? NSDictionary
-                    guard let jsonObject = object else {return}
-                    print("respose jsonData: \(jsonObject)")
-                    UserDefaults.standard.set(userName, forKey: "name")
-                    self.navigationController?.popToRootViewController(animated: true)
-                }
-            case .failure(let error):
                 print("Error: \(error)")
             }
         }

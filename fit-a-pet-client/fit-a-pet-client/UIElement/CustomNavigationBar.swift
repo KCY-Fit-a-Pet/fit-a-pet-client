@@ -43,7 +43,7 @@ class CustomNavigationBar: UIViewController {
                 navigationController?.popToViewController(loginVC, animated: true)
             }
         } else {
-            navigationController?.popToRootViewController(animated: true)
+            navigationController?.popViewController(animated: true)
         }
 
     }
