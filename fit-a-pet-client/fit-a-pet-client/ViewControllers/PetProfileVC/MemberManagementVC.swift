@@ -30,6 +30,8 @@ class MemberManagementVC: UIViewController, MemberListTableViewMethodDelegate{
         
         memberView.memberInviteBtn.addTarget(self, action: #selector(inviteButtonTapped), for: .touchUpInside)
         
+        petManagersListAPI()
+        
     }
     
     override func viewDidLayoutSubviews() {
@@ -97,6 +99,43 @@ class MemberManagementVC: UIViewController, MemberListTableViewMethodDelegate{
         
          let navigationController = UINavigationController(rootViewController: nextVC)
         self.present(navigationController, animated: true)
+    }
+    func petManagersListAPI(){
+        AuthorizationAlamofire.shared.petManagersList(SelectedPetId.petId) { result in
+            switch result {
+            case .success(let data):
+                if let responseData = data,
+                   let jsonObject = try? JSONSerialization.jsonObject(with: responseData, options: []) as? [String: Any],
+                   let status = jsonObject["status"] as? String,
+                   status == "success",
+                   let data = jsonObject["data"] as? [String: Any],
+                   let managersArray = data["managers"] as? [[String: Any]] {
+                    
+                    let managerList = petManagersManager()
+                    
+                    for managerData in managersArray {
+                        if let id = managerData["id"] as? Int,
+                           let uid = managerData["uid"] as? String,
+                           let name = managerData["name"] as? String,
+                           let profileImageUrl = managerData["profileImageUrl"] as? String,
+                           let isMaster = managerData["isMaster"] as? Bool {
+                            
+                            let manager = Manager(id: id, uid: uid, name: name, profileImageUrl: profileImageUrl, isMaster: isMaster)
+                            managerList.addManager(manager: manager)
+                        }
+                    }
+                    self.managerView.userDataView.profileUserName.text =  petManagersManager.masterManager?.name
+                    self.managerView.userDataView.profileUserId.text = "@" + petManagersManager.masterManager!.uid
+ 
+                   
+                }
+                self.memberMethod.updatePetManagerData(with: petManagersManager.subManagers)
+                self.memberView.memberTableView.reloadData()
+   
+            case .failure(let error):
+                print("Error: \(error)")
+            }
+        }
     }
 }
 

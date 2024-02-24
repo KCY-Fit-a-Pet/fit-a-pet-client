@@ -33,6 +33,7 @@ enum MySearchRouter: URLRequestConvertible {
     case createRecord(petId: Int, combinedData: [String:Any], memoCategoryId: Int)
     case createFolder(petId: Int, rootMemoCategoryId: Int, categoryName: String)
     case recordDataListInquiry(petId: Int, memoCategoryId: Int, searchData: String)
+    case petManagersList(petId: Int)
     
     var baseURL: URL {
         switch self {
@@ -49,7 +50,7 @@ enum MySearchRouter: URLRequestConvertible {
         switch self {
         case .sendSms, .checkSms, .login, .regist, .presignedurl, .registPet,.sendAuthSms, .checkAuthSms, .findId, .findPw, .oauthLogin, .oauthSendSms, .oauthCheckSms, .oauthRegistUser, .createCare, .careCategoryCheck, .createSchedule, .createRecord, .createFolder:
             return .post
-        case .existId, .userProfileInfo, .userNotifyType, .refresh ,.checkCareCategory, .userPetsList, .userPetInfoList, .userPetCareInfoList, .petCareComplete, .petScheduleList, .petCountScheduleList, .recordTotalFolderList, .recordDataListInquiry:
+        case .existId, .userProfileInfo, .userNotifyType, .refresh ,.checkCareCategory, .userPetsList, .userPetInfoList, .userPetCareInfoList, .petCareComplete, .petScheduleList, .petCountScheduleList, .recordTotalFolderList, .recordDataListInquiry, .petManagersList:
             return .get
         case .uploadImage, .editUserPw, .editUserName:
             return .put
@@ -92,7 +93,7 @@ enum MySearchRouter: URLRequestConvertible {
             return "v2/users/\(UserDefaults.standard.string(forKey: "id")!)/pets/summary"
         case .careCategoryCheck:
             return "v2/users/\(UserDefaults.standard.string(forKey: "id")!)/pets/categories-check"
-        case .userPetCareInfoList, .createCare, .checkCareCategory, .petCareComplete, .petCountScheduleList, .createFolder, .createRecord, .recordDataListInquiry:
+        case .userPetCareInfoList, .createCare, .checkCareCategory, .petCareComplete, .petCountScheduleList, .createFolder, .createRecord, .recordDataListInquiry, .petManagersList:
             return "v2/pets"
         case .userPetInfoList:
             return "v2/users/\(UserDefaults.standard.string(forKey: "id")!)/pets"
@@ -100,7 +101,6 @@ enum MySearchRouter: URLRequestConvertible {
             return "v2/schedules"
         case .petScheduleList:
             return "v2/accounts/\(UserDefaults.standard.string(forKey: "id")!)/schedules"
-
         }
     }
     
@@ -143,7 +143,7 @@ enum MySearchRouter: URLRequestConvertible {
             return ["year": year, "month": month, "day": day]
         case let .createFolder(_, _ ,categoryName):
             return ["subMemoCategoryName": categoryName]
-        case .uploadImage(_), .userProfileInfo, .oauthLogin, .oauthSendSms, .refresh, .checkCareCategory, .userPetsList, .createCare, .userPetInfoList, .userPetCareInfoList, .petCareComplete, .createSchedule, .petCountScheduleList, .recordTotalFolderList, .createRecord, .recordDataListInquiry:
+        case .uploadImage(_), .userProfileInfo, .oauthLogin, .oauthSendSms, .refresh, .checkCareCategory, .userPetsList, .createCare, .userPetInfoList, .userPetCareInfoList, .petCareComplete, .createSchedule, .petCountScheduleList, .recordTotalFolderList, .createRecord, .recordDataListInquiry, .petManagersList:
             return [:]
         
         }
@@ -341,6 +341,11 @@ enum MySearchRouter: URLRequestConvertible {
             request = URLRequest(url: url)
             request.httpMethod = method.rawValue
         
+        case .petManagersList(let petId):
+            url = url.appendingPathComponent("/\(petId)/managers")
+            request = URLRequest(url: url)
+            request.httpMethod = method.rawValue
+            
         default:
             request = createURLRequestWithBody(url: url)
         }

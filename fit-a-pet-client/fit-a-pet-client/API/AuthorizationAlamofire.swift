@@ -323,5 +323,19 @@ class AuthorizationAlamofire: TokenHandling {
                 }
             }
     }
+    
+    func petManagersList(_ petId: Int, completion: @escaping (Result<Data?, Error>) -> Void) {
+        os_log("AuthorizationAlamofire - petManagersList() called ", log: .default, type: .info)
+
+        self.session.request(MySearchRouter.petManagersList(petId: petId))
+            .response { response in
+                switch response.result {
+                case .success(let data):
+                    completion(.success(data))
+                case .failure(let error):
+                    completion(.failure(error))
+                }
+            }
+    }
 }
 
