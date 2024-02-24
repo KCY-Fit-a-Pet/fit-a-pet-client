@@ -11,7 +11,7 @@ class MemberTableViewCell: UITableViewCell {
     let userDataView = UserDataView()
     let menuButton = UIButton()
     weak var delegate: MemberTableViewCellDelegate?
-
+    private var menu: UIMenu?
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -44,11 +44,25 @@ class MemberTableViewCell: UITableViewCell {
     
     
     @objc private func showMenu() {
-        let menu = UIMenu(title: "", children: [
-            UIAction(title: "이름 변경") { [weak self] action in
-                self?.delegate?.didTapChangeName()
-            },
-        ])
+        
+        if petManagersManager.masterManager?.uid == UserDefaults.standard.string(forKey: "uid") {
+            menu = UIMenu(title: "", children: [
+                UIAction(title: "이름 변경") { [weak self] action in
+                    self?.delegate?.didTapChangeName()
+                },
+                UIAction(title: "관리자 위임") { [weak self] action in
+             
+                },
+                UIAction(title: "강제 퇴장", attributes: .destructive) { [weak self] action in
+                }
+            ])
+        } else {
+            menu = UIMenu(title: "", children: [
+                UIAction(title: "이름 변경") { [weak self] action in
+                    self?.delegate?.didTapChangeName()
+                }
+            ])
+        }
         
         self.menuButton.menu = menu
         self.menuButton.showsMenuAsPrimaryAction = true

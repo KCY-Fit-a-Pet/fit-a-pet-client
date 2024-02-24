@@ -22,6 +22,10 @@ class MemberListTableViewMethod: NSObject, UITableViewDataSource, UITableViewDel
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "MemberTableViewCell", for: indexPath) as! MemberTableViewCell
+        
+        if UserDefaults.standard.string(forKey: "uid") == managerList[indexPath.row].uid{
+            cell.menuButton.isHidden = true
+        }
         cell.userDataView.profileUserName.text = managerList[indexPath.row].name
         cell.userDataView.profileUserId.text = "@" + managerList[indexPath.row].uid
         cell.delegate = self
