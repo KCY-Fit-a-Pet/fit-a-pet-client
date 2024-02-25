@@ -6,6 +6,7 @@ class CustomCheckPopupView: UIView {
         let label = UILabel()
         label.textAlignment = .center
         label.font = UIFont.boldSystemFont(ofSize: 16)
+        label.textColor = .black
         label.numberOfLines = 1
         return label
     }()

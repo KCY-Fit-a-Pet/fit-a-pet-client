@@ -112,6 +112,8 @@ class MainVC: UIViewController {
         mainView.backgroundColor = .white
         mainView.layer.cornerRadius = 20
         
+        petCareCollectionView.backgroundColor = .white
+        
         layoutScrollView.backgroundColor = UIColor(named: "PrimaryColor")
         
         layoutScrollView.snp.makeConstraints{ make in

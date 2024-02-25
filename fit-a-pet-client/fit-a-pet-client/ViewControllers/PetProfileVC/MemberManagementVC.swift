@@ -112,6 +112,7 @@ class MemberManagementVC: UIViewController, MemberListTableViewMethodDelegate{
                    let managersArray = data["managers"] as? [[String: Any]] {
                     
                     let managerList = petManagersManager()
+                    petManagersManager.subManagers.removeAll()
                     
                     for managerData in managersArray {
                         if let id = managerData["id"] as? Int,
@@ -129,6 +130,7 @@ class MemberManagementVC: UIViewController, MemberListTableViewMethodDelegate{
  
                    
                 }
+                
                 self.memberMethod.updatePetManagerData(with: petManagersManager.subManagers)
                 self.memberView.memberTableView.reloadData()
    

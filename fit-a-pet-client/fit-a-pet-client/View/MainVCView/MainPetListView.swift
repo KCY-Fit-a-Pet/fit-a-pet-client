@@ -32,6 +32,7 @@ class MainPetListView: UIView {
     }
 
     private func setupUI() {
+        backgroundColor = .white
         addSubview(dataTitleLabel)
         addSubview(petCollectionView)
 

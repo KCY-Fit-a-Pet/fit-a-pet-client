@@ -7,7 +7,7 @@ import NaverThirdPartyLogin
 import FirebaseCore
 
 @main
-class AppDelegate: UIResponder, UIApplicationDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate {
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
@@ -31,6 +31,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         instance?.consumerSecret = naverClientSecret // pw
         instance?.appName = "Fit a Pet" // app name
         
+        
+        //push notification
+        registerForRemoteNotifications()
+        
         return true
     }
     
@@ -43,20 +47,42 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         return true
     }
+    private func registerForRemoteNotifications() {
+        
+        // 1. 푸시 center (유저에게 권한 요청 용도)
+        let center = UNUserNotificationCenter.current()
+        center.delegate = self // push처리에 대한 delegate - UNUserNotificationCenterDelegate
+        let options: UNAuthorizationOptions = [.alert, .sound, .badge]
+        center.requestAuthorization(options: options) { (granted, error) in
+            
+            guard granted else {
+                return
+            }
+            
+            DispatchQueue.main.async {
+                // 2. APNs에 디바이스 토큰 등록
+                UIApplication.shared.registerForRemoteNotifications()
+            }
+        }
+    }
 
     // MARK: UISceneSession Lifecycle
 
     func application(_ application: UIApplication, configurationForConnecting connectingSceneSession: UISceneSession, options: UIScene.ConnectionOptions) -> UISceneConfiguration {
-        // Called when a new scene session is being created.
-        // Use this method to select a configuration to create the new scene with.
         return UISceneConfiguration(name: "Default Configuration", sessionRole: connectingSceneSession.role)
     }
 
     func application(_ application: UIApplication, didDiscardSceneSessions sceneSessions: Set<UISceneSession>) {
-        // Called when the user discards a scene session.
-        // If any sessions were discarded while the application was not running, this will be called shortly after application:didFinishLaunchingWithOptions.
-        // Use this method to release any resources that were specific to the discarded scenes, as they will not return.
+     
     }
-
+    
+    func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+        let deviceTokenString = deviceToken.reduce("", {$0 + String(format: "%02X", $1)})
+        
+        print("APNs device token: \(deviceTokenString)")
+    }
+    func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
+        print("APNs registration failed: \(error)")
+    }
 
 }
