@@ -8,6 +8,7 @@ class ManagerDelegationVC: CustomNavigationBar{
     private let titleLabel = UILabel()
     private let memberTableView = UITableView()
     private let withdrawalBtn = CustomNextBtn(title: "탈퇴하기")
+    private let managerList = petManagersManager.subManagers
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -43,13 +44,14 @@ extension ManagerDelegationVC: UITableViewDelegate, UITableViewDataSource{
     // MARK: - UITableViewDataSource Methods
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 3
+        return managerList.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "ManagerDelegationTableViewCell", for: indexPath) as! ManagerDelegationTableViewCell
         
-        cell.userDataView.profileUserName.text = "data"
+        cell.userDataView.profileUserName.text = managerList[indexPath.row].name
+        cell.userDataView.profileUserId.text = "@" + managerList[indexPath.row].uid
         cell.radioButton.isSelected = false
         cell.selectionStyle = .none
         

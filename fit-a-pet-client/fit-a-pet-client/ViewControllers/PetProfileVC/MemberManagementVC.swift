@@ -3,7 +3,7 @@
 import UIKit
 import SnapKit
 
-class MemberManagementVC: UIViewController, MemberListTableViewMethodDelegate{
+class MemberManagementVC: UIViewController, MemberListTableViewMethodDelegate, ManagerViewDelegate{
     
     private let layoutView = UIView()
     private let managerView = ManagerView()
@@ -21,6 +21,7 @@ class MemberManagementVC: UIViewController, MemberListTableViewMethodDelegate{
         initView()
         
         memberMethod.delegate = self
+        managerView.delegate = self
         memberView.memberTableView.dataSource = memberMethod
         memberView.memberTableView.delegate = memberMethod
         
@@ -99,6 +100,12 @@ class MemberManagementVC: UIViewController, MemberListTableViewMethodDelegate{
          let navigationController = UINavigationController(rootViewController: nextVC)
         self.present(navigationController, animated: true)
     }
+    
+    func didTapChangeName() {
+        let nextVC = EditUserNameVC(title: "이름 변경하기")
+        self.pushViewController(nextVC, animated: true)
+    }
+    
     func petManagersListAPI(){
         AuthorizationAlamofire.shared.petManagersList(SelectedPetId.petId) { result in
             switch result {
@@ -119,19 +126,20 @@ class MemberManagementVC: UIViewController, MemberListTableViewMethodDelegate{
                            let name = managerData["name"] as? String,
                            let profileImageUrl = managerData["profileImageUrl"] as? String,
                            let isMaster = managerData["isMaster"] as? Bool {
-                            
                             let manager = Manager(id: id, uid: uid, name: name, profileImageUrl: profileImageUrl, isMaster: isMaster)
                             managerList.addManager(manager: manager)
                         }
                     }
                     self.managerView.userDataView.profileUserName.text =  petManagersManager.masterManager?.name
                     self.managerView.userDataView.profileUserId.text = "@" + petManagersManager.masterManager!.uid
- 
                    
                 }
                 
                 self.memberMethod.updatePetManagerData(with: petManagersManager.subManagers)
                 self.memberView.memberTableView.reloadData()
+                if UserDefaults.standard.string(forKey: "uid") != petManagersManager.masterManager?.uid{
+                    self.managerView.menuButton.isHidden = false
+                }
    
             case .failure(let error):
                 print("Error: \(error)")

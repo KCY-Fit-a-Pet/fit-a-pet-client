@@ -168,7 +168,7 @@ class LoginVC: UIViewController{
         let mainVC = TabBarController()
         mainVC.modalPresentationStyle = .fullScreen
         
-        AnonymousAlamofire.shared.login("heejin", "heejin123") { [weak self] loginResult in
+        AnonymousAlamofire.shared.login("jayang", "dkssudgktpdy") { [weak self] loginResult in
             switch loginResult {
             case .success(let data):
                 if let responseData = data {
@@ -213,7 +213,7 @@ extension LoginVC: UITextFieldDelegate{
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         
         if textField == inputPw {
-            //inputPw에 text 값이 있어야만 inputPwText에 입력할 수 있다.
+    
             if let inputPwText = inputId.text, !inputPwText.isEmpty {
                 let updatedText = (inputPw.text! as NSString).replacingCharacters(in: range, with: string)
                 password = updatedText

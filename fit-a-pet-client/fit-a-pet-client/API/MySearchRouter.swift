@@ -35,6 +35,8 @@ enum MySearchRouter: URLRequestConvertible {
     case recordDataListInquiry(petId: Int, memoCategoryId: Int, searchData: String)
     case petManagersList(petId: Int)
     case searchUserProfile(searchId: String)
+    case inviteMember(petId: Int, inviteId: Int)
+    case deleteInviteMember(petId: Int, deleteId: String)
     
     var baseURL: URL {
         switch self {
@@ -49,12 +51,14 @@ enum MySearchRouter: URLRequestConvertible {
     
     var method: HTTPMethod {
         switch self {
-        case .sendSms, .checkSms, .login, .regist, .presignedurl, .registPet,.sendAuthSms, .checkAuthSms, .findId, .findPw, .oauthLogin, .oauthSendSms, .oauthCheckSms, .oauthRegistUser, .createCare, .careCategoryCheck, .createSchedule, .createRecord, .createFolder:
+        case .sendSms, .checkSms, .login, .regist, .presignedurl, .registPet,.sendAuthSms, .checkAuthSms, .findId, .findPw, .oauthLogin, .oauthSendSms, .oauthCheckSms, .oauthRegistUser, .createCare, .careCategoryCheck, .createSchedule, .createRecord, .createFolder, .inviteMember:
             return .post
         case .existId, .userProfileInfo, .userNotifyType, .refresh ,.checkCareCategory, .userPetsList, .userPetInfoList, .userPetCareInfoList, .petCareComplete, .petScheduleList, .petCountScheduleList, .recordTotalFolderList, .recordDataListInquiry, .petManagersList, .searchUserProfile:
             return .get
         case .uploadImage, .editUserPw, .editUserName:
             return .put
+        case .deleteInviteMember:
+            return .delete
         }
     }
     
@@ -96,7 +100,7 @@ enum MySearchRouter: URLRequestConvertible {
             return "v2/users/\(UserDefaults.standard.string(forKey: "id")!)/pets/summary"
         case .careCategoryCheck:
             return "v2/users/\(UserDefaults.standard.string(forKey: "id")!)/pets/categories-check"
-        case .userPetCareInfoList, .createCare, .checkCareCategory, .petCareComplete, .petCountScheduleList, .createFolder, .createRecord, .recordDataListInquiry, .petManagersList:
+        case .userPetCareInfoList, .createCare, .checkCareCategory, .petCareComplete, .petCountScheduleList, .createFolder, .createRecord, .recordDataListInquiry, .petManagersList, .inviteMember, .deleteInviteMember:
             return "v2/pets"
         case .userPetInfoList:
             return "v2/users/\(UserDefaults.standard.string(forKey: "id")!)/pets"
@@ -146,7 +150,9 @@ enum MySearchRouter: URLRequestConvertible {
             return ["year": year, "month": month, "day": day]
         case let .createFolder(_, _ ,categoryName):
             return ["subMemoCategoryName": categoryName]
-        case .uploadImage(_), .userProfileInfo, .oauthLogin, .oauthSendSms, .refresh, .checkCareCategory, .userPetsList, .createCare, .userPetInfoList, .userPetCareInfoList, .petCareComplete, .createSchedule, .petCountScheduleList, .recordTotalFolderList, .createRecord, .recordDataListInquiry, .petManagersList, .searchUserProfile:
+        case let .inviteMember(_, inviteId):
+            return ["inviteId": inviteId]
+        case .uploadImage(_), .userProfileInfo, .oauthLogin, .oauthSendSms, .refresh, .checkCareCategory, .userPetsList, .createCare, .userPetInfoList, .userPetCareInfoList, .petCareComplete, .createSchedule, .petCountScheduleList, .recordTotalFolderList, .createRecord, .recordDataListInquiry, .petManagersList, .searchUserProfile, .deleteInviteMember:
             return [:]
         
         }
@@ -345,6 +351,14 @@ enum MySearchRouter: URLRequestConvertible {
             
         case .searchUserProfile(let searchId):
             let queryParameters = [URLQueryItem(name: "search", value: searchId)]
+            request = createURLRequestWithQuery(url: url, queryParameters: queryParameters)
+        case .inviteMember(let petId, let inviteId):
+            url = url.appendingPathComponent("/\(petId)/managers/invite")
+            request = createURLRequestWithBody(url: url)
+        
+        case .deleteInviteMember(let petId, let deleteId):
+            url = url.appendingPathComponent("/\(petId)/managers/invite")
+            let queryParameters = [URLQueryItem(name: "id", value: deleteId)]
             request = createURLRequestWithQuery(url: url, queryParameters: queryParameters)
         
         default:

@@ -352,5 +352,32 @@ class AuthorizationAlamofire: TokenHandling {
             }
     }
     
+    func inviteMember(_ petId: Int, _ inviteId: Int, completion: @escaping (Result<Data?, Error>) -> Void) {
+        os_log("AuthorizationAlamofire - inviteMember() called ", log: .default, type: .info)
+
+        self.session.request(MySearchRouter.inviteMember(petId: petId, inviteId: inviteId))
+            .response { response in
+                switch response.result {
+                case .success(let data):
+                    completion(.success(data))
+                case .failure(let error):
+                    completion(.failure(error))
+                }
+            }
+    }
+    
+    func deleteInviteMember(_ petId: Int, _ deleteId: String, completion: @escaping (Result<Data?, Error>) -> Void) {
+        os_log("AuthorizationAlamofire - deleteInviteMember() called ", log: .default, type: .info)
+
+        self.session.request(MySearchRouter.deleteInviteMember(petId: petId, deleteId: deleteId))
+            .response { response in
+                switch response.result {
+                case .success(let data):
+                    completion(.success(data))
+                case .failure(let error):
+                    completion(.failure(error))
+                }
+            }
+    }
 }
 

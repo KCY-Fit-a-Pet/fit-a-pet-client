@@ -346,13 +346,11 @@
 		4A2D55D82B866E8E0079FDC7 /* MemberManagementView */ = {
 			isa = PBXGroup;
 			children = (
+				4A6106C72B8CFF39000502B9 /* MemberTableViewCell */,
 				4A2D55D92B866EAC0079FDC7 /* ManagerView.swift */,
 				4A2D55DB2B866ECB0079FDC7 /* UserDataView.swift */,
 				4A2D55DD2B86734D0079FDC7 /* MemberView.swift */,
-				4A2D55DF2B8674520079FDC7 /* MemberTableViewCell.swift */,
-				4AF2409F2B88C45D00E224AE /* InviteMemberTableViewCell.swift */,
 				4AF2409B2B88BDB000E224AE /* InviteWaitingView.swift */,
-				4A6106C52B8CF0E4000502B9 /* ManagerDelegationTableViewCell.swift */,
 			);
 			path = MemberManagementView;
 			sourceTree = "<group>";
@@ -400,6 +398,16 @@
 				4A54A0BE2B585A7E0024B940 /* PetCareListCollectionViewCell.swift */,
 			);
 			path = PetVCView;
+			sourceTree = "<group>";
+		};
+		4A6106C72B8CFF39000502B9 /* MemberTableViewCell */ = {
+			isa = PBXGroup;
+			children = (
+				4A2D55DF2B8674520079FDC7 /* MemberTableViewCell.swift */,
+				4AF2409F2B88C45D00E224AE /* InviteMemberTableViewCell.swift */,
+				4A6106C52B8CF0E4000502B9 /* ManagerDelegationTableViewCell.swift */,
+			);
+			path = MemberTableViewCell;
 			sourceTree = "<group>";
 		};
 		4A828D892B618D2D006AE70A /* Manager */ = {

@@ -6,6 +6,7 @@ class InviteMemberVC: UIViewController{
     private let searchMemberTextField =  CustomSearchTextField()
     private let searchButton = CustomNextBtn(title: "멤버 찾기")
     private var inputId = ""
+    private var searchId = 0
     
     private let searchDataView = UIView()
     private let userDataView = UserDataView()
@@ -130,6 +131,7 @@ class InviteMemberVC: UIViewController{
                             if let member = data["member"] as? [String: Any] {
                                 if let id = member["id"] as? Int {
                                     print("Member ID: \(id)")
+                                    self.searchId = id
                                 }
                                 if let uid = member["uid"] as? String {
                                     self.userDataView.profileUserId.text = "@" + uid
@@ -138,7 +140,7 @@ class InviteMemberVC: UIViewController{
                                     self.userDataView.profileUserName.text = name
                                 }
                                 if let profileImageUrl = member["profileImageUrl"] as? String {
-                                  
+                                    
                                 }
                             }
                         }
@@ -164,10 +166,36 @@ class InviteMemberVC: UIViewController{
             inviteToggleBtn.setTitle("취소", for: .normal)
             inviteToggleBtn.setTitleColor(UIColor(named: "Danger"), for: .normal)
             inviteToggleBtn.layer.borderColor = UIColor(named: "Danger")?.cgColor
+            
+            AuthorizationAlamofire.shared.inviteMember(SelectedPetId.petId, searchId) {result in
+                switch result {
+                case .success(let data):
+                    if let responseData = data,
+                       let jsonObject = try? JSONSerialization.jsonObject(with: responseData, options: []) as? [String: Any] {
+                        print("response jsonData: \(jsonObject)")
+                    }
+                    
+                case .failure(let error):
+                    print("Error: \(error)")
+                }
+            }
         }else{
             inviteToggleBtn.setTitle("초대 하기", for: .normal)
             inviteToggleBtn.setTitleColor(UIColor(named: "PrimaryColor"), for: .normal)
             inviteToggleBtn.layer.borderColor = UIColor(named: "PrimaryColor")?.cgColor
+            
+            AuthorizationAlamofire.shared.deleteInviteMember(SelectedPetId.petId, String(searchId)) {result in
+                switch result {
+                case .success(let data):
+                    if let responseData = data,
+                       let jsonObject = try? JSONSerialization.jsonObject(with: responseData, options: []) as? [String: Any] {
+                        print("response jsonData: \(jsonObject)")
+                    }
+                    
+                case .failure(let error):
+                    print("Error: \(error)")
+                }
+            }
         }
         
     }

@@ -29,6 +29,8 @@ class MemberListTableViewMethod: NSObject, UITableViewDataSource, UITableViewDel
         cell.userDataView.profileUserName.text = managerList[indexPath.row].name
         cell.userDataView.profileUserId.text = "@" + managerList[indexPath.row].uid
         cell.delegate = self
+        cell.selectionStyle = .none
+
         return cell
     }
     
@@ -56,6 +58,7 @@ class MemberInviteListTableViewMethod: NSObject, UITableViewDataSource, UITableV
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "InviteMemberTableViewCell", for: indexPath) as! InviteMemberTableViewCell
         cell.userDataView.profileUserName.text = userDataArray[indexPath.row]
+        cell.selectionStyle = .none
         return cell
     }
     
