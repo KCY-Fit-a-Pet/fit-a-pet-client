@@ -68,6 +68,8 @@
 		4A54A0BB2B5858440024B940 /* PetCareListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A54A0BA2B5858440024B940 /* PetCareListView.swift */; };
 		4A54A0BD2B5859AA0024B940 /* PetCareTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A54A0BC2B5859AA0024B940 /* PetCareTableViewCell.swift */; };
 		4A54A0BF2B585A7E0024B940 /* PetCareListCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A54A0BE2B585A7E0024B940 /* PetCareListCollectionViewCell.swift */; };
+		4A6106C42B8CEEB4000502B9 /* ManagerDelegationVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A6106C32B8CEEB4000502B9 /* ManagerDelegationVC.swift */; };
+		4A6106C62B8CF0E4000502B9 /* ManagerDelegationTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A6106C52B8CF0E4000502B9 /* ManagerDelegationTableViewCell.swift */; };
 		4A73392E2B68097D00216FB5 /* CalendarScheduleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A73392D2B68097D00216FB5 /* CalendarScheduleView.swift */; };
 		4A7339302B680AEC00216FB5 /* ScheduleListCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A73392F2B680AEC00216FB5 /* ScheduleListCollectionViewCell.swift */; };
 		4A7339322B68139700216FB5 /* SchedulePetImageCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A7339312B68139700216FB5 /* SchedulePetImageCollectionViewCell.swift */; };
@@ -99,7 +101,6 @@
 		4AA9999E2A8485A600E495FA /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4AA9999C2A8485A600E495FA /* LaunchScreen.storyboard */; };
 		4AB6178E2B1CFAF300CED98E /* FindIdCheckVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AB6178D2B1CFAF300CED98E /* FindIdCheckVC.swift */; };
 		4ABB93352B7BA35800E1EA73 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4ABB93342B7BA35800E1EA73 /* GoogleService-Info.plist */; };
-		4ABB93382B7BA6FB00E1EA73 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 4ABB93372B7BA6FB00E1EA73 /* FirebaseAnalytics */; };
 		4ABB933B2B7BD60F00E1EA73 /* RecordCreateManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ABB933A2B7BD60F00E1EA73 /* RecordCreateManager.swift */; };
 		4ABB93402B7BDCB900E1EA73 /* ButtonStackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ABB933F2B7BDCB900E1EA73 /* ButtonStackView.swift */; };
 		4ABE53002B5AD92F000EA41D /* PetDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ABE52FF2B5AD92F000EA41D /* PetDataManager.swift */; };
@@ -205,6 +206,8 @@
 		4A54A0BA2B5858440024B940 /* PetCareListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PetCareListView.swift; sourceTree = "<group>"; };
 		4A54A0BC2B5859AA0024B940 /* PetCareTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PetCareTableViewCell.swift; sourceTree = "<group>"; };
 		4A54A0BE2B585A7E0024B940 /* PetCareListCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PetCareListCollectionViewCell.swift; sourceTree = "<group>"; };
+		4A6106C32B8CEEB4000502B9 /* ManagerDelegationVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManagerDelegationVC.swift; sourceTree = "<group>"; };
+		4A6106C52B8CF0E4000502B9 /* ManagerDelegationTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManagerDelegationTableViewCell.swift; sourceTree = "<group>"; };
 		4A73392D2B68097D00216FB5 /* CalendarScheduleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarScheduleView.swift; sourceTree = "<group>"; };
 		4A73392F2B680AEC00216FB5 /* ScheduleListCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleListCollectionViewCell.swift; sourceTree = "<group>"; };
 		4A7339312B68139700216FB5 /* SchedulePetImageCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SchedulePetImageCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -287,7 +290,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4ABB93382B7BA6FB00E1EA73 /* FirebaseAnalytics in Frameworks */,
 				5F3351521D53411AE096AE11 /* Pods_fit_a_pet_client.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -350,6 +352,7 @@
 				4A2D55DF2B8674520079FDC7 /* MemberTableViewCell.swift */,
 				4AF2409F2B88C45D00E224AE /* InviteMemberTableViewCell.swift */,
 				4AF2409B2B88BDB000E224AE /* InviteWaitingView.swift */,
+				4A6106C52B8CF0E4000502B9 /* ManagerDelegationTableViewCell.swift */,
 			);
 			path = MemberManagementView;
 			sourceTree = "<group>";
@@ -652,6 +655,7 @@
 				4A01502C2B7404270069AF20 /* PetProfileEditVC.swift */,
 				4A2D55D62B8663FE0079FDC7 /* MemberManagementVC.swift */,
 				4A2D55E12B87B7170079FDC7 /* InviteMemberVC.swift */,
+				4A6106C32B8CEEB4000502B9 /* ManagerDelegationVC.swift */,
 			);
 			path = PetProfileVC;
 			sourceTree = "<group>";
@@ -738,7 +742,6 @@
 			);
 			name = "fit-a-pet-client";
 			packageProductDependencies = (
-				4ABB93372B7BA6FB00E1EA73 /* FirebaseAnalytics */,
 			);
 			productName = "fit-a-pet-client";
 			productReference = 4AA9998E2A8485A500E495FA /* fit-a-pet-client.app */;
@@ -769,7 +772,6 @@
 			);
 			mainGroup = 4AA999852A8485A500E495FA;
 			packageReferences = (
-				4ABB93362B7BA6FB00E1EA73 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 			);
 			productRefGroup = 4AA9998F2A8485A500E495FA /* Products */;
 			projectDirPath = "";
@@ -908,6 +910,7 @@
 				4A8B9B462AD443C9009236EC /* AuthorizationAlamofire.swift in Sources */,
 				4A15F20B2AA799C50098F2F7 /* ConstomLabel.swift in Sources */,
 				4A15F2102AA8B45A0098F2F7 /* InputAuthNumVC.swift in Sources */,
+				4A6106C42B8CEEB4000502B9 /* ManagerDelegationVC.swift in Sources */,
 				4AC579872B2E004400735252 /* CustomAlarmPopupVC.swift in Sources */,
 				4A828D8D2B619432006AE70A /* CustomCheckPopupView.swift in Sources */,
 				4A15F20E2AA8B4150098F2F7 /* InputPhoneNumVC.swift in Sources */,
@@ -930,6 +933,7 @@
 				4ACDD4A92ADAFFD100CD8F1A /* InputPetBirthVC.swift in Sources */,
 				4ABB933B2B7BD60F00E1EA73 /* RecordCreateManager.swift in Sources */,
 				4A15F2142AA8B4A50098F2F7 /* InputPwVC.swift in Sources */,
+				4A6106C62B8CF0E4000502B9 /* ManagerDelegationTableViewCell.swift in Sources */,
 				4AA999942A8485A500E495FA /* SceneDelegate.swift in Sources */,
 				4AD354222AAF7E62004A47B3 /* TabBarController.swift in Sources */,
 				4A0FEA4B2B1B5F820084CA6C /* FindInputAuthNumVC.swift in Sources */,
@@ -1192,25 +1196,6 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
-
-/* Begin XCRemoteSwiftPackageReference section */
-		4ABB93362B7BA6FB00E1EA73 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 9.0.0;
-			};
-		};
-/* End XCRemoteSwiftPackageReference section */
-
-/* Begin XCSwiftPackageProductDependency section */
-		4ABB93372B7BA6FB00E1EA73 /* FirebaseAnalytics */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 4ABB93362B7BA6FB00E1EA73 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
-			productName = FirebaseAnalytics;
-		};
-/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 4AA999862A8485A500E495FA /* Project object */;
 }

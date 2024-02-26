@@ -4,6 +4,7 @@ import UIKit
 import KakaoSDKCommon
 import GoogleSignIn
 import NaverThirdPartyLogin
+import Firebase
 import FirebaseCore
 
 @main
@@ -11,7 +12,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
-        FirebaseApp.configure()
+//        //Firebase 세팅
+//        FirebaseApp.configure()
+//        
+//        Messaging.messaging().delegate = self
+//        
+//        // FCM 다시 사용 설정
+//        Messaging.messaging().isAutoInitEnabled = true
+//
+//        //push notification, device token 요청.
+//        registerForRemoteNotifications()
         
         let kakaoAppKey = Bundle.main.infoDictionary?["KakaoAppKey"] as! String
         let naverClientId = Bundle.main.infoDictionary?["NaverClientID"] as! String
@@ -31,10 +41,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         instance?.consumerSecret = naverClientSecret // pw
         instance?.appName = "Fit a Pet" // app name
         
-        
-        //push notification
-        registerForRemoteNotifications()
-        
+
         return true
     }
     
@@ -75,8 +82,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     func application(_ application: UIApplication, didDiscardSceneSessions sceneSessions: Set<UISceneSession>) {
      
     }
-    
+    // APN 토큰과 등록 토큰 매핑
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+//        Messaging.messaging().apnsToken = deviceToken
+        
         let deviceTokenString = deviceToken.reduce("", {$0 + String(format: "%02X", $1)})
         
         print("APNs device token: \(deviceTokenString)")
@@ -86,3 +95,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     }
 
 }
+
+//extension AppDelegate: MessagingDelegate {
+//    // 현재 등록 토큰 가져오기.
+//    func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String?) {
+//
+//        // TODO: - 디바이스 토큰을 보내는 서버통신 구현
+//        print("APNs fcm Token: \(fcmToken)")
+////        sendDeviceTokenWithAPI(fcmToken: fcmToken ?? "")
+//    }
+//}
