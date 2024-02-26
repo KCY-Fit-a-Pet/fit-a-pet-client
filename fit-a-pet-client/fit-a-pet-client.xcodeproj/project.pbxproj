@@ -70,6 +70,10 @@
 		4A54A0BF2B585A7E0024B940 /* PetCareListCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A54A0BE2B585A7E0024B940 /* PetCareListCollectionViewCell.swift */; };
 		4A6106C42B8CEEB4000502B9 /* ManagerDelegationVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A6106C32B8CEEB4000502B9 /* ManagerDelegationVC.swift */; };
 		4A6106C62B8CF0E4000502B9 /* ManagerDelegationTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A6106C52B8CF0E4000502B9 /* ManagerDelegationTableViewCell.swift */; };
+		4A6106CA2B8D0F4A000502B9 /* SmsRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A6106C92B8D0F4A000502B9 /* SmsRouter.swift */; };
+		4A6106CC2B8D1169000502B9 /* URLRequestExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A6106CB2B8D1169000502B9 /* URLRequestExtension.swift */; };
+		4A6106CE2B8D1607000502B9 /* AdminRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A6106CD2B8D1607000502B9 /* AdminRouter.swift */; };
+		4A6106D02B8D19B1000502B9 /* UserInfoRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A6106CF2B8D19B1000502B9 /* UserInfoRouter.swift */; };
 		4A73392E2B68097D00216FB5 /* CalendarScheduleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A73392D2B68097D00216FB5 /* CalendarScheduleView.swift */; };
 		4A7339302B680AEC00216FB5 /* ScheduleListCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A73392F2B680AEC00216FB5 /* ScheduleListCollectionViewCell.swift */; };
 		4A7339322B68139700216FB5 /* SchedulePetImageCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A7339312B68139700216FB5 /* SchedulePetImageCollectionViewCell.swift */; };
@@ -208,6 +212,10 @@
 		4A54A0BE2B585A7E0024B940 /* PetCareListCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PetCareListCollectionViewCell.swift; sourceTree = "<group>"; };
 		4A6106C32B8CEEB4000502B9 /* ManagerDelegationVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManagerDelegationVC.swift; sourceTree = "<group>"; };
 		4A6106C52B8CF0E4000502B9 /* ManagerDelegationTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManagerDelegationTableViewCell.swift; sourceTree = "<group>"; };
+		4A6106C92B8D0F4A000502B9 /* SmsRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmsRouter.swift; sourceTree = "<group>"; };
+		4A6106CB2B8D1169000502B9 /* URLRequestExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLRequestExtension.swift; sourceTree = "<group>"; };
+		4A6106CD2B8D1607000502B9 /* AdminRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdminRouter.swift; sourceTree = "<group>"; };
+		4A6106CF2B8D19B1000502B9 /* UserInfoRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfoRouter.swift; sourceTree = "<group>"; };
 		4A73392D2B68097D00216FB5 /* CalendarScheduleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarScheduleView.swift; sourceTree = "<group>"; };
 		4A73392F2B680AEC00216FB5 /* ScheduleListCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleListCollectionViewCell.swift; sourceTree = "<group>"; };
 		4A7339312B68139700216FB5 /* SchedulePetImageCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SchedulePetImageCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -410,6 +418,16 @@
 			path = MemberTableViewCell;
 			sourceTree = "<group>";
 		};
+		4A6106C82B8D0F2E000502B9 /* Router */ = {
+			isa = PBXGroup;
+			children = (
+				4A6106C92B8D0F4A000502B9 /* SmsRouter.swift */,
+				4A6106CD2B8D1607000502B9 /* AdminRouter.swift */,
+				4A6106CF2B8D19B1000502B9 /* UserInfoRouter.swift */,
+			);
+			path = Router;
+			sourceTree = "<group>";
+		};
 		4A828D892B618D2D006AE70A /* Manager */ = {
 			isa = PBXGroup;
 			children = (
@@ -553,6 +571,7 @@
 		4ABE585C2A85E90500E22C5F /* API */ = {
 			isa = PBXGroup;
 			children = (
+				4A6106C82B8D0F2E000502B9 /* Router */,
 				4A8B9B452AD443C9009236EC /* AuthorizationAlamofire.swift */,
 				4A80E4D32B49BA7800CD5D05 /* AnonymousAlamofire.swift */,
 				4A8B9B472AD443D5009236EC /* BaseInterceptor.swift */,
@@ -560,6 +579,7 @@
 				4A8B9B4B2AD443EE009236EC /* MyLogger.swift */,
 				4A8B9B4D2AD443FA009236EC /* MySearchRouter.swift */,
 				4A80E4D02B487DF600CD5D05 /* TokenHandling.swift */,
+				4A6106CB2B8D1169000502B9 /* URLRequestExtension.swift */,
 			);
 			path = API;
 			sourceTree = "<group>";
@@ -882,6 +902,7 @@
 				4AEDCE012B4C718E0043E872 /* PetCareRegistVC.swift in Sources */,
 				4A2D55E02B8674520079FDC7 /* MemberTableViewCell.swift in Sources */,
 				4A828D8F2B619447006AE70A /* CareCustomCheckPopupVC.swift in Sources */,
+				4A6106CA2B8D0F4A000502B9 /* SmsRouter.swift in Sources */,
 				4A8662D42B26299F00D8DDE8 /* EditUserPwVC.swift in Sources */,
 				4A0CC35E2B80C56C004A9D77 /* RecordTotalFolderManager.swift in Sources */,
 				4A0150322B7410140069AF20 /* GenderView.swift in Sources */,
@@ -902,6 +923,7 @@
 				4A2D55E22B87B7170079FDC7 /* InviteMemberVC.swift in Sources */,
 				4AF240A02B88C45D00E224AE /* InviteMemberTableViewCell.swift in Sources */,
 				4ACDD4A52AD9B3DC00CD8F1A /* InputGenderVC.swift in Sources */,
+				4A6106CC2B8D1169000502B9 /* URLRequestExtension.swift in Sources */,
 				4AD354152AACD390004A47B3 /* LoginVC.swift in Sources */,
 				4AF2409E2B88C25000E224AE /* MemberManagementVCMethod.swift in Sources */,
 				4A4B085F2B77D89300959683 /* CreateFolderVC.swift in Sources */,
@@ -932,6 +954,7 @@
 				4A2D55D72B8663FE0079FDC7 /* MemberManagementVC.swift in Sources */,
 				4A9936582B642B7E00B7B21A /* CustomVerticalView.swift in Sources */,
 				4A1B5E492B79476A00A076A7 /* PetImageCollectionViewCell.swift in Sources */,
+				4A6106D02B8D19B1000502B9 /* UserInfoRouter.swift in Sources */,
 				4ABE53002B5AD92F000EA41D /* PetDataManager.swift in Sources */,
 				4A2D55DE2B86734D0079FDC7 /* MemberView.swift in Sources */,
 				4A88D6172B53ABD2003A2D0F /* PetCareRegistrationManager.swift in Sources */,
@@ -966,6 +989,7 @@
 				4A2D55DC2B866ECB0079FDC7 /* UserDataView.swift in Sources */,
 				4A99365A2B65309F00B7B21A /* CalendarDateView.swift in Sources */,
 				4A73392E2B68097D00216FB5 /* CalendarScheduleView.swift in Sources */,
+				4A6106CE2B8D1607000502B9 /* AdminRouter.swift in Sources */,
 				4ACDD4A72AD9B3F600CD8F1A /* CheckCareVC.swift in Sources */,
 				4A8662D62B2629F500D8DDE8 /* EditUserNameVC.swift in Sources */,
 				4A40561F2B52FE7900A95891 /* TimeAttackPanModalTabelViewCell.swift in Sources */,

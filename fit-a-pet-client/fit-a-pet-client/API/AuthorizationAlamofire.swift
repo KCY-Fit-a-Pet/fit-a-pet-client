@@ -26,7 +26,7 @@ class AuthorizationAlamofire: TokenHandling {
         
         self
             .session
-            .request(MySearchRouter.regist(uid: uid, name: name, password: password, email: email, profileImg: profileImg))
+            .request(AdminRouter.regist(uid: uid, name: name, password: password, email: email, profileImg: profileImg))
             .validate(statusCode: 200..<300)
             .response { response in
                 switch response.result{
@@ -58,7 +58,7 @@ class AuthorizationAlamofire: TokenHandling {
     func userProfileInfo(completion: @escaping(Result<Data?, Error>) -> Void){
         os_log("AuthorizationAlamofire - userProfileInfo() called ", log: .default, type: .info)
         
-        self.session.request(MySearchRouter.userProfileInfo)
+        self.session.request(UserInfoRouter.userProfileInfo)
             .validate(statusCode: 200..<300)
             .response { response in
                 switch response.result {
@@ -72,7 +72,7 @@ class AuthorizationAlamofire: TokenHandling {
     func userNotifyType(_ type: String, completion: @escaping(Result<Data?, Error>) -> Void){
         os_log("AuthorizationAlamofire - userNotifyType() called userInput: %@", log: .default, type: .info, type)
         
-        self.session.request(MySearchRouter.userNotifyType(type: type))
+        self.session.request(UserInfoRouter.userNotifyType(type: type))
             .validate(statusCode: 200..<300)
             .response { response in
                 switch response.result {
@@ -87,7 +87,7 @@ class AuthorizationAlamofire: TokenHandling {
     func editUserPw(_ type: String, _ prePassword: String, _ newPassword: String, completion: @escaping(Result<Data?, Error>) -> Void){
         os_log("AuthorizationAlamofire - editUserPw() called userInput: %@", log: .default, type: .info, type)
         
-        self.session.request(MySearchRouter.editUserPw(type: type, prePassword: prePassword, newPassword: newPassword))
+        self.session.request(UserInfoRouter.editUserPw(type: type, prePassword: prePassword, newPassword: newPassword))
             .validate(statusCode: 200..<300)
             .response { response in
                 switch response.result {
@@ -101,7 +101,7 @@ class AuthorizationAlamofire: TokenHandling {
     func editUserName(_ type: String, _ name: String, completion: @escaping(Result<Data?, Error>) -> Void){
         os_log("AuthorizationAlamofire - editUserName() called userInput: %@", log: .default, type: .info, type)
         
-        self.session.request(MySearchRouter.editUserName(type: type, name: name))
+        self.session.request(UserInfoRouter.editUserName(type: type, name: name))
             .validate(statusCode: 200..<300)
             .response { response in
                 switch response.result {
@@ -114,9 +114,9 @@ class AuthorizationAlamofire: TokenHandling {
     }
 
     func oauthRegistUser(_ name: String, _ uid: String, completion: @escaping(Result<Data?, Error>) -> Void){
-        os_log("AuthorizationAlamofire - oauthCheckSms() called userInput: %@ ,, %@", log: .default, type: .info, name, uid)
+        os_log("AuthorizationAlamofire - oauthRegistUser() called userInput: %@ ,, %@", log: .default, type: .info, name, uid)
 
-        self.session.request(MySearchRouter.oauthRegistUser(name: name, uid: uid))
+        self.session.request(AdminRouter.oauthRegistUser(name: name, uid: uid))
             .validate(statusCode: 200..<300)
             .response { response in
                 switch response.result {
@@ -341,7 +341,7 @@ class AuthorizationAlamofire: TokenHandling {
     func searchUserProfile(_ searchId: String, completion: @escaping (Result<Data?, Error>) -> Void) {
         os_log("AuthorizationAlamofire - searchUserProfile() called ", log: .default, type: .info)
 
-        self.session.request(MySearchRouter.searchUserProfile(searchId: searchId))
+        self.session.request(UserInfoRouter.searchUserProfile(searchId: searchId))
             .response { response in
                 switch response.result {
                 case .success(let data):

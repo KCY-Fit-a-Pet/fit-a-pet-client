@@ -58,12 +58,24 @@ class AlarmTableViewCell: UITableViewCell {
     
     func configureSegmentControl(_ selected: Bool) {
         alarmSegmentControl.selectedSegmentIndex = (selected == false ? 0 : 1)
+        if selected == false{
+            alarmSegmentControl.backgroundColor = UIColor(named: "Gray3")
+        }else{
+            alarmSegmentControl.backgroundColor = UIColor(named: "PrimaryColor")
+        }
         print(alarmSegmentControl.selectedSegmentIndex)
     }
     
     @objc private func segmentedControlValueChanged(_ sender: UISegmentedControl) {
         let selectedIndex = sender.selectedSegmentIndex
         print("Cell Index: \(cellIndex), Selected Index: \(selectedIndex)")
+        
+        
+        if selectedIndex == 0{
+            alarmSegmentControl.backgroundColor = UIColor(named: "Gray3")
+        }else{
+            alarmSegmentControl.backgroundColor = UIColor(named: "PrimaryColor")
+        }
         
         if cellIndex == 0{
             type = "care"
@@ -98,9 +110,10 @@ class AlarmTableViewCell: UITableViewCell {
 class CustomSegmentedControl: UISegmentedControl {
     
     override init(items: [Any]?) {
-           super.init(items: items)
-           selectedSegmentIndex = 0
-       }
+        super.init(items: items)
+        selectedSegmentIndex = 0
+        backgroundColor = UIColor(named: "Gray3")
+    }
        
    required init?(coder: NSCoder) {
        super.init(coder: coder)
@@ -108,8 +121,6 @@ class CustomSegmentedControl: UISegmentedControl {
     
     override func layoutSubviews(){
         super.layoutSubviews()
-        
-        backgroundColor = UIColor(named: "PrimaryColor")
         
         layer.cornerRadius = 15
         clipsToBounds = true
