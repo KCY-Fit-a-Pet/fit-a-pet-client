@@ -15,15 +15,29 @@ struct Manager {
     let isMaster: Bool
 }
 
-class petManagersManager {
+struct InviteManager {
+    let id: Int
+    let uid: String
+    let name: String
+    let profileImageUrl: String
+    let isMaster: Bool
+    let expired: Bool
+    let invitedAt: Date
+}
+
+class PetManagersManager {
     static var masterManager: Manager?
     static var subManagers: [Manager] = []
+    static var inviteManagers: [InviteManager] = []
     
     func addManager(manager: Manager) {
         if manager.isMaster {
-            petManagersManager.masterManager = manager
+            PetManagersManager.masterManager = manager
         } else {
-            petManagersManager.subManagers.append(manager)
+            PetManagersManager.subManagers.append(manager)
         }
+    }
+    func addInviteManager(inviteManager: InviteManager) {
+        PetManagersManager.inviteManagers.append(inviteManager)
     }
 }

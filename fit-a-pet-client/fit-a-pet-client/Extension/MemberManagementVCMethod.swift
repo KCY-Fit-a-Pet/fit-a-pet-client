@@ -7,7 +7,7 @@ protocol MemberListTableViewMethodDelegate: AnyObject {
 
 class MemberListTableViewMethod: NSObject, UITableViewDataSource, UITableViewDelegate, MemberTableViewCellDelegate {
     weak var delegate: MemberListTableViewMethodDelegate?
-    var managerList = petManagersManager.subManagers
+    var managerList = PetManagersManager.subManagers
    
     func didTapChangeName() {
         let nextVC = EditUserNameVC(title: "이름 변경하기")
@@ -45,22 +45,51 @@ class MemberListTableViewMethod: NSObject, UITableViewDataSource, UITableViewDel
     }
 }
 
-class MemberInviteListTableViewMethod: NSObject, UITableViewDataSource, UITableViewDelegate {
+class MemberInviteListTableViewMethod: NSObject, UITableViewDataSource, UITableViewDelegate, InviteMemberTableViewCellDelegate {
    
-    private var userDataArray: [String] = ["User 1", "User 2", "User 3"]
+    var inviteManagerList = PetManagersManager.inviteManagers
     
     // MARK: - UITableViewDataSource methods
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return userDataArray.count
+        return inviteManagerList.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "InviteMemberTableViewCell", for: indexPath) as! InviteMemberTableViewCell
-        cell.userDataView.profileUserName.text = userDataArray[indexPath.row]
+        cell.delegate = self
+        cell.indexPath = indexPath
+        cell.userDataView.profileUserName.text = inviteManagerList[indexPath.row].name
+        cell.userDataView.profileUserId.text = "@" + inviteManagerList[indexPath.row].uid
         cell.selectionStyle = .none
         return cell
     }
+    
+    func updateInviteManagerData(with newData: [InviteManager]) {
+        self.inviteManagerList = newData
+    }
+    
+    func cancelButtonTapped(at indexPath: IndexPath) {
+          
+        print(inviteManagerList[indexPath.row].id)
+          AuthorizationAlamofire.shared.deleteInviteMember(SelectedPetId.petId, String(inviteManagerList[indexPath.row].id)) { [self] result in
+              switch result {
+              case .success(let data):
+                  if let responseData = data,
+                     let jsonObject = try? JSONSerialization.jsonObject(with: responseData, options: []) as? [String: Any] {
+                      print("response jsonData: \(jsonObject)")
+                      let removedManager = inviteManagerList.remove(at: indexPath.row)
+                      if let index = PetManagersManager.inviteManagers.firstIndex(where: { $0.id == removedManager.id }) {
+                          PetManagersManager.inviteManagers.remove(at: index)
+                      }
+                      NotificationCenter.default.post(name: .InviteManagerDataUpdated, object: nil)
+                  }
+                  
+              case .failure(let error):
+                  print("Error: \(error)")
+              }
+          }
+      }
     
     // MARK: - UITableViewDelegate methods
     

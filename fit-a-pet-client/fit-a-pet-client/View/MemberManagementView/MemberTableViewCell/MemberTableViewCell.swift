@@ -44,7 +44,7 @@ class MemberTableViewCell: UITableViewCell {
     
     @objc private func showMenu() {
         
-        if petManagersManager.masterManager?.uid == UserDefaults.standard.string(forKey: "uid") {
+        if PetManagersManager.masterManager?.uid == UserDefaults.standard.string(forKey: "uid") {
             menu = UIMenu(title: "", children: [
                 UIAction(title: "이름 변경") { [weak self] action in
                     self?.delegate?.didTapChangeName()

@@ -2,15 +2,21 @@
 import UIKit
 import SnapKit
 
+protocol InviteMemberTableViewCellDelegate: AnyObject {
+    func cancelButtonTapped(at indexPath: IndexPath)
+}
+
 class InviteMemberTableViewCell: UITableViewCell {
     
     let userDataView = UserDataView()
     let cancleBtn = UIButton()
-  
+    weak var delegate: InviteMemberTableViewCellDelegate?
+    var indexPath: IndexPath?
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setupView()
+        cancleBtn.addTarget(self, action: #selector(cancelButtonTapped), for: .touchUpInside)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -42,4 +48,8 @@ class InviteMemberTableViewCell: UITableViewCell {
             make.width.equalTo(84)
         }
     }
+    @objc private func cancelButtonTapped() {
+            guard let indexPath = indexPath else { return }
+            delegate?.cancelButtonTapped(at: indexPath)
+        }
 }

@@ -29,6 +29,7 @@ class MemberManagementVC: UIViewController, MemberListTableViewMethodDelegate, M
         inviteWaitingView.inviteMemberTableView.delegate = inviteMemberMethod
         
         memberView.memberInviteBtn.addTarget(self, action: #selector(inviteButtonTapped), for: .touchUpInside)
+        NotificationCenter.default.addObserver(self, selector: #selector(handleInviteManagerDataUpdated), name: .InviteManagerDataUpdated, object: nil)
         
         petManagersListAPI()
         
@@ -101,12 +102,17 @@ class MemberManagementVC: UIViewController, MemberListTableViewMethodDelegate, M
         self.present(navigationController, animated: true)
     }
     
+    @objc func handleInviteManagerDataUpdated() {
+        inviteMemberListAPI()
+    }
+    
     func didTapChangeName() {
         let nextVC = EditUserNameVC(title: "이름 변경하기")
         self.pushViewController(nextVC, animated: true)
     }
     
     func petManagersListAPI(){
+       
         AuthorizationAlamofire.shared.petManagersList(SelectedPetId.petId) { result in
             switch result {
             case .success(let data):
@@ -117,8 +123,8 @@ class MemberManagementVC: UIViewController, MemberListTableViewMethodDelegate, M
                    let data = jsonObject["data"] as? [String: Any],
                    let managersArray = data["managers"] as? [[String: Any]] {
                     
-                    let managerList = petManagersManager()
-                    petManagersManager.subManagers.removeAll()
+                    let managerList = PetManagersManager()
+                    PetManagersManager.subManagers.removeAll()
                     
                     for managerData in managersArray {
                         if let id = managerData["id"] as? Int,
@@ -130,17 +136,56 @@ class MemberManagementVC: UIViewController, MemberListTableViewMethodDelegate, M
                             managerList.addManager(manager: manager)
                         }
                     }
-                    self.managerView.userDataView.profileUserName.text =  petManagersManager.masterManager?.name
-                    self.managerView.userDataView.profileUserId.text = "@" + petManagersManager.masterManager!.uid
+                    self.managerView.userDataView.profileUserName.text =  PetManagersManager.masterManager?.name
+                    self.managerView.userDataView.profileUserId.text = "@" + PetManagersManager.masterManager!.uid
                    
                 }
                 
-                self.memberMethod.updatePetManagerData(with: petManagersManager.subManagers)
+                self.memberMethod.updatePetManagerData(with: PetManagersManager.subManagers)
                 self.memberView.memberTableView.reloadData()
-                if UserDefaults.standard.string(forKey: "uid") != petManagersManager.masterManager?.uid{
+                if UserDefaults.standard.string(forKey: "uid") != PetManagersManager.masterManager?.uid{
                     self.managerView.menuButton.isHidden = false
                 }
    
+            case .failure(let error):
+                print("Error: \(error)")
+            }
+        }
+        
+        inviteMemberListAPI()
+       
+    }
+    func inviteMemberListAPI(){
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+
+        AuthorizationAlamofire.shared.inviteMemberList(SelectedPetId.petId) { result in
+            switch result {
+            case .success(let data):
+                if let responseData = data,
+                   let jsonObject = try? JSONSerialization.jsonObject(with: responseData, options: []) as? [String: Any],
+                   let status = jsonObject["status"] as? String, status == "success",
+                   let data = jsonObject["data"] as? [String: Any],
+                   let membersData = data["members"] as? [[String: Any]] {
+                    let managerList = PetManagersManager()
+                    PetManagersManager.inviteManagers.removeAll()
+                    for memberData in membersData {
+                        if let id = memberData["id"] as? Int,
+                           let uid = memberData["uid"] as? String,
+                           let name = memberData["name"] as? String,
+                           let expired = memberData["expired"] as? Bool,
+                           let invitedAtString = memberData["invitedAt"] as? String,
+                           let invitedAt = dateFormatter.date(from: invitedAtString) {
+                            
+                            let inviteManager = InviteManager(id: id, uid: uid, name: name, profileImageUrl: "", isMaster: false, expired: expired, invitedAt: invitedAt)
+                            managerList.addInviteManager(inviteManager: inviteManager)
+                        }
+                    }
+                }
+                
+                self.inviteMemberMethod.updateInviteManagerData(with: PetManagersManager.inviteManagers)
+                self.inviteWaitingView.inviteMemberTableView.reloadData()
+                
             case .failure(let error):
                 print("Error: \(error)")
             }

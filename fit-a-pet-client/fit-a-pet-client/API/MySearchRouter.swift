@@ -62,6 +62,8 @@ enum MySearchRouter: URLRequestConvertible {
     case petManagersList(petId: Int)
     case inviteMember(petId: Int, inviteId: Int)
     case deleteInviteMember(petId: Int, deleteId: String)
+    case inviteMemberList(petId: Int)
+    
     
     var baseURL: URL {
         switch self {
@@ -78,7 +80,7 @@ enum MySearchRouter: URLRequestConvertible {
         switch self {
         case .presignedurl, .registPet, .createCare, .careCategoryCheck, .createSchedule, .createRecord, .createFolder, .inviteMember:
             return .post
-        case .checkCareCategory, .userPetsList, .userPetInfoList, .userPetCareInfoList, .petCareComplete, .petScheduleList, .petCountScheduleList, .recordTotalFolderList, .recordDataListInquiry, .petManagersList:
+        case .checkCareCategory, .userPetsList, .userPetInfoList, .userPetCareInfoList, .petCareComplete, .petScheduleList, .petCountScheduleList, .recordTotalFolderList, .recordDataListInquiry, .petManagersList, .inviteMemberList:
             return .get
         case .uploadImage:
             return .put
@@ -104,7 +106,7 @@ enum MySearchRouter: URLRequestConvertible {
             return "v2/users/\(UserDefaults.standard.string(forKey: "id")!)/pets/summary"
         case .careCategoryCheck:
             return "v2/users/\(UserDefaults.standard.string(forKey: "id")!)/pets/categories-check"
-        case .userPetCareInfoList, .createCare, .checkCareCategory, .petCareComplete, .petCountScheduleList, .createFolder, .createRecord, .recordDataListInquiry, .petManagersList, .inviteMember, .deleteInviteMember:
+        case .userPetCareInfoList, .createCare, .checkCareCategory, .petCareComplete, .petCountScheduleList, .createFolder, .createRecord, .recordDataListInquiry, .petManagersList:
             return "v2/pets"
         case .userPetInfoList:
             return "v2/users/\(UserDefaults.standard.string(forKey: "id")!)/pets"
@@ -112,6 +114,8 @@ enum MySearchRouter: URLRequestConvertible {
             return "v2/schedules"
         case .petScheduleList:
             return "v2/accounts/\(UserDefaults.standard.string(forKey: "id")!)/schedules"
+        case .inviteMemberList(let petId), .deleteInviteMember(let petId, _), .inviteMember(let petId, _):
+            return "v2/pets/\(petId)/managers/invite"
         }
     }
     
@@ -131,7 +135,7 @@ enum MySearchRouter: URLRequestConvertible {
             return ["subMemoCategoryName": categoryName]
         case let .inviteMember(_, inviteId):
             return ["inviteId": inviteId]
-        case .uploadImage(_), .checkCareCategory, .userPetsList, .createCare, .userPetInfoList, .userPetCareInfoList, .petCareComplete, .createSchedule, .petCountScheduleList, .recordTotalFolderList, .createRecord, .recordDataListInquiry, .petManagersList, .deleteInviteMember:
+        case .uploadImage(_), .checkCareCategory, .userPetsList, .createCare, .userPetInfoList, .userPetCareInfoList, .petCareComplete, .createSchedule, .petCountScheduleList, .recordTotalFolderList, .createRecord, .recordDataListInquiry, .petManagersList, .deleteInviteMember, .inviteMemberList:
             return [:]
         
         }
@@ -158,7 +162,7 @@ enum MySearchRouter: URLRequestConvertible {
                 URLQueryItem(name: "result", value: "true"),
                 URLQueryItem(name: "blocking", value: "true")
             ]
-            request = createURLRequestWithBodyAndQuery(url: url, bodyParameters: bodyParameters, queryParameters: queryParameters)
+            request = URLRequest.createURLRequestWithBodyAndQuery(url: url, method: method, bodyParameters: bodyParameters, queryParameters: queryParameters)
             
         case .uploadImage(let image):
             
@@ -171,7 +175,7 @@ enum MySearchRouter: URLRequestConvertible {
              URLQueryItem(name: "x-amz-acl", value: PAYLOADURL.acl)
             ]
            
-            request = createURLRequestForImage(url: baseURL, image: image, queryParameters: queryParameters)
+            request = URLRequest.createURLRequestForImage(url: baseURL, method: method, image: image, queryParameters: queryParameters)
         
         case .userPetsList, .userPetInfoList:
             request = URLRequest(url: url)
@@ -197,11 +201,11 @@ enum MySearchRouter: URLRequestConvertible {
             request = try JSONEncoding.default.encode(request, withJSONObject: combinedData)
         case .petScheduleList(let year, let month, let day):
             let queryParameters = [URLQueryItem(name: "year", value: year), URLQueryItem(name: "month", value: month),  URLQueryItem(name: "day", value: day)]
-            request = createURLRequestWithQuery(url: url, queryParameters: queryParameters)
+            request = URLRequest.createURLRequestWithQuery(url: url,method: method, queryParameters: queryParameters)
         case .petCountScheduleList:
             url = url.appendingPathComponent("/\(SelectedPetId.petId)/schedules")
             let queryParameters = [URLQueryItem(name: "count", value: "3")]
-            request = createURLRequestWithQuery(url: url, queryParameters: queryParameters)
+            request = URLRequest.createURLRequestWithQuery(url: url, method: method, queryParameters: queryParameters)
         
         case .recordTotalFolderList:
             url = url.appendingPathComponent("/memo-categories")
@@ -216,7 +220,7 @@ enum MySearchRouter: URLRequestConvertible {
             
         case .createFolder(let petId, let rootMemoCategoryId, _):
             url = url.appendingPathComponent("/\(petId)/root-memo-categories/\(rootMemoCategoryId)")
-            request = createURLRequestWithBody(url: url)
+            request = URLRequest.createURLRequestWithBody(url: url, method: method, parameters: parameters)
             
         case .recordDataListInquiry(let petId, let memoCategoryId, let searchData):
             url = url.appendingPathComponent("/\(petId)/memo-categories/\(memoCategoryId)/memos")
@@ -229,95 +233,21 @@ enum MySearchRouter: URLRequestConvertible {
             request.httpMethod = method.rawValue
             
         case .inviteMember(let petId, let inviteId):
-            url = url.appendingPathComponent("/\(petId)/managers/invite")
-            request = createURLRequestWithBody(url: url)
+            request = URLRequest.createURLRequestWithBody(url: url, method: method, parameters: parameters)
         
         case .deleteInviteMember(let petId, let deleteId):
-            url = url.appendingPathComponent("/\(petId)/managers/invite")
             let queryParameters = [URLQueryItem(name: "id", value: deleteId)]
-            request = createURLRequestWithQuery(url: url, queryParameters: queryParameters)
+            request = URLRequest.createURLRequestWithQuery(url: url, method: method, queryParameters: queryParameters)
+            
+        case .inviteMemberList(let petId):    
+            request = URLRequest(url: url)
+            request.httpMethod = method.rawValue
         
         default:
-            request = createURLRequestWithBody(url: url)
+            request = URLRequest.createURLRequestWithBody(url: url, method: method, parameters: parameters)
         }
         
         return request
     }
-    
-    private func createURLRequestWithBody(url: URL) -> URLRequest {
-        var request = URLRequest(url: url)
-        request.httpMethod = method.rawValue
-        
-        
-        if let parameters = parameters as? [String: Any] {
-            do {
-                request.httpBody = try JSONSerialization.data(withJSONObject: parameters, options: [])
-                request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-            } catch {
-                let log = OSLog(subsystem: Bundle.main.bundleIdentifier!, category: "JSONEncoding")
-                os_log("JSON 인코딩에 실패했습니다. 오류: %@", log: log, type: .error, "\(error)")
-            }
-        }
-        
-        return request
-    }
-    
-    private func createURLRequestWithQuery(url: URL, queryParameters: [URLQueryItem]) -> URLRequest {
-        var request = URLRequest(url: url)
-        request.httpMethod = method.rawValue
-        
-        var components = URLComponents(url: url, resolvingAgainstBaseURL: false)
-        components?.queryItems = queryParameters
-        
-        if let urlWithQuery = components?.url {
-            print("requestURL: \(urlWithQuery)")
-            request.url = urlWithQuery
-        }
-        
-        return request
-    }
-    private func createURLRequestWithBodyAndQuery(url: URL, bodyParameters: [String: Any], queryParameters: [URLQueryItem]) -> URLRequest {
-        var request = URLRequest(url: url)
-        request.httpMethod = method.rawValue
 
-        do {
-            request.httpBody = try JSONSerialization.data(withJSONObject: bodyParameters, options: [])
-            request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-        } catch {
-            let log = OSLog(subsystem: Bundle.main.bundleIdentifier!, category: "JSONEncoding")
-            os_log("JSON encoding failed. Error: %@", log: log, type: .error, "\(error)")
-        }
-
-        var components = URLComponents(url: url, resolvingAgainstBaseURL: false)
-        components?.queryItems = queryParameters
-
-        if let urlWithQuery = components?.url {
-            request.url = urlWithQuery
-        }
-
-        return request
-    }
-    
-    private func createURLRequestForImage(url: URL, image: UIImage, queryParameters: [URLQueryItem]) -> URLRequest {
-        var request = URLRequest(url: url)
-        request.httpMethod = method.rawValue
-        
-        guard let imageData = image.jpegData(compressionQuality: 0.8) else {
-            return request
-        }
-           
-        request.httpBody = imageData
-        
-        var components = URLComponents(url: url, resolvingAgainstBaseURL: false)
-        components?.queryItems = queryParameters
-        
-        if let urlWithQuery = components?.url {
-            request.url = urlWithQuery
-        }
-        
-        //os_log
-        let log = OSLog(subsystem: Bundle.main.bundleIdentifier!, category: "AlamofireRequest")
-        os_log("Request URL: %@", log: log, type: .debug, "\(String(describing: request.url))")
-        return request
-    }
 }

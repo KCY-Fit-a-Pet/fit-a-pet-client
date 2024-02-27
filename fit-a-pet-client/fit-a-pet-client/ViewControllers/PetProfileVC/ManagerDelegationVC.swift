@@ -8,7 +8,7 @@ class ManagerDelegationVC: CustomNavigationBar{
     private let titleLabel = UILabel()
     private let memberTableView = UITableView()
     private let withdrawalBtn = CustomNextBtn(title: "탈퇴하기")
-    private let managerList = petManagersManager.subManagers
+    private let managerList = PetManagersManager.subManagers
     
     override func viewDidLoad() {
         super.viewDidLoad()
