@@ -66,9 +66,10 @@ enum MySearchRouter: URLRequestConvertible {
     
     
     //push test
-    case RegistdeviceToken(deviceToken: String, os: String, deviceModel: String)
+    case registDeviceToken(deviceToken: String, os: String, deviceModel: String)
     case pushNotificationAPI
     case cancellationManager(petId: Int, userId: Int)
+    case managerDelegation(petId: Int, userId: Int)
     
     var baseURL: URL {
         switch self {
@@ -83,7 +84,7 @@ enum MySearchRouter: URLRequestConvertible {
     
     var method: HTTPMethod {
         switch self {
-        case .presignedurl, .registPet, .createCare, .careCategoryCheck, .createSchedule, .createRecord, .createFolder, .inviteMember, .RegistdeviceToken:
+        case .presignedurl, .registPet, .createCare, .careCategoryCheck, .createSchedule, .createRecord, .createFolder, .inviteMember, .registDeviceToken:
             return .post
         case .checkCareCategory, .userPetsList, .userPetInfoList, .userPetCareInfoList, .petCareComplete, .petScheduleList, .petCountScheduleList, .recordTotalFolderList, .recordDataListInquiry, .petManagersList, .inviteMemberList, .pushNotificationAPI:
             return .get
@@ -91,6 +92,8 @@ enum MySearchRouter: URLRequestConvertible {
             return .put
         case .deleteInviteMember, .cancellationManager:
             return .delete
+        case .managerDelegation:
+            return .patch
         }
     }
     
@@ -122,10 +125,10 @@ enum MySearchRouter: URLRequestConvertible {
         case .inviteMemberList(let petId), .deleteInviteMember(let petId, _), .inviteMember(let petId, _):
             return "v2/pets/\(petId)/managers/invite"
             
-        case .cancellationManager(let petId, let userId):
+        case .cancellationManager(let petId, let userId), .managerDelegation(let petId, let userId):
             return "v2/pets/\(petId)/managers/\(userId)"
         
-        case .RegistdeviceToken:
+        case .registDeviceToken:
             return "v2/accounts/\(UserDefaults.standard.string(forKey: "id")!)/device-token"
         case .pushNotificationAPI:
             return "v2/test/members/push"
@@ -149,10 +152,10 @@ enum MySearchRouter: URLRequestConvertible {
         case let .inviteMember(_, inviteId):
             return ["inviteId": inviteId]
             
-        case let .RegistdeviceToken(deviceToken, os, deviceModel):
+        case let .registDeviceToken(deviceToken, os, deviceModel):
             return ["deviceToken": deviceToken, "os": os, "deviceModel": deviceModel]
         
-        case .uploadImage(_), .checkCareCategory, .userPetsList, .createCare, .userPetInfoList, .userPetCareInfoList, .petCareComplete, .createSchedule, .petCountScheduleList, .recordTotalFolderList, .createRecord, .recordDataListInquiry, .petManagersList, .deleteInviteMember, .inviteMemberList, .pushNotificationAPI, .cancellationManager :
+        case .uploadImage(_), .checkCareCategory, .userPetsList, .createCare, .userPetInfoList, .userPetCareInfoList, .petCareComplete, .createSchedule, .petCountScheduleList, .recordTotalFolderList, .createRecord, .recordDataListInquiry, .petManagersList, .deleteInviteMember, .inviteMemberList, .pushNotificationAPI, .cancellationManager, .managerDelegation :
             return [:]
         
         }
@@ -252,7 +255,12 @@ enum MySearchRouter: URLRequestConvertible {
         case .deleteInviteMember(let petId, let deleteId):
             let queryParameters = [URLQueryItem(name: "id", value: deleteId)]
             request = URLRequest.createURLRequestWithQuery(url: url, method: method, queryParameters: queryParameters)
+        
         case .cancellationManager( _, _):
+            request = URLRequest(url: url)
+            request.httpMethod = method.rawValue
+        
+        case .managerDelegation( _, _):
             request = URLRequest(url: url)
             request.httpMethod = method.rawValue
             

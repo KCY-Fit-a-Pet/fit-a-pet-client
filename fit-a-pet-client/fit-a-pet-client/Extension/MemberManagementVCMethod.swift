@@ -8,7 +8,6 @@ protocol MemberListTableViewMethodDelegate: AnyObject {
 
 class MemberListTableViewMethod: NSObject, UITableViewDataSource, UITableViewDelegate, MemberTableViewCellDelegate {
     
-    
     weak var delegate: MemberListTableViewMethodDelegate?
     var managerList = PetManagersManager.subManagers
    
@@ -16,11 +15,20 @@ class MemberListTableViewMethod: NSObject, UITableViewDataSource, UITableViewDel
         let nextVC = EditUserNameVC(title: "이름 변경하기")
         delegate?.pushViewController(nextVC, animated: true)
     }
-    func didTapCancellationBtn(_ userId: String, _ userName: String) {
+    func didTapCancellationBtn(_ userId: Int, _ userName: String) {
         let customPopupVC = CancellationPopupVC()
         customPopupVC.modalPresentationStyle = .overFullScreen
         customPopupVC.userId = userId
+        customPopupVC.isCancellation = true
         customPopupVC.updateText("\(userName)을(를) 강제 퇴장할까요?", "\(SelectedPetId.petName)의 케어 멤버에서 해당 멤버를 퇴장시켜요.", "강제 퇴장시키기", "취소")
+        delegate?.presentViewContoller(customPopupVC, animated: true)
+    }
+    func didTapDelegationBtn(_ userId: Int, _ userName: String) {
+        let customPopupVC = CancellationPopupVC()
+        customPopupVC.modalPresentationStyle = .overFullScreen
+        customPopupVC.userId = userId
+        customPopupVC.isCancellation = false
+        customPopupVC.updateText("\(userName)님에게 관리자를 위임할까요?", "관리자 권한을 넘기면\n 본인은 \(SelectedPetId.petName)의 케어 멤버로 전환돼요.", "관리자 위임하기", "취소")
         delegate?.presentViewContoller(customPopupVC, animated: true)
     }
     
@@ -38,6 +46,7 @@ class MemberListTableViewMethod: NSObject, UITableViewDataSource, UITableViewDel
         }
         cell.userDataView.profileUserName.text = managerList[indexPath.row].name
         cell.userDataView.profileUserId.text = "@" + managerList[indexPath.row].uid
+        cell.userDataView.userid = managerList[indexPath.row].id
         cell.delegate = self
         cell.selectionStyle = .none
 

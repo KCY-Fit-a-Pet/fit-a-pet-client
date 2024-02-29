@@ -406,12 +406,26 @@ class AuthorizationAlamofire: TokenHandling {
                 }
             }
     }
+    func managerDelegation(_ petId: Int, _ userId: Int, completion: @escaping (Result<Data?, Error>) -> Void) {
+        os_log("AuthorizationAlamofire - managerDelegation() called ", log: .default, type: .info)
+
+        self.session.request(MySearchRouter.managerDelegation(petId: petId, userId: userId))
+            .response { response in
+                switch response.result {
+                case .success(let data):
+                    completion(.success(data))
+                case .failure(let error):
+                    completion(.failure(error))
+                }
+            }
+    }
+
     
     
-    func RegistdeviceToken(_ deviceToken: String, _ os: String, _ deviceModel: String,completion: @escaping (Result<Data?, Error>) -> Void) {
+    func registDeviceToken(_ deviceToken: String, _ os: String, _ deviceModel: String,completion: @escaping (Result<Data?, Error>) -> Void) {
         os_log("AuthorizationAlamofire - RegistdeviceToken() called ", log: .default, type: .info)
         
-        self.session.request(MySearchRouter.RegistdeviceToken(deviceToken: deviceToken, os: os, deviceModel: deviceModel))
+        self.session.request(MySearchRouter.registDeviceToken(deviceToken: deviceToken, os: os, deviceModel: deviceModel))
             .response { response in
                 switch response.result {
                 case .success(let data):

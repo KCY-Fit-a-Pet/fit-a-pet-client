@@ -7,4 +7,5 @@ extension Notification.Name {
     static let FolderCreatedNotification = Notification.Name("FolderCreatedNotification")
     static let InviteManagerDataUpdated = Notification.Name("InviteManagerDataUpdated")
     static let ManagerCancellationBtnTapped = Notification.Name("ManagerCancellationBtnTapped")
+    static let ManagerDelegationBtnTapped = Notification.Name("ManagerDelegationBtnTapped")
 }

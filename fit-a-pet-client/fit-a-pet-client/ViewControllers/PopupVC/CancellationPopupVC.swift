@@ -10,12 +10,14 @@ import UIKit
 class CancellationPopupVC: UIViewController {
 
     let popupView = CustomCheckPopupView()
-    var userId = ""
+    var userId = 0
+    var isCancellation = false
 
     var dismissalCompletion: (() -> Void)?
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        updateBtnColor()
 
         view.backgroundColor = UIColor(white: 0, alpha: 0.5)
 
@@ -23,9 +25,6 @@ class CancellationPopupVC: UIViewController {
         popupView.customButton2.addTarget(self, action: #selector(cancelButtonTapped(_:)), for: .touchUpInside)
 
         view.addSubview(popupView)
-        popupView.customButton1.backgroundColor = UIColor(named: "Danger")
-        popupView.customButton2.layer.borderColor = UIColor(named: "Danger")?.cgColor
-        popupView.customButton2.setTitleColor(UIColor(named: "Danger"), for: .normal)
         
         popupView.snp.makeConstraints { make in
             make.center.equalToSuperview()
@@ -39,22 +38,48 @@ class CancellationPopupVC: UIViewController {
         popupView.customButton1.setTitle(confirm, for: .normal)
         popupView.customButton2.setTitle(cancel, for: .normal)
     }
+    
+    func updateBtnColor(){
+        if isCancellation{
+            popupView.customButton1.backgroundColor = UIColor(named: "Danger")
+            popupView.customButton2.layer.borderColor = UIColor(named: "Danger")?.cgColor
+            popupView.customButton2.setTitleColor(UIColor(named: "Danger"), for: .normal)
+        }
+    }
 
     @objc func cancellationButtonTapped(_ sender: UIButton) {
-       
-        AuthorizationAlamofire.shared.cancellationManager(SelectedPetId.petId, Int(userId)!){ [self] result in
-            switch result {
-            case .success(let data):
-                if let responseData = data,
-                   let jsonObject = try? JSONSerialization.jsonObject(with: responseData, options: []) as? [String: Any] {
-                    print("response jsonData: \(jsonObject)")
-                    dismiss(animated: true, completion: nil)
-                    NotificationCenter.default.post(name: .ManagerCancellationBtnTapped, object: nil)
+        
+        if isCancellation{
+            AuthorizationAlamofire.shared.cancellationManager(SelectedPetId.petId, userId){ [self] result in
+                switch result {
+                case .success(let data):
+                    if let responseData = data,
+                       let jsonObject = try? JSONSerialization.jsonObject(with: responseData, options: []) as? [String: Any] {
+                        print("response jsonData: \(jsonObject)")
+                        dismiss(animated: true, completion: nil)
+                        NotificationCenter.default.post(name: .ManagerCancellationBtnTapped, object: nil)
+                    }
+                    
+                case .failure(let error):
+                    print("Error: \(error)")
                 }
-                
-            case .failure(let error):
-                print("Error: \(error)")
             }
+        }else{
+            AuthorizationAlamofire.shared.managerDelegation(SelectedPetId.petId, userId){ [self] result in
+                switch result {
+                case .success(let data):
+                    if let responseData = data,
+                       let jsonObject = try? JSONSerialization.jsonObject(with: responseData, options: []) as? [String: Any] {
+                        print("response jsonData: \(jsonObject)")
+                        dismiss(animated: true, completion: nil)
+                        NotificationCenter.default.post(name: .ManagerDelegationBtnTapped, object: nil)
+                    }
+                    
+                case .failure(let error):
+                    print("Error: \(error)")
+                }
+            }
+            dismiss(animated: true, completion: nil)
         }
     }
 

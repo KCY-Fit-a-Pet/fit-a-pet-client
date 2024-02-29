@@ -4,7 +4,8 @@ import SnapKit
 
 protocol MemberTableViewCellDelegate: AnyObject {
     func didTapChangeName()
-    func didTapCancellationBtn(_ userId: String, _ userName: String)
+    func didTapCancellationBtn(_ userId: Int, _ userName: String)
+    func didTapDelegationBtn(_ userId: Int, _ userName: String)
 }
 
 class MemberTableViewCell: UITableViewCell {
@@ -51,11 +52,11 @@ class MemberTableViewCell: UITableViewCell {
                     self?.delegate?.didTapChangeName()
                 },
                 UIAction(title: "관리자 위임") { [weak self] action in
-             
+                    self?.delegate?.didTapDelegationBtn(self!.userDataView.userid, self!.userDataView.profileUserName.text!)
                 },
                 UIAction(title: "강제 퇴장", attributes: .destructive) { [weak self] action in
                     print("")
-                    self?.delegate?.didTapCancellationBtn(self!.userDataView.profileUserId.text!, self!.userDataView.profileUserName.text!)
+                    self?.delegate?.didTapCancellationBtn(self!.userDataView.userid, self!.userDataView.profileUserName.text!)
                 }
             ])
         } else {

@@ -36,6 +36,7 @@ class MemberManagementVC: UIViewController, MemberListTableViewMethodDelegate, M
         cancellationBtn.addTarget(self, action: #selector(cancellationBtnTapped), for: .touchUpInside)
         NotificationCenter.default.addObserver(self, selector: #selector(handleInviteManagerDataUpdated), name: .InviteManagerDataUpdated, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(handleManagerCancellationBtnTapped), name: .ManagerCancellationBtnTapped, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(handleManagerDelegationBtnTapped), name: .ManagerDelegationBtnTapped, object: nil)
 
         petManagersListAPI()
         
@@ -142,6 +143,9 @@ class MemberManagementVC: UIViewController, MemberListTableViewMethodDelegate, M
     @objc func handleManagerCancellationBtnTapped(){
         navigationController?.popToRootViewController(animated: true)
     }
+    @objc func handleManagerDelegationBtnTapped(){
+        petManagersListAPI()
+    }
     
     @objc func cancellationBtnTapped(){
         
@@ -151,7 +155,9 @@ class MemberManagementVC: UIViewController, MemberListTableViewMethodDelegate, M
         }else{
             let customPopupVC = CancellationPopupVC()
             customPopupVC.modalPresentationStyle = .overFullScreen
-            customPopupVC.updateText("\(SelectedPetId.petName)의 관리 멤버에서 탈퇴할까요?", "더 이상 \(SelectedPetId.petName)를 케어 및 관리하지 안하요. ", "탈퇴하기", "취소")
+            customPopupVC.userId = UserDefaults.standard.integer(forKey: "id")
+            customPopupVC.isCancellation = true
+            customPopupVC.updateText("\(SelectedPetId.petName)의 관리 멤버에서 탈퇴할까요?", "더 이상 \(SelectedPetId.petName)를 케어 및 관리하지 않아요. ", "탈퇴하기", "취소")
             self.present(customPopupVC, animated: true, completion: nil)
         }
     }

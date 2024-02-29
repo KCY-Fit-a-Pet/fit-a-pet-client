@@ -7,6 +7,7 @@ class UserDataView: UIView {
     let profileImageView = UIImageView()
     let profileUserName = UILabel()
     let profileUserId = UILabel()
+    var userid = 0
     
     override init(frame: CGRect) {
         super.init(frame: frame)
