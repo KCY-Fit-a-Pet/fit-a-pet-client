@@ -3,15 +3,24 @@ import UIKit
 
 protocol MemberListTableViewMethodDelegate: AnyObject {
     func pushViewController(_ viewController: UIViewController, animated: Bool)
+    func presentViewContoller(_ viewController: UIViewController, animated: Bool)
 }
 
 class MemberListTableViewMethod: NSObject, UITableViewDataSource, UITableViewDelegate, MemberTableViewCellDelegate {
+    
+    
     weak var delegate: MemberListTableViewMethodDelegate?
     var managerList = PetManagersManager.subManagers
    
     func didTapChangeName() {
         let nextVC = EditUserNameVC(title: "이름 변경하기")
         delegate?.pushViewController(nextVC, animated: true)
+    }
+    func didTapCancellationBtn(_ userId: String, _ userName: String) {
+        let customPopupVC = CancellationPopupVC()
+        customPopupVC.modalPresentationStyle = .overFullScreen
+        customPopupVC.updateText("\(userName)을(를) 강제 퇴장할까요?", "\(SelectedPetId.petName)의 케어 멤버에서 해당 멤버를 퇴장시켜요.", "강제 퇴장시키기", "취소")
+        delegate?.presentViewContoller(customPopupVC, animated: true)
     }
     
     // MARK: - UITableViewDataSource methods

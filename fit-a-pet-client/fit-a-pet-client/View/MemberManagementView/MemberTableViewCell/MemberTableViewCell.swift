@@ -4,6 +4,7 @@ import SnapKit
 
 protocol MemberTableViewCellDelegate: AnyObject {
     func didTapChangeName()
+    func didTapCancellationBtn(_ userId: String, _ userName: String)
 }
 
 class MemberTableViewCell: UITableViewCell {
@@ -53,6 +54,9 @@ class MemberTableViewCell: UITableViewCell {
              
                 },
                 UIAction(title: "강제 퇴장", attributes: .destructive) { [weak self] action in
+                    print("")
+                    self?.delegate?.didTapCancellationBtn(self!.userDataView.profileUserId.text!, self!.userDataView.profileUserName.text!)
+//                    NotificationCenter.default.post(name: .ManagerCancellationBtnTapped, object: nil, userInfo: ["userId": self!.userDataView.profileUserId, "userName": self!.userDataView.profileUserName])
                 }
             ])
         } else {

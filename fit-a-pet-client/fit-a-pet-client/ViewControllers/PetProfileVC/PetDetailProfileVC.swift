@@ -11,7 +11,6 @@ class PetDetailProfileVC: UIViewController{
     let scheduleProfileView = PetDetailScheduleListView()
     var petData: Pet?
     var scheduleListResponse: ScheduleListResponse?
-    var selectedPet = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -105,18 +104,14 @@ class PetDetailProfileVC: UIViewController{
 
     }
     
-    @objc func editProfileButtonTapped() {
-        print("프로필 수정 button tapped")
-        
+    @objc func editProfileButtonTapped() { 
         let nextVC = PetProfileEditVC(title: "반려동물 프로필")
         self.navigationController?.pushViewController(nextVC, animated: true)
         
     }
     
     @objc func manageMembersButtonTapped() {
-        print("관리 멤버 button tapped")
         let nextVC = MemberManagementVC()
-        self.navigationController?.navigationBar.topItem?.title = selectedPet
         navigationController?.pushViewController(nextVC, animated: true)
     }
     

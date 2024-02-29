@@ -41,6 +41,20 @@ class CancellationPopupVC: UIViewController {
 
     @objc func cancellationButtonTapped(_ sender: UIButton) {
        
+//        AuthorizationAlamofire.shared.cancellationManager(<#T##petId: Int##Int#>, <#T##userId: Int##Int#>, completion: <#T##(Result<Data?, Error>) -> Void#>){ [self] result in
+//            switch result {
+//            case .success(let data):
+//                if let responseData = data,
+//                   let jsonObject = try? JSONSerialization.jsonObject(with: responseData, options: []) as? [String: Any] {
+//                    print("response jsonData: \(jsonObject)")
+//                    
+//                }
+//                
+//            case .failure(let error):
+//                print("Error: \(error)")
+//            }
+//        }
+        
         dismiss(animated: true, completion: nil)
     }
 

@@ -5,6 +5,7 @@ import SnapKit
 
 class MemberManagementVC: UIViewController, MemberListTableViewMethodDelegate, ManagerViewDelegate{
     
+    private var titleLabel = UILabel()
     private let layoutView = UIScrollView()
     private let managerView = ManagerView()
     private let containerView = UIView()
@@ -16,10 +17,12 @@ class MemberManagementVC: UIViewController, MemberListTableViewMethodDelegate, M
     private let inviteMemberMethod = MemberInviteListTableViewMethod()
     
     private let heightForRow: CGFloat = 76
+    private var isManager = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
         initView()
+        setupNavigationBar()
         
         memberMethod.delegate = self
         managerView.delegate = self
@@ -32,7 +35,7 @@ class MemberManagementVC: UIViewController, MemberListTableViewMethodDelegate, M
         memberView.memberInviteBtn.addTarget(self, action: #selector(inviteButtonTapped), for: .touchUpInside)
         cancellationBtn.addTarget(self, action: #selector(cancellationBtnTapped), for: .touchUpInside)
         NotificationCenter.default.addObserver(self, selector: #selector(handleInviteManagerDataUpdated), name: .InviteManagerDataUpdated, object: nil)
-        
+
         petManagersListAPI()
         
     }
@@ -51,7 +54,7 @@ class MemberManagementVC: UIViewController, MemberListTableViewMethodDelegate, M
         cancellationBtn.setTitle("탈퇴하기", for: .normal)
         cancellationBtn.setTitleColor(UIColor(named: "Danger"), for: .normal)
         cancellationBtn.titleLabel?.font = UIFont.systemFont(ofSize: 14)
-
+        
         view.addSubview(layoutView)
         layoutView.addSubview(managerView)
         layoutView.addSubview(containerView)
@@ -60,7 +63,7 @@ class MemberManagementVC: UIViewController, MemberListTableViewMethodDelegate, M
         containerView.addSubview(inviteWaitingView)
         
         memberView.backgroundColor = .white
-     
+        
         layoutView.snp.makeConstraints{make in
             make.top.equalTo(view.safeAreaLayoutGuide)
             make.bottom.leading.trailing.equalTo(view)
@@ -76,7 +79,7 @@ class MemberManagementVC: UIViewController, MemberListTableViewMethodDelegate, M
             make.leading.trailing.equalTo(view)
             make.bottom.equalTo(view)
         }
-
+        
         memberView.snp.makeConstraints{make in
             make.height.equalTo(0)
             make.top.equalToSuperview().offset(8)
@@ -95,8 +98,25 @@ class MemberManagementVC: UIViewController, MemberListTableViewMethodDelegate, M
         }
     }
     
+    func setupNavigationBar(){
+        titleLabel = UILabel()
+        titleLabel.text = "\(SelectedPetId.petName) 멤버"
+        titleLabel.textColor = .black
+        titleLabel.font = UIFont.boldSystemFont(ofSize: 16.0)
+        titleLabel.sizeToFit()
+        
+        let titleView = UIView(frame: CGRect(x: 0, y: 0, width: titleLabel.frame.width, height: titleLabel.frame.height))
+        titleView.addSubview(titleLabel)
+        
+        self.navigationItem.titleView = titleView
+    }
+    
     func pushViewController(_ viewController: UIViewController, animated: Bool) {
         navigationController?.pushViewController(viewController, animated: animated)
+    }
+    
+    func presentViewContoller(_ viewController: UIViewController, animated: Bool) {
+        self.present(viewController, animated: true, completion: nil)
     }
     
     func updateMemberViewHeight() {
@@ -120,17 +140,23 @@ class MemberManagementVC: UIViewController, MemberListTableViewMethodDelegate, M
     }
     
     @objc func cancellationBtnTapped(){
-        let customPopupVC = CancellationPopupVC()
-        customPopupVC.modalPresentationStyle = .overFullScreen
-        customPopupVC.updateText("의 관리 멤버에서 탈퇴할까요?", "더 이상 를 케어 및 관리하지 안하요. ", "탈퇴하기", "취소")
-        self.present(customPopupVC, animated: true, completion: nil)
+        
+        if isManager{
+            let nextVC = ManagerDelegationVC(title: "관리자 위임")
+            self.pushViewController(nextVC, animated: true)
+        }else{
+            let customPopupVC = CancellationPopupVC()
+            customPopupVC.modalPresentationStyle = .overFullScreen
+            customPopupVC.updateText("\(SelectedPetId.petName)의 관리 멤버에서 탈퇴할까요?", "더 이상 \(SelectedPetId.petName)를 케어 및 관리하지 안하요. ", "탈퇴하기", "취소")
+            self.present(customPopupVC, animated: true, completion: nil)
+        }
     }
     
     func didTapChangeName() {
         let nextVC = EditUserNameVC(title: "이름 변경하기")
         self.pushViewController(nextVC, animated: true)
     }
-    
+
     func petManagersListAPI(){
        
         AuthorizationAlamofire.shared.petManagersList(SelectedPetId.petId) { result in
@@ -163,8 +189,10 @@ class MemberManagementVC: UIViewController, MemberListTableViewMethodDelegate, M
                 
                 self.memberMethod.updatePetManagerData(with: PetManagersManager.subManagers)
                 self.memberView.memberTableView.reloadData()
-                if UserDefaults.standard.string(forKey: "uid") != PetManagersManager.masterManager?.uid{
-                    self.managerView.menuButton.isHidden = false
+                if UserDefaults.standard.string(forKey: "uid") == PetManagersManager.masterManager?.uid{
+                    self.isManager = true
+                    self.managerView.menuButton.isHidden = true
+                    self.cancellationBtn.setTitle("관리자 위임 후 탈퇴하기", for: .normal)
                 }
    
             case .failure(let error):

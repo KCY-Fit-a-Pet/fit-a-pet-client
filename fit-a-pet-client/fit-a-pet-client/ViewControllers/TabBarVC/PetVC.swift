@@ -104,9 +104,9 @@ extension PetVC: UICollectionViewDelegate{
         let selectedPet = PetDataManager.pets[indexPath.item]
         print("Selected Pet Name: \(selectedPet.id)")
         SelectedPetId.petId = selectedPet.id
+        SelectedPetId.petName = selectedPet.petName
         let nextVC = PetDetailProfileVC()
         self.navigationController?.navigationBar.topItem?.title = selectedPet.petName
-        nextVC.selectedPet = selectedPet.petName
         nextVC.hidesBottomBarWhenPushed = true
         navigationController?.pushViewController(nextVC, animated: true)
         

@@ -22,15 +22,25 @@ class ManagerDelegationVC: CustomNavigationBar{
         memberTableView.register(ManagerDelegationTableViewCell.self, forCellReuseIdentifier: "ManagerDelegationTableViewCell")
     }
     func initView(){
+        view.addSubview(titleLabel)
         view.addSubview(memberTableView)
         view.addSubview(withdrawalBtn)
         
+        titleLabel.text = "멤버"
+        titleLabel.font = .boldSystemFont(ofSize: 16)
         withdrawalBtn.backgroundColor = UIColor(named: "Danger")
         memberTableView.separatorStyle = .none
         
+        titleLabel.snp.makeConstraints{make in
+            make.height.equalTo(24)
+            make.top.equalTo(view.safeAreaLayoutGuide)
+            make.leading.trailing.equalToSuperview().inset(24)
+        }
+        
         memberTableView.snp.makeConstraints{make in
-            make.top.leading.trailing.equalTo(view.safeAreaLayoutGuide)
-            make.height.equalTo(300)
+            make.top.equalTo(titleLabel.snp.bottom).offset(16)
+            make.leading.trailing.equalToSuperview()
+            make.bottom.equalTo(withdrawalBtn.snp.top).offset(-10)
         }
         
         withdrawalBtn.snp.makeConstraints{make in
