@@ -19,6 +19,7 @@ class MemberListTableViewMethod: NSObject, UITableViewDataSource, UITableViewDel
     func didTapCancellationBtn(_ userId: String, _ userName: String) {
         let customPopupVC = CancellationPopupVC()
         customPopupVC.modalPresentationStyle = .overFullScreen
+        customPopupVC.userId = userId
         customPopupVC.updateText("\(userName)을(를) 강제 퇴장할까요?", "\(SelectedPetId.petName)의 케어 멤버에서 해당 멤버를 퇴장시켜요.", "강제 퇴장시키기", "취소")
         delegate?.presentViewContoller(customPopupVC, animated: true)
     }

@@ -35,6 +35,7 @@ class MemberManagementVC: UIViewController, MemberListTableViewMethodDelegate, M
         memberView.memberInviteBtn.addTarget(self, action: #selector(inviteButtonTapped), for: .touchUpInside)
         cancellationBtn.addTarget(self, action: #selector(cancellationBtnTapped), for: .touchUpInside)
         NotificationCenter.default.addObserver(self, selector: #selector(handleInviteManagerDataUpdated), name: .InviteManagerDataUpdated, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(handleManagerCancellationBtnTapped), name: .ManagerCancellationBtnTapped, object: nil)
 
         petManagersListAPI()
         
@@ -137,6 +138,9 @@ class MemberManagementVC: UIViewController, MemberListTableViewMethodDelegate, M
     
     @objc func handleInviteManagerDataUpdated() {
         inviteMemberListAPI()
+    }
+    @objc func handleManagerCancellationBtnTapped(){
+        navigationController?.popToRootViewController(animated: true)
     }
     
     @objc func cancellationBtnTapped(){

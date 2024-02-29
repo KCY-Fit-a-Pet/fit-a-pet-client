@@ -10,6 +10,7 @@ import UIKit
 class CancellationPopupVC: UIViewController {
 
     let popupView = CustomCheckPopupView()
+    var userId = ""
 
     var dismissalCompletion: (() -> Void)?
 
@@ -41,21 +42,20 @@ class CancellationPopupVC: UIViewController {
 
     @objc func cancellationButtonTapped(_ sender: UIButton) {
        
-//        AuthorizationAlamofire.shared.cancellationManager(<#T##petId: Int##Int#>, <#T##userId: Int##Int#>, completion: <#T##(Result<Data?, Error>) -> Void#>){ [self] result in
-//            switch result {
-//            case .success(let data):
-//                if let responseData = data,
-//                   let jsonObject = try? JSONSerialization.jsonObject(with: responseData, options: []) as? [String: Any] {
-//                    print("response jsonData: \(jsonObject)")
-//                    
-//                }
-//                
-//            case .failure(let error):
-//                print("Error: \(error)")
-//            }
-//        }
-        
-        dismiss(animated: true, completion: nil)
+        AuthorizationAlamofire.shared.cancellationManager(SelectedPetId.petId, Int(userId)!){ [self] result in
+            switch result {
+            case .success(let data):
+                if let responseData = data,
+                   let jsonObject = try? JSONSerialization.jsonObject(with: responseData, options: []) as? [String: Any] {
+                    print("response jsonData: \(jsonObject)")
+                    dismiss(animated: true, completion: nil)
+                    NotificationCenter.default.post(name: .ManagerCancellationBtnTapped, object: nil)
+                }
+                
+            case .failure(let error):
+                print("Error: \(error)")
+            }
+        }
     }
 
     @objc func cancelButtonTapped(_ sender: UIButton) {
