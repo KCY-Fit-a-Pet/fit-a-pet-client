@@ -25,6 +25,7 @@ class MemberView: UIView {
         addSubview(memberTableView)
         
         memberTableView.register(MemberTableViewCell.self, forCellReuseIdentifier: "MemberTableViewCell")
+        memberTableView.isScrollEnabled = false
         
         memberTitleLabel.text = "멤버"
         memberTitleLabel.font = .boldSystemFont(ofSize: 16)

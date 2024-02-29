@@ -118,7 +118,7 @@ class InviteMemberVC: UIViewController{
     }
     
     @objc func searchButtonTapped(){
-        AuthorizationAlamofire.shared.searchUserProfile(inputId) { result in
+        AuthorizationAlamofire.shared.searchUserProfile(inputId) {[self] result in
             switch result {
             case .success(let data):
                 if let responseData = data {
@@ -135,6 +135,18 @@ class InviteMemberVC: UIViewController{
                                 }
                                 if let uid = member["uid"] as? String {
                                     self.userDataView.profileUserId.text = "@" + uid
+                                    let allManagerUIDs = [PetManagersManager.masterManager?.uid] + PetManagersManager.subManagers.map { $0.uid } + PetManagersManager.inviteManagers.map{$0.uid}
+                                    
+                                    if allManagerUIDs.contains(uid) {
+                                        inviteToggleBtn.setTitle("초대 완료", for: .normal)
+                                        inviteToggleBtn.setTitleColor(UIColor(named: "Gray3"), for: .normal)
+                                        inviteToggleBtn.layer.borderColor = UIColor(named: "Gray3")?.cgColor
+                            
+                                    } else {
+                                        inviteToggleBtn.setTitle("초대 하기", for: .normal)
+                                        inviteToggleBtn.setTitleColor(UIColor(named: "PrimaryColor"), for: .normal)
+                                        inviteToggleBtn.layer.borderColor = UIColor(named: "PrimaryColor")?.cgColor
+                                    }
                                 }
                                 if let name = member["name"] as? String {
                                     self.userDataView.profileUserName.text = name

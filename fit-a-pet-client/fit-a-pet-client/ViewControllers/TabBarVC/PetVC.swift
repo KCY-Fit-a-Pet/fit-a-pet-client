@@ -109,6 +109,7 @@ extension PetVC: UICollectionViewDelegate{
         nextVC.selectedPet = selectedPet.petName
         nextVC.hidesBottomBarWhenPushed = true
         navigationController?.pushViewController(nextVC, animated: true)
+        
     }
 }
 extension PetVC: UICollectionViewDataSource{

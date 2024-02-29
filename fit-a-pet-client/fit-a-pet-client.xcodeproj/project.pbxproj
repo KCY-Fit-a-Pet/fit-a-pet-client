@@ -27,6 +27,7 @@
 		4A0CC3622B810C6E004A9D77 /* RootFolderPanModalVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A0CC3612B810C6E004A9D77 /* RootFolderPanModalVC.swift */; };
 		4A0FEA492B1B5F6F0084CA6C /* FindInputPhoneNumVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A0FEA482B1B5F6F0084CA6C /* FindInputPhoneNumVC.swift */; };
 		4A0FEA4B2B1B5F820084CA6C /* FindInputAuthNumVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A0FEA4A2B1B5F820084CA6C /* FindInputAuthNumVC.swift */; };
+		4A1545E42B90F14200008494 /* CancellationPopupVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A1545E32B90F14200008494 /* CancellationPopupVC.swift */; };
 		4A15F2072AA641910098F2F7 /* CustomNextBtn.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A15F2062AA641910098F2F7 /* CustomNextBtn.swift */; };
 		4A15F2092AA790D60098F2F7 /* CustomProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A15F2082AA790D60098F2F7 /* CustomProgressBar.swift */; };
 		4A15F20B2AA799C50098F2F7 /* ConstomLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A15F20A2AA799C50098F2F7 /* ConstomLabel.swift */; };
@@ -168,6 +169,7 @@
 		4A0CC3612B810C6E004A9D77 /* RootFolderPanModalVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootFolderPanModalVC.swift; sourceTree = "<group>"; };
 		4A0FEA482B1B5F6F0084CA6C /* FindInputPhoneNumVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindInputPhoneNumVC.swift; sourceTree = "<group>"; };
 		4A0FEA4A2B1B5F820084CA6C /* FindInputAuthNumVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindInputAuthNumVC.swift; sourceTree = "<group>"; };
+		4A1545E32B90F14200008494 /* CancellationPopupVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CancellationPopupVC.swift; sourceTree = "<group>"; };
 		4A15F2062AA641910098F2F7 /* CustomNextBtn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomNextBtn.swift; sourceTree = "<group>"; };
 		4A15F2082AA790D60098F2F7 /* CustomProgressBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomProgressBar.swift; sourceTree = "<group>"; };
 		4A15F20A2AA799C50098F2F7 /* ConstomLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConstomLabel.swift; sourceTree = "<group>"; };
@@ -337,6 +339,16 @@
 				4A0C7F062B5C568D0097D753 /* PetCareHeaderView.swift */,
 			);
 			path = MainVCView;
+			sourceTree = "<group>";
+		};
+		4A1545E22B90F0F100008494 /* PopupVC */ = {
+			isa = PBXGroup;
+			children = (
+				4AC579862B2E004400735252 /* CustomAlarmPopupVC.swift */,
+				4A828D8E2B619447006AE70A /* CareCustomCheckPopupVC.swift */,
+				4A1545E32B90F14200008494 /* CancellationPopupVC.swift */,
+			);
+			path = PopupVC;
 			sourceTree = "<group>";
 		};
 		4A15F20C2AA8B3FB0098F2F7 /* SignUpVC */ = {
@@ -520,6 +532,7 @@
 		4ABE58582A85E8B400E22C5F /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				4A1545E22B90F0F100008494 /* PopupVC */,
 				4A4B085D2B77D82500959683 /* RecordRelatedVC */,
 				4AE293EF2B6FF9EA00920C0B /* PetProfileVC */,
 				4AEDCDFF2B4C70AD0043E872 /* PetCareVC */,
@@ -530,8 +543,6 @@
 				4A15F20C2AA8B3FB0098F2F7 /* SignUpVC */,
 				4AD354142AACD390004A47B3 /* LoginVC.swift */,
 				4AA999952A8485A500E495FA /* FirstVC.swift */,
-				4AC579862B2E004400735252 /* CustomAlarmPopupVC.swift */,
-				4A828D8E2B619447006AE70A /* CareCustomCheckPopupVC.swift */,
 				4A9936552B642A0800B7B21A /* CalendarRegistrationVC.swift */,
 				4AD354212AAF7E62004A47B3 /* TabBarController.swift */,
 			);
@@ -884,6 +895,7 @@
 				4ACDD4A32AD9B3A500CD8F1A /* InputPetNameVC.swift in Sources */,
 				4A3D7BFA2B4F120900E3BBF8 /* CareDateCollectionViewCell.swift in Sources */,
 				4A40561C2B52FDB000A95891 /* TimeAttackPanModalVC.swift in Sources */,
+				4A1545E42B90F14200008494 /* CancellationPopupVC.swift in Sources */,
 				4AD3542D2AAF7F83004A47B3 /* SettingVC.swift in Sources */,
 				4A80E4D42B49BA7800CD5D05 /* AnonymousAlamofire.swift in Sources */,
 				4AE293FA2B71495A00920C0B /* PetDetailCareListCollectionViewCell.swift in Sources */,

@@ -86,7 +86,7 @@ class MainVC: UIViewController {
                 careCompleteData.careId = selectedCare.careId
                 careCompleteData.caredateId = selectedCare.careDateId
                 
-                let customPopupVC = CareCustomCheckPopupVC()
+                let customPopupVC = CareCheckPopupVC()
                 customPopupVC.modalPresentationStyle = .overFullScreen
                 customPopupVC.updateText("\(selectedCare.careName) 케어를 완료할까요?", "케어 완료 알림을 케어 구성원에게 보내요.", "완료하기", "돌아가기")
                 self.present(customPopupVC, animated: true, completion: nil)

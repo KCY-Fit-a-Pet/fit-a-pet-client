@@ -65,6 +65,11 @@ enum MySearchRouter: URLRequestConvertible {
     case inviteMemberList(petId: Int)
     
     
+    //push test
+    case RegistdeviceToken(deviceToken: String, os: String, deviceModel: String)
+    case pushNotificationAPI
+    case cancellationManager(petId: Int, userId: Int)
+    
     var baseURL: URL {
         switch self {
         case .presignedurl:
@@ -78,13 +83,13 @@ enum MySearchRouter: URLRequestConvertible {
     
     var method: HTTPMethod {
         switch self {
-        case .presignedurl, .registPet, .createCare, .careCategoryCheck, .createSchedule, .createRecord, .createFolder, .inviteMember:
+        case .presignedurl, .registPet, .createCare, .careCategoryCheck, .createSchedule, .createRecord, .createFolder, .inviteMember, .RegistdeviceToken:
             return .post
-        case .checkCareCategory, .userPetsList, .userPetInfoList, .userPetCareInfoList, .petCareComplete, .petScheduleList, .petCountScheduleList, .recordTotalFolderList, .recordDataListInquiry, .petManagersList, .inviteMemberList:
+        case .checkCareCategory, .userPetsList, .userPetInfoList, .userPetCareInfoList, .petCareComplete, .petScheduleList, .petCountScheduleList, .recordTotalFolderList, .recordDataListInquiry, .petManagersList, .inviteMemberList, .pushNotificationAPI:
             return .get
         case .uploadImage:
             return .put
-        case .deleteInviteMember:
+        case .deleteInviteMember, .cancellationManager:
             return .delete
         }
     }
@@ -116,6 +121,14 @@ enum MySearchRouter: URLRequestConvertible {
             return "v2/accounts/\(UserDefaults.standard.string(forKey: "id")!)/schedules"
         case .inviteMemberList(let petId), .deleteInviteMember(let petId, _), .inviteMember(let petId, _):
             return "v2/pets/\(petId)/managers/invite"
+            
+        case .cancellationManager(let petId, let userId):
+            return "v2/pets/\(petId)/managers/\(userId)"
+        
+        case .RegistdeviceToken:
+            return "v2/accounts/\(UserDefaults.standard.string(forKey: "id")!)/device-token"
+        case .pushNotificationAPI:
+            return "v2/test/members/push"
         }
     }
     
@@ -135,7 +148,11 @@ enum MySearchRouter: URLRequestConvertible {
             return ["subMemoCategoryName": categoryName]
         case let .inviteMember(_, inviteId):
             return ["inviteId": inviteId]
-        case .uploadImage(_), .checkCareCategory, .userPetsList, .createCare, .userPetInfoList, .userPetCareInfoList, .petCareComplete, .createSchedule, .petCountScheduleList, .recordTotalFolderList, .createRecord, .recordDataListInquiry, .petManagersList, .deleteInviteMember, .inviteMemberList:
+            
+        case let .RegistdeviceToken(deviceToken, os, deviceModel):
+            return ["deviceToken": deviceToken, "os": os, "deviceModel": deviceModel]
+        
+        case .uploadImage(_), .checkCareCategory, .userPetsList, .createCare, .userPetInfoList, .userPetCareInfoList, .petCareComplete, .createSchedule, .petCountScheduleList, .recordTotalFolderList, .createRecord, .recordDataListInquiry, .petManagersList, .deleteInviteMember, .inviteMemberList, .pushNotificationAPI, .cancellationManager :
             return [:]
         
         }
@@ -231,15 +248,19 @@ enum MySearchRouter: URLRequestConvertible {
             url = url.appendingPathComponent("/\(petId)/managers")
             request = URLRequest(url: url)
             request.httpMethod = method.rawValue
-            
-        case .inviteMember(let petId, let inviteId):
-            request = URLRequest.createURLRequestWithBody(url: url, method: method, parameters: parameters)
         
         case .deleteInviteMember(let petId, let deleteId):
             let queryParameters = [URLQueryItem(name: "id", value: deleteId)]
             request = URLRequest.createURLRequestWithQuery(url: url, method: method, queryParameters: queryParameters)
+        case .cancellationManager( _, _):
+            request = URLRequest(url: url)
+            request.httpMethod = method.rawValue
             
         case .inviteMemberList(let petId):    
+            request = URLRequest(url: url)
+            request.httpMethod = method.rawValue
+            
+        case .pushNotificationAPI:
             request = URLRequest(url: url)
             request.httpMethod = method.rawValue
         

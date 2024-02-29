@@ -25,6 +25,7 @@ class InviteWaitingView: UIView {
         addSubview(inviteMemberTableView)
         
         inviteMemberTableView.register(InviteMemberTableViewCell.self, forCellReuseIdentifier: "InviteMemberTableViewCell")
+        inviteMemberTableView.isScrollEnabled = false
         
         inviteWaitLabel.text = "초대 수락 대기 중"
         inviteWaitLabel.font = .boldSystemFont(ofSize: 14)

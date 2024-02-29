@@ -1,6 +1,6 @@
 import UIKit
 
-class CareCustomCheckPopupVC: UIViewController {
+class CareCheckPopupVC: UIViewController {
 
     let popupView = CustomCheckPopupView()
 

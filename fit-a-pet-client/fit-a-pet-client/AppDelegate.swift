@@ -12,16 +12,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
-//        //Firebase 세팅
-//        FirebaseApp.configure()
-//        
-//        Messaging.messaging().delegate = self
-//        
-//        // FCM 다시 사용 설정
-//        Messaging.messaging().isAutoInitEnabled = true
-//
-//        //push notification, device token 요청.
-//        registerForRemoteNotifications()
+        //Firebase 세팅
+        FirebaseApp.configure()
+        
+        Messaging.messaging().delegate = self
+        
+        // FCM 다시 사용 설정
+        Messaging.messaging().isAutoInitEnabled = true
+
+        //push notification, device token 요청.
+        registerForRemoteNotifications()
         
         let kakaoAppKey = Bundle.main.infoDictionary?["KakaoAppKey"] as! String
         let naverClientId = Bundle.main.infoDictionary?["NaverClientID"] as! String
@@ -96,12 +96,50 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 
 }
 
-//extension AppDelegate: MessagingDelegate {
-//    // 현재 등록 토큰 가져오기.
-//    func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String?) {
-//
-//        // TODO: - 디바이스 토큰을 보내는 서버통신 구현
-//        print("APNs fcm Token: \(fcmToken)")
-////        sendDeviceTokenWithAPI(fcmToken: fcmToken ?? "")
-//    }
-//}
+extension AppDelegate: MessagingDelegate {
+    // 현재 등록 토큰 가져오기.
+    func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String?) {
+        
+        let device = UIDevice.current
+        print("os: \(device.systemVersion)")
+        var modelName = ""
+        let selName = "_\("deviceInfo")ForKey:"
+                let selector = NSSelectorFromString(selName)
+                
+                if device.responds(to: selector) { // [옵셔널 체크 실시]
+                    modelName = String(describing: device.perform(selector, with: "marketing-name").takeRetainedValue())
+                }
+        print("devieModel: \(modelName)")
+
+        // TODO: - 디바이스 토큰을 보내는 서버통신 구현
+        print("APNs fcm Token: \(String(describing: fcmToken!))")
+       // sendDeviceTokenWithAPI(fcmToken: fcmToken ?? "")
+        
+//        AuthorizationAlamofire.shared.RegistdeviceToken(String(describing: fcmToken!), device.systemVersion, modelName) {result in
+//            switch result {
+//            case .success(let data):
+//                if let responseData = data,
+//                   let jsonObject = try? JSONSerialization.jsonObject(with: responseData, options: []) as? [String: Any] {
+//                    print("response jsonData: \(jsonObject)")
+//                    
+//                }
+//                
+//            case .failure(let error):
+//                print("Error: \(error)")
+//            }
+//        }
+//    
+//        AuthorizationAlamofire.shared.pushNotificationAPI{result in
+//            switch result {
+//            case .success(let data):
+//                if let responseData = data,
+//                   let jsonObject = try? JSONSerialization.jsonObject(with: responseData, options: []) as? [String: Any] {
+//                    print("response jsonData: \(jsonObject)")
+//                }
+//                
+//            case .failure(let error):
+//                print("Error: \(error)")
+//            }
+//        }
+    }
+}

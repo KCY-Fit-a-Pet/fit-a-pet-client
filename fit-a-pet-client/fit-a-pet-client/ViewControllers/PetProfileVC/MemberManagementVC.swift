@@ -5,11 +5,12 @@ import SnapKit
 
 class MemberManagementVC: UIViewController, MemberListTableViewMethodDelegate, ManagerViewDelegate{
     
-    private let layoutView = UIView()
+    private let layoutView = UIScrollView()
     private let managerView = ManagerView()
     private let containerView = UIView()
     private let memberView = MemberView()
     private let inviteWaitingView = InviteWaitingView()
+    private let cancellationBtn = UIButton()
     
     private let memberMethod = MemberListTableViewMethod()
     private let inviteMemberMethod = MemberInviteListTableViewMethod()
@@ -29,6 +30,7 @@ class MemberManagementVC: UIViewController, MemberListTableViewMethodDelegate, M
         inviteWaitingView.inviteMemberTableView.delegate = inviteMemberMethod
         
         memberView.memberInviteBtn.addTarget(self, action: #selector(inviteButtonTapped), for: .touchUpInside)
+        cancellationBtn.addTarget(self, action: #selector(cancellationBtnTapped), for: .touchUpInside)
         NotificationCenter.default.addObserver(self, selector: #selector(handleInviteManagerDataUpdated), name: .InviteManagerDataUpdated, object: nil)
         
         petManagersListAPI()
@@ -45,40 +47,51 @@ class MemberManagementVC: UIViewController, MemberListTableViewMethodDelegate, M
         
         layoutView.backgroundColor = UIColor(named: "Gray0")
         containerView.backgroundColor = .white
+        
+        cancellationBtn.setTitle("탈퇴하기", for: .normal)
+        cancellationBtn.setTitleColor(UIColor(named: "Danger"), for: .normal)
+        cancellationBtn.titleLabel?.font = UIFont.systemFont(ofSize: 14)
 
         view.addSubview(layoutView)
         layoutView.addSubview(managerView)
         layoutView.addSubview(containerView)
+        layoutView.addSubview(cancellationBtn)
         containerView.addSubview(memberView)
         containerView.addSubview(inviteWaitingView)
         
         memberView.backgroundColor = .white
      
         layoutView.snp.makeConstraints{make in
-            make.top.bottom.leading.trailing.equalTo(view.safeAreaLayoutGuide)
+            make.top.equalTo(view.safeAreaLayoutGuide)
+            make.bottom.leading.trailing.equalTo(view)
         }
         managerView.snp.makeConstraints { make in
             make.height.equalTo(140)
             make.top.equalTo(layoutView.snp.top)
-            make.leading.trailing.equalToSuperview()
+            make.leading.trailing.equalTo(view)
         }
         
         containerView.snp.makeConstraints{make in
             make.top.equalTo(managerView.snp.bottom).offset(8)
-            make.leading.trailing.equalToSuperview()
-            make.bottom.equalToSuperview()
+            make.leading.trailing.equalTo(view)
+            make.bottom.equalTo(view)
         }
 
         memberView.snp.makeConstraints{make in
             make.height.equalTo(0)
             make.top.equalToSuperview().offset(8)
-            make.leading.trailing.equalToSuperview()
+            make.leading.trailing.equalTo(view)
         }
         
         inviteWaitingView.snp.makeConstraints{make in
             make.bottom.equalToSuperview()
             make.top.equalTo(memberView.snp.bottom).offset(8)
-            make.leading.trailing.equalToSuperview()
+            make.leading.trailing.equalTo(view)
+        }
+        
+        cancellationBtn.snp.makeConstraints{make in
+            make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)
+            make.leading.trailing.equalTo(view).inset(16)
         }
     }
     
@@ -104,6 +117,13 @@ class MemberManagementVC: UIViewController, MemberListTableViewMethodDelegate, M
     
     @objc func handleInviteManagerDataUpdated() {
         inviteMemberListAPI()
+    }
+    
+    @objc func cancellationBtnTapped(){
+        let customPopupVC = CancellationPopupVC()
+        customPopupVC.modalPresentationStyle = .overFullScreen
+        customPopupVC.updateText("의 관리 멤버에서 탈퇴할까요?", "더 이상 를 케어 및 관리하지 안하요. ", "탈퇴하기", "취소")
+        self.present(customPopupVC, animated: true, completion: nil)
     }
     
     func didTapChangeName() {

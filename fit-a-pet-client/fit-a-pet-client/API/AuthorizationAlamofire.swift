@@ -392,5 +392,48 @@ class AuthorizationAlamofire: TokenHandling {
                 }
             }
     }
+    
+    func cancellationManager(_ petId: Int, _ userId: Int, completion: @escaping (Result<Data?, Error>) -> Void) {
+        os_log("AuthorizationAlamofire - cancellationManager() called ", log: .default, type: .info)
+
+        self.session.request(MySearchRouter.cancellationManager(petId: petId, userId: userId))
+            .response { response in
+                switch response.result {
+                case .success(let data):
+                    completion(.success(data))
+                case .failure(let error):
+                    completion(.failure(error))
+                }
+            }
+    }
+    
+    
+    func RegistdeviceToken(_ deviceToken: String, _ os: String, _ deviceModel: String,completion: @escaping (Result<Data?, Error>) -> Void) {
+        os_log("AuthorizationAlamofire - RegistdeviceToken() called ", log: .default, type: .info)
+        
+        self.session.request(MySearchRouter.RegistdeviceToken(deviceToken: deviceToken, os: os, deviceModel: deviceModel))
+            .response { response in
+                switch response.result {
+                case .success(let data):
+                    completion(.success(data))
+                case .failure(let error):
+                    completion(.failure(error))
+                }
+            }
+    }
+    
+    func pushNotificationAPI(completion: @escaping (Result<Data?, Error>) -> Void) {
+        os_log("AuthorizationAlamofire - pushNotificationAPI() called ", log: .default, type: .info)
+        
+        self.session.request(MySearchRouter.pushNotificationAPI)
+            .response { response in
+                switch response.result {
+                case .success(let data):
+                    completion(.success(data))
+                case .failure(let error):
+                    completion(.failure(error))
+                }
+            }
+    }
 }
 
