@@ -111,6 +111,7 @@ class MainVC: UIViewController {
         
         mainView.backgroundColor = .white
         mainView.layer.cornerRadius = 20
+        mainView.clipsToBounds = true
         
         petCareCollectionView.backgroundColor = .white
         
@@ -147,8 +148,7 @@ class MainVC: UIViewController {
         }
 
         mainView.snp.makeConstraints{ make in
-            make.leading.equalTo(view.snp.leading)
-            make.trailing.equalTo(view.snp.trailing)
+            make.leading.trailing.equalTo(view)
             make.bottom.equalTo(layoutScrollView.snp.bottom)
             make.top.equalTo(layoutScrollView.snp.top).offset(150)
         }

@@ -33,6 +33,7 @@ class LoginVC: UIViewController{
         
         self.navigationController?.navigationBar.tintColor = .black
         self.navigationController?.navigationBar.topItem?.title = ""
+        
     }
     deinit {
         NotificationCenter.default.removeObserver(self)
@@ -168,7 +169,7 @@ class LoginVC: UIViewController{
         let mainVC = TabBarController()
         mainVC.modalPresentationStyle = .fullScreen
         
-        AnonymousAlamofire.shared.login("jayang", "dkssudgktpdy") { [weak self] loginResult in
+        AnonymousAlamofire.shared.login("heejin", "heejin123") { [weak self] loginResult in
             switch loginResult {
             case .success(let data):
                 if let responseData = data {

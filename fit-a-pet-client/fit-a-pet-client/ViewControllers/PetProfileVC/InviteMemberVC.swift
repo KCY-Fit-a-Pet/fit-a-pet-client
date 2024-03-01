@@ -135,17 +135,39 @@ class InviteMemberVC: UIViewController{
                                 }
                                 if let uid = member["uid"] as? String {
                                     self.userDataView.profileUserId.text = "@" + uid
-                                    let allManagerUIDs = [PetManagersManager.masterManager?.uid] + PetManagersManager.subManagers.map { $0.uid } + PetManagersManager.inviteManagers.map{$0.uid}
+                                    let allManagerUIDs = [PetManagersManager.masterManager?.uid] + PetManagersManager.subManagers.map { $0.uid }
+                                    let inviteManagerUIDs = PetManagersManager.inviteManagers.map{$0.uid}
                                     
-                                    if allManagerUIDs.contains(uid) {
-                                        inviteToggleBtn.setTitle("초대 완료", for: .normal)
-                                        inviteToggleBtn.setTitleColor(UIColor(named: "Gray3"), for: .normal)
-                                        inviteToggleBtn.layer.borderColor = UIColor(named: "Gray3")?.cgColor
+                                    if allManagerUIDs.contains(uid){
+                                        
+                                        if uid == UserDefaults.standard.string(forKey: "uid"){
+                                            inviteToggleBtn.isHidden = true
+                                        }else{
+                                            inviteToggleBtn.isHidden = false
+                                            inviteToggleBtn.isEnabled = false
+                                            inviteToggleBtn.setTitle("가입 완료", for: .normal)
+                                            inviteToggleBtn.setTitleColor(UIColor(named: "Gray3"), for: .normal)
+                                            inviteToggleBtn.layer.borderColor = UIColor(named: "Gray3")?.cgColor
+                                        }
+                                        
                             
                                     } else {
-                                        inviteToggleBtn.setTitle("초대 하기", for: .normal)
-                                        inviteToggleBtn.setTitleColor(UIColor(named: "PrimaryColor"), for: .normal)
-                                        inviteToggleBtn.layer.borderColor = UIColor(named: "PrimaryColor")?.cgColor
+                                        
+                                        if inviteManagerUIDs.contains(uid){
+                                            inviteToggleBtn.isHidden = false
+                                            inviteToggleBtn.isEnabled = true
+                                            isToggled = true
+                                            inviteToggleBtn.setTitle("취소", for: .normal)
+                                            inviteToggleBtn.setTitleColor(UIColor(named: "Danger"), for: .normal)
+                                            inviteToggleBtn.layer.borderColor = UIColor(named: "Danger")?.cgColor
+                                        }else{
+                                            inviteToggleBtn.isHidden = false
+                                            inviteToggleBtn.isEnabled = true
+                                            inviteToggleBtn.setTitle("초대 하기", for: .normal)
+                                            inviteToggleBtn.setTitleColor(UIColor(named: "PrimaryColor"), for: .normal)
+                                            inviteToggleBtn.layer.borderColor = UIColor(named: "PrimaryColor")?.cgColor
+                                        }
+                                        
                                     }
                                 }
                                 if let name = member["name"] as? String {
@@ -203,6 +225,7 @@ class InviteMemberVC: UIViewController{
                     if let responseData = data,
                        let jsonObject = try? JSONSerialization.jsonObject(with: responseData, options: []) as? [String: Any] {
                         print("response jsonData: \(jsonObject)")
+                        NotificationCenter.default.post(name: .InviteManagerDataUpdated, object: nil)
                     }
                     
                 case .failure(let error):

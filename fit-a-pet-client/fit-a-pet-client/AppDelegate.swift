@@ -115,7 +115,7 @@ extension AppDelegate: MessagingDelegate {
         print("APNs fcm Token: \(String(describing: fcmToken!))")
        // sendDeviceTokenWithAPI(fcmToken: fcmToken ?? "")
         
-//        AuthorizationAlamofire.shared.RegistdeviceToken(String(describing: fcmToken!), device.systemVersion, modelName) {result in
+//        AuthorizationAlamofire.shared.registDeviceToken(String(describing: fcmToken!), device.systemVersion, modelName) {result in
 //            switch result {
 //            case .success(let data):
 //                if let responseData = data,
@@ -128,7 +128,7 @@ extension AppDelegate: MessagingDelegate {
 //                print("Error: \(error)")
 //            }
 //        }
-//    
+//        
 //        AuthorizationAlamofire.shared.pushNotificationAPI{result in
 //            switch result {
 //            case .success(let data):
@@ -141,5 +141,6 @@ extension AppDelegate: MessagingDelegate {
 //                print("Error: \(error)")
 //            }
 //        }
+        
     }
 }
