@@ -36,6 +36,7 @@ class ManagerDelegationTableViewCell: UITableViewCell {
         radioButton.clipsToBounds = true
         radioButton.layer.borderWidth = 1
         radioButton.layer.borderColor = UIColor(named: "Gray3")?.cgColor
+        radioButton.isEnabled = false
     }
     
     func updateButtonAppearance() {

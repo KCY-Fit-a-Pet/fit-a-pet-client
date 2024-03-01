@@ -79,7 +79,6 @@ class CancellationPopupVC: UIViewController {
                     print("Error: \(error)")
                 }
             }
-            dismiss(animated: true, completion: nil)
         }
     }
 

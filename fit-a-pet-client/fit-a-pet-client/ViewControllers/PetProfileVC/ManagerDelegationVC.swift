@@ -7,8 +7,9 @@ class ManagerDelegationVC: CustomNavigationBar{
 
     private let titleLabel = UILabel()
     private let memberTableView = UITableView()
-    private let withdrawalBtn = CustomNextBtn(title: "탈퇴하기")
+    private let cancellationBtn = CustomNextBtn(title: "탈퇴하기")
     private let managerList = PetManagersManager.subManagers
+    private var selectedUserId = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -20,15 +21,16 @@ class ManagerDelegationVC: CustomNavigationBar{
         memberTableView.delegate = self
         memberTableView.dataSource = self
         memberTableView.register(ManagerDelegationTableViewCell.self, forCellReuseIdentifier: "ManagerDelegationTableViewCell")
+        cancellationBtn.addTarget(self, action: #selector(cancellationBtnTapped), for: .touchUpInside)
     }
     func initView(){
         view.addSubview(titleLabel)
         view.addSubview(memberTableView)
-        view.addSubview(withdrawalBtn)
+        view.addSubview(cancellationBtn)
         
         titleLabel.text = "멤버"
         titleLabel.font = .boldSystemFont(ofSize: 16)
-        withdrawalBtn.backgroundColor = UIColor(named: "Danger")
+        cancellationBtn.backgroundColor = UIColor(named: "Danger")
         memberTableView.separatorStyle = .none
         
         titleLabel.snp.makeConstraints{make in
@@ -40,13 +42,41 @@ class ManagerDelegationVC: CustomNavigationBar{
         memberTableView.snp.makeConstraints{make in
             make.top.equalTo(titleLabel.snp.bottom).offset(16)
             make.leading.trailing.equalToSuperview()
-            make.bottom.equalTo(withdrawalBtn.snp.top).offset(-10)
+            make.bottom.equalTo(cancellationBtn.snp.top).offset(-10)
         }
         
-        withdrawalBtn.snp.makeConstraints{make in
+        cancellationBtn.snp.makeConstraints{make in
             make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom).offset(-10)
             make.leading.trailing.equalToSuperview().inset(16)
         }
+    }
+    @objc func cancellationBtnTapped(){
+        AuthorizationAlamofire.shared.managerDelegation(SelectedPetId.petId, selectedUserId){ result in
+            switch result {
+            case .success(let data):
+                if let responseData = data,
+                   let jsonObject = try? JSONSerialization.jsonObject(with: responseData, options: []) as? [String: Any] {
+                    print("response jsonData: \(jsonObject)")
+                    AuthorizationAlamofire.shared.cancellationManager(SelectedPetId.petId, UserDefaults.standard.integer(forKey: "id")){ result in
+                        switch result {
+                        case .success(let data):
+                            if let responseData = data,
+                               let jsonObject = try? JSONSerialization.jsonObject(with: responseData, options: []) as? [String: Any] {
+                                print("response jsonData: \(jsonObject)")
+                                NotificationCenter.default.post(name: .ManagerCancellationBtnTapped, object: nil)
+                            }
+                            
+                        case .failure(let error):
+                            print("Error: \(error)")
+                        }
+                    }
+                }
+                
+            case .failure(let error):
+                print("Error: \(error)")
+            }
+        }
+       
     }
     
 }
@@ -84,25 +114,9 @@ extension ManagerDelegationVC: UITableViewDelegate, UITableViewDataSource{
             }
         }
         if let cell = tableView.cellForRow(at: indexPath) as? ManagerDelegationTableViewCell {
+            selectedUserId = managerList[indexPath.row].id
             cell.radioButton.isSelected = true
             cell.radioButton.backgroundColor = UIColor(named: "Danger")
         }
     }
-}
-
-// MARK: - Preview
-
-struct MainViewController_Previews: PreviewProvider {
-  static var previews: some View {
-    Container().edgesIgnoringSafeArea(.all)
-  }
-  
-  struct Container: UIViewControllerRepresentable {
-    func makeUIViewController(context: Context) -> UIViewController {
-        let rootViewController = ManagerDelegationVC(title: "관리자 위임")
-      return UINavigationController(rootViewController: rootViewController)
-    }
-    func updateUIViewController(_ uiViewController: UIViewControllerType, context: Context) {}
-    typealias UIViewControllerType = UIViewController
-  }
 }

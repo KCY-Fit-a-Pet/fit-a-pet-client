@@ -68,7 +68,6 @@ class InviteMemberVC: UIViewController{
         inviteToggleBtn.layer.borderColor = UIColor(named: "PrimaryColor")?.cgColor
         inviteToggleBtn.layer.cornerRadius = 8
         inviteToggleBtn.backgroundColor = .white
-        inviteToggleBtn.contentEdgeInsets = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
         inviteToggleBtn.titleLabel?.font = UIFont.systemFont(ofSize: 14, weight: .medium)
         
         inviteToggleBtn.snp.makeConstraints { make in

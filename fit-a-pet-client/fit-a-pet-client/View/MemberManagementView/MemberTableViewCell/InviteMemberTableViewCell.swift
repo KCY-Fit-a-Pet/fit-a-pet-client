@@ -38,7 +38,6 @@ class InviteMemberTableViewCell: UITableViewCell {
         cancleBtn.layer.borderColor = UIColor(named: "Danger")?.cgColor
         cancleBtn.layer.cornerRadius = 8
         cancleBtn.backgroundColor = .white
-        cancleBtn.contentEdgeInsets = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
         cancleBtn.titleLabel?.font = UIFont.systemFont(ofSize: 14, weight: .medium)
         
         cancleBtn.snp.makeConstraints { make in
