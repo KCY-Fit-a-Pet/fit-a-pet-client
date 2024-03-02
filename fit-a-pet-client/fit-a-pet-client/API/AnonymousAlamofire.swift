@@ -11,6 +11,7 @@ class AnonymousAlamofire: TokenHandling {
     
     // MARK: - AnonymousAlamofire methods
     
+    //MARK: SmsRouter
     func sendSms(_ phone: String, completion: @escaping(Result<Data?, Error>) -> Void) {
         
         os_log("AnonymousAlamofire - sendSms() called userInput : %@", log: .default, type: .info, phone)
@@ -48,23 +49,6 @@ class AnonymousAlamofire: TokenHandling {
                 }
             }
     }
-    func login(_ uid: String, _ password: String, completion: @escaping(Result<Data?, Error>) -> Void){
-        os_log("AnonymousAlamofire - login() called userInput : %@ ,, %@", log: .default, type: .info, uid, password)
-        
-        self
-            .session
-            .request(AdminRouter.login(uid: uid, password: password))
-            .response { response in
-                switch response.result{
-                case .success(let data):
-                    self.extractAndStoreToken(from: response)
-                    completion(.success(data))
-                case .failure(let error):
-                    completion(.failure(error))
-                }
-            }
-        
-    }
     
     func sendAuthSms(_ phone: String, _ uid: String, completion: @escaping(Result<Data?, Error>) -> Void) {
         os_log("AnonymousAlamofire - sendAuthSms() called userInput : %@ ,, %@  ", log: .default, type: .info, phone, uid)
@@ -94,6 +78,62 @@ class AnonymousAlamofire: TokenHandling {
                 }
         }
     }
+    func oauthSendSms(completion: @escaping(Result<Data?, Error>) -> Void){
+        os_log("AnonymousAlamofire - oauthSendSms() called", log: .default, type: .info)
+
+        self.session.request(SmsRouter.oauthSendSms)
+            .validate(statusCode: 200..<300)
+            .response { response in
+                switch response.result {
+                case .success(let data):
+                    completion(.success(data))
+                case .failure(let error):
+                    completion(.failure(error))
+            }
+        }
+    }
+    
+    func oauthCheckSms(_ code: String, completion: @escaping(Result<Data?, Error>) -> Void){
+        os_log("AnonymousAlamofire - oauthCheckSms() called userInput: %@", log: .default, type: .info, code)
+
+        self.session.request(SmsRouter.oauthCheckSms(code: code))
+            .validate(statusCode: 200..<300)
+            .response { response in
+                switch response.result {
+                case .success(let data):
+                    if let responseHeaders = response.response?.allHeaderFields as? [String: String],
+                       let accessToken = responseHeaders["accessToken"] {
+                        KeychainHelper.saveAccessToken(accessToken: accessToken)
+                        os_log("sms token: %@", log: .default, type: .info, accessToken)
+                    }
+                    completion(.success(data))
+                case .failure(let error):
+                    completion(.failure(error))
+            }
+        }
+    }
+    
+    //MARK: AdminRouter
+    
+    func login(_ uid: String, _ password: String, completion: @escaping(Result<Data?, Error>) -> Void){
+        os_log("AnonymousAlamofire - login() called userInput : %@ ,, %@", log: .default, type: .info, uid, password)
+        
+        self
+            .session
+            .request(AdminRouter.login(uid: uid, password: password))
+            .response { response in
+                switch response.result{
+                case .success(let data):
+                    self.extractAndStoreToken(from: response)
+                    completion(.success(data))
+                case .failure(let error):
+                    completion(.failure(error))
+                }
+            }
+        
+    }
+    
+    
     func findId(_ phone: String, _ code: String, completion: @escaping(Result<Data?, Error>) -> Void) {
         os_log("AnonymousAlamofire - findId() called userInput : %@ ,, %@", log: .default, type: .info, phone, code)
 
@@ -139,6 +179,37 @@ class AnonymousAlamofire: TokenHandling {
         }
     }
     
+    func oauthLogin(completion: @escaping(Result<Data?, Error>) -> Void){
+        os_log("AnonymousAlamofire - oauthLogin() called", log: .default, type: .info)
+        
+        self.session.request(AdminRouter.oauthLogin)
+            .validate(statusCode: 200..<300)
+            .response { response in
+                switch response.result {
+                case .success(let data):
+                    self.extractAndStoreToken(from: response)
+                    completion(.success(data))
+                case .failure(let error):
+                    completion(.failure(error))
+            }
+        }
+    }
+    func refresh(completion: @escaping(Result<Data?, Error>) -> Void){
+        os_log("AnonymousAlamofire - refreshToken() called ", log: .default, type: .info)
+
+        self.session.request(AdminRouter.refresh)
+            .response { response in
+                switch response.result {
+                case .success(let data):
+                    self.extractAndStoreToken(from: response)
+                    completion(.success(data))
+                case .failure(let error):
+                    completion(.failure(error))
+            }
+        }
+    }
+    
+    
     func presignedURL(_ dirname: String, _ extensionType: String, completion: @escaping(Result<Data?, Error>) -> Void){
         os_log("AnonymousAlamofire - presignedURL() called : %@ ,, %@ ", log: .default, type: .info, dirname, extensionType)
         
@@ -171,70 +242,6 @@ class AnonymousAlamofire: TokenHandling {
                 case .failure(let error):
                     completion(.failure(error))
                 }
-        }
-    }
-
-    func oauthLogin(completion: @escaping(Result<Data?, Error>) -> Void){
-        os_log("AnonymousAlamofire - oauthLogin() called", log: .default, type: .info)
-        
-        self.session.request(AdminRouter.oauthLogin)
-            .validate(statusCode: 200..<300)
-            .response { response in
-                switch response.result {
-                case .success(let data):
-                    self.extractAndStoreToken(from: response)
-                    completion(.success(data))
-                case .failure(let error):
-                    completion(.failure(error))
-            }
-        }
-    }
-    func oauthSendSms(completion: @escaping(Result<Data?, Error>) -> Void){
-        os_log("AnonymousAlamofire - oauthSendSms() called", log: .default, type: .info)
-
-        self.session.request(SmsRouter.oauthSendSms)
-            .validate(statusCode: 200..<300)
-            .response { response in
-                switch response.result {
-                case .success(let data):
-                    completion(.success(data))
-                case .failure(let error):
-                    completion(.failure(error))
-            }
-        }
-    }
-    
-    func oauthCheckSms(_ code: String, completion: @escaping(Result<Data?, Error>) -> Void){
-        os_log("AnonymousAlamofire - oauthCheckSms() called userInput: %@", log: .default, type: .info, code)
-
-        self.session.request(SmsRouter.oauthCheckSms(code: code))
-            .validate(statusCode: 200..<300)
-            .response { response in
-                switch response.result {
-                case .success(let data):
-                    if let responseHeaders = response.response?.allHeaderFields as? [String: String],
-                       let accessToken = responseHeaders["accessToken"] {
-                        KeychainHelper.saveAccessToken(accessToken: accessToken)
-                        os_log("sms token: %@", log: .default, type: .info, accessToken)
-                    }
-                    completion(.success(data))
-                case .failure(let error):
-                    completion(.failure(error))
-            }
-        }
-    }
-    func refresh(completion: @escaping(Result<Data?, Error>) -> Void){
-        os_log("AnonymousAlamofire - refreshToken() called ", log: .default, type: .info)
-
-        self.session.request(AdminRouter.refresh)
-            .response { response in
-                switch response.result {
-                case .success(let data):
-                    self.extractAndStoreToken(from: response)
-                    completion(.success(data))
-                case .failure(let error):
-                    completion(.failure(error))
-            }
         }
     }
     
