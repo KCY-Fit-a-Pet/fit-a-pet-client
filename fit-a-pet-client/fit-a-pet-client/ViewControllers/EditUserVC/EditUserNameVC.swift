@@ -5,12 +5,16 @@ class EditUserNameVC: CustomNavigationBar {
 
     private var currentUserNameTextField = UITextField()
     private let editButton = CustomNextBtn(title: "이름 변경하기")
+    private let beforeNameLabel = UILabel()
+    var division = ""
+    var beforeUserName = ""
     private var userName = ""
 
     override func viewDidLoad() {
         super.viewDidLoad()
         setupTapGesture()
         initView()
+        divisionName()
 
         self.view.backgroundColor = .white
 
@@ -20,7 +24,7 @@ class EditUserNameVC: CustomNavigationBar {
     }
     
     func initView(){
-        currentUserNameTextField.placeholder = "이름"
+        currentUserNameTextField.placeholder = beforeUserName
         currentUserNameTextField.layer.borderWidth = 1
         currentUserNameTextField.layer.cornerRadius = 5
         currentUserNameTextField.layer.borderColor = UIColor(named: "Gray3")?.cgColor
@@ -31,6 +35,7 @@ class EditUserNameVC: CustomNavigationBar {
         
         view.addSubview(currentUserNameTextField)
         view.addSubview(editButton)
+        view.addSubview(beforeNameLabel)
         
         currentUserNameTextField.snp.makeConstraints { make in
             make.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(32)
@@ -38,29 +43,49 @@ class EditUserNameVC: CustomNavigationBar {
             make.height.equalTo(56)
         }
         
+        beforeNameLabel.snp.makeConstraints{make in
+            make.top.equalTo(currentUserNameTextField.snp.bottom).offset(6)
+            make.leading.trailing.equalToSuperview().inset(16)
+            make.height.equalTo(24)
+        }
+        
         editButton.snp.makeConstraints{make in
             make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom).offset(-10)
             make.leading.trailing.equalToSuperview().inset(16)
         }
     }
+    
+    func divisionName(){
+        beforeNameLabel.font = .systemFont(ofSize: 12, weight: .regular)
+        if division == "me"{
+            beforeNameLabel.text = "이전에 설정한 이름: " + beforeUserName
+        }else{
+            beforeNameLabel.text = "멤버가 설정한 이름 : " + beforeUserName
+        }
+    }
 
     
     @objc private func editButtonTapped(){
-        AuthorizationAlamofire.shared.editUserName("name", userName){ [self]
-            result in
-            switch result {
-            case .success(let data):
-                if let responseData = data {
-                    let object = try?JSONSerialization.jsonObject(with: responseData, options: []) as? NSDictionary
-                    guard let jsonObject = object else {return}
-                    print("respose jsonData: \(jsonObject)")
-                    UserDefaults.standard.set(userName, forKey: "name")
-                    self.navigationController?.popToRootViewController(animated: true)
+        
+        if division == "me" {
+            AuthorizationAlamofire.shared.editUserName("name", userName){ [self]
+                result in
+                switch result {
+                case .success(let data):
+                    if let responseData = data {
+                        let object = try?JSONSerialization.jsonObject(with: responseData, options: []) as? NSDictionary
+                        guard let jsonObject = object else {return}
+                        print("respose jsonData: \(jsonObject)")
+                        UserDefaults.standard.set(userName, forKey: "name")
+                        self.navigationController?.popToRootViewController(animated: true)
+                    }
+                case .failure(let error):
+                    print("Error: \(error)")
                 }
-            case .failure(let error):
-                print("Error: \(error)")
             }
         }
+        
+        
     }
 }
 

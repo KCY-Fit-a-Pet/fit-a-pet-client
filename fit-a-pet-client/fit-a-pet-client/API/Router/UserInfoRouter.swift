@@ -10,10 +10,11 @@ enum UserInfoRouter: URLRequestConvertible {
     case userProfileInfo
     case userNotifyType(type: String)
     case searchUserProfile(searchId: String)
+    case userNicknameCheck(userId: Int)
     
     var method: HTTPMethod {
         switch self {
-        case .userProfileInfo, .searchUserProfile, .userNotifyType:
+        case .userProfileInfo, .searchUserProfile, .userNotifyType, .userNicknameCheck:
             return .get
         case .editUserPw, .editUserName:
             return .put
@@ -31,6 +32,8 @@ enum UserInfoRouter: URLRequestConvertible {
             return "v2/accounts/\(UserDefaults.standard.string(forKey: "id")!)/notify"
         case .searchUserProfile:
             return "v2/accounts"
+        case .userNicknameCheck(let userId):
+            return "v2/accounts/\(userId)/name"
         }
     }
     
@@ -42,7 +45,7 @@ enum UserInfoRouter: URLRequestConvertible {
             return ["type": type, "prePassword": prePassword, "newPassword": newPassword]
         case let .editUserName(type, name):
             return ["type": type, "name": name]
-        case .userProfileInfo, .searchUserProfile:
+        case .userProfileInfo, .searchUserProfile, .userNicknameCheck:
             return [:]
         }
     }
@@ -78,8 +81,12 @@ enum UserInfoRouter: URLRequestConvertible {
             let queryParameters = [URLQueryItem(name: "search", value: searchId)]
             request = URLRequest.createURLRequestWithQuery(url: url, method: method ,queryParameters: queryParameters)
    
+        case .userNicknameCheck(_):
+            request = URLRequest(url: url)
+            request.httpMethod = method.rawValue
+            
         }
-        
+    
         return request
     }
 }

@@ -232,7 +232,6 @@ class InviteMemberVC: UIViewController{
                 }
             }
         }
-        
     }
     
     @objc private func closeBtnTapped() {

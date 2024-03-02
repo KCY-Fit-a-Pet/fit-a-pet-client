@@ -147,6 +147,8 @@ class SettingVC: UIViewController {
     }
     @objc func changeEditUserNameVC(_ sender: UIButton){
         let nextVC = EditUserNameVC(title: "이름 변경하기")
+        nextVC.beforeUserName = UserDefaults.standard.string(forKey: "name")!
+        nextVC.division = "me"
         nextVC.hidesBottomBarWhenPushed = true
         self.navigationController?.pushViewController(nextVC, animated: false)
     }

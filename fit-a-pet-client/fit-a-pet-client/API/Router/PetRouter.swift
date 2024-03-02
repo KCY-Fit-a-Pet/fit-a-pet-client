@@ -30,15 +30,13 @@ enum PetRouter: URLRequestConvertible {
     var path: String {
         switch self {
         case .registPet:
-            return "v2/users/\(UserDefaults.standard.string(forKey: "id")!)/pets"
+            return "v2/pets"
         case .userPetsList:
-            return "v2/users/\(UserDefaults.standard.string(forKey: "id")!)/pets/summary"
+            return "v2/pets/summary"
         case .careCategoryCheck:
             return "v2/users/\(UserDefaults.standard.string(forKey: "id")!)/pets/categories-check"
-        case .userPetCareInfoList, .createCare, .checkCareCategory, .petCareComplete:
+        case .userPetCareInfoList, .createCare, .checkCareCategory, .petCareComplete, .userPetInfoList:
             return "v2/pets"
-        case .userPetInfoList:
-            return "v2/users/\(UserDefaults.standard.string(forKey: "id")!)/pets"
         }
     }
     

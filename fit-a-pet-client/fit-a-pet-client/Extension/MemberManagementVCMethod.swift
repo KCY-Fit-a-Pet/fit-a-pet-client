@@ -11,9 +11,29 @@ class MemberListTableViewMethod: NSObject, UITableViewDataSource, UITableViewDel
     weak var delegate: MemberListTableViewMethodDelegate?
     var managerList = PetManagersManager.subManagers
    
-    func didTapChangeName() {
-        let nextVC = EditUserNameVC(title: "이름 변경하기")
-        delegate?.pushViewController(nextVC, animated: true)
+    func didTapChangeName(_ userId: Int) {
+  
+        AuthorizationAlamofire.shared.userNicknameCheck(userId){ result in
+            switch result {
+            case .success(let data):
+                if let responseData = data {
+                    do {
+                        if let json = try JSONSerialization.jsonObject(with: responseData, options: []) as? [String: Any] {
+                            if let jsonData = json["data"] as? [String: Any], let name = jsonData["name"] as? String {
+                                let nextVC = EditUserNameVC(title: "이름 변경하기")
+                                nextVC.beforeUserName = name
+                                nextVC.division = "someone"
+                                self.delegate?.pushViewController(nextVC, animated: true)
+                            }
+                        }
+                    } catch {
+                        print("Error: \(error)")
+                    }
+                }
+            case .failure(let error):
+                print("Error: \(error)")
+            }
+        }
     }
     func didTapCancellationBtn(_ userId: Int, _ userName: String) {
         let customPopupVC = CancellationPopupVC()

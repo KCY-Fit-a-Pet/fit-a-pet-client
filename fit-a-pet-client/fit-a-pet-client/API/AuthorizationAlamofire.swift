@@ -245,6 +245,23 @@ class AuthorizationAlamofire: TokenHandling {
             }
     }
     
+    func userNicknameCheck(_ userId: Int, completion: @escaping (Result<Data?, Error>) -> Void) {
+        os_log("AuthorizationAlamofire - userNicknameCheck() called ", log: .default, type: .info)
+
+        self.session.request(UserInfoRouter.userNicknameCheck(userId: userId))
+            .response { response in
+                switch response.result {
+                case .success(let data):
+                    completion(.success(data))
+                case .failure(let error):
+                    completion(.failure(error))
+                }
+            }
+    }
+    
+    
+    //MARK: MySearchRouter
+    
     func createSchedule(_ combinedData: [String: Any], completion: @escaping (Result<Data?, Error>) -> Void) {
         os_log("AuthorizationAlamofire - createSchedule() called userInput: %@", log: .default, type: .info)
 
