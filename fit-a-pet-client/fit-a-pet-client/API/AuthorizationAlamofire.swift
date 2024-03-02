@@ -259,6 +259,20 @@ class AuthorizationAlamofire: TokenHandling {
             }
     }
     
+    func editSomeoneNickname(_ userId: Int, _ nickname: String, completion: @escaping (Result<Data?, Error>) -> Void) {
+        os_log("AuthorizationAlamofire - editSomeoneNickname() called ", log: .default, type: .info)
+
+        self.session.request(UserInfoRouter.editSomeoneNickname(userId: userId, nickname: nickname))
+            .response { response in
+                switch response.result {
+                case .success(let data):
+                    completion(.success(data))
+                case .failure(let error):
+                    completion(.failure(error))
+                }
+            }
+    }
+    
     
     //MARK: MySearchRouter
     

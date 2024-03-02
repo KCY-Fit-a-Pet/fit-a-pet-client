@@ -11,12 +11,13 @@ enum UserInfoRouter: URLRequestConvertible {
     case userNotifyType(type: String)
     case searchUserProfile(searchId: String)
     case userNicknameCheck(userId: Int)
+    case editSomeoneNickname(userId: Int, nickname: String)
     
     var method: HTTPMethod {
         switch self {
         case .userProfileInfo, .searchUserProfile, .userNotifyType, .userNicknameCheck:
             return .get
-        case .editUserPw, .editUserName:
+        case .editUserPw, .editUserName, .editSomeoneNickname:
             return .put
         }
     }
@@ -34,6 +35,8 @@ enum UserInfoRouter: URLRequestConvertible {
             return "v2/accounts"
         case .userNicknameCheck(let userId):
             return "v2/accounts/\(userId)/name"
+        case .editSomeoneNickname(let userId, _):
+            return "v2/accounts/\(userId)/nickname"
         }
     }
     
@@ -45,7 +48,9 @@ enum UserInfoRouter: URLRequestConvertible {
             return ["type": type, "prePassword": prePassword, "newPassword": newPassword]
         case let .editUserName(type, name):
             return ["type": type, "name": name]
-        case .userProfileInfo, .searchUserProfile, .userNicknameCheck:
+        case let .editSomeoneNickname(_, nickname):
+            return ["ninkname": nickname]
+        case .userProfileInfo, .searchUserProfile, .userNicknameCheck, .editSomeoneNickname:
             return [:]
         }
     }
@@ -55,14 +60,13 @@ enum UserInfoRouter: URLRequestConvertible {
         var request: URLRequest
 
         switch self {
-        case .userProfileInfo:
+        case .userProfileInfo, .userNicknameCheck(_):
             request = URLRequest(url: url)
             request.httpMethod = method.rawValue
        
         case .userNotifyType(let type):
             
             let queryParameters = [URLQueryItem(name: "type", value: type)]
-
             request = URLRequest.createURLRequestWithQuery(url: url, method: method,queryParameters: queryParameters)
             
         case .editUserPw(let type, let prePassword, let newPassword):
@@ -80,11 +84,10 @@ enum UserInfoRouter: URLRequestConvertible {
         case .searchUserProfile(let searchId):
             let queryParameters = [URLQueryItem(name: "search", value: searchId)]
             request = URLRequest.createURLRequestWithQuery(url: url, method: method ,queryParameters: queryParameters)
-   
-        case .userNicknameCheck(_):
-            request = URLRequest(url: url)
-            request.httpMethod = method.rawValue
-            
+        
+        case .editSomeoneNickname(_, _):
+            request = URLRequest.createURLRequestWithBody(url: url, method: method, parameters: parameters)
+        
         }
     
         return request

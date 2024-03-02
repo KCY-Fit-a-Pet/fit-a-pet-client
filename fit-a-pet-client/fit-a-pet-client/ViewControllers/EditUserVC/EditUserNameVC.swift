@@ -8,6 +8,7 @@ class EditUserNameVC: CustomNavigationBar {
     private let beforeNameLabel = UILabel()
     var division = ""
     var beforeUserName = ""
+    var selectedId = 0
     private var userName = ""
 
     override func viewDidLoad() {
@@ -78,6 +79,21 @@ class EditUserNameVC: CustomNavigationBar {
                         print("respose jsonData: \(jsonObject)")
                         UserDefaults.standard.set(userName, forKey: "name")
                         self.navigationController?.popToRootViewController(animated: true)
+                    }
+                case .failure(let error):
+                    print("Error: \(error)")
+                }
+            }
+        }else{
+            AuthorizationAlamofire.shared.editSomeoneNickname(selectedId, userName){ [self]
+                result in
+                switch result {
+                case .success(let data):
+                    if let responseData = data {
+                        let object = try?JSONSerialization.jsonObject(with: responseData, options: []) as? NSDictionary
+                        guard let jsonObject = object else {return}
+                        print("respose jsonData: \(jsonObject)")
+                        self.navigationController?.popViewController(animated: true)
                     }
                 case .failure(let error):
                     print("Error: \(error)")

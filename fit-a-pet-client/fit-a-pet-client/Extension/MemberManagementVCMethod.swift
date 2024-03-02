@@ -23,6 +23,7 @@ class MemberListTableViewMethod: NSObject, UITableViewDataSource, UITableViewDel
                                 let nextVC = EditUserNameVC(title: "이름 변경하기")
                                 nextVC.beforeUserName = name
                                 nextVC.division = "someone"
+                                nextVC.selectedId = userId
                                 self.delegate?.pushViewController(nextVC, animated: true)
                             }
                         }
