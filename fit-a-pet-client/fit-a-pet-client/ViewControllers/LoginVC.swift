@@ -33,16 +33,14 @@ class LoginVC: UIViewController{
         
         self.navigationController?.navigationBar.tintColor = .black
         self.navigationController?.navigationBar.topItem?.title = ""
+        
     }
     deinit {
-        // Remove the observer when the view controller is deallocated
         NotificationCenter.default.removeObserver(self)
     }
     
     @objc func retryLoginNotification(_ notification: Notification) {
 
-        let firstVC = FirstVC()
-           
         if UIApplication.shared.delegate is AppDelegate {
             if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
                let sceneDelegate = windowScene.delegate as? SceneDelegate {
@@ -130,12 +128,11 @@ class LoginVC: UIViewController{
     }
     private func stackBtnView(){
         let stackView = UIStackView()
-        stackView.axis = .horizontal // 수평 정렬
-        stackView.spacing = 32 // 버튼 사이의 간격
-        stackView.alignment = .center // 중앙 정렬
-        stackView.distribution = .fillEqually // 버튼 사이즈를 동일하게 분배
+        stackView.axis = .horizontal
+        stackView.spacing = 32
+        stackView.alignment = .center
+        stackView.distribution = .fillEqually
 
-        // 버튼 3개 생성
         let findIdBtn = UIButton(type: .system)
         findIdBtn.setTitle("아이디 찾기", for: .normal)
         findIdBtn.titleLabel?.font = UIFont.systemFont(ofSize: 14)
@@ -155,27 +152,24 @@ class LoginVC: UIViewController{
         SignUpBtn.titleLabel?.font = UIFont.systemFont(ofSize: 14)
         SignUpBtn.setTitleColor(.black, for: .normal)
 
-        // UIStackView에 버튼들 추가
         stackView.addArrangedSubview(findIdBtn)
         stackView.addArrangedSubview(findPwBtn)
         stackView.addArrangedSubview(SignUpBtn)
 
-        // UIStackView를 뷰에 추가
+  
         view.addSubview(stackView)
 
-        // UIStackView의 제약 조건 설정
         stackView.snp.makeConstraints { make in
-            make.centerX.equalToSuperview() // 수평 중앙 정렬
-            make.top.equalTo(loginBtn.snp.bottom).offset(30) // 원하는 위치로 조정
+            make.centerX.equalToSuperview()
+            make.top.equalTo(loginBtn.snp.bottom).offset(30)
         }
     }
     
     @objc func changeTabBarVC(_ sender: UIButton) {
         let mainVC = TabBarController()
         mainVC.modalPresentationStyle = .fullScreen
-
         
-        AnonymousAlamofire.shared.login("jayang", "dkssudgktpdy") { [weak self] loginResult in
+        AnonymousAlamofire.shared.login("heejin", "heejin123") { [weak self] loginResult in
             switch loginResult {
             case .success(let data):
                 if let responseData = data {
@@ -220,7 +214,7 @@ extension LoginVC: UITextFieldDelegate{
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         
         if textField == inputPw {
-            //inputPw에 text 값이 있어야만 inputPwText에 입력할 수 있다.
+    
             if let inputPwText = inputId.text, !inputPwText.isEmpty {
                 let updatedText = (inputPw.text! as NSString).replacingCharacters(in: range, with: string)
                 password = updatedText

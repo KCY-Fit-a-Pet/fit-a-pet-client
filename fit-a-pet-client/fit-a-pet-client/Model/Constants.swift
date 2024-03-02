@@ -54,6 +54,7 @@ enum ViewState {
 
 enum SelectedPetId{
     static var petId = 0
+    static var petName = ""
 }
 
 enum careCompleteData{

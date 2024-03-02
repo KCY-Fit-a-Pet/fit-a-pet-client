@@ -4,6 +4,8 @@ import SnapKit
 
 protocol MemberTableViewCellDelegate: AnyObject {
     func didTapChangeName()
+    func didTapCancellationBtn(_ userId: Int, _ userName: String)
+    func didTapDelegationBtn(_ userId: Int, _ userName: String)
 }
 
 class MemberTableViewCell: UITableViewCell {
@@ -11,7 +13,7 @@ class MemberTableViewCell: UITableViewCell {
     let userDataView = UserDataView()
     let menuButton = UIButton()
     weak var delegate: MemberTableViewCellDelegate?
-
+    private var menu: UIMenu?
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -27,7 +29,6 @@ class MemberTableViewCell: UITableViewCell {
     private func setupView() {
         contentView.addSubview(userDataView)
         contentView.addSubview(menuButton)
-        userDataView.layer.borderWidth = 2
         userDataView.snp.makeConstraints { make in
             make.centerY.equalToSuperview()
             make.height.equalTo(76)
@@ -44,11 +45,27 @@ class MemberTableViewCell: UITableViewCell {
     
     
     @objc private func showMenu() {
-        let menu = UIMenu(title: "", children: [
-            UIAction(title: "이름 변경") { [weak self] action in
-                self?.delegate?.didTapChangeName()
-            },
-        ])
+        
+        if PetManagersManager.masterManager?.uid == UserDefaults.standard.string(forKey: "uid") {
+            menu = UIMenu(title: "", children: [
+                UIAction(title: "이름 변경") { [weak self] action in
+                    self?.delegate?.didTapChangeName()
+                },
+                UIAction(title: "관리자 위임") { [weak self] action in
+                    self?.delegate?.didTapDelegationBtn(self!.userDataView.userid, self!.userDataView.profileUserName.text!)
+                },
+                UIAction(title: "강제 퇴장", attributes: .destructive) { [weak self] action in
+                    print("")
+                    self?.delegate?.didTapCancellationBtn(self!.userDataView.userid, self!.userDataView.profileUserName.text!)
+                }
+            ])
+        } else {
+            menu = UIMenu(title: "", children: [
+                UIAction(title: "이름 변경") { [weak self] action in
+                    self?.delegate?.didTapChangeName()
+                }
+            ])
+        }
         
         self.menuButton.menu = menu
         self.menuButton.showsMenuAsPrimaryAction = true

@@ -171,6 +171,8 @@ extension SettingVC: UITableViewDataSource{
             let myInfoCell = myInfoTableView.dequeueReusableCell(withIdentifier: "MyInfoTableViewCell", for: indexPath) as! MyInfoTableViewCell
             let myInfocellData = myInfoCellData[indexPath.row]
             myInfoCell.configure(myInfocellData.cellTitle, myInfocellData.userData)
+            myInfoCell.selectionStyle = .none
+
             return myInfoCell
             
         } else {
@@ -178,6 +180,7 @@ extension SettingVC: UITableViewDataSource{
             let alarmCellData = alarmCellData[indexPath.row]
             alarmCell.configure(alarmCellData.cellTitle, alarmCellData.cellSubTitie, indexPath.row)
             alarmCell.configureSegmentControl(alarmCellData.alarmToggle)
+            alarmCell.selectionStyle = .none
             return alarmCell
         }
     }

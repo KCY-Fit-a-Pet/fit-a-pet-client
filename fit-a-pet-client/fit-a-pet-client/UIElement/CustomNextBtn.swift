@@ -14,7 +14,7 @@ class CustomNextBtn: UIButton {
         titleLabel?.font = UIFont.systemFont(ofSize: 14)
         setTitleColor(.white, for: .normal)
         backgroundColor = GRAY3
-        layer.cornerRadius = 5
+        layer.cornerRadius = 8
        
        snp.makeConstraints { make in
            make.height.equalTo(56)

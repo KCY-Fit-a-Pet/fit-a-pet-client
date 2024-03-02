@@ -6,6 +6,7 @@ class CustomCheckPopupView: UIView {
         let label = UILabel()
         label.textAlignment = .center
         label.font = UIFont.boldSystemFont(ofSize: 16)
+        label.textColor = .black
         label.numberOfLines = 1
         return label
     }()
@@ -15,7 +16,7 @@ class CustomCheckPopupView: UIView {
         label.textAlignment = .center
         label.font = UIFont.systemFont(ofSize: 14)
         label.textColor = UIColor(named: "Gray5")
-        label.numberOfLines = 1
+        label.numberOfLines = 2
         return label
     }()
 
@@ -23,7 +24,7 @@ class CustomCheckPopupView: UIView {
         let stackView = UIStackView()
         stackView.axis = .vertical
         stackView.spacing = 8
-        stackView.distribution = .fillEqually
+        stackView.distribution = .equalCentering
         return stackView
     }()
 
@@ -71,7 +72,7 @@ class CustomCheckPopupView: UIView {
         stackView.snp.makeConstraints { make in
             make.top.equalToSuperview().offset(30)
             make.leading.trailing.equalToSuperview().inset(20)
-            make.height.equalTo(60)
+            make.height.equalTo(65)
         }
 
         customButton1.snp.makeConstraints { make in

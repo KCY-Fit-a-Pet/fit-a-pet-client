@@ -4,14 +4,24 @@ import UIKit
 import KakaoSDKCommon
 import GoogleSignIn
 import NaverThirdPartyLogin
+import Firebase
 import FirebaseCore
 
 @main
-class AppDelegate: UIResponder, UIApplicationDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate {
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
+        //Firebase 세팅
         FirebaseApp.configure()
+        
+        Messaging.messaging().delegate = self
+        
+        // FCM 다시 사용 설정
+        Messaging.messaging().isAutoInitEnabled = true
+
+        //push notification, device token 요청.
+        registerForRemoteNotifications()
         
         let kakaoAppKey = Bundle.main.infoDictionary?["KakaoAppKey"] as! String
         let naverClientId = Bundle.main.infoDictionary?["NaverClientID"] as! String
@@ -31,6 +41,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         instance?.consumerSecret = naverClientSecret // pw
         instance?.appName = "Fit a Pet" // app name
         
+
         return true
     }
     
@@ -43,20 +54,93 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         return true
     }
+    private func registerForRemoteNotifications() {
+        
+        // 1. 푸시 center (유저에게 권한 요청 용도)
+        let center = UNUserNotificationCenter.current()
+        center.delegate = self // push처리에 대한 delegate - UNUserNotificationCenterDelegate
+        let options: UNAuthorizationOptions = [.alert, .sound, .badge]
+        center.requestAuthorization(options: options) { (granted, error) in
+            
+            guard granted else {
+                return
+            }
+            
+            DispatchQueue.main.async {
+                // 2. APNs에 디바이스 토큰 등록
+                UIApplication.shared.registerForRemoteNotifications()
+            }
+        }
+    }
 
     // MARK: UISceneSession Lifecycle
 
     func application(_ application: UIApplication, configurationForConnecting connectingSceneSession: UISceneSession, options: UIScene.ConnectionOptions) -> UISceneConfiguration {
-        // Called when a new scene session is being created.
-        // Use this method to select a configuration to create the new scene with.
         return UISceneConfiguration(name: "Default Configuration", sessionRole: connectingSceneSession.role)
     }
 
     func application(_ application: UIApplication, didDiscardSceneSessions sceneSessions: Set<UISceneSession>) {
-        // Called when the user discards a scene session.
-        // If any sessions were discarded while the application was not running, this will be called shortly after application:didFinishLaunchingWithOptions.
-        // Use this method to release any resources that were specific to the discarded scenes, as they will not return.
+     
+    }
+    // APN 토큰과 등록 토큰 매핑
+    func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+//        Messaging.messaging().apnsToken = deviceToken
+        
+        let deviceTokenString = deviceToken.reduce("", {$0 + String(format: "%02X", $1)})
+        
+        print("APNs device token: \(deviceTokenString)")
+    }
+    func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
+        print("APNs registration failed: \(error)")
     }
 
+}
 
+extension AppDelegate: MessagingDelegate {
+    // 현재 등록 토큰 가져오기.
+    func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String?) {
+        
+        let device = UIDevice.current
+        print("os: \(device.systemVersion)")
+        var modelName = ""
+        let selName = "_\("deviceInfo")ForKey:"
+                let selector = NSSelectorFromString(selName)
+                
+                if device.responds(to: selector) { // [옵셔널 체크 실시]
+                    modelName = String(describing: device.perform(selector, with: "marketing-name").takeRetainedValue())
+                }
+        print("devieModel: \(modelName)")
+
+        // TODO: - 디바이스 토큰을 보내는 서버통신 구현
+        print("APNs fcm Token: \(String(describing: fcmToken!))")
+       // sendDeviceTokenWithAPI(fcmToken: fcmToken ?? "")
+        
+//        AuthorizationAlamofire.shared.registDeviceToken(String(describing: fcmToken!), device.systemVersion, modelName) {result in
+//            switch result {
+//            case .success(let data):
+//                if let responseData = data,
+//                   let jsonObject = try? JSONSerialization.jsonObject(with: responseData, options: []) as? [String: Any] {
+//                    print("response jsonData: \(jsonObject)")
+//                    
+//                }
+//                
+//            case .failure(let error):
+//                print("Error: \(error)")
+//            }
+//        }
+//        
+//        AuthorizationAlamofire.shared.pushNotificationAPI{result in
+//            switch result {
+//            case .success(let data):
+//                if let responseData = data,
+//                   let jsonObject = try? JSONSerialization.jsonObject(with: responseData, options: []) as? [String: Any] {
+//                    print("response jsonData: \(jsonObject)")
+//                }
+//                
+//            case .failure(let error):
+//                print("Error: \(error)")
+//            }
+//        }
+        
+    }
 }

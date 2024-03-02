@@ -5,11 +5,11 @@ import os.log
 class AuthorizationAlamofire: TokenHandling {
     
     // 싱글턴 적용
-    static let shared = AuthorizationAlamofire() // 자기 자신의 인스턴스를 가져옴
+    static let shared = AuthorizationAlamofire()
     
     // 로거 설정
     // 자료형이 EventMonitor
-    let monitors = [MyLogger(), ApiStatusLogger()] as [EventMonitor] // 여러 개 추가 가능
+    let monitors = [MyLogger(), ApiStatusLogger()] as [EventMonitor]
     
     let interceptors = Interceptor(interceptors:[BaseInterceptor()])
     
@@ -21,12 +21,14 @@ class AuthorizationAlamofire: TokenHandling {
     
     // MARK: - AuthorizationAlamofire methods
     
+    //MARK: AdminRouter
+    
     func regist(_ uid: String, _ name: String, _ password: String, _ email: String, _ profileImg: String, completion: @escaping(Result<Data?, Error>) -> Void){
         os_log("AuthorizationAlamofire - regist() called userInput : %@ ,, %@ ,, %@ ,, %@ ,, %@", log: .default, type: .info, uid, password, name, email, profileImg)
         
         self
             .session
-            .request(MySearchRouter.regist(uid: uid, name: name, password: password, email: email, profileImg: profileImg))
+            .request(AdminRouter.regist(uid: uid, name: name, password: password, email: email, profileImg: profileImg))
             .validate(statusCode: 200..<300)
             .response { response in
                 switch response.result{
@@ -37,13 +39,29 @@ class AuthorizationAlamofire: TokenHandling {
                 }
         }
     }
+    func oauthRegistUser(_ name: String, _ uid: String, completion: @escaping(Result<Data?, Error>) -> Void){
+        os_log("AuthorizationAlamofire - oauthRegistUser() called userInput: %@ ,, %@", log: .default, type: .info, name, uid)
+
+        self.session.request(AdminRouter.oauthRegistUser(name: name, uid: uid))
+            .validate(statusCode: 200..<300)
+            .response { response in
+                switch response.result {
+                case .success(let data):
+                    completion(.success(data))
+                case .failure(let error):
+                    completion(.failure(error))
+            }
+        }
+    }
+    
+    //MARK: PetRouter
     
     func registPet(_ petName: String, _ species: String, _ gender: String, _ neutralization: Bool, _ birthdate: String, completion: @escaping(Result<Data?, Error>) -> Void){
         os_log("AuthorizationAlamofire - registPet() called userInput : %@ ,, %@ ,, %@  ,, %@", log: .default, type: .info, petName, species, gender, birthdate)
         
         self
             .session
-            .request(MySearchRouter.registPet(petName: petName, species: species, gender: gender, neutralization: neutralization, birthdate: birthdate))
+            .request(PetRouter.registPet(petName: petName, species: species, gender: gender, neutralization: neutralization, birthdate: birthdate))
             .validate(statusCode: 200..<300)
             .response { response in
                 switch response.result{
@@ -54,84 +72,10 @@ class AuthorizationAlamofire: TokenHandling {
                 }
         }
     }
-    
-    func userProfileInfo(completion: @escaping(Result<Data?, Error>) -> Void){
-        os_log("AuthorizationAlamofire - userProfileInfo() called ", log: .default, type: .info)
-        
-        self.session.request(MySearchRouter.userProfileInfo)
-            .validate(statusCode: 200..<300)
-            .response { response in
-                switch response.result {
-                case .success(let data):
-                    completion(.success(data))
-                case .failure(let error):
-                    completion(.failure(error))
-                }
-        }
-    }
-    func userNotifyType(_ type: String, completion: @escaping(Result<Data?, Error>) -> Void){
-        os_log("AuthorizationAlamofire - userNotifyType() called userInput: %@", log: .default, type: .info, type)
-        
-        self.session.request(MySearchRouter.userNotifyType(type: type))
-            .validate(statusCode: 200..<300)
-            .response { response in
-                switch response.result {
-                case .success(let data):
-                    completion(.success(data))
-                case .failure(let error):
-                    completion(.failure(error))
-            }
-        }
-    }
-    
-    func editUserPw(_ type: String, _ prePassword: String, _ newPassword: String, completion: @escaping(Result<Data?, Error>) -> Void){
-        os_log("AuthorizationAlamofire - editUserPw() called userInput: %@", log: .default, type: .info, type)
-        
-        self.session.request(MySearchRouter.editUserPw(type: type, prePassword: prePassword, newPassword: newPassword))
-            .validate(statusCode: 200..<300)
-            .response { response in
-                switch response.result {
-                case .success(let data):
-                    completion(.success(data))
-                case .failure(let error):
-                    completion(.failure(error))
-            }
-        }
-    }
-    func editUserName(_ type: String, _ name: String, completion: @escaping(Result<Data?, Error>) -> Void){
-        os_log("AuthorizationAlamofire - editUserName() called userInput: %@", log: .default, type: .info, type)
-        
-        self.session.request(MySearchRouter.editUserName(type: type, name: name))
-            .validate(statusCode: 200..<300)
-            .response { response in
-                switch response.result {
-                case .success(let data):
-                    completion(.success(data))
-                case .failure(let error):
-                    completion(.failure(error))
-            }
-        }
-    }
-
-    func oauthRegistUser(_ name: String, _ uid: String, completion: @escaping(Result<Data?, Error>) -> Void){
-        os_log("AuthorizationAlamofire - oauthCheckSms() called userInput: %@ ,, %@", log: .default, type: .info, name, uid)
-
-        self.session.request(MySearchRouter.oauthRegistUser(name: name, uid: uid))
-            .validate(statusCode: 200..<300)
-            .response { response in
-                switch response.result {
-                case .success(let data):
-                    completion(.success(data))
-                case .failure(let error):
-                    completion(.failure(error))
-            }
-        }
-    }
-    
     func createCare(combinedData: [String: Any], petId: Int, completion: @escaping (Result<Data?, Error>) -> Void) {
         os_log("AuthorizationAlamofire - createCare() called userInput: %@", log: .default, type: .info, combinedData)
 
-        self.session.request(MySearchRouter.createCare(combinedData: combinedData, petId: petId))
+        self.session.request(PetRouter.createCare(combinedData: combinedData, petId: petId))
             .response { response in
                 switch response.result {
                 case .success(let data):
@@ -146,7 +90,7 @@ class AuthorizationAlamofire: TokenHandling {
     func checkCareCategory(_ petId: Int, completion: @escaping (Result<Data?, Error>) -> Void) {
         os_log("AuthorizationAlamofire - checkCareCategory() called", log: .default, type: .info)
         
-        self.session.request(MySearchRouter.checkCareCategory(petId: petId))
+        self.session.request(PetRouter.checkCareCategory(petId: petId))
             .response { response in
                 switch response.result {
                 case .success(let data):
@@ -160,7 +104,7 @@ class AuthorizationAlamofire: TokenHandling {
     func userPetsList(completion: @escaping (Result<Data?, Error>) -> Void) {
         os_log("AuthorizationAlamofire - userPetsList() called", log: .default, type: .info)
         
-        self.session.request(MySearchRouter.userPetsList)
+        self.session.request(PetRouter.userPetsList)
             .response { response in
                 switch response.result {
                 case .success(let data):
@@ -174,7 +118,7 @@ class AuthorizationAlamofire: TokenHandling {
     func careCategoryCheck(_ categoryName: String, _ pets: [Int] ,completion: @escaping (Result<Data?, Error>) -> Void) {
         os_log("AuthorizationAlamofire - careCategoryCheck() called ,, %@ ,, %@ ", log: .default, type: .info, categoryName, pets)
         
-        self.session.request(MySearchRouter.careCategoryCheck(categoryName: categoryName, pets: pets))
+        self.session.request(PetRouter.careCategoryCheck(categoryName: categoryName, pets: pets))
             .response { response in
                 switch response.result {
                 case .success(let data):
@@ -188,7 +132,7 @@ class AuthorizationAlamofire: TokenHandling {
     func userPetInfoList(completion: @escaping (Result<Data?, Error>) -> Void) {
         os_log("AuthorizationAlamofire - userPetInfoList() called", log: .default, type: .info)
         
-        self.session.request(MySearchRouter.userPetInfoList)
+        self.session.request(PetRouter.userPetInfoList)
             .response { response in
                 switch response.result {
                 case .success(let data):
@@ -202,7 +146,7 @@ class AuthorizationAlamofire: TokenHandling {
     func userPetCareInfoList(_ petId: Int ,completion: @escaping (Result<Data?, Error>) -> Void) {
         os_log("AuthorizationAlamofire - userPetCareInfoList() called", log: .default, type: .info)
         
-        self.session.request(MySearchRouter.userPetCareInfoList(petId: petId))
+        self.session.request(PetRouter.userPetCareInfoList(petId: petId))
             .response { response in
                 switch response.result {
                 case .success(let data):
@@ -216,7 +160,81 @@ class AuthorizationAlamofire: TokenHandling {
     func petCareComplete(_ petId: Int, _ careId: Int, _ caredateId: Int,completion: @escaping (Result<Data?, Error>) -> Void) {
         os_log("AuthorizationAlamofire - userPetCareInfoList() called", log: .default, type: .info)
         
-        self.session.request(MySearchRouter.petCareComplete(petId: petId, careId: careId, caredateId: caredateId))
+        self.session.request(PetRouter.petCareComplete(petId: petId, careId: careId, caredateId: caredateId))
+            .response { response in
+                switch response.result {
+                case .success(let data):
+                    completion(.success(data))
+                case .failure(let error):
+                    completion(.failure(error))
+                }
+            }
+    }
+    
+    //MARK: UserInfoRouter
+    
+    func userProfileInfo(completion: @escaping(Result<Data?, Error>) -> Void){
+        os_log("AuthorizationAlamofire - userProfileInfo() called ", log: .default, type: .info)
+        
+        self.session.request(UserInfoRouter.userProfileInfo)
+            .validate(statusCode: 200..<300)
+            .response { response in
+                switch response.result {
+                case .success(let data):
+                    completion(.success(data))
+                case .failure(let error):
+                    completion(.failure(error))
+                }
+        }
+    }
+    func userNotifyType(_ type: String, completion: @escaping(Result<Data?, Error>) -> Void){
+        os_log("AuthorizationAlamofire - userNotifyType() called userInput: %@", log: .default, type: .info, type)
+        
+        self.session.request(UserInfoRouter.userNotifyType(type: type))
+            .validate(statusCode: 200..<300)
+            .response { response in
+                switch response.result {
+                case .success(let data):
+                    completion(.success(data))
+                case .failure(let error):
+                    completion(.failure(error))
+            }
+        }
+    }
+    
+    func editUserPw(_ type: String, _ prePassword: String, _ newPassword: String, completion: @escaping(Result<Data?, Error>) -> Void){
+        os_log("AuthorizationAlamofire - editUserPw() called userInput: %@", log: .default, type: .info, type)
+        
+        self.session.request(UserInfoRouter.editUserPw(type: type, prePassword: prePassword, newPassword: newPassword))
+            .validate(statusCode: 200..<300)
+            .response { response in
+                switch response.result {
+                case .success(let data):
+                    completion(.success(data))
+                case .failure(let error):
+                    completion(.failure(error))
+            }
+        }
+    }
+    func editUserName(_ type: String, _ name: String, completion: @escaping(Result<Data?, Error>) -> Void){
+        os_log("AuthorizationAlamofire - editUserName() called userInput: %@", log: .default, type: .info, type)
+        
+        self.session.request(UserInfoRouter.editUserName(type: type, name: name))
+            .validate(statusCode: 200..<300)
+            .response { response in
+                switch response.result {
+                case .success(let data):
+                    completion(.success(data))
+                case .failure(let error):
+                    completion(.failure(error))
+            }
+        }
+    }
+    
+    func searchUserProfile(_ searchId: String, completion: @escaping (Result<Data?, Error>) -> Void) {
+        os_log("AuthorizationAlamofire - searchUserProfile() called ", log: .default, type: .info)
+
+        self.session.request(UserInfoRouter.searchUserProfile(searchId: searchId))
             .response { response in
                 switch response.result {
                 case .success(let data):
@@ -314,6 +332,118 @@ class AuthorizationAlamofire: TokenHandling {
         os_log("AuthorizationAlamofire - recordDataListInquiry() called ", log: .default, type: .info)
 
         self.session.request(MySearchRouter.recordDataListInquiry(petId: petId, memoCategoryId: memoCategoryId, searchData: searchData))
+            .response { response in
+                switch response.result {
+                case .success(let data):
+                    completion(.success(data))
+                case .failure(let error):
+                    completion(.failure(error))
+                }
+            }
+    }
+    
+    func petManagersList(_ petId: Int, completion: @escaping (Result<Data?, Error>) -> Void) {
+        os_log("AuthorizationAlamofire - petManagersList() called ", log: .default, type: .info)
+
+        self.session.request(MySearchRouter.petManagersList(petId: petId))
+            .response { response in
+                switch response.result {
+                case .success(let data):
+                    completion(.success(data))
+                case .failure(let error):
+                    completion(.failure(error))
+                }
+            }
+    }
+    
+    func inviteMember(_ petId: Int, _ inviteId: Int, completion: @escaping (Result<Data?, Error>) -> Void) {
+        os_log("AuthorizationAlamofire - inviteMember() called ", log: .default, type: .info)
+
+        self.session.request(MySearchRouter.inviteMember(petId: petId, inviteId: inviteId))
+            .response { response in
+                switch response.result {
+                case .success(let data):
+                    completion(.success(data))
+                case .failure(let error):
+                    completion(.failure(error))
+                }
+            }
+    }
+    
+    func deleteInviteMember(_ petId: Int, _ deleteId: String, completion: @escaping (Result<Data?, Error>) -> Void) {
+        os_log("AuthorizationAlamofire - deleteInviteMember() called ", log: .default, type: .info)
+
+        self.session.request(MySearchRouter.deleteInviteMember(petId: petId, deleteId: deleteId))
+            .response { response in
+                switch response.result {
+                case .success(let data):
+                    completion(.success(data))
+                case .failure(let error):
+                    completion(.failure(error))
+                }
+            }
+    }
+    func inviteMemberList(_ petId: Int, completion: @escaping (Result<Data?, Error>) -> Void) {
+        os_log("AuthorizationAlamofire - inviteMember() called ", log: .default, type: .info)
+
+        self.session.request(MySearchRouter.inviteMemberList(petId: petId))
+            .response { response in
+                switch response.result {
+                case .success(let data):
+                    completion(.success(data))
+                case .failure(let error):
+                    completion(.failure(error))
+                }
+            }
+    }
+    
+    func cancellationManager(_ petId: Int, _ userId: Int, completion: @escaping (Result<Data?, Error>) -> Void) {
+        os_log("AuthorizationAlamofire - cancellationManager() called ", log: .default, type: .info)
+
+        self.session.request(MySearchRouter.cancellationManager(petId: petId, userId: userId))
+            .response { response in
+                switch response.result {
+                case .success(let data):
+                    completion(.success(data))
+                case .failure(let error):
+                    completion(.failure(error))
+                }
+            }
+    }
+    func managerDelegation(_ petId: Int, _ userId: Int, completion: @escaping (Result<Data?, Error>) -> Void) {
+        os_log("AuthorizationAlamofire - managerDelegation() called ", log: .default, type: .info)
+
+        self.session.request(MySearchRouter.managerDelegation(petId: petId, userId: userId))
+            .response { response in
+                switch response.result {
+                case .success(let data):
+                    completion(.success(data))
+                case .failure(let error):
+                    completion(.failure(error))
+                }
+            }
+    }
+
+    
+    
+    func registDeviceToken(_ deviceToken: String, _ os: String, _ deviceModel: String,completion: @escaping (Result<Data?, Error>) -> Void) {
+        os_log("AuthorizationAlamofire - RegistdeviceToken() called ", log: .default, type: .info)
+        
+        self.session.request(MySearchRouter.registDeviceToken(deviceToken: deviceToken, os: os, deviceModel: deviceModel))
+            .response { response in
+                switch response.result {
+                case .success(let data):
+                    completion(.success(data))
+                case .failure(let error):
+                    completion(.failure(error))
+                }
+            }
+    }
+    
+    func pushNotificationAPI(completion: @escaping (Result<Data?, Error>) -> Void) {
+        os_log("AuthorizationAlamofire - pushNotificationAPI() called ", log: .default, type: .info)
+        
+        self.session.request(MySearchRouter.pushNotificationAPI)
             .response { response in
                 switch response.result {
                 case .success(let data):

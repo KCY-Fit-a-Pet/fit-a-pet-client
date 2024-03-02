@@ -434,7 +434,7 @@ extension PetCareRegistVC: UITableViewDataSource {
         let selectedIndex = selectedIndices.sorted()[indexPath.row]
         let selectedDay = daysOfWeek[selectedIndex]
         let selectedDate = Date()
-        
+
         cell.configure(withDate: selectedDay, selectedDate: selectedDate)
         return cell
         
