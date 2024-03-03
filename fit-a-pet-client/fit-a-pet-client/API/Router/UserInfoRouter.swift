@@ -49,23 +49,22 @@ enum UserInfoRouter: URLRequestConvertible {
         case let .editUserName(type, name):
             return ["type": type, "name": name]
         case let .editSomeoneNickname(_, nickname):
-            return ["ninkname": nickname]
-        case .userProfileInfo, .searchUserProfile, .userNicknameCheck, .editSomeoneNickname:
+            return ["nickname": nickname]
+        case .userProfileInfo, .searchUserProfile, .userNicknameCheck:
             return [:]
         }
     }
 
     func asURLRequest() throws -> URLRequest {
-        var url = baseURL.appendingPathComponent(path)
+        let url = baseURL.appendingPathComponent(path)
         var request: URLRequest
 
         switch self {
         case .userProfileInfo, .userNicknameCheck(_):
             request = URLRequest(url: url)
             request.httpMethod = method.rawValue
-       
-        case .userNotifyType(let type):
             
+        case .userNotifyType(let type):
             let queryParameters = [URLQueryItem(name: "type", value: type)]
             request = URLRequest.createURLRequestWithQuery(url: url, method: method,queryParameters: queryParameters)
             
@@ -74,7 +73,7 @@ enum UserInfoRouter: URLRequestConvertible {
             let queryParameters = [URLQueryItem(name: "type", value: type)]
             
             request = URLRequest.createURLRequestWithBodyAndQuery(url: url, method: method,bodyParameters: bodyParameters, queryParameters: queryParameters)
-        
+            
         case .editUserName(let type, let name):
             let bodyParameters = ["name": name]
             let queryParameters = [URLQueryItem(name: "type", value: type)]
@@ -84,10 +83,10 @@ enum UserInfoRouter: URLRequestConvertible {
         case .searchUserProfile(let searchId):
             let queryParameters = [URLQueryItem(name: "search", value: searchId)]
             request = URLRequest.createURLRequestWithQuery(url: url, method: method ,queryParameters: queryParameters)
-        
+            
         case .editSomeoneNickname(_, _):
             request = URLRequest.createURLRequestWithBody(url: url, method: method, parameters: parameters)
-        
+            print(parameters)
         }
     
         return request

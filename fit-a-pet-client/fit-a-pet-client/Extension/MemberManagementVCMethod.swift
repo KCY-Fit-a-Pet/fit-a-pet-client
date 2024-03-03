@@ -99,8 +99,8 @@ class MemberInviteListTableViewMethod: NSObject, UITableViewDataSource, UITableV
         let cell = tableView.dequeueReusableCell(withIdentifier: "InviteMemberTableViewCell", for: indexPath) as! InviteMemberTableViewCell
         cell.delegate = self
         cell.indexPath = indexPath
-        cell.userDataView.profileUserName.text = inviteManagerList[indexPath.row].name
-        cell.userDataView.profileUserId.text = "@" + inviteManagerList[indexPath.row].uid
+        cell.userDataView.profileUserName.text = inviteManagerList[indexPath.row].member.name
+        cell.userDataView.profileUserId.text = "@" + inviteManagerList[indexPath.row].member.uid
         cell.selectionStyle = .none
         return cell
     }
@@ -111,17 +111,12 @@ class MemberInviteListTableViewMethod: NSObject, UITableViewDataSource, UITableV
     
     func cancelButtonTapped(at indexPath: IndexPath) {
           
-        print(inviteManagerList[indexPath.row].id)
-          AuthorizationAlamofire.shared.deleteInviteMember(SelectedPetId.petId, String(inviteManagerList[indexPath.row].id)) { [self] result in
+        AuthorizationAlamofire.shared.deleteInviteMember(SelectedPetId.petId, inviteManagerList[indexPath.row].invitation.invitationId) { result in
               switch result {
               case .success(let data):
                   if let responseData = data,
                      let jsonObject = try? JSONSerialization.jsonObject(with: responseData, options: []) as? [String: Any] {
                       print("response jsonData: \(jsonObject)")
-                      let removedManager = inviteManagerList.remove(at: indexPath.row)
-                      if let index = PetManagersManager.inviteManagers.firstIndex(where: { $0.id == removedManager.id }) {
-                          PetManagersManager.inviteManagers.remove(at: index)
-                      }
                       NotificationCenter.default.post(name: .InviteManagerDataUpdated, object: nil)
                   }
                   

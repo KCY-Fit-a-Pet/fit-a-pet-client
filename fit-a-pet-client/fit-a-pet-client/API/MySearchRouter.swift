@@ -23,7 +23,7 @@ enum MySearchRouter: URLRequestConvertible {
     //manager
     case petManagersList(petId: Int)
     case inviteMember(petId: Int, inviteId: Int)
-    case deleteInviteMember(petId: Int, deleteId: String)
+    case deleteInviteMember(petId: Int, invitationId: Int)
     case inviteMemberList(petId: Int)
     case cancellationManager(petId: Int, userId: Int)
     case managerDelegation(petId: Int, userId: Int)
@@ -75,8 +75,12 @@ enum MySearchRouter: URLRequestConvertible {
             return "v2/schedules"
         case .petScheduleList:
             return "v2/accounts/\(UserDefaults.standard.string(forKey: "id")!)/schedules"
-        case .inviteMemberList(let petId), .deleteInviteMember(let petId, _), .inviteMember(let petId, _):
-            return "v2/pets/\(petId)/managers/invite"
+            
+        case .inviteMember(let petId, _),.inviteMemberList(let petId):
+            return "v2/pets/\(petId)/invitations"
+        
+        case .deleteInviteMember(let petId, let invitationId):
+            return "v2/pets/\(petId)/invitations/\(invitationId)"
             
         case .cancellationManager(let petId, let userId), .managerDelegation(let petId, let userId):
             return "v2/pets/\(petId)/managers/\(userId)"
@@ -166,7 +170,7 @@ enum MySearchRouter: URLRequestConvertible {
             url = url.appendingPathComponent("/\(petId)/root-memo-categories/\(rootMemoCategoryId)")
             request = URLRequest.createURLRequestWithBody(url: url, method: method, parameters: parameters)
             
-        case .recordDataListInquiry(let petId, let memoCategoryId, let searchData):
+        case .recordDataListInquiry(let petId, let memoCategoryId, _):
             url = url.appendingPathComponent("/\(petId)/memo-categories/\(memoCategoryId)/memos")
             request = URLRequest(url: url)
             request.httpMethod = method.rawValue
@@ -176,19 +180,7 @@ enum MySearchRouter: URLRequestConvertible {
             request = URLRequest(url: url)
             request.httpMethod = method.rawValue
         
-        case .deleteInviteMember(let petId, let deleteId):
-            let queryParameters = [URLQueryItem(name: "id", value: deleteId)]
-            request = URLRequest.createURLRequestWithQuery(url: url, method: method, queryParameters: queryParameters)
-        
-        case .cancellationManager( _, _):
-            request = URLRequest(url: url)
-            request.httpMethod = method.rawValue
-        
-        case .managerDelegation( _, _):
-            request = URLRequest(url: url)
-            request.httpMethod = method.rawValue
-            
-        case .inviteMemberList(let petId):    
+        case .deleteInviteMember(_, _), .cancellationManager( _, _), .managerDelegation( _, _), .inviteMemberList( _):
             request = URLRequest(url: url)
             request.httpMethod = method.rawValue
             

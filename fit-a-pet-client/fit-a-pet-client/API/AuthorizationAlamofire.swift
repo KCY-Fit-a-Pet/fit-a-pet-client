@@ -260,7 +260,7 @@ class AuthorizationAlamofire: TokenHandling {
     }
     
     func editSomeoneNickname(_ userId: Int, _ nickname: String, completion: @escaping (Result<Data?, Error>) -> Void) {
-        os_log("AuthorizationAlamofire - editSomeoneNickname() called ", log: .default, type: .info)
+        os_log("AuthorizationAlamofire - editSomeoneNickname() called:  %@", log: .default, type: .info, nickname)
 
         self.session.request(UserInfoRouter.editSomeoneNickname(userId: userId, nickname: nickname))
             .response { response in
@@ -401,10 +401,10 @@ class AuthorizationAlamofire: TokenHandling {
             }
     }
     
-    func deleteInviteMember(_ petId: Int, _ deleteId: String, completion: @escaping (Result<Data?, Error>) -> Void) {
+    func deleteInviteMember(_ petId: Int, _ invitationId: Int, completion: @escaping (Result<Data?, Error>) -> Void) {
         os_log("AuthorizationAlamofire - deleteInviteMember() called ", log: .default, type: .info)
 
-        self.session.request(MySearchRouter.deleteInviteMember(petId: petId, deleteId: deleteId))
+        self.session.request(MySearchRouter.deleteInviteMember(petId: petId, invitationId: invitationId))
             .response { response in
                 switch response.result {
                 case .success(let data):
