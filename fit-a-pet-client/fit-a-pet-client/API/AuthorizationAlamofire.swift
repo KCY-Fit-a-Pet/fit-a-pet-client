@@ -171,6 +171,20 @@ class AuthorizationAlamofire: TokenHandling {
             }
     }
     
+    func petTotalInfoCheck(_ petId: Int, completion: @escaping (Result<Data?, Error>) -> Void) {
+        os_log("AuthorizationAlamofire - petTotalInfoCheck() called", log: .default, type: .info)
+        
+        self.session.request(PetRouter.petTotalInfoCheck(petId: petId))
+            .response { response in
+                switch response.result {
+                case .success(let data):
+                    completion(.success(data))
+                case .failure(let error):
+                    completion(.failure(error))
+                }
+            }
+    }
+    
     //MARK: UserInfoRouter
     
     func userProfileInfo(completion: @escaping(Result<Data?, Error>) -> Void){

@@ -20,6 +20,7 @@ class PetProfileEditVC: CustomNavigationBar{
         
         initView()
         setupActions()
+        petTotalInfoCheckAPI()
     }
     
     func initView(){
@@ -93,6 +94,36 @@ class PetProfileEditVC: CustomNavigationBar{
         basicUserInofoView.genderView.neuteringCheckboxButton.addTarget(self, action: #selector(checkboxButtonTapped), for: .touchUpInside)
         basicUserInofoView.datePicker.addTarget(self, action: #selector(datePickerValueChanged), for: .valueChanged)
         basicUserInofoView.birthdayView.birthdayChangeBtn.addTarget(self, action: #selector(datePickerButtonTapped), for: .touchUpInside)
+    }
+    
+    private func petTotalInfoCheckAPI() {
+        AuthorizationAlamofire.shared.petTotalInfoCheck(SelectedPetId.petId) { result in
+            switch result {
+            case .success(let data):
+                if let responseData = data,
+                   let jsonObject = try? JSONSerialization.jsonObject(with: responseData, options: []) as? [String: Any],
+                   let dataObject = jsonObject["data"] as? [String: Any],
+                   let petObject = dataObject["pet"] as? [String: Any] {
+                    
+                    let id = petObject["id"] as? Int ?? 0
+                    let petName = petObject["petName"] as? String ?? ""
+                    let petProfileImage = petObject["petProfileImage"] as? String ?? ""
+                    let gender = petObject["gender"] as? String ?? ""
+                    let neutered = petObject["neutered"] as? Bool ?? false
+                    let birthdate = petObject["birthdate"] as? String ?? ""
+                    let species = petObject["species"] as? String ?? ""
+                    let feed = petObject["feed"] as? String ?? ""
+                    
+                    let newPetEditData = PetEditData(id: id, petName: petName, petProfileImage: petProfileImage, gender: gender, neutered: neutered, birthdate: birthdate, species: species, feed: feed)
+                    
+                    PetDataManager.petEditData = newPetEditData
+                    print(PetDataManager.petEditData)
+                }
+                
+            case .failure(let error):
+                print("Error: \(error)")
+            }
+        }
     }
     
     @objc private func showMenu() {

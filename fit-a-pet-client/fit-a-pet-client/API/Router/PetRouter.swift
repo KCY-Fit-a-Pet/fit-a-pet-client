@@ -7,6 +7,7 @@ enum PetRouter: URLRequestConvertible {
     //pet
     case registPet(petName: String, species: String, gender: String, neutralization: Bool, birthdate: String)
     case userPetsList, userPetInfoList
+    case petTotalInfoCheck(petId: Int)
     
     //pet care
     case createCare(combinedData: [String:Any], petId: Int)
@@ -19,7 +20,7 @@ enum PetRouter: URLRequestConvertible {
         switch self {
         case .registPet, .createCare, .careCategoryCheck:
             return .post
-        case .checkCareCategory, .userPetsList, .userPetInfoList, .userPetCareInfoList, .petCareComplete:
+        case .checkCareCategory, .userPetsList, .userPetInfoList, .userPetCareInfoList, .petCareComplete, .petTotalInfoCheck:
             return .get
         }
     }
@@ -29,14 +30,14 @@ enum PetRouter: URLRequestConvertible {
     
     var path: String {
         switch self {
-        case .registPet:
-            return "v2/pets"
         case .userPetsList:
             return "v2/pets/summary"
         case .careCategoryCheck:
             return "v2/users/\(UserDefaults.standard.string(forKey: "id")!)/pets/categories-check"
-        case .userPetCareInfoList, .createCare, .checkCareCategory, .petCareComplete, .userPetInfoList:
+        case .registPet, .userPetCareInfoList, .createCare, .checkCareCategory, .petCareComplete, .userPetInfoList:
             return "v2/pets"
+        case .petTotalInfoCheck(let petId):
+            return "v2/pets/\(petId)"
         }
     }
     
@@ -47,7 +48,7 @@ enum PetRouter: URLRequestConvertible {
         case let .careCategoryCheck(categoryName, pets):
             return ["categoryName": categoryName, "pets": pets]
         
-        case .checkCareCategory, .userPetsList, .createCare, .userPetInfoList, .userPetCareInfoList, .petCareComplete:
+        case .checkCareCategory, .userPetsList, .createCare, .userPetInfoList, .userPetCareInfoList, .petCareComplete, .petTotalInfoCheck:
             return [:]
         }
     }
@@ -63,7 +64,7 @@ enum PetRouter: URLRequestConvertible {
             request.httpMethod = method.rawValue
             request = try JSONEncoding.default.encode(request, withJSONObject: combinedData)
             
-        case .userPetsList, .userPetInfoList:
+        case .userPetsList, .userPetInfoList, .petTotalInfoCheck(_):
             request = URLRequest(url: url)
             request.httpMethod = method.rawValue
         
