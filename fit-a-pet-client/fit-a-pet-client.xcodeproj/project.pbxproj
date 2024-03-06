@@ -94,6 +94,7 @@
 		4A8B9B4E2AD443FA009236EC /* MySearchRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A8B9B4D2AD443FA009236EC /* MySearchRouter.swift */; };
 		4A8B9B502AD444D0009236EC /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A8B9B4F2AD444D0009236EC /* Constants.swift */; };
 		4A9088772AC1681B000C7878 /* MainPetCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A9088752AC1681B000C7878 /* MainPetCollectionViewCell.swift */; };
+		4A9118742B95B35400B19D9E /* BasicUserInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A9118732B95B35400B19D9E /* BasicUserInfoView.swift */; };
 		4A9936522B64230600B7B21A /* CalendarHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A9936512B64230600B7B21A /* CalendarHeaderView.swift */; };
 		4A9936542B64231B00B7B21A /* CalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A9936532B64231B00B7B21A /* CalendarView.swift */; };
 		4A9936562B642A0800B7B21A /* CalendarRegistrationVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A9936552B642A0800B7B21A /* CalendarRegistrationVC.swift */; };
@@ -239,6 +240,7 @@
 		4A8B9B4D2AD443FA009236EC /* MySearchRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MySearchRouter.swift; sourceTree = "<group>"; };
 		4A8B9B4F2AD444D0009236EC /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		4A9088752AC1681B000C7878 /* MainPetCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainPetCollectionViewCell.swift; sourceTree = "<group>"; };
+		4A9118732B95B35400B19D9E /* BasicUserInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasicUserInfoView.swift; sourceTree = "<group>"; };
 		4A9936512B64230600B7B21A /* CalendarHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarHeaderView.swift; sourceTree = "<group>"; };
 		4A9936532B64231B00B7B21A /* CalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarView.swift; sourceTree = "<group>"; };
 		4A9936552B642A0800B7B21A /* CalendarRegistrationVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarRegistrationVC.swift; sourceTree = "<group>"; };
@@ -314,6 +316,7 @@
 			children = (
 				4A0150312B7410140069AF20 /* GenderView.swift */,
 				4A0150332B7545660069AF20 /* BirthdayView.swift */,
+				4A9118732B95B35400B19D9E /* BasicUserInfoView.swift */,
 			);
 			path = PetProfileEditView;
 			sourceTree = "<group>";
@@ -902,6 +905,7 @@
 				4AD3542D2AAF7F83004A47B3 /* SettingVC.swift in Sources */,
 				4A80E4D42B49BA7800CD5D05 /* AnonymousAlamofire.swift in Sources */,
 				4AE293FA2B71495A00920C0B /* PetDetailCareListCollectionViewCell.swift in Sources */,
+				4A9118742B95B35400B19D9E /* BasicUserInfoView.swift in Sources */,
 				4AE293FE2B714EC100920C0B /* PetDetailScheduleListView.swift in Sources */,
 				4A0CC3622B810C6E004A9D77 /* RootFolderPanModalVC.swift in Sources */,
 				4AF0C8502B24765400A45EEE /* ResetPwVC.swift in Sources */,

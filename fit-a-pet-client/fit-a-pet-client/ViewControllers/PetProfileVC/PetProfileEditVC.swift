@@ -8,14 +8,12 @@ class PetProfileEditVC: CustomNavigationBar{
     private let imagePickerUtil = ImagePickerUtil()
     private let choosePhotoBtn = UIButton()
     private let scrollView = UIScrollView()
-    private let basicSubTitleLabel = UILabel()
-    private let nameInputView =  CustomVerticalView(labelText: "이름", placeholder: "이름")
-    private let genderView = GenderView()
-    private let birthdayView = BirthdayView()
+    private let basicUserInofoView = BasicUserInfoView()
     private let addInfoLabel = UILabel()
     private let feedInputView = CustomVerticalView(labelText: "사료", placeholder: "사료")
     
-    let datePicker = UIDatePicker()
+    private let deleteButton = UIButton()
+    private let editButton = CustomNextBtn(title: "수정하기")
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -27,26 +25,22 @@ class PetProfileEditVC: CustomNavigationBar{
     func initView(){
         view.backgroundColor = .white
 
-        scrollView.addSubview(basicSubTitleLabel)
         scrollView.addSubview(choosePhotoBtn)
-        scrollView.addSubview(nameInputView)
-        scrollView.addSubview(genderView)
-        scrollView.addSubview(birthdayView)
-        scrollView.addSubview(datePicker)
+        scrollView.addSubview(basicUserInofoView)
         scrollView.addSubview(addInfoLabel)
         scrollView.addSubview(feedInputView)
+        scrollView.addSubview(deleteButton)
+        scrollView.addSubview(editButton)
         view.addSubview(scrollView)
         
         choosePhotoBtn.setImage(UIImage(named: "uploadPhoto"), for: .normal)
-        basicSubTitleLabel.text = "기본 정보"
-        basicSubTitleLabel.font = .boldSystemFont(ofSize: 16)
         
         addInfoLabel.text = "추가 정보"
         addInfoLabel.font = .boldSystemFont(ofSize: 16)
         
-        datePicker.isHidden = true
-        datePicker.datePickerMode = .date
-        datePicker.preferredDatePickerStyle = .inline
+        deleteButton.setTitle("삭제하기", for: .normal)
+        deleteButton.setTitleColor(UIColor(named: "Danger"), for: .normal)
+        deleteButton.titleLabel?.font = .systemFont(ofSize: 14, weight: .medium)
         
         scrollView.snp.makeConstraints{make in
             make.top.bottom.leading.trailing.equalTo(view)
@@ -59,39 +53,15 @@ class PetProfileEditVC: CustomNavigationBar{
             make.top.equalTo(scrollView.snp.top).offset(16)
         }
         
-        basicSubTitleLabel.snp.makeConstraints{make in
-            make.leading.trailing.equalTo(view).inset(16)
+        basicUserInofoView.snp.makeConstraints{make in
             make.top.equalTo(choosePhotoBtn.snp.bottom).offset(16)
-            make.height.equalTo(24)
-        }
-        
-        nameInputView.snp.makeConstraints{make in
-            make.leading.trailing.equalTo(view).inset(16)
-            make.top.equalTo(basicSubTitleLabel.snp.bottom)
-            make.height.equalTo(88)
-        }
-        
-        genderView.snp.makeConstraints{make in
-            make.leading.trailing.equalTo(view).inset(16)
-            make.top.equalTo(nameInputView.snp.bottom).offset(16)
-            make.height.equalTo(120)
-        }
-        
-        birthdayView.snp.makeConstraints{make in
-            make.leading.trailing.equalTo(view).inset(16)
-            make.top.equalTo(genderView.snp.bottom).offset(18)
-            make.height.equalTo(88)
-        }
-        
-        datePicker.snp.makeConstraints { make in
-            make.top.equalTo(birthdayView.snp.bottom).offset(8)
-            make.leading.trailing.equalTo(view).inset(16)
-            make.height.equalTo(0)
+            make.leading.trailing.equalTo(view)
+            make.height.equalTo(370)
         }
         
         addInfoLabel.snp.makeConstraints{make in
             make.leading.trailing.equalTo(view).inset(16)
-            make.top.equalTo(datePicker.snp.bottom).offset(18)
+            make.top.equalTo(basicUserInofoView.snp.bottom).offset(16)
             make.height.equalTo(24)
         }
         
@@ -99,6 +69,19 @@ class PetProfileEditVC: CustomNavigationBar{
             make.leading.trailing.equalTo(view).inset(16)
             make.top.equalTo(addInfoLabel.snp.bottom)
             make.height.equalTo(88)
+        }
+        
+        deleteButton.snp.makeConstraints{make in
+            make.height.equalTo(44)
+            make.width.equalTo(50)
+            make.centerX.equalTo(view)
+            make.top.equalTo(feedInputView.snp.bottom).offset(58)
+        }
+        
+        editButton.snp.makeConstraints{make in
+            make.top.equalTo(deleteButton.snp.bottom).offset(40)
+            make.leading.trailing.equalTo(view).inset(16)
+            make.height.equalTo(56)
             make.bottom.equalTo(scrollView.snp.bottom)
         }
       
@@ -106,20 +89,20 @@ class PetProfileEditVC: CustomNavigationBar{
     
     private func setupActions() {
         choosePhotoBtn.addTarget(self, action: #selector(choosePhotoButtonTapped), for: .touchUpInside)
-        genderView.genderChangeBtn.addTarget(self, action: #selector(showMenu), for: .touchUpInside)
-        genderView.neuteringCheckboxButton.addTarget(self, action: #selector(checkboxButtonTapped), for: .touchUpInside)
-        datePicker.addTarget(self, action: #selector(datePickerValueChanged), for: .valueChanged)
-        birthdayView.birthdayChangeBtn.addTarget(self, action: #selector(datePickerButtonTapped), for: .touchUpInside)
+        basicUserInofoView.genderView.genderChangeBtn.addTarget(self, action: #selector(showMenu), for: .touchUpInside)
+        basicUserInofoView.genderView.neuteringCheckboxButton.addTarget(self, action: #selector(checkboxButtonTapped), for: .touchUpInside)
+        basicUserInofoView.datePicker.addTarget(self, action: #selector(datePickerValueChanged), for: .valueChanged)
+        basicUserInofoView.birthdayView.birthdayChangeBtn.addTarget(self, action: #selector(datePickerButtonTapped), for: .touchUpInside)
     }
     
     @objc private func showMenu() {
 
         let maleMenuItem = UIAction(title: "수컷") { _ in
-            self.genderView.selectedGenderLabel.text = "수컷"
+            self.basicUserInofoView.genderView.selectedGenderLabel.text = "수컷"
         }
         
         let femaleMenuItem = UIAction(title: "암컷") { _ in
-            self.genderView.selectedGenderLabel.text = "암컷"
+            self.basicUserInofoView.genderView.selectedGenderLabel.text = "암컷"
         }
         
         let menu = UIMenu(
@@ -127,25 +110,34 @@ class PetProfileEditVC: CustomNavigationBar{
             children: [maleMenuItem, femaleMenuItem]
         )
         
-        self.genderView.genderChangeBtn.menu = menu
-        self.genderView.genderChangeBtn.showsMenuAsPrimaryAction = true
+        self.basicUserInofoView.genderView.genderChangeBtn.menu = menu
+        self.basicUserInofoView.genderView.genderChangeBtn.showsMenuAsPrimaryAction = true
     }
     
     @objc func datePickerButtonTapped() {
 
-        if datePicker.isHidden {
-            datePicker.isHidden = false
+        if basicUserInofoView.datePicker.isHidden {
+            basicUserInofoView.datePicker.isHidden = false
            
-            datePicker.snp.updateConstraints { make in
+            basicUserInofoView.datePicker.snp.updateConstraints { make in
                 make.height.equalTo(300)
             }
             
-        } else {
-            datePicker.isHidden = true
+            basicUserInofoView.snp.updateConstraints { make in
+                make.height.equalTo(700)
+            }
             
-            datePicker.snp.updateConstraints { make in
+            
+        } else {
+            basicUserInofoView.datePicker.isHidden = true
+            
+            basicUserInofoView.datePicker.snp.updateConstraints { make in
                 make.height.equalTo(0)
             }
+            basicUserInofoView.snp.updateConstraints { make in
+                make.height.equalTo(370)
+            }
+            
         }
         UIView.animate(withDuration: 0.3) {
             self.view.layoutIfNeeded()
@@ -155,13 +147,13 @@ class PetProfileEditVC: CustomNavigationBar{
     
     @objc func datePickerValueChanged() {
 
-        let formattedDate = DateFormatterUtils.formatDateString(DateFormatterUtils.dateFormatter.string(from: datePicker.date))
+        let formattedDate = DateFormatterUtils.formatDateString(DateFormatterUtils.dateFormatter.string(from: basicUserInofoView.datePicker.date))
         
-        birthdayView.selectedBirthdayLabel.text = DateFormatterUtils.formatFullDate(formattedDate!, from: "yyyy-MM-dd HH:mm:ss", to: "yyyy.MM.dd (E)")
+        basicUserInofoView.birthdayView.selectedBirthdayLabel.text = DateFormatterUtils.formatFullDate(formattedDate!, from: "yyyy-MM-dd HH:mm:ss", to: "yyyy.MM.dd (E)")
         
         let calendar = Calendar.current
         
-        let selectedComponents = calendar.dateComponents([.year], from: datePicker.date)
+        let selectedComponents = calendar.dateComponents([.year], from: basicUserInofoView.datePicker.date)
         let year = selectedComponents.year!
         print(year)
         
@@ -170,13 +162,13 @@ class PetProfileEditVC: CustomNavigationBar{
         let currentYear = currentComponents.year!
         
         let age = Int(currentYear) - Int(year)
-        birthdayView.ageCheckLabel.text = "\(age)"
+        basicUserInofoView.birthdayView.ageCheckLabel.text = "\(age)"
     }
     
     @objc func checkboxButtonTapped(_ sender: UIButton) {
-        self.genderView.neuteringCheckboxButton.isSelected.toggle()
-        print( self.genderView.neuteringCheckboxButton.isSelected)
-        self.genderView.updateCheckboxColor()
+        self.basicUserInofoView.genderView.neuteringCheckboxButton.isSelected.toggle()
+        print( self.basicUserInofoView.genderView.neuteringCheckboxButton.isSelected)
+        self.basicUserInofoView.genderView.updateCheckboxColor()
     }
     
     @objc func choosePhotoButtonTapped(_ sender: UIButton) {

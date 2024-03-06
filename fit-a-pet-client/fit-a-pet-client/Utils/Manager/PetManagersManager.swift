@@ -1,9 +1,3 @@
-//
-//  petManagersManager.swift
-//  fit-a-pet-client
-//
-//  Created by 최희진 on 2/25/24.
-//
 
 import Foundation
 
