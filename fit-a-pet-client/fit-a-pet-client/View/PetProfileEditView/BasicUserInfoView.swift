@@ -39,6 +39,8 @@ class BasicUserInfoView: UIView{
         datePicker.datePickerMode = .date
         datePicker.preferredDatePickerStyle = .inline
         
+        nameInputView.textInputField.text = PetDataManager.petEditData.petName
+        
         basicSubTitleLabel.snp.makeConstraints{make in
             make.top.equalToSuperview()
             make.leading.trailing.equalToSuperview().inset(16)
@@ -57,11 +59,10 @@ class BasicUserInfoView: UIView{
             make.height.equalTo(120)
         }
         
-        
         birthdayView.snp.makeConstraints{make in
             make.leading.trailing.equalToSuperview().inset(16)
             make.top.equalTo(genderView.snp.bottom).offset(16)
-            make.height.equalTo(88)
+            make.height.equalTo(120)
         }
         
         datePicker.snp.makeConstraints{make in
@@ -69,7 +70,5 @@ class BasicUserInfoView: UIView{
             make.leading.trailing.equalToSuperview().inset(16)
             make.height.equalTo(0)
         }
-    }
-    
-    
+    } 
 }

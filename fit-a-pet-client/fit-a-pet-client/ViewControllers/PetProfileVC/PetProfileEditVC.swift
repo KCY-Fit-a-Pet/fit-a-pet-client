@@ -15,6 +15,8 @@ class PetProfileEditVC: CustomNavigationBar{
     private let deleteButton = UIButton()
     private let editButton = CustomNextBtn(title: "수정하기")
     
+    var tapGestureRecognizer: UITapGestureRecognizer!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -54,10 +56,12 @@ class PetProfileEditVC: CustomNavigationBar{
             make.top.equalTo(scrollView.snp.top).offset(16)
         }
         
+        basicUserInofoView.layer.borderWidth = 2
+        
         basicUserInofoView.snp.makeConstraints{make in
             make.top.equalTo(choosePhotoBtn.snp.bottom).offset(16)
             make.leading.trailing.equalTo(view)
-            make.height.equalTo(370)
+            make.height.equalTo(400)
         }
         
         addInfoLabel.snp.makeConstraints{make in
@@ -92,8 +96,11 @@ class PetProfileEditVC: CustomNavigationBar{
         choosePhotoBtn.addTarget(self, action: #selector(choosePhotoButtonTapped), for: .touchUpInside)
         basicUserInofoView.genderView.genderChangeBtn.addTarget(self, action: #selector(showMenu), for: .touchUpInside)
         basicUserInofoView.genderView.neuteringCheckboxButton.addTarget(self, action: #selector(checkboxButtonTapped), for: .touchUpInside)
+        basicUserInofoView.birthdayView.ageCheckboxButton.addTarget(self, action: #selector(ageCheckboxButtonTapped), for: .touchUpInside)
         basicUserInofoView.datePicker.addTarget(self, action: #selector(datePickerValueChanged), for: .valueChanged)
-        basicUserInofoView.birthdayView.birthdayChangeBtn.addTarget(self, action: #selector(datePickerButtonTapped), for: .touchUpInside)
+        
+        tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(datePickerViewTapped))
+        basicUserInofoView.birthdayView.birthdayStackView.addGestureRecognizer(tapGestureRecognizer)
     }
     
     private func petTotalInfoCheckAPI() {
@@ -113,6 +120,11 @@ class PetProfileEditVC: CustomNavigationBar{
                     let birthdate = petObject["birthdate"] as? String ?? ""
                     let species = petObject["species"] as? String ?? ""
                     let feed = petObject["feed"] as? String ?? ""
+                    
+                    self.basicUserInofoView.nameInputView.textInputField.text = petName
+                    self.basicUserInofoView.genderView.selectedGenderLabel.text = (gender == "female" ? "암컷" : "수컷")
+                    self.basicUserInofoView.birthdayView.selectedBirthdayLabel.text = birthdate
+                    
                     
                     let newPetEditData = PetEditData(id: id, petName: petName, petProfileImage: petProfileImage, gender: gender, neutered: neutered, birthdate: birthdate, species: species, feed: feed)
                     
@@ -145,7 +157,7 @@ class PetProfileEditVC: CustomNavigationBar{
         self.basicUserInofoView.genderView.genderChangeBtn.showsMenuAsPrimaryAction = true
     }
     
-    @objc func datePickerButtonTapped() {
+    @objc func datePickerViewTapped() {
 
         if basicUserInofoView.datePicker.isHidden {
             basicUserInofoView.datePicker.isHidden = false
@@ -166,7 +178,7 @@ class PetProfileEditVC: CustomNavigationBar{
                 make.height.equalTo(0)
             }
             basicUserInofoView.snp.updateConstraints { make in
-                make.height.equalTo(370)
+                make.height.equalTo(400)
             }
             
         }
@@ -186,20 +198,31 @@ class PetProfileEditVC: CustomNavigationBar{
         
         let selectedComponents = calendar.dateComponents([.year], from: basicUserInofoView.datePicker.date)
         let year = selectedComponents.year!
-        print(year)
         
         let currentDate = Date()
         let currentComponents = calendar.dateComponents([.year], from: currentDate)
         let currentYear = currentComponents.year!
         
         let age = Int(currentYear) - Int(year)
-        basicUserInofoView.birthdayView.ageCheckLabel.text = "\(age)"
+        basicUserInofoView.birthdayView.ageInputTextFeild.text = "\(age)"
     }
     
-    @objc func checkboxButtonTapped(_ sender: UIButton) {
+    @objc func checkboxButtonTapped() {
         self.basicUserInofoView.genderView.neuteringCheckboxButton.isSelected.toggle()
         print( self.basicUserInofoView.genderView.neuteringCheckboxButton.isSelected)
         self.basicUserInofoView.genderView.updateCheckboxColor()
+    }
+    
+    @objc func ageCheckboxButtonTapped(){
+        self.basicUserInofoView.birthdayView.ageCheckboxButton.isSelected.toggle()
+        
+        if self.basicUserInofoView.birthdayView.ageCheckboxButton.isSelected{
+            tapGestureRecognizer.isEnabled = false
+        }else{
+            tapGestureRecognizer.isEnabled = true
+        }
+        
+        self.basicUserInofoView.birthdayView.updateCheckboxColor()
     }
     
     @objc func choosePhotoButtonTapped(_ sender: UIButton) {

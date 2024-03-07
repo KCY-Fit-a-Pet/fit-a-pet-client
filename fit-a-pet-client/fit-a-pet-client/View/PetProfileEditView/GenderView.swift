@@ -91,8 +91,8 @@ class GenderView: UIView {
         }
         
         neuteringCheckboxButton.snp.makeConstraints{make in
-            make.height.equalTo(22)
-            make.width.equalTo(22)
+            make.height.equalTo(30)
+            make.width.equalTo(30)
         }
         neuteringCheckLabel.snp.makeConstraints{make in
             make.height.equalTo(30)

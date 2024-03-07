@@ -8,17 +8,22 @@ class BirthdayView: UIView {
     let birthdayStackView = UIStackView()
     let birthdayChangeBtn = UIButton()
     
+    private let ageCheckStackView = UIStackView()
+    let ageCheckboxButton = UIButton()
+    let ageChangeLabel = UILabel()
+    
     let ageStackView = UIStackView()
     
     let birthdayLabel = UILabel()
     let selectedBirthdayLabel = UILabel()
-    let ageLabel = UILabel()
-    let ageCheckLabel = UILabel()
+    let ageLabel = UITextField()
+    let ageInputTextFeild = UITextField()
     let textLabel = UILabel()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupViews()
+        setupAgeStakView()
     }
 
     required init?(coder: NSCoder) {
@@ -33,16 +38,17 @@ class BirthdayView: UIView {
         ageLabel.text = "나이"
         ageLabel.font = .boldSystemFont(ofSize: 18)
         
-        ageCheckLabel.text = "0"
-        ageCheckLabel.textAlignment = .center
-        ageCheckLabel.backgroundColor = UIColor(named: "Gray1")
+        ageInputTextFeild.text = "0"
+        ageInputTextFeild.backgroundColor = UIColor(named: "Gray1")
         
         textLabel.text = "살"
         textLabel.font = .systemFont(ofSize: 14, weight: .regular)
         
-        ageCheckLabel.layer.borderWidth = 1
-        ageCheckLabel.layer.cornerRadius = 8
-        ageCheckLabel.layer.borderColor = UIColor(named: "Gray3")?.cgColor
+        ageInputTextFeild.layer.borderWidth = 1
+        ageInputTextFeild.layer.cornerRadius = 8
+        ageInputTextFeild.layer.borderColor = UIColor(named: "Gray3")?.cgColor
+        ageInputTextFeild.leftView = UIView(frame: CGRect(x: 0.0, y: 0.0, width: 16.0, height: 0.0))
+        ageInputTextFeild.leftViewMode = .always
         
         birthdayStackView.axis = .horizontal
         birthdayStackView.spacing = 8
@@ -56,7 +62,7 @@ class BirthdayView: UIView {
         ageStackView.axis = .horizontal
         ageStackView.spacing = 8
         ageStackView.distribution = .equalSpacing
-        ageStackView.addArrangedSubview(ageCheckLabel)
+        ageStackView.addArrangedSubview(ageInputTextFeild)
         ageStackView.addArrangedSubview(textLabel)
 
         selectedBirthdayLabel.font = .systemFont(ofSize: 14)
@@ -66,6 +72,7 @@ class BirthdayView: UIView {
         selectedBirthdayLabel.text =  DateFormatterUtils.formatFullDate(formattedDate!, from: "yyyy-MM-dd HH:mm:ss", to: "yyyy.MM.dd (E)")
 
         birthdayChangeBtn.setImage(UIImage(named: "calendar"), for: .normal)
+        birthdayChangeBtn.isEnabled = true
         
         totalBirthdayStackView.axis = .vertical
         totalBirthdayStackView.addArrangedSubview(birthdayLabel)
@@ -82,9 +89,15 @@ class BirthdayView: UIView {
         horizontalStackView.spacing = 10
 
     
-        addSubview(horizontalStackView)
+        self.addSubview(horizontalStackView)
 
+        birthdayLabel.snp.makeConstraints { make in
+            make.height.equalTo(25)
+            make.top.equalToSuperview().offset(8)
+        }
+        
         birthdayStackView.snp.makeConstraints{make in
+            make.top.equalTo(birthdayLabel.snp.bottom).offset(8)
             make.height.equalTo(56)
         }
         
@@ -99,12 +112,64 @@ class BirthdayView: UIView {
         ageStackView.snp.makeConstraints{make in
             make.height.equalTo(56)
         }
-        ageCheckLabel.snp.makeConstraints{make in
+        ageInputTextFeild.snp.makeConstraints{make in
             make.width.height.equalTo(56)
         }
 
         horizontalStackView.snp.makeConstraints { make in
-            make.edges.equalToSuperview()
+            make.top.trailing.leading.equalToSuperview()
+        }
+        
+    }
+    
+    private func setupAgeStakView(){
+        ageCheckStackView.axis = .horizontal
+        ageCheckStackView.spacing = 0
+        ageCheckStackView.alignment = .center
+        ageCheckStackView.distribution = .fillProportionally
+        
+        ageChangeLabel.text = "나이로 입력하기"
+        ageChangeLabel.font = UIFont.systemFont(ofSize: 14)
+        
+        let checkedImage = UIImage(systemName: "checkmark.square.fill")
+        let uncheckedImage = UIImage(systemName: "square")
+
+        ageCheckboxButton.setImage(uncheckedImage, for: .normal)
+        ageCheckboxButton.setImage(checkedImage, for: .selected)
+        
+        ageCheckboxButton.tintColor = UIColor(named: "Gray4")
+        ageCheckStackView.addArrangedSubview(ageCheckboxButton)
+        ageCheckStackView.addArrangedSubview(ageChangeLabel)
+        
+        ageCheckboxButton.isSelected = false
+        
+        self.addSubview(ageCheckStackView)
+        
+        ageCheckStackView.snp.makeConstraints{make in
+            make.top.equalTo(totalBirthdayStackView.snp.bottom).offset(5)
+            make.leading.trailing.equalToSuperview()
+        }
+        
+        ageCheckboxButton.snp.makeConstraints{make in
+            make.height.equalTo(30)
+            make.width.equalTo(30)
+        }
+        ageChangeLabel.snp.makeConstraints{make in
+            make.height.equalTo(30)
+        }
+    }
+    
+    func updateCheckboxColor(){
+        if ageCheckboxButton.isSelected{
+            ageCheckboxButton.tintColor = UIColor(named: "PrimaryColor")
+            ageInputTextFeild.isEnabled = true
+            birthdayStackView.backgroundColor = UIColor(named: "Gray1")
+            ageInputTextFeild.backgroundColor = UIColor.clear
+        }else {
+            ageCheckboxButton.tintColor = UIColor(named: "Gray4")
+            ageInputTextFeild.isEnabled = false
+            birthdayStackView.backgroundColor = UIColor.clear
+            ageInputTextFeild.backgroundColor = UIColor(named: "Gray1")
         }
     }
 }
