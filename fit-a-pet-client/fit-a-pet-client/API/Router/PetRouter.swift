@@ -8,6 +8,7 @@ enum PetRouter: URLRequestConvertible {
     case registPet(petName: String, species: String, gender: String, neutralization: Bool, birthdate: String)
     case userPetsList, userPetInfoList
     case petTotalInfoCheck(petId: Int)
+    case petInfoEdit(petId: Int, combinedData: [String:Any])
     
     //pet care
     case createCare(combinedData: [String:Any], petId: Int)
@@ -22,6 +23,8 @@ enum PetRouter: URLRequestConvertible {
             return .post
         case .checkCareCategory, .userPetsList, .userPetInfoList, .userPetCareInfoList, .petCareComplete, .petTotalInfoCheck:
             return .get
+        case .petInfoEdit:
+            return .put
         }
     }
     var baseURL: URL {
@@ -36,7 +39,7 @@ enum PetRouter: URLRequestConvertible {
             return "v2/users/\(UserDefaults.standard.string(forKey: "id")!)/pets/categories-check"
         case .registPet, .userPetCareInfoList, .createCare, .checkCareCategory, .petCareComplete, .userPetInfoList:
             return "v2/pets"
-        case .petTotalInfoCheck(let petId):
+        case .petTotalInfoCheck(let petId), .petInfoEdit(let petId, _):
             return "v2/pets/\(petId)"
         }
     }
@@ -47,8 +50,7 @@ enum PetRouter: URLRequestConvertible {
             return ["petName": petName, "species": species, "gender": gender, "neutralization": neutralization, "birthdate": birthdate]
         case let .careCategoryCheck(categoryName, pets):
             return ["categoryName": categoryName, "pets": pets]
-        
-        case .checkCareCategory, .userPetsList, .createCare, .userPetInfoList, .userPetCareInfoList, .petCareComplete, .petTotalInfoCheck:
+        case .checkCareCategory, .userPetsList, .createCare, .userPetInfoList, .userPetCareInfoList, .petCareComplete, .petTotalInfoCheck, .petInfoEdit:
             return [:]
         }
     }
@@ -82,6 +84,11 @@ enum PetRouter: URLRequestConvertible {
             url = url.appendingPathComponent("/\(petId)/cares/\(careId)/care-dates/\(caredateId)")
             request = URLRequest(url: url)
             request.httpMethod = method.rawValue
+            
+        case .petInfoEdit(_ , let combinedData):
+            request = URLRequest(url: url)
+            request.httpMethod = method.rawValue
+            request = try JSONEncoding.default.encode(request, withJSONObject: combinedData)
             
         default:
             request = URLRequest.createURLRequestWithBody(url: url, method: method, parameters: parameters)

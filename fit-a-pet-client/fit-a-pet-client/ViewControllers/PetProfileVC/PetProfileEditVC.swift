@@ -27,6 +27,7 @@ class PetProfileEditVC: CustomNavigationBar{
         
         self.basicUserInofoView.nameInputView.textInputField.delegate = self
         self.basicUserInofoView.birthdayView.ageInputTextFeild.delegate = self
+        self.feedInputView.textInputField.delegate = self
         
         NotificationCenter.default.addObserver(self, selector: #selector(handleCellSelectedFromGenderPanModal(_:)), name: .cellSelectedFromGenderPanModal, object: nil)
     }
@@ -111,6 +112,7 @@ class PetProfileEditVC: CustomNavigationBar{
         
         birthTapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(datePickerViewTapped))
         basicUserInofoView.birthdayView.birthdayStackView.addGestureRecognizer(birthTapGestureRecognizer)
+        editButton.addTarget(self, action: #selector(editButtonTapped), for: .touchUpInside)
     }
     
     private func petTotalInfoCheckAPI() {
@@ -132,9 +134,10 @@ class PetProfileEditVC: CustomNavigationBar{
                     let feed = petObject["feed"] as? String ?? ""
                     
                     self.basicUserInofoView.nameInputView.textInputField.text = petName
-                    self.basicUserInofoView.genderView.selectedGenderLabel.text = (gender == "female" ? "암컷" : "수컷")
+                    self.basicUserInofoView.genderView.selectedGenderLabel.text = (gender == "FEMALE" ? "암컷" : "수컷")
                     self.basicUserInofoView.birthdayView.selectedBirthdayLabel.text = birthdate
                     self.basicUserInofoView.genderView.neuteringCheckboxButton.isSelected = neutered
+                    self.feedInputView.textInputField.text = feed
                     self.basicUserInofoView.genderView.updateCheckboxColor()
                     self.editButton.backgroundColor = UIColor(named: "PrimaryColor")
                     
@@ -192,19 +195,7 @@ class PetProfileEditVC: CustomNavigationBar{
         let date =  DateFormatterUtils.formatFullDate(formattedDate!, from: "yyyy-MM-dd HH:mm:ss", to: "yyyy.MM.dd (E)")
         
         basicUserInofoView.birthdayView.selectedBirthdayLabel.text = date
-        
-        let calendar = Calendar.current
-        
-        let selectedComponents = calendar.dateComponents([.year], from: basicUserInofoView.datePicker.date)
-        let year = selectedComponents.year!
-        
-        let currentDate = Date()
-        let currentComponents = calendar.dateComponents([.year], from: currentDate)
-        let currentYear = currentComponents.year!
-        
-        let age = Int(currentYear) - Int(year)
-        basicUserInofoView.birthdayView.ageInputTextFeild.text = "\(age)"
-        PetDataManager.petEditData.birthdate = date!
+        PetDataManager.petEditData.birthdate = formattedDate!
     }
     
     @objc func checkboxButtonTapped() {
@@ -228,7 +219,7 @@ class PetProfileEditVC: CustomNavigationBar{
     @objc func choosePhotoButtonTapped(_ sender: UIButton) {
            imagePickerUtil.present(from: self) { image in
                if let selectedImage = image {
-                   // 선택한 이미지 처리 코드
+                   // 선택한 이미지 처리 코드 
                } else {
                    //이미지 선택하지 않은 경우 처리 코드
                }
@@ -236,28 +227,65 @@ class PetProfileEditVC: CustomNavigationBar{
        }
 
     @objc private func handleCellSelectedFromGenderPanModal(_ notification: Notification){
-        self.basicUserInofoView.genderView.selectedGenderLabel.text =  (PetDataManager.petEditData.gender == "female" ? "암컷" : "수컷")
+        self.basicUserInofoView.genderView.selectedGenderLabel.text =  (PetDataManager.petEditData.gender == "FEMALE" ? "암컷" : "수컷")
     }
+    
+    @objc private func editButtonTapped(){
+        
+        self.view.endEditing(true)//모든 textField 편집 종료
+        
+        let petEditData = PetDataManager.petEditData
+        
+        let combinedData: [String: Any] = [
+            "petName": petEditData.petName,
+            "gender": petEditData.gender,
+            "neutralization": petEditData.neutered,
+            "birthdate": petEditData.birthdate,
+            "species": petEditData.species,
+            "feed": petEditData.feed
+        ]
+        
+        AuthorizationAlamofire.shared.petInfoEdit(SelectedPetId.petId, combinedData){ result in
+            switch result {
+            case .success(let data):
+                if let responseData = data,
+                   let jsonObject = try? JSONSerialization.jsonObject(with: responseData, options: []) as? [String: Any] {
+                    print("response jsonData: \(jsonObject)")
+                    self.navigationController?.popViewController(animated: true)
+                }
+                
+            case .failure(let error):
+                print("Error: \(error)")
+            }
+        }
+    }
+    
 }
 extension PetProfileEditVC: UITextFieldDelegate{
 
-    func textFieldDidEndEditing(_ textfiled: UITextField) {
+    func textFieldDidEndEditing(_ textfield: UITextField) {
         
-        if let text = textfiled.text{
-            if textfiled == self.basicUserInofoView.nameInputView.textInputField {
+        if let text = textfield.text{
+            if textfield == self.basicUserInofoView.nameInputView.textInputField {
                 PetDataManager.petEditData.petName = text
                 print(PetDataManager.petEditData)
-                print("Entered Text: \(text)")
-            } else if textfiled == self.basicUserInofoView.birthdayView.ageInputTextFeild{
+            } else if textfield == self.basicUserInofoView.birthdayView.ageInputTextFeild{
                 let calendar = Calendar.current
                 let currentDate = Date()
                 let currentComponents = calendar.dateComponents([.year], from: currentDate)
                 let currentYear = currentComponents.year!
-                let birthdate = Int(currentYear) - Int(text)! - 1
+                let birthdateComponents = DateComponents(year: currentYear - Int(text)! + 1, month: 1, day: 1)
+                let birthdate = calendar.date(from: birthdateComponents)!
+
+                let dateFormatter = DateFormatter()
+                dateFormatter.dateFormat = "yyyy-MM-dd"
+                let formattedBirthdate = dateFormatter.string(from: birthdate)
+
+                PetDataManager.petEditData.birthdate = formattedBirthdate
                 
-                PetDataManager.petEditData.birthdate = String(birthdate)
+            } else if textfield == self.feedInputView.textInputField{
+                PetDataManager.petEditData.feed = text
                 print(PetDataManager.petEditData)
-                
             }
         }
     }

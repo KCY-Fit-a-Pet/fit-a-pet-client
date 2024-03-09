@@ -101,7 +101,7 @@ extension SelectGenderPanModalVC: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        let gender = (genderList[indexPath.row] == "암컷" ? "female" : "male")
+        let gender = (genderList[indexPath.row] == "암컷" ? "FEMALE" : "MALE")
         PetDataManager.petEditData.gender = gender
         NotificationCenter.default.post(name: .cellSelectedFromGenderPanModal, object: nil)
         
