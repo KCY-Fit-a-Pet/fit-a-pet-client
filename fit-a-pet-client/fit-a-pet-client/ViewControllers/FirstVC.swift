@@ -405,7 +405,7 @@ extension FirstVC: ASAuthorizationControllerPresentationContextProviding, ASAuth
             let tokeStr = String(data: idToken, encoding: .utf8)
          
             print("User ID : \(userIdentifier)")
-            print("User Email : \(email ?? "")")
+            print("User Email : \(String(describing: email))")
             print("User Name : \((fullName?.givenName ?? "") + (fullName?.familyName ?? ""))")
             print("token : \(String(describing: tokeStr!))")
             

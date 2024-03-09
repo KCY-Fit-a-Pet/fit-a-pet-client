@@ -72,13 +72,15 @@ class BirthdayView: UIView {
         selectedBirthdayLabel.text =  DateFormatterUtils.formatFullDate(formattedDate!, from: "yyyy-MM-dd HH:mm:ss", to: "yyyy.MM.dd (E)")
 
         birthdayChangeBtn.setImage(UIImage(named: "calendar"), for: .normal)
-        birthdayChangeBtn.isEnabled = true
+        birthdayChangeBtn.isEnabled = false
         
         totalBirthdayStackView.axis = .vertical
+        totalBirthdayStackView.spacing = 8
         totalBirthdayStackView.addArrangedSubview(birthdayLabel)
         totalBirthdayStackView.addArrangedSubview(birthdayStackView)
 
         totalAgeStackView.axis = .vertical
+        totalAgeStackView.spacing = 8
         totalAgeStackView.addArrangedSubview(ageLabel)
         totalAgeStackView.addArrangedSubview(ageStackView)
 
@@ -93,11 +95,9 @@ class BirthdayView: UIView {
 
         birthdayLabel.snp.makeConstraints { make in
             make.height.equalTo(25)
-            make.top.equalToSuperview().offset(8)
         }
-        
+
         birthdayStackView.snp.makeConstraints{make in
-            make.top.equalTo(birthdayLabel.snp.bottom).offset(8)
             make.height.equalTo(56)
         }
         

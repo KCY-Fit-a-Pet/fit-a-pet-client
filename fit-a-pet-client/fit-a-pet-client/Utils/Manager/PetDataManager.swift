@@ -34,13 +34,13 @@ struct PetEdit: Decodable {
 
 struct PetEditData: Codable{
     let id: Int
-    let petName: String
-    let petProfileImage: String
-    let gender: String
-    let neutered: Bool
-    let birthdate: String
-    let species: String
-    let feed: String
+    var petName: String
+    var petProfileImage: String
+    var gender: String
+    var neutered: Bool
+    var birthdate: String
+    var species: String
+    var feed: String
 }
 
 

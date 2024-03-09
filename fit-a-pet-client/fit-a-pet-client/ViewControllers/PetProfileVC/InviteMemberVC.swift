@@ -207,7 +207,7 @@ class InviteMemberVC: UIViewController{
                     if let responseData = data,
                        let jsonObject = try? JSONSerialization.jsonObject(with: responseData, options: []) as? [String: Any] {
                         print("response jsonData: \(jsonObject)")
-                        NotificationCenter.default.post(name: .InviteManagerDataUpdated, object: nil)
+                        NotificationCenter.default.post(name: .inviteManagerDataUpdated, object: nil)
                     }
                     
                 case .failure(let error):
@@ -232,7 +232,7 @@ class InviteMemberVC: UIViewController{
                     if let responseData = data,
                        let jsonObject = try? JSONSerialization.jsonObject(with: responseData, options: []) as? [String: Any] {
                         print("response jsonData: \(jsonObject)")
-                        NotificationCenter.default.post(name: .InviteManagerDataUpdated, object: nil)
+                        NotificationCenter.default.post(name: .inviteManagerDataUpdated, object: nil)
                     }
                     
                 case .failure(let error):

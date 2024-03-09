@@ -63,7 +63,7 @@ class ManagerDelegationVC: CustomNavigationBar{
                             if let responseData = data,
                                let jsonObject = try? JSONSerialization.jsonObject(with: responseData, options: []) as? [String: Any] {
                                 print("response jsonData: \(jsonObject)")
-                                NotificationCenter.default.post(name: .ManagerCancellationBtnTapped, object: nil)
+                                NotificationCenter.default.post(name: .managerCancellationBtnTapped, object: nil)
                             }
                             
                         case .failure(let error):

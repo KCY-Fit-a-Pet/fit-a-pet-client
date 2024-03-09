@@ -15,7 +15,8 @@ class PetProfileEditVC: CustomNavigationBar{
     private let deleteButton = UIButton()
     private let editButton = CustomNextBtn(title: "수정하기")
     
-    var tapGestureRecognizer: UITapGestureRecognizer!
+    var birthTapGestureRecognizer: UITapGestureRecognizer!
+    var genderTapGestureRecognizer: UITapGestureRecognizer!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -23,7 +24,16 @@ class PetProfileEditVC: CustomNavigationBar{
         initView()
         setupActions()
         petTotalInfoCheckAPI()
+        
+        self.basicUserInofoView.nameInputView.textInputField.delegate = self
+        self.basicUserInofoView.birthdayView.ageInputTextFeild.delegate = self
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(handleCellSelectedFromGenderPanModal(_:)), name: .cellSelectedFromGenderPanModal, object: nil)
     }
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
+
     
     func initView(){
         view.backgroundColor = .white
@@ -55,8 +65,6 @@ class PetProfileEditVC: CustomNavigationBar{
             make.centerX.equalToSuperview()
             make.top.equalTo(scrollView.snp.top).offset(16)
         }
-        
-        basicUserInofoView.layer.borderWidth = 2
         
         basicUserInofoView.snp.makeConstraints{make in
             make.top.equalTo(choosePhotoBtn.snp.bottom).offset(16)
@@ -94,13 +102,15 @@ class PetProfileEditVC: CustomNavigationBar{
     
     private func setupActions() {
         choosePhotoBtn.addTarget(self, action: #selector(choosePhotoButtonTapped), for: .touchUpInside)
-        basicUserInofoView.genderView.genderChangeBtn.addTarget(self, action: #selector(showMenu), for: .touchUpInside)
         basicUserInofoView.genderView.neuteringCheckboxButton.addTarget(self, action: #selector(checkboxButtonTapped), for: .touchUpInside)
         basicUserInofoView.birthdayView.ageCheckboxButton.addTarget(self, action: #selector(ageCheckboxButtonTapped), for: .touchUpInside)
         basicUserInofoView.datePicker.addTarget(self, action: #selector(datePickerValueChanged), for: .valueChanged)
         
-        tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(datePickerViewTapped))
-        basicUserInofoView.birthdayView.birthdayStackView.addGestureRecognizer(tapGestureRecognizer)
+        genderTapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(genderViewTapped))
+        basicUserInofoView.genderView.genderStackView.addGestureRecognizer(genderTapGestureRecognizer)
+        
+        birthTapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(datePickerViewTapped))
+        basicUserInofoView.birthdayView.birthdayStackView.addGestureRecognizer(birthTapGestureRecognizer)
     }
     
     private func petTotalInfoCheckAPI() {
@@ -124,7 +134,9 @@ class PetProfileEditVC: CustomNavigationBar{
                     self.basicUserInofoView.nameInputView.textInputField.text = petName
                     self.basicUserInofoView.genderView.selectedGenderLabel.text = (gender == "female" ? "암컷" : "수컷")
                     self.basicUserInofoView.birthdayView.selectedBirthdayLabel.text = birthdate
-                    
+                    self.basicUserInofoView.genderView.neuteringCheckboxButton.isSelected = neutered
+                    self.basicUserInofoView.genderView.updateCheckboxColor()
+                    self.editButton.backgroundColor = UIColor(named: "PrimaryColor")
                     
                     let newPetEditData = PetEditData(id: id, petName: petName, petProfileImage: petProfileImage, gender: gender, neutered: neutered, birthdate: birthdate, species: species, feed: feed)
                     
@@ -138,23 +150,9 @@ class PetProfileEditVC: CustomNavigationBar{
         }
     }
     
-    @objc private func showMenu() {
-
-        let maleMenuItem = UIAction(title: "수컷") { _ in
-            self.basicUserInofoView.genderView.selectedGenderLabel.text = "수컷"
-        }
-        
-        let femaleMenuItem = UIAction(title: "암컷") { _ in
-            self.basicUserInofoView.genderView.selectedGenderLabel.text = "암컷"
-        }
-        
-        let menu = UIMenu(
-            title: "",
-            children: [maleMenuItem, femaleMenuItem]
-        )
-        
-        self.basicUserInofoView.genderView.genderChangeBtn.menu = menu
-        self.basicUserInofoView.genderView.genderChangeBtn.showsMenuAsPrimaryAction = true
+    @objc private func genderViewTapped() {
+        let nextVC = SelectGenderPanModalVC()
+        self.presentPanModal(nextVC)
     }
     
     @objc func datePickerViewTapped() {
@@ -191,8 +189,9 @@ class PetProfileEditVC: CustomNavigationBar{
     @objc func datePickerValueChanged() {
 
         let formattedDate = DateFormatterUtils.formatDateString(DateFormatterUtils.dateFormatter.string(from: basicUserInofoView.datePicker.date))
+        let date =  DateFormatterUtils.formatFullDate(formattedDate!, from: "yyyy-MM-dd HH:mm:ss", to: "yyyy.MM.dd (E)")
         
-        basicUserInofoView.birthdayView.selectedBirthdayLabel.text = DateFormatterUtils.formatFullDate(formattedDate!, from: "yyyy-MM-dd HH:mm:ss", to: "yyyy.MM.dd (E)")
+        basicUserInofoView.birthdayView.selectedBirthdayLabel.text = date
         
         let calendar = Calendar.current
         
@@ -205,6 +204,7 @@ class PetProfileEditVC: CustomNavigationBar{
         
         let age = Int(currentYear) - Int(year)
         basicUserInofoView.birthdayView.ageInputTextFeild.text = "\(age)"
+        PetDataManager.petEditData.birthdate = date!
     }
     
     @objc func checkboxButtonTapped() {
@@ -217,9 +217,9 @@ class PetProfileEditVC: CustomNavigationBar{
         self.basicUserInofoView.birthdayView.ageCheckboxButton.isSelected.toggle()
         
         if self.basicUserInofoView.birthdayView.ageCheckboxButton.isSelected{
-            tapGestureRecognizer.isEnabled = false
+            birthTapGestureRecognizer.isEnabled = false
         }else{
-            tapGestureRecognizer.isEnabled = true
+            birthTapGestureRecognizer.isEnabled = true
         }
         
         self.basicUserInofoView.birthdayView.updateCheckboxColor()
@@ -234,4 +234,35 @@ class PetProfileEditVC: CustomNavigationBar{
                }
            }
        }
+
+    @objc private func handleCellSelectedFromGenderPanModal(_ notification: Notification){
+        self.basicUserInofoView.genderView.selectedGenderLabel.text =  (PetDataManager.petEditData.gender == "female" ? "암컷" : "수컷")
+    }
+}
+extension PetProfileEditVC: UITextFieldDelegate{
+
+    func textFieldDidEndEditing(_ textfiled: UITextField) {
+        
+        if let text = textfiled.text{
+            if textfiled == self.basicUserInofoView.nameInputView.textInputField {
+                PetDataManager.petEditData.petName = text
+                print(PetDataManager.petEditData)
+                print("Entered Text: \(text)")
+            } else if textfiled == self.basicUserInofoView.birthdayView.ageInputTextFeild{
+                let calendar = Calendar.current
+                let currentDate = Date()
+                let currentComponents = calendar.dateComponents([.year], from: currentDate)
+                let currentYear = currentComponents.year!
+                let birthdate = Int(currentYear) - Int(text)! - 1
+                
+                PetDataManager.petEditData.birthdate = String(birthdate)
+                print(PetDataManager.petEditData)
+                
+            }
+        }
+    }
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
+    }
 }

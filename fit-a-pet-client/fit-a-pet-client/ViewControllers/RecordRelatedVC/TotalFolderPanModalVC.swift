@@ -21,7 +21,7 @@ class TotalFolderPanModalVC: UIViewController {
             self.closeButtonTapped()
         }
         
-        NotificationCenter.default.addObserver(self, selector: #selector(handleCellSelectionNotification(_:)), name: .cellSelectedNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(handleCellSelectedFolder(_:)), name: .cellSelectedFolder, object: nil)
     }
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
@@ -50,7 +50,7 @@ class TotalFolderPanModalVC: UIViewController {
     }
     
     @objc func closeButtonTapped() {
-        NotificationCenter.default.removeObserver(self, name: .cellSelectedNotification, object: nil)
+        NotificationCenter.default.removeObserver(self, name: .cellSelectedFolder, object: nil)
         self.dismiss(animated: true, completion: nil)
     }
     
@@ -62,7 +62,7 @@ class TotalFolderPanModalVC: UIViewController {
         }
     }
     
-    @objc func handleCellSelectionNotification(_ notification: Notification) {
+    @objc func handleCellSelectedFolder(_ notification: Notification) {
         guard let userInfo = notification.userInfo as? [String: Any],
               let memoCategoryId = userInfo["memoCategoryId"] as? Int,
               let memoCategoryName = userInfo["memoCategoryName"] as? String,
@@ -74,8 +74,8 @@ class TotalFolderPanModalVC: UIViewController {
         }
         print("Selected memoCategoryId: \(memoCategoryId), memoCategoryName: \(memoCategoryName), petName: \(petName), type: \(type), petId: \(petId)")
         
-        NotificationCenter.default.removeObserver(self, name: .cellSelectedNotification, object: nil)
-        NotificationCenter.default.post(name: .cellSelectedNotificationFromPanModal, object: nil, userInfo: userInfo)
+        NotificationCenter.default.removeObserver(self, name: .cellSelectedFolder, object: nil)
+        NotificationCenter.default.post(name: .cellSelectedFromTotalFolderPanModal, object: nil, userInfo: userInfo)
 
         self.dismiss(animated: true, completion: nil)
     }

@@ -20,7 +20,7 @@ class RootFolderPanModalVC: UIViewController {
             self.closeButtonTapped()
         }
         
-        NotificationCenter.default.addObserver(self, selector: #selector(handleCellSelectionNotification(_:)), name: .cellSelectedNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(handleCellSelectionNotification(_:)), name: .cellSelectedFolder, object: nil)
     }
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
@@ -49,7 +49,7 @@ class RootFolderPanModalVC: UIViewController {
     }
     
     @objc func closeButtonTapped() {
-        NotificationCenter.default.removeObserver(self, name: .cellSelectedNotification, object: nil)
+        NotificationCenter.default.removeObserver(self, name: .cellSelectedFolder, object: nil)
         self.dismiss(animated: true, completion: nil)
     }
     
@@ -72,8 +72,8 @@ class RootFolderPanModalVC: UIViewController {
         }
         print("Selected memoCategoryId: \(memoCategoryId), memoCategoryName: \(memoCategoryName), petId: \(petId), petName: \(petName)")
         
-        NotificationCenter.default.removeObserver(self, name: .cellSelectedNotification, object: nil)
-        NotificationCenter.default.post(name: .cellSelectedNotificationFromRootPanModal, object: nil, userInfo: userInfo)
+        NotificationCenter.default.removeObserver(self, name: .cellSelectedFolder, object: nil)
+        NotificationCenter.default.post(name: .cellSelectedFromRootFolderPanModal, object: nil, userInfo: userInfo)
 
         self.dismiss(animated: true, completion: nil)
     }

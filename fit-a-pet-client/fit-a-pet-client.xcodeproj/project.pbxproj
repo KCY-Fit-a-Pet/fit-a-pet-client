@@ -135,6 +135,9 @@
 		4AE293FA2B71495A00920C0B /* PetDetailCareListCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AE293F92B71495A00920C0B /* PetDetailCareListCollectionViewCell.swift */; };
 		4AE293FE2B714EC100920C0B /* PetDetailScheduleListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AE293FD2B714EC100920C0B /* PetDetailScheduleListView.swift */; };
 		4AE359C52B933B3100EB6E4A /* PetRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AE359C42B933B3100EB6E4A /* PetRouter.swift */; };
+		4AE7DC9F2B9CC001002BA0F4 /* SelectGenderPanModalVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AE7DC9E2B9CC001002BA0F4 /* SelectGenderPanModalVC.swift */; };
+		4AE7DCA12B9CC344002BA0F4 /* CustomTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AE7DCA02B9CC344002BA0F4 /* CustomTableView.swift */; };
+		4AE7DCA32B9CC41F002BA0F4 /* CustomTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AE7DCA22B9CC41F002BA0F4 /* CustomTableViewCell.swift */; };
 		4AEDCE012B4C718E0043E872 /* PetCareRegistVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AEDCE002B4C718E0043E872 /* PetCareRegistVC.swift */; };
 		4AF0C84E2B24667500A45EEE /* FidnInputIdVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AF0C84D2B24667500A45EEE /* FidnInputIdVC.swift */; };
 		4AF0C8502B24765400A45EEE /* ResetPwVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AF0C84F2B24765400A45EEE /* ResetPwVC.swift */; };
@@ -284,6 +287,9 @@
 		4AE293F92B71495A00920C0B /* PetDetailCareListCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PetDetailCareListCollectionViewCell.swift; sourceTree = "<group>"; };
 		4AE293FD2B714EC100920C0B /* PetDetailScheduleListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PetDetailScheduleListView.swift; sourceTree = "<group>"; };
 		4AE359C42B933B3100EB6E4A /* PetRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PetRouter.swift; sourceTree = "<group>"; };
+		4AE7DC9E2B9CC001002BA0F4 /* SelectGenderPanModalVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectGenderPanModalVC.swift; sourceTree = "<group>"; };
+		4AE7DCA02B9CC344002BA0F4 /* CustomTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTableView.swift; sourceTree = "<group>"; };
+		4AE7DCA22B9CC41F002BA0F4 /* CustomTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTableViewCell.swift; sourceTree = "<group>"; };
 		4AEDCE002B4C718E0043E872 /* PetCareRegistVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PetCareRegistVC.swift; sourceTree = "<group>"; };
 		4AF0C84D2B24667500A45EEE /* FidnInputIdVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FidnInputIdVC.swift; sourceTree = "<group>"; };
 		4AF0C84F2B24765400A45EEE /* ResetPwVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResetPwVC.swift; sourceTree = "<group>"; };
@@ -467,6 +473,8 @@
 				4A828D8C2B619432006AE70A /* CustomCheckPopupView.swift */,
 				4A9936572B642B7E00B7B21A /* CustomVerticalView.swift */,
 				4A2974A72B7FD5D100587AF8 /* CustomPanModalView.swift */,
+				4AE7DCA02B9CC344002BA0F4 /* CustomTableView.swift */,
+				4AE7DCA22B9CC41F002BA0F4 /* CustomTableViewCell.swift */,
 			);
 			path = CustomView;
 			sourceTree = "<group>";
@@ -701,6 +709,7 @@
 				4A2D55D62B8663FE0079FDC7 /* MemberManagementVC.swift */,
 				4A2D55E12B87B7170079FDC7 /* InviteMemberVC.swift */,
 				4A6106C32B8CEEB4000502B9 /* ManagerDelegationVC.swift */,
+				4AE7DC9E2B9CC001002BA0F4 /* SelectGenderPanModalVC.swift */,
 			);
 			path = PetProfileVC;
 			sourceTree = "<group>";
@@ -971,13 +980,16 @@
 				4A0750D82B0D130F00281A4C /* PetRegistrationManager.swift in Sources */,
 				4AA999922A8485A500E495FA /* AppDelegate.swift in Sources */,
 				4AC6384B2B7A9F72006DB9B5 /* RecordCustomCheckPopupVC.swift in Sources */,
+				4AE7DCA32B9CC41F002BA0F4 /* CustomTableViewCell.swift in Sources */,
 				4A2D55D72B8663FE0079FDC7 /* MemberManagementVC.swift in Sources */,
 				4A9936582B642B7E00B7B21A /* CustomVerticalView.swift in Sources */,
 				4A1B5E492B79476A00A076A7 /* PetImageCollectionViewCell.swift in Sources */,
 				4A6106D02B8D19B1000502B9 /* UserInfoRouter.swift in Sources */,
 				4ABE53002B5AD92F000EA41D /* PetDataManager.swift in Sources */,
 				4A2D55DE2B86734D0079FDC7 /* MemberView.swift in Sources */,
+				4AE7DCA12B9CC344002BA0F4 /* CustomTableView.swift in Sources */,
 				4A88D6172B53ABD2003A2D0F /* PetCareRegistrationManager.swift in Sources */,
+				4AE7DC9F2B9CC001002BA0F4 /* SelectGenderPanModalVC.swift in Sources */,
 				4A4B085C2B77D2DF00959683 /* RecordVCMethod.swift in Sources */,
 				4A2D55D52B84C87F0079FDC7 /* NoRecordDataView.swift in Sources */,
 				4A9936542B64231B00B7B21A /* CalendarView.swift in Sources */,

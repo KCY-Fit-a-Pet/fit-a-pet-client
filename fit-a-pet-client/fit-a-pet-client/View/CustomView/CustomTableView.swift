@@ -2,9 +2,9 @@
 import UIKit
 import SnapKit
 
-class RecordFolderView: UIView{
+class CustomTableView: UIView{
     
-    let folderTableView = UITableView()
+    let tableView = UITableView()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -19,11 +19,11 @@ class RecordFolderView: UIView{
     
     func setupView() {
       
-        addSubview(folderTableView)
+        addSubview(tableView)
         
-        folderTableView.register(FolderTableViewCell.self, forCellReuseIdentifier: "FolderTableViewCell") 
+        tableView.register(CustomTableViewCell.self, forCellReuseIdentifier: "CustomCell")
     
-        folderTableView.snp.makeConstraints { make in
+        tableView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
     }

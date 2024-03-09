@@ -93,7 +93,7 @@ class EditUserNameVC: CustomNavigationBar {
                         let object = try?JSONSerialization.jsonObject(with: responseData, options: []) as? NSDictionary
                         guard let jsonObject = object else {return}
                         print("respose jsonData: \(jsonObject)")
-                        NotificationCenter.default.post(name: .ManagerDelegationBtnTapped, object: nil)
+                        NotificationCenter.default.post(name: .managerDelegationBtnTapped, object: nil)
                         self.navigationController?.popViewController(animated: true)
                     }
                 case .failure(let error):
