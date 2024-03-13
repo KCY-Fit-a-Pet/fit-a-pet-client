@@ -105,10 +105,10 @@ extension FirstVC{
         let googleLogin = UIButton()
         let appleLogin = UIButton()
         
-        naverLogin.setImage(UIImage(named: "naver_icon"), for: .normal)
-        kakaoLogin.setImage(UIImage(named: "kakao_icon"), for: .normal)
-        googleLogin.setImage(UIImage(named: "google_icon"), for: .normal)
-        appleLogin.setImage(UIImage(named: "apple_icon"), for: .normal)
+        naverLogin.setImage(UIImage(named: "icon_oauth_naver"), for: .normal)
+        kakaoLogin.setImage(UIImage(named: "icon_oauth_kakao"), for: .normal)
+        googleLogin.setImage(UIImage(named: "icon_oauth_google"), for: .normal)
+        appleLogin.setImage(UIImage(named: "icon_oauth_apple"), for: .normal)
         
         
         kakaoLogin.addTarget(self, action: #selector(kakaoLoginBtnTapped(_:)), for: .touchUpInside)
@@ -252,7 +252,7 @@ extension FirstVC{
                 let profilePicUrl = user.profile?.imageURL(withDimension: 320)
                 
                 print("user: \(user)")
-                print("userId: \(userId)")
+                print("userId: \(String(describing: userId))")
                 print("emailAddress: \(String(describing: emailAddress))")
                 print("fullName: \(String(describing: fullName))")
                 print("profileUrl: \(String(describing: profilePicUrl))")
@@ -264,7 +264,7 @@ extension FirstVC{
                     let idToken = user.idToken?.tokenString
                     
                     KeychainHelper.saveTempToken(tempToken: idToken!)
-                    print("idToken: \(idToken)")
+                    print("idToken: \(String(describing: idToken))")
                     
                     OauthInfo.provider = "google"
                     OauthInfo.oauthId = userId!

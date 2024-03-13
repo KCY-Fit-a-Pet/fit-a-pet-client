@@ -115,32 +115,33 @@ extension AppDelegate: MessagingDelegate {
         print("APNs fcm Token: \(String(describing: fcmToken!))")
        // sendDeviceTokenWithAPI(fcmToken: fcmToken ?? "")
         
-//        AuthorizationAlamofire.shared.registDeviceToken(String(describing: fcmToken!), device.systemVersion, modelName) {result in
-//            switch result {
-//            case .success(let data):
-//                if let responseData = data,
-//                   let jsonObject = try? JSONSerialization.jsonObject(with: responseData, options: []) as? [String: Any] {
-//                    print("response jsonData: \(jsonObject)")
-//                    
-//                }
-//                
-//            case .failure(let error):
-//                print("Error: \(error)")
-//            }
-//        }
-//        
-//        AuthorizationAlamofire.shared.pushNotificationAPI{result in
-//            switch result {
-//            case .success(let data):
-//                if let responseData = data,
-//                   let jsonObject = try? JSONSerialization.jsonObject(with: responseData, options: []) as? [String: Any] {
-//                    print("response jsonData: \(jsonObject)")
-//                }
-//                
-//            case .failure(let error):
-//                print("Error: \(error)")
-//            }
-//        }
+        AuthorizationAlamofire.shared.registDeviceToken(String(describing: fcmToken!), device.systemVersion, modelName) {result in
+            switch result {
+            case .success(let data):
+                if let responseData = data,
+                   let jsonObject = try? JSONSerialization.jsonObject(with: responseData, options: []) as? [String: Any] {
+                    print("response jsonData: \(jsonObject)")
+                    
+                    AuthorizationAlamofire.shared.pushNotificationAPI{result in
+                        switch result {
+                        case .success(let data):
+                            if let responseData = data,
+                               let jsonObject = try? JSONSerialization.jsonObject(with: responseData, options: []) as? [String: Any] {
+                                print("response jsonData: \(jsonObject)")
+                            }
+                            
+                        case .failure(let error):
+                            print("Error: \(error)")
+                        }
+                    }
+                }
+                
+            case .failure(let error):
+                print("Error: \(error)")
+            }
+        }
+        
+       
         
     }
 }

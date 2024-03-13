@@ -9,6 +9,7 @@ enum PetRouter: URLRequestConvertible {
     case userPetsList, userPetInfoList
     case petTotalInfoCheck(petId: Int)
     case petInfoEdit(petId: Int, combinedData: [String:Any])
+    case petDelete(petId: Int)
     
     //pet care
     case createCare(combinedData: [String:Any], petId: Int)
@@ -25,6 +26,8 @@ enum PetRouter: URLRequestConvertible {
             return .get
         case .petInfoEdit:
             return .put
+        case .petDelete:
+            return .delete
         }
     }
     var baseURL: URL {
@@ -39,7 +42,7 @@ enum PetRouter: URLRequestConvertible {
             return "v2/users/\(UserDefaults.standard.string(forKey: "id")!)/pets/categories-check"
         case .registPet, .userPetCareInfoList, .createCare, .checkCareCategory, .petCareComplete, .userPetInfoList:
             return "v2/pets"
-        case .petTotalInfoCheck(let petId), .petInfoEdit(let petId, _):
+        case .petTotalInfoCheck(let petId), .petInfoEdit(let petId, _), .petDelete(let petId):
             return "v2/pets/\(petId)"
         }
     }
@@ -50,7 +53,7 @@ enum PetRouter: URLRequestConvertible {
             return ["petName": petName, "species": species, "gender": gender, "neutralization": neutralization, "birthdate": birthdate]
         case let .careCategoryCheck(categoryName, pets):
             return ["categoryName": categoryName, "pets": pets]
-        case .checkCareCategory, .userPetsList, .createCare, .userPetInfoList, .userPetCareInfoList, .petCareComplete, .petTotalInfoCheck, .petInfoEdit:
+        case .checkCareCategory, .userPetsList, .createCare, .userPetInfoList, .userPetCareInfoList, .petCareComplete, .petTotalInfoCheck, .petInfoEdit, .petDelete:
             return [:]
         }
     }
@@ -66,7 +69,7 @@ enum PetRouter: URLRequestConvertible {
             request.httpMethod = method.rawValue
             request = try JSONEncoding.default.encode(request, withJSONObject: combinedData)
             
-        case .userPetsList, .userPetInfoList, .petTotalInfoCheck(_):
+        case .userPetsList, .userPetInfoList, .petTotalInfoCheck(_), .petDelete(_):
             request = URLRequest(url: url)
             request.httpMethod = method.rawValue
         
@@ -89,6 +92,7 @@ enum PetRouter: URLRequestConvertible {
             request = URLRequest(url: url)
             request.httpMethod = method.rawValue
             request = try JSONEncoding.default.encode(request, withJSONObject: combinedData)
+            
             
         default:
             request = URLRequest.createURLRequestWithBody(url: url, method: method, parameters: parameters)

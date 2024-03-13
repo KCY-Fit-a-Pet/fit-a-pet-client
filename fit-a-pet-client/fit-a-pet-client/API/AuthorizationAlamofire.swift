@@ -199,6 +199,20 @@ class AuthorizationAlamofire: TokenHandling {
             }
     }
     
+    func petDelete(_ petId: Int, completion: @escaping (Result<Data?, Error>) -> Void) {
+        os_log("AuthorizationAlamofire - petDelete() called", log: .default, type: .info)
+        
+        self.session.request(PetRouter.petDelete(petId: petId))
+            .response { response in
+                switch response.result {
+                case .success(let data):
+                    completion(.success(data))
+                case .failure(let error):
+                    completion(.failure(error))
+                }
+            }
+    }
+    
     
     //MARK: UserInfoRouter
     
