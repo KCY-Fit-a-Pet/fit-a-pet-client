@@ -113,6 +113,7 @@ class PetProfileEditVC: CustomNavigationBar{
         birthTapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(datePickerViewTapped))
         basicUserInofoView.birthdayView.birthdayStackView.addGestureRecognizer(birthTapGestureRecognizer)
         editButton.addTarget(self, action: #selector(editButtonTapped), for: .touchUpInside)
+        deleteButton.addTarget(self, action: #selector(deleteButtonTapped), for: .touchUpInside)
     }
     
     private func petTotalInfoCheckAPI() {
@@ -260,6 +261,21 @@ class PetProfileEditVC: CustomNavigationBar{
         }
     }
     
+    @objc func deleteButtonTapped(){
+        AuthorizationAlamofire.shared.petDelete(SelectedPetId.petId){ result in
+            switch result {
+            case .success(let data):
+                if let responseData = data,
+                   let jsonObject = try? JSONSerialization.jsonObject(with: responseData, options: []) as? [String: Any] {
+                    print("response jsonData: \(jsonObject)")
+                    self.navigationController?.popToRootViewController(animated: true)
+                }
+                
+            case .failure(let error):
+                print("Error: \(error)")
+            }
+        }
+    }
 }
 extension PetProfileEditVC: UITextFieldDelegate{
 

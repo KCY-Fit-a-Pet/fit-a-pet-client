@@ -19,7 +19,7 @@ class CustomNavigationBar: UIViewController {
     private func setupNavigationBar(title: String) {
         // X button
         closeButton = UIButton(type: .system)
-        closeButton.setImage(UIImage(named: "close_icon"), for: .normal)
+        closeButton.setImage(UIImage(named: "icon_close"), for: .normal)
         closeButton.addTarget(self, action: #selector(closeButtonTapped), for: .touchUpInside)
         navigationItem.rightBarButtonItem = UIBarButtonItem(customView: closeButton)
         

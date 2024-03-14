@@ -48,7 +48,7 @@ class CalendarRegistrationVC: UIViewController, CalendarDateViewDelegate {
         
         navigationItem.titleView = titleView
         
-        closeBtn.setImage(UIImage(named: "close_icon"), for: .normal)
+        closeBtn.setImage(UIImage(named: "icon_close"), for: .normal)
         closeBtn.addTarget(self, action: #selector(closeBtnTapped), for: .touchUpInside)
         navigationItem.rightBarButtonItem = UIBarButtonItem(customView: closeBtn)
     }

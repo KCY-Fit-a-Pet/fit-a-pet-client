@@ -95,7 +95,7 @@ class CalendarVC: UIViewController {
         let leftItem = UIBarButtonItem(customView: leftLabel)
         navigationItem.leftBarButtonItem = leftItem
 
-        let addButton = UIBarButtonItem(image: UIImage(named: "calendar_add"), style: .plain, target: self, action: #selector(didTapAddButton))
+        let addButton = UIBarButtonItem(image: UIImage(named: "icon_add"), style: .plain, target: self, action: #selector(didTapAddButton))
         addButton.tintColor = UIColor(named: "PrimaryColor")
         navigationItem.rightBarButtonItem = addButton
     }

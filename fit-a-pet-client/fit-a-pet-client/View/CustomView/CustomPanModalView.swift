@@ -21,7 +21,7 @@ class CustomPanModalView: UIView {
     
     private let closeButton: UIButton = {
         let button = UIButton()
-        button.setImage(UIImage(named: "close_icon"), for: .normal)
+        button.setImage(UIImage(named: "icon_close"), for: .normal)
         return button
     }()
     

@@ -114,33 +114,33 @@ extension AppDelegate: MessagingDelegate {
         // TODO: - 디바이스 토큰을 보내는 서버통신 구현
         print("APNs fcm Token: \(String(describing: fcmToken!))")
        // sendDeviceTokenWithAPI(fcmToken: fcmToken ?? "")
-        
-        AuthorizationAlamofire.shared.registDeviceToken(String(describing: fcmToken!), device.systemVersion, modelName) {result in
-            switch result {
-            case .success(let data):
-                if let responseData = data,
-                   let jsonObject = try? JSONSerialization.jsonObject(with: responseData, options: []) as? [String: Any] {
-                    print("response jsonData: \(jsonObject)")
-                    
-                    AuthorizationAlamofire.shared.pushNotificationAPI{result in
-                        switch result {
-                        case .success(let data):
-                            if let responseData = data,
-                               let jsonObject = try? JSONSerialization.jsonObject(with: responseData, options: []) as? [String: Any] {
-                                print("response jsonData: \(jsonObject)")
-                            }
-                            
-                        case .failure(let error):
-                            print("Error: \(error)")
-                        }
-                    }
-                }
-                
-            case .failure(let error):
-                print("Error: \(error)")
-            }
-        }
-        
+//        
+//        AuthorizationAlamofire.shared.registDeviceToken(String(describing: fcmToken!), device.systemVersion, modelName) {result in
+//            switch result {
+//            case .success(let data):
+//                if let responseData = data,
+//                   let jsonObject = try? JSONSerialization.jsonObject(with: responseData, options: []) as? [String: Any] {
+//                    print("response jsonData: \(jsonObject)")
+//                    
+//                    AuthorizationAlamofire.shared.pushNotificationAPI{result in
+//                        switch result {
+//                        case .success(let data):
+//                            if let responseData = data,
+//                               let jsonObject = try? JSONSerialization.jsonObject(with: responseData, options: []) as? [String: Any] {
+//                                print("response jsonData: \(jsonObject)")
+//                            }
+//                            
+//                        case .failure(let error):
+//                            print("Error: \(error)")
+//                        }
+//                    }
+//                }
+//                
+//            case .failure(let error):
+//                print("Error: \(error)")
+//            }
+//        }
+//        
        
         
     }
