@@ -7,6 +7,9 @@ enum PetRouter: URLRequestConvertible {
     //pet
     case registPet(petName: String, species: String, gender: String, neutralization: Bool, birthdate: String)
     case userPetsList, userPetInfoList
+    case petTotalInfoCheck(petId: Int)
+    case petInfoEdit(petId: Int, combinedData: [String:Any])
+    case petDelete(petId: Int)
     
     //pet care
     case createCare(combinedData: [String:Any], petId: Int)
@@ -19,8 +22,12 @@ enum PetRouter: URLRequestConvertible {
         switch self {
         case .registPet, .createCare, .careCategoryCheck:
             return .post
-        case .checkCareCategory, .userPetsList, .userPetInfoList, .userPetCareInfoList, .petCareComplete:
+        case .checkCareCategory, .userPetsList, .userPetInfoList, .userPetCareInfoList, .petCareComplete, .petTotalInfoCheck:
             return .get
+        case .petInfoEdit:
+            return .put
+        case .petDelete:
+            return .delete
         }
     }
     var baseURL: URL {
@@ -29,16 +36,14 @@ enum PetRouter: URLRequestConvertible {
     
     var path: String {
         switch self {
-        case .registPet:
-            return "v2/users/\(UserDefaults.standard.string(forKey: "id")!)/pets"
         case .userPetsList:
-            return "v2/users/\(UserDefaults.standard.string(forKey: "id")!)/pets/summary"
+            return "v2/pets/summary"
         case .careCategoryCheck:
             return "v2/users/\(UserDefaults.standard.string(forKey: "id")!)/pets/categories-check"
-        case .userPetCareInfoList, .createCare, .checkCareCategory, .petCareComplete:
+        case .registPet, .userPetCareInfoList, .createCare, .checkCareCategory, .petCareComplete, .userPetInfoList:
             return "v2/pets"
-        case .userPetInfoList:
-            return "v2/users/\(UserDefaults.standard.string(forKey: "id")!)/pets"
+        case .petTotalInfoCheck(let petId), .petInfoEdit(let petId, _), .petDelete(let petId):
+            return "v2/pets/\(petId)"
         }
     }
     
@@ -48,8 +53,7 @@ enum PetRouter: URLRequestConvertible {
             return ["petName": petName, "species": species, "gender": gender, "neutralization": neutralization, "birthdate": birthdate]
         case let .careCategoryCheck(categoryName, pets):
             return ["categoryName": categoryName, "pets": pets]
-        
-        case .checkCareCategory, .userPetsList, .createCare, .userPetInfoList, .userPetCareInfoList, .petCareComplete:
+        case .checkCareCategory, .userPetsList, .createCare, .userPetInfoList, .userPetCareInfoList, .petCareComplete, .petTotalInfoCheck, .petInfoEdit, .petDelete:
             return [:]
         }
     }
@@ -65,7 +69,7 @@ enum PetRouter: URLRequestConvertible {
             request.httpMethod = method.rawValue
             request = try JSONEncoding.default.encode(request, withJSONObject: combinedData)
             
-        case .userPetsList, .userPetInfoList:
+        case .userPetsList, .userPetInfoList, .petTotalInfoCheck(_), .petDelete(_):
             request = URLRequest(url: url)
             request.httpMethod = method.rawValue
         
@@ -83,6 +87,12 @@ enum PetRouter: URLRequestConvertible {
             url = url.appendingPathComponent("/\(petId)/cares/\(careId)/care-dates/\(caredateId)")
             request = URLRequest(url: url)
             request.httpMethod = method.rawValue
+            
+        case .petInfoEdit(_ , let combinedData):
+            request = URLRequest(url: url)
+            request.httpMethod = method.rawValue
+            request = try JSONEncoding.default.encode(request, withJSONObject: combinedData)
+            
             
         default:
             request = URLRequest.createURLRequestWithBody(url: url, method: method, parameters: parameters)

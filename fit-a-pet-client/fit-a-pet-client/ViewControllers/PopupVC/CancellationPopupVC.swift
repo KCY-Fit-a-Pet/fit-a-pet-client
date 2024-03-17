@@ -57,7 +57,7 @@ class CancellationPopupVC: UIViewController {
                        let jsonObject = try? JSONSerialization.jsonObject(with: responseData, options: []) as? [String: Any] {
                         print("response jsonData: \(jsonObject)")
                         dismiss(animated: true, completion: nil)
-                        NotificationCenter.default.post(name: .ManagerCancellationBtnTapped, object: nil)
+                        NotificationCenter.default.post(name: .managerCancellationBtnTapped, object: nil)
                     }
                     
                 case .failure(let error):
@@ -72,7 +72,7 @@ class CancellationPopupVC: UIViewController {
                        let jsonObject = try? JSONSerialization.jsonObject(with: responseData, options: []) as? [String: Any] {
                         print("response jsonData: \(jsonObject)")
                         dismiss(animated: true, completion: nil)
-                        NotificationCenter.default.post(name: .ManagerDelegationBtnTapped, object: nil)
+                        NotificationCenter.default.post(name: .managerDelegationBtnTapped, object: nil)
                     }
                     
                 case .failure(let error):

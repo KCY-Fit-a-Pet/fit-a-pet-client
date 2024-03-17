@@ -34,12 +34,16 @@ class MemberManagementVC: UIViewController, MemberListTableViewMethodDelegate, M
         
         memberView.memberInviteBtn.addTarget(self, action: #selector(inviteButtonTapped), for: .touchUpInside)
         cancellationBtn.addTarget(self, action: #selector(cancellationBtnTapped), for: .touchUpInside)
-        NotificationCenter.default.addObserver(self, selector: #selector(handleInviteManagerDataUpdated), name: .InviteManagerDataUpdated, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(handleManagerCancellationBtnTapped), name: .ManagerCancellationBtnTapped, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(handleManagerDelegationBtnTapped), name: .ManagerDelegationBtnTapped, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(handleInviteManagerDataUpdated), name: .inviteManagerDataUpdated, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(handleManagerCancellationBtnTapped), name: .managerCancellationBtnTapped, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(handleManagerDelegationBtnTapped), name: .managerDelegationBtnTapped, object: nil)
 
         petManagersListAPI()
         
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
     }
     
     override func viewDidLayoutSubviews() {
@@ -50,7 +54,7 @@ class MemberManagementVC: UIViewController, MemberListTableViewMethodDelegate, M
     func initView(){
         view.backgroundColor = .white
         
-        layoutView.backgroundColor = UIColor(named: "Gray0")
+        layoutView.backgroundColor = .white
         containerView.backgroundColor = .white
         
         cancellationBtn.setTitle("탈퇴하기", for: .normal)
@@ -222,21 +226,32 @@ class MemberManagementVC: UIViewController, MemberListTableViewMethodDelegate, M
             case .success(let data):
                 if let responseData = data,
                    let jsonObject = try? JSONSerialization.jsonObject(with: responseData, options: []) as? [String: Any],
-                   let status = jsonObject["status"] as? String, status == "success",
+                   let status = jsonObject["status"] as? String,
+                   status == "success",
                    let data = jsonObject["data"] as? [String: Any],
-                   let membersData = data["members"] as? [[String: Any]] {
+                   let invitations = data["invitations"] as? [[String: Any]] {
                     let managerList = PetManagersManager()
                     PetManagersManager.inviteManagers.removeAll()
-                    for memberData in membersData {
-                        if let id = memberData["id"] as? Int,
-                           let uid = memberData["uid"] as? String,
+                    for invitationDict in invitations {
+                        if let invitationData = invitationDict["invitation"] as? [String: Any],
+                           let invitationId = invitationData["invitationId"] as? Int,
+                           let expireDateString = invitationData["expireDate"] as? String,
+                           let expireDate = dateFormatter.date(from: expireDateString),
+                           let memberData = invitationDict["member"] as? [String: Any],
+                           let memberId = memberData["memberId"] as? Int,
                            let name = memberData["name"] as? String,
-                           let expired = memberData["expired"] as? Bool,
-                           let invitedAtString = memberData["invitedAt"] as? String,
-                           let invitedAt = dateFormatter.date(from: invitedAtString) {
+                           let uid = memberData["uid"] as? String {
                             
-                            let inviteManager = InviteManager(id: id, uid: uid, name: name, profileImageUrl: "", isMaster: false, expired: expired, invitedAt: invitedAt)
+                            let invitation = InviteManager.Invitation(invitationId: invitationId, expireDate: expireDate)
+                            let member = InviteManager.Member(memberId: memberId,
+                                                              name: name,
+                                                              uid: uid,
+                                                              profileImageUrl: memberData["profileImg"] as? String ?? "")
+                            let expired = false
+                            
+                            let inviteManager = InviteManager(invitation: invitation, member: member, expired: expired)
                             managerList.addInviteManager(inviteManager: inviteManager)
+                            
                         }
                     }
                 }

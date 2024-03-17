@@ -94,6 +94,7 @@
 		4A8B9B4E2AD443FA009236EC /* MySearchRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A8B9B4D2AD443FA009236EC /* MySearchRouter.swift */; };
 		4A8B9B502AD444D0009236EC /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A8B9B4F2AD444D0009236EC /* Constants.swift */; };
 		4A9088772AC1681B000C7878 /* MainPetCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A9088752AC1681B000C7878 /* MainPetCollectionViewCell.swift */; };
+		4A9118742B95B35400B19D9E /* BasicUserInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A9118732B95B35400B19D9E /* BasicUserInfoView.swift */; };
 		4A9936522B64230600B7B21A /* CalendarHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A9936512B64230600B7B21A /* CalendarHeaderView.swift */; };
 		4A9936542B64231B00B7B21A /* CalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A9936532B64231B00B7B21A /* CalendarView.swift */; };
 		4A9936562B642A0800B7B21A /* CalendarRegistrationVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A9936552B642A0800B7B21A /* CalendarRegistrationVC.swift */; };
@@ -134,6 +135,9 @@
 		4AE293FA2B71495A00920C0B /* PetDetailCareListCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AE293F92B71495A00920C0B /* PetDetailCareListCollectionViewCell.swift */; };
 		4AE293FE2B714EC100920C0B /* PetDetailScheduleListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AE293FD2B714EC100920C0B /* PetDetailScheduleListView.swift */; };
 		4AE359C52B933B3100EB6E4A /* PetRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AE359C42B933B3100EB6E4A /* PetRouter.swift */; };
+		4AE7DC9F2B9CC001002BA0F4 /* SelectGenderPanModalVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AE7DC9E2B9CC001002BA0F4 /* SelectGenderPanModalVC.swift */; };
+		4AE7DCA12B9CC344002BA0F4 /* CustomTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AE7DCA02B9CC344002BA0F4 /* CustomTableView.swift */; };
+		4AE7DCA32B9CC41F002BA0F4 /* CustomTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AE7DCA22B9CC41F002BA0F4 /* CustomTableViewCell.swift */; };
 		4AEDCE012B4C718E0043E872 /* PetCareRegistVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AEDCE002B4C718E0043E872 /* PetCareRegistVC.swift */; };
 		4AF0C84E2B24667500A45EEE /* FidnInputIdVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AF0C84D2B24667500A45EEE /* FidnInputIdVC.swift */; };
 		4AF0C8502B24765400A45EEE /* ResetPwVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AF0C84F2B24765400A45EEE /* ResetPwVC.swift */; };
@@ -143,7 +147,7 @@
 		4AF2409C2B88BDB000E224AE /* InviteWaitingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AF2409B2B88BDB000E224AE /* InviteWaitingView.swift */; };
 		4AF2409E2B88C25000E224AE /* MemberManagementVCMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AF2409D2B88C25000E224AE /* MemberManagementVCMethod.swift */; };
 		4AF240A02B88C45D00E224AE /* InviteMemberTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AF2409F2B88C45D00E224AE /* InviteMemberTableViewCell.swift */; };
-		4AF240A22B8A4E2600E224AE /* petManagersManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AF240A12B8A4E2600E224AE /* petManagersManager.swift */; };
+		4AF240A22B8A4E2600E224AE /* PetManagersManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AF240A12B8A4E2600E224AE /* PetManagersManager.swift */; };
 		4AFBBBAF2B66DDFF00166643 /* ScheduleRegistrationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AFBBBAE2B66DDFF00166643 /* ScheduleRegistrationManager.swift */; };
 		5F3351521D53411AE096AE11 /* Pods_fit_a_pet_client.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB1D3740B0C5A796E5D597B2 /* Pods_fit_a_pet_client.framework */; };
 /* End PBXBuildFile section */
@@ -239,6 +243,7 @@
 		4A8B9B4D2AD443FA009236EC /* MySearchRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MySearchRouter.swift; sourceTree = "<group>"; };
 		4A8B9B4F2AD444D0009236EC /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		4A9088752AC1681B000C7878 /* MainPetCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainPetCollectionViewCell.swift; sourceTree = "<group>"; };
+		4A9118732B95B35400B19D9E /* BasicUserInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasicUserInfoView.swift; sourceTree = "<group>"; };
 		4A9936512B64230600B7B21A /* CalendarHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarHeaderView.swift; sourceTree = "<group>"; };
 		4A9936532B64231B00B7B21A /* CalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarView.swift; sourceTree = "<group>"; };
 		4A9936552B642A0800B7B21A /* CalendarRegistrationVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarRegistrationVC.swift; sourceTree = "<group>"; };
@@ -282,6 +287,9 @@
 		4AE293F92B71495A00920C0B /* PetDetailCareListCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PetDetailCareListCollectionViewCell.swift; sourceTree = "<group>"; };
 		4AE293FD2B714EC100920C0B /* PetDetailScheduleListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PetDetailScheduleListView.swift; sourceTree = "<group>"; };
 		4AE359C42B933B3100EB6E4A /* PetRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PetRouter.swift; sourceTree = "<group>"; };
+		4AE7DC9E2B9CC001002BA0F4 /* SelectGenderPanModalVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectGenderPanModalVC.swift; sourceTree = "<group>"; };
+		4AE7DCA02B9CC344002BA0F4 /* CustomTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTableView.swift; sourceTree = "<group>"; };
+		4AE7DCA22B9CC41F002BA0F4 /* CustomTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTableViewCell.swift; sourceTree = "<group>"; };
 		4AEDCE002B4C718E0043E872 /* PetCareRegistVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PetCareRegistVC.swift; sourceTree = "<group>"; };
 		4AF0C84D2B24667500A45EEE /* FidnInputIdVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FidnInputIdVC.swift; sourceTree = "<group>"; };
 		4AF0C84F2B24765400A45EEE /* ResetPwVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResetPwVC.swift; sourceTree = "<group>"; };
@@ -291,7 +299,7 @@
 		4AF2409B2B88BDB000E224AE /* InviteWaitingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InviteWaitingView.swift; sourceTree = "<group>"; };
 		4AF2409D2B88C25000E224AE /* MemberManagementVCMethod.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemberManagementVCMethod.swift; sourceTree = "<group>"; };
 		4AF2409F2B88C45D00E224AE /* InviteMemberTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InviteMemberTableViewCell.swift; sourceTree = "<group>"; };
-		4AF240A12B8A4E2600E224AE /* petManagersManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = petManagersManager.swift; sourceTree = "<group>"; };
+		4AF240A12B8A4E2600E224AE /* PetManagersManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PetManagersManager.swift; sourceTree = "<group>"; };
 		4AFBBBAE2B66DDFF00166643 /* ScheduleRegistrationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleRegistrationManager.swift; sourceTree = "<group>"; };
 		A8CCF3AF04A53824C263132B /* Pods-fit-a-pet-client.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-fit-a-pet-client.debug.xcconfig"; path = "Target Support Files/Pods-fit-a-pet-client/Pods-fit-a-pet-client.debug.xcconfig"; sourceTree = "<group>"; };
 		AB1D3740B0C5A796E5D597B2 /* Pods_fit_a_pet_client.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_fit_a_pet_client.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -314,6 +322,7 @@
 			children = (
 				4A0150312B7410140069AF20 /* GenderView.swift */,
 				4A0150332B7545660069AF20 /* BirthdayView.swift */,
+				4A9118732B95B35400B19D9E /* BasicUserInfoView.swift */,
 			);
 			path = PetProfileEditView;
 			sourceTree = "<group>";
@@ -452,7 +461,7 @@
 				4A88D6162B53ABD2003A2D0F /* PetCareRegistrationManager.swift */,
 				4ABE52FF2B5AD92F000EA41D /* PetDataManager.swift */,
 				4AFBBBAE2B66DDFF00166643 /* ScheduleRegistrationManager.swift */,
-				4AF240A12B8A4E2600E224AE /* petManagersManager.swift */,
+				4AF240A12B8A4E2600E224AE /* PetManagersManager.swift */,
 			);
 			path = Manager;
 			sourceTree = "<group>";
@@ -464,6 +473,8 @@
 				4A828D8C2B619432006AE70A /* CustomCheckPopupView.swift */,
 				4A9936572B642B7E00B7B21A /* CustomVerticalView.swift */,
 				4A2974A72B7FD5D100587AF8 /* CustomPanModalView.swift */,
+				4AE7DCA02B9CC344002BA0F4 /* CustomTableView.swift */,
+				4AE7DCA22B9CC41F002BA0F4 /* CustomTableViewCell.swift */,
 			);
 			path = CustomView;
 			sourceTree = "<group>";
@@ -698,6 +709,7 @@
 				4A2D55D62B8663FE0079FDC7 /* MemberManagementVC.swift */,
 				4A2D55E12B87B7170079FDC7 /* InviteMemberVC.swift */,
 				4A6106C32B8CEEB4000502B9 /* ManagerDelegationVC.swift */,
+				4AE7DC9E2B9CC001002BA0F4 /* SelectGenderPanModalVC.swift */,
 			);
 			path = PetProfileVC;
 			sourceTree = "<group>";
@@ -902,6 +914,7 @@
 				4AD3542D2AAF7F83004A47B3 /* SettingVC.swift in Sources */,
 				4A80E4D42B49BA7800CD5D05 /* AnonymousAlamofire.swift in Sources */,
 				4AE293FA2B71495A00920C0B /* PetDetailCareListCollectionViewCell.swift in Sources */,
+				4A9118742B95B35400B19D9E /* BasicUserInfoView.swift in Sources */,
 				4AE293FE2B714EC100920C0B /* PetDetailScheduleListView.swift in Sources */,
 				4A0CC3622B810C6E004A9D77 /* RootFolderPanModalVC.swift in Sources */,
 				4AF0C8502B24765400A45EEE /* ResetPwVC.swift in Sources */,
@@ -967,13 +980,16 @@
 				4A0750D82B0D130F00281A4C /* PetRegistrationManager.swift in Sources */,
 				4AA999922A8485A500E495FA /* AppDelegate.swift in Sources */,
 				4AC6384B2B7A9F72006DB9B5 /* RecordCustomCheckPopupVC.swift in Sources */,
+				4AE7DCA32B9CC41F002BA0F4 /* CustomTableViewCell.swift in Sources */,
 				4A2D55D72B8663FE0079FDC7 /* MemberManagementVC.swift in Sources */,
 				4A9936582B642B7E00B7B21A /* CustomVerticalView.swift in Sources */,
 				4A1B5E492B79476A00A076A7 /* PetImageCollectionViewCell.swift in Sources */,
 				4A6106D02B8D19B1000502B9 /* UserInfoRouter.swift in Sources */,
 				4ABE53002B5AD92F000EA41D /* PetDataManager.swift in Sources */,
 				4A2D55DE2B86734D0079FDC7 /* MemberView.swift in Sources */,
+				4AE7DCA12B9CC344002BA0F4 /* CustomTableView.swift in Sources */,
 				4A88D6172B53ABD2003A2D0F /* PetCareRegistrationManager.swift in Sources */,
+				4AE7DC9F2B9CC001002BA0F4 /* SelectGenderPanModalVC.swift in Sources */,
 				4A4B085C2B77D2DF00959683 /* RecordVCMethod.swift in Sources */,
 				4A2D55D52B84C87F0079FDC7 /* NoRecordDataView.swift in Sources */,
 				4A9936542B64231B00B7B21A /* CalendarView.swift in Sources */,
@@ -999,7 +1015,7 @@
 				4A54A0B92B584D110024B940 /* PetProfileView.swift in Sources */,
 				4A54A0B62B5849230024B940 /* PetCollectionViewCell.swift in Sources */,
 				4AD354202AAF7CD6004A47B3 /* MainVC.swift in Sources */,
-				4AF240A22B8A4E2600E224AE /* petManagersManager.swift in Sources */,
+				4AF240A22B8A4E2600E224AE /* PetManagersManager.swift in Sources */,
 				4A0C7EFF2B5C29090097D753 /* MainPetListView.swift in Sources */,
 				4A2440712B374C0F0086D2AB /* CryptoHelpers.swift in Sources */,
 				4A2D55DC2B866ECB0079FDC7 /* UserDataView.swift in Sources */,

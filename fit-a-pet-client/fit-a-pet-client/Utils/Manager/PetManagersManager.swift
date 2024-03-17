@@ -1,9 +1,3 @@
-//
-//  petManagersManager.swift
-//  fit-a-pet-client
-//
-//  Created by 최희진 on 2/25/24.
-//
 
 import Foundation
 
@@ -16,13 +10,21 @@ struct Manager {
 }
 
 struct InviteManager {
-    let id: Int
-    let uid: String
-    let name: String
-    let profileImageUrl: String
-    let isMaster: Bool
+    struct Invitation {
+        let invitationId: Int
+        let expireDate: Date
+    }
+    
+    struct Member {
+        let memberId: Int
+        let name: String
+        let uid: String
+        let profileImageUrl: String
+    }
+    
+    let invitation: Invitation
+    let member: Member
     let expired: Bool
-    let invitedAt: Date
 }
 
 class PetManagersManager {

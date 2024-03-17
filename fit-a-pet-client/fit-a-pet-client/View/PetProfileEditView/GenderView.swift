@@ -6,7 +6,7 @@ class GenderView: UIView {
     let genderChangeBtn = UIButton()
     let genderLabel = UILabel()
     let selectedGenderLabel = UILabel()
-    private let genderStackView = UIStackView()
+    let genderStackView = UIStackView()
     
     let neuteringCheckboxButton = UIButton()
     let neuteringCheckLabel = UILabel()
@@ -47,7 +47,7 @@ class GenderView: UIView {
 
         genderLabel.snp.makeConstraints { make in
             make.height.equalTo(25)
-            make.top.equalTo(self.snp.top).offset(8)
+            make.top.equalToSuperview().offset(8)
         }
         
         selectedGenderLabel.snp.makeConstraints{make in
@@ -70,8 +70,6 @@ class GenderView: UIView {
         neuteringCheckLabel.text = "중성화"
         neuteringCheckLabel.font = UIFont.systemFont(ofSize: 14)
         
-        neuteringCheckboxButton.isSelected = false
-        
         let checkedImage = UIImage(systemName: "checkmark.square.fill")
         let uncheckedImage = UIImage(systemName: "square")
 
@@ -91,8 +89,8 @@ class GenderView: UIView {
         }
         
         neuteringCheckboxButton.snp.makeConstraints{make in
-            make.height.equalTo(22)
-            make.width.equalTo(22)
+            make.height.equalTo(30)
+            make.width.equalTo(30)
         }
         neuteringCheckLabel.snp.makeConstraints{make in
             make.height.equalTo(30)
@@ -101,8 +99,11 @@ class GenderView: UIView {
     func updateCheckboxColor(){
         if neuteringCheckboxButton.isSelected{
             neuteringCheckboxButton.tintColor = UIColor(named: "PrimaryColor")
+            PetDataManager.petEditData.neutered = true
+            
         }else {
             neuteringCheckboxButton.tintColor = UIColor(named: "Gray4")
+            PetDataManager.petEditData.neutered = false
         }
     }
 }

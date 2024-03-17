@@ -17,8 +17,8 @@ class RecordVC: UIViewController{
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        NotificationCenter.default.addObserver(self, selector: #selector(handleCellSelectionNotificationFromPanModal(_:)), name: .cellSelectedNotificationFromPanModal, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(handleFolderCreatedNotification(_:)), name: Notification.Name("FolderCreatedNotification"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(handleCellSelectionNotificationFromPanModal(_:)), name: .cellSelectedFromTotalFolderPanModal, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(handleFolderCreatedNotification(_:)), name: Notification.Name("folderCreatedNotification"), object: nil)
         
         initView()
         setupNavigationBar()

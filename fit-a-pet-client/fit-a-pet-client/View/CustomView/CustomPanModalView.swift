@@ -21,9 +21,7 @@ class CustomPanModalView: UIView {
     
     private let closeButton: UIButton = {
         let button = UIButton()
-        button.titleLabel?.font = .systemFont(ofSize: 14, weight: .medium)
-        button.setTitleColor(UIColor(named: "PrimaryColor"), for: .normal)
-        button.setTitle("취소", for: .normal)
+        button.setImage(UIImage(named: "icon_close"), for: .normal)
         return button
     }()
     

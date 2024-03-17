@@ -23,6 +23,26 @@ struct SummaryPet{
     let petName: String
 }
 
+struct PetEditResponse: Decodable {
+    let data: PetData
+    let status: String
+}
+
+struct PetEdit: Decodable {
+    let pet: PetEditData
+}
+
+struct PetEditData: Codable{
+    let id: Int
+    var petName: String
+    var petProfileImage: String
+    var gender: String
+    var neutered: Bool
+    var birthdate: String
+    var species: String
+    var feed: String
+}
+
 
 struct CareInfoResponse: Codable {
     let status: String
@@ -54,7 +74,8 @@ struct PetDataManager {
     static var summaryPets: [SummaryPet] = []
     static var pets: [Pet] = []
     static var careCategoriesByPetId: [Int: [CareCategory]] = [:]
-
+    static var petEditData: PetEditData = PetEditData(id: 0, petName: "", petProfileImage: "", gender: "", neutered: false, birthdate: "", species: "", feed: "")
+    
     static func updatePets(with data: Data) {
         do {
             let decoder = JSONDecoder()
@@ -69,7 +90,6 @@ struct PetDataManager {
             print("Error updating pet data: \(error)")
         }
     }
-    
     
     static func updateCareInfo(with data: Data, petId: Int) {
         do {

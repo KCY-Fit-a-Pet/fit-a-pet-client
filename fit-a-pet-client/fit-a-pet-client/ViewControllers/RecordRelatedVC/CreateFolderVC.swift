@@ -19,7 +19,7 @@ class CreateFolderVC: CustomNavigationBar{
         
         initView()
         
-        NotificationCenter.default.addObserver(self, selector: #selector(handleCellSelectedNotificationFromRootPanModal(_:)), name: .cellSelectedNotificationFromRootPanModal, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(handleCellSelectedFromRootFolderPanModal(_:)), name: .cellSelectedFromRootFolderPanModal, object: nil)
         
         let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(folderViewTapped))
         selectFolderView.addGestureRecognizer(tapGestureRecognizer)
@@ -68,7 +68,7 @@ class CreateFolderVC: CustomNavigationBar{
         self.presentPanModal(nextVC)
     }
     
-    @objc func handleCellSelectedNotificationFromRootPanModal(_ notification: Notification) {
+    @objc func handleCellSelectedFromRootFolderPanModal(_ notification: Notification) {
         guard let userInfo = notification.userInfo as? [String: Any],
               let memoCategoryId = userInfo["memoCategoryId"] as? Int,
               let memoCategoryName = userInfo["memoCategoryName"] as? String,
@@ -93,7 +93,7 @@ class CreateFolderVC: CustomNavigationBar{
                    let jsonObject = try? JSONSerialization.jsonObject(with: responseData, options: []) as? [String: Any] {
                     print("response jsonData: \(jsonObject)")
                     
-                    NotificationCenter.default.post(name: Notification.Name("FolderCreatedNotification"), object: nil, userInfo: ["categoryId": categoryId, "categoryPetId": categoryPetId, "inputCategoryName": inputCategoryName, "petName": seletedPetName])
+                    NotificationCenter.default.post(name: Notification.Name("folderCreatedNotification"), object: nil, userInfo: ["categoryId": categoryId, "categoryPetId": categoryPetId, "inputCategoryName": inputCategoryName, "petName": seletedPetName])
                     self.navigationController?.popToRootViewController(animated: true)
                 }
                 

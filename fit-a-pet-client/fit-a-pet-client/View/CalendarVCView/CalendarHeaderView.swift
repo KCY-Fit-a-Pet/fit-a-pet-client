@@ -11,7 +11,7 @@ class CalendarStackView: UIStackView {
     weak var delegate: CalendarStackViewDelegate?
     let prevButton: UIButton = {
         let button = UIButton(type: .custom)
-        button.setImage(UIImage(named: "calendar_left"), for: .normal)
+        button.setImage(UIImage(named: "icon_arrow_left"), for: .normal)
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 18)
         button.setTitleColor(.black, for: .normal)
         return button
@@ -26,7 +26,7 @@ class CalendarStackView: UIStackView {
 
     let nextButton: UIButton = {
         let button = UIButton(type: .custom)
-        button.setImage(UIImage(named: "calendar_right"), for: .normal)
+        button.setImage(UIImage(named: "icon_arrow_right"), for: .normal)
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 18)
         button.setTitleColor(.black, for: .normal)
         return button

@@ -70,7 +70,7 @@ enum AdminRouter: URLRequestConvertible {
     }
 
     func asURLRequest() throws -> URLRequest {
-        var url = baseURL.appendingPathComponent(path)
+        let url = baseURL.appendingPathComponent(path)
         var request: URLRequest
 
         switch self {

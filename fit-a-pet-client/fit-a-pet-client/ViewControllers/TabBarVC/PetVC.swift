@@ -67,6 +67,8 @@ class PetVC: UIViewController{
             switch result {
             case .success(let data):
                 if let responseData = data {
+                    
+                    PetDataManager.pets.removeAll()
                     PetDataManager.updatePets(with: responseData)
            
                     self.petListCollectionView.reloadData()

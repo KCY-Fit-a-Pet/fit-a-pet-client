@@ -71,7 +71,7 @@ class RecordTotalFolderTableViewMethod: NSObject, UITableViewDataSource, UITable
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard indexPath.row != 0 else {
-            NotificationCenter.default.post(name: .cellSelectedNotification, object: 00)
+            NotificationCenter.default.post(name: .cellSelectedFolder, object: 00)
             return
         }
         
@@ -96,7 +96,7 @@ class RecordTotalFolderTableViewMethod: NSObject, UITableViewDataSource, UITable
             for pet in petData{
                 if pet.id == memoCategory.petId{
                     let userInfo: [AnyHashable: Any] = ["memoCategoryId": memoCategory.memoCategoryId, "memoCategoryName": memoCategory.memoCategoryName, "petName": pet.petName, "type": memoCategory.type, "petId": pet.id]
-                    NotificationCenter.default.post(name: .cellSelectedNotification, object: nil, userInfo: userInfo)
+                    NotificationCenter.default.post(name: .cellSelectedFolder, object: nil, userInfo: userInfo)
                 }
             }
         }
@@ -171,7 +171,7 @@ class RecordFolderTableViewMethod: NSObject, UITableViewDataSource, UITableViewD
             for pet in petData{
                 if pet.id == memoCategory.petId{
                     let userInfo: [AnyHashable: Any] = ["memoCategoryId": memoCategory.memoCategoryId, "memoCategoryName": memoCategory.memoCategoryName, "petId": pet.id, "petName": pet.petName]
-                    NotificationCenter.default.post(name: .cellSelectedNotification, object: nil, userInfo: userInfo)
+                    NotificationCenter.default.post(name: .cellSelectedFolder, object: nil, userInfo: userInfo)
                 }
             }
         }

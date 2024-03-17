@@ -171,6 +171,49 @@ class AuthorizationAlamofire: TokenHandling {
             }
     }
     
+    func petTotalInfoCheck(_ petId: Int, completion: @escaping (Result<Data?, Error>) -> Void) {
+        os_log("AuthorizationAlamofire - petTotalInfoCheck() called", log: .default, type: .info)
+        
+        self.session.request(PetRouter.petTotalInfoCheck(petId: petId))
+            .response { response in
+                switch response.result {
+                case .success(let data):
+                    completion(.success(data))
+                case .failure(let error):
+                    completion(.failure(error))
+                }
+            }
+    }
+    
+    func petInfoEdit(_ petId: Int, _ combinedData: [String: Any], completion: @escaping (Result<Data?, Error>) -> Void) {
+        os_log("AuthorizationAlamofire - petInfoEdit() called", log: .default, type: .info)
+        
+        self.session.request(PetRouter.petInfoEdit(petId: petId, combinedData: combinedData))
+            .response { response in
+                switch response.result {
+                case .success(let data):
+                    completion(.success(data))
+                case .failure(let error):
+                    completion(.failure(error))
+                }
+            }
+    }
+    
+    func petDelete(_ petId: Int, completion: @escaping (Result<Data?, Error>) -> Void) {
+        os_log("AuthorizationAlamofire - petDelete() called", log: .default, type: .info)
+        
+        self.session.request(PetRouter.petDelete(petId: petId))
+            .response { response in
+                switch response.result {
+                case .success(let data):
+                    completion(.success(data))
+                case .failure(let error):
+                    completion(.failure(error))
+                }
+            }
+    }
+    
+    
     //MARK: UserInfoRouter
     
     func userProfileInfo(completion: @escaping(Result<Data?, Error>) -> Void){
@@ -244,6 +287,37 @@ class AuthorizationAlamofire: TokenHandling {
                 }
             }
     }
+    
+    func userNicknameCheck(_ userId: Int, completion: @escaping (Result<Data?, Error>) -> Void) {
+        os_log("AuthorizationAlamofire - userNicknameCheck() called ", log: .default, type: .info)
+
+        self.session.request(UserInfoRouter.userNicknameCheck(userId: userId))
+            .response { response in
+                switch response.result {
+                case .success(let data):
+                    completion(.success(data))
+                case .failure(let error):
+                    completion(.failure(error))
+                }
+            }
+    }
+    
+    func editSomeoneNickname(_ userId: Int, _ nickname: String, completion: @escaping (Result<Data?, Error>) -> Void) {
+        os_log("AuthorizationAlamofire - editSomeoneNickname() called:  %@", log: .default, type: .info, nickname)
+
+        self.session.request(UserInfoRouter.editSomeoneNickname(userId: userId, nickname: nickname))
+            .response { response in
+                switch response.result {
+                case .success(let data):
+                    completion(.success(data))
+                case .failure(let error):
+                    completion(.failure(error))
+                }
+            }
+    }
+    
+    
+    //MARK: MySearchRouter
     
     func createSchedule(_ combinedData: [String: Any], completion: @escaping (Result<Data?, Error>) -> Void) {
         os_log("AuthorizationAlamofire - createSchedule() called userInput: %@", log: .default, type: .info)
@@ -370,10 +444,10 @@ class AuthorizationAlamofire: TokenHandling {
             }
     }
     
-    func deleteInviteMember(_ petId: Int, _ deleteId: String, completion: @escaping (Result<Data?, Error>) -> Void) {
+    func deleteInviteMember(_ petId: Int, _ invitationId: Int, completion: @escaping (Result<Data?, Error>) -> Void) {
         os_log("AuthorizationAlamofire - deleteInviteMember() called ", log: .default, type: .info)
 
-        self.session.request(MySearchRouter.deleteInviteMember(petId: petId, deleteId: deleteId))
+        self.session.request(MySearchRouter.deleteInviteMember(petId: petId, invitationId: invitationId))
             .response { response in
                 switch response.result {
                 case .success(let data):

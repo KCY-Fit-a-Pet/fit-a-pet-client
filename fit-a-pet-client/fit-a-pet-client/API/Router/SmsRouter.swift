@@ -51,7 +51,7 @@ enum SmsRouter: URLRequestConvertible {
     }
 
     func asURLRequest() throws -> URLRequest {
-        var url = baseURL.appendingPathComponent(path)
+        let url = baseURL.appendingPathComponent(path)
         var request: URLRequest
 
         switch self {
@@ -60,7 +60,7 @@ enum SmsRouter: URLRequestConvertible {
             let queryParameters = [URLQueryItem(name: "code", value: "\(code)")]
             request = URLRequest.createURLRequestWithBodyAndQuery(url: url, method: method, bodyParameters: bodyParameters, queryParameters: queryParameters)
 
-        case .sendSms(to: let to):
+        case .sendSms(to: _):
 
             request = URLRequest.createURLRequestWithBody(url: url, method: method, parameters: parameters)
 

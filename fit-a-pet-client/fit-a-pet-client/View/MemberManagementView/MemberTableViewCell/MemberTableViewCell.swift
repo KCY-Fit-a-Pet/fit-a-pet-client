@@ -3,7 +3,7 @@ import UIKit
 import SnapKit
 
 protocol MemberTableViewCellDelegate: AnyObject {
-    func didTapChangeName()
+    func didTapChangeName(_ userId: Int)
     func didTapCancellationBtn(_ userId: Int, _ userName: String)
     func didTapDelegationBtn(_ userId: Int, _ userName: String)
 }
@@ -49,7 +49,7 @@ class MemberTableViewCell: UITableViewCell {
         if PetManagersManager.masterManager?.uid == UserDefaults.standard.string(forKey: "uid") {
             menu = UIMenu(title: "", children: [
                 UIAction(title: "이름 변경") { [weak self] action in
-                    self?.delegate?.didTapChangeName()
+                    self?.delegate?.didTapChangeName(self!.userDataView.userid)
                 },
                 UIAction(title: "관리자 위임") { [weak self] action in
                     self?.delegate?.didTapDelegationBtn(self!.userDataView.userid, self!.userDataView.profileUserName.text!)
@@ -62,7 +62,7 @@ class MemberTableViewCell: UITableViewCell {
         } else {
             menu = UIMenu(title: "", children: [
                 UIAction(title: "이름 변경") { [weak self] action in
-                    self?.delegate?.didTapChangeName()
+                    self?.delegate?.didTapChangeName(self!.userDataView.userid)
                 }
             ])
         }

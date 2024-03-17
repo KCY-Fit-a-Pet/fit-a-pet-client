@@ -111,12 +111,13 @@ class InviteMemberVC: UIViewController{
         
         navigationItem.titleView = titleView
         
-        closeBtn.setImage(UIImage(named: "close_icon"), for: .normal)
+        closeBtn.setImage(UIImage(named: "icon_close"), for: .normal)
         closeBtn.addTarget(self, action: #selector(closeBtnTapped), for: .touchUpInside)
         navigationItem.rightBarButtonItem = UIBarButtonItem(customView: closeBtn)
     }
     
     @objc func searchButtonTapped(){
+        
         AuthorizationAlamofire.shared.searchUserProfile(inputId) {[self] result in
             switch result {
             case .success(let data):
@@ -135,7 +136,7 @@ class InviteMemberVC: UIViewController{
                                 if let uid = member["uid"] as? String {
                                     self.userDataView.profileUserId.text = "@" + uid
                                     let allManagerUIDs = [PetManagersManager.masterManager?.uid] + PetManagersManager.subManagers.map { $0.uid }
-                                    let inviteManagerUIDs = PetManagersManager.inviteManagers.map{$0.uid}
+                                    let inviteManagerUIDs = PetManagersManager.inviteManagers.map{$0.member.uid}
                                     
                                     if allManagerUIDs.contains(uid){
                                         
@@ -206,7 +207,7 @@ class InviteMemberVC: UIViewController{
                     if let responseData = data,
                        let jsonObject = try? JSONSerialization.jsonObject(with: responseData, options: []) as? [String: Any] {
                         print("response jsonData: \(jsonObject)")
-                        NotificationCenter.default.post(name: .InviteManagerDataUpdated, object: nil)
+                        NotificationCenter.default.post(name: .inviteManagerDataUpdated, object: nil)
                     }
                     
                 case .failure(let error):
@@ -218,13 +219,20 @@ class InviteMemberVC: UIViewController{
             inviteToggleBtn.setTitleColor(UIColor(named: "PrimaryColor"), for: .normal)
             inviteToggleBtn.layer.borderColor = UIColor(named: "PrimaryColor")?.cgColor
             
-            AuthorizationAlamofire.shared.deleteInviteMember(SelectedPetId.petId, String(searchId)) {result in
+            var invitationId = 0
+            let invateManager = PetManagersManager.inviteManagers
+            
+            if let index = PetManagersManager.inviteManagers.firstIndex(where: { $0.member.memberId == searchId}) {
+                invitationId = invateManager[index].invitation.invitationId
+            }
+            
+            AuthorizationAlamofire.shared.deleteInviteMember(SelectedPetId.petId, invitationId) {result in
                 switch result {
                 case .success(let data):
                     if let responseData = data,
                        let jsonObject = try? JSONSerialization.jsonObject(with: responseData, options: []) as? [String: Any] {
                         print("response jsonData: \(jsonObject)")
-                        NotificationCenter.default.post(name: .InviteManagerDataUpdated, object: nil)
+                        NotificationCenter.default.post(name: .inviteManagerDataUpdated, object: nil)
                     }
                     
                 case .failure(let error):
@@ -232,7 +240,6 @@ class InviteMemberVC: UIViewController{
                 }
             }
         }
-        
     }
     
     @objc private func closeBtnTapped() {
