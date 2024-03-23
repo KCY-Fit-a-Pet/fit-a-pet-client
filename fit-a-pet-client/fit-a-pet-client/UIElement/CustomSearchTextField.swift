@@ -22,7 +22,7 @@ class CustomSearchTextField: UITextField {
     }
     
     private func commonInit() {
-        imageView.image = UIImage(named: "search")
+        imageView.image = UIImage(named: "icon_search_gray3")
         iconContainerView.addSubview(imageView)
         
         self.font = .systemFont(ofSize: 14)

@@ -34,7 +34,7 @@ class CategoryView: UIView {
         categoryTextField.leftView = UIView(frame: CGRect(x: 0.0, y: 0.0, width: 16.0, height: 0.0))
         categoryTextField.leftViewMode = .always
 
-        categoryButton.setImage(UIImage(named: "category"), for: .normal)
+        categoryButton.setImage(UIImage(named: "icon_dropdown_arrow_down"), for: .normal)
 
         categoryLabel.text = "카테고리"
         categoryLabel.font = .boldSystemFont(ofSize: 18)

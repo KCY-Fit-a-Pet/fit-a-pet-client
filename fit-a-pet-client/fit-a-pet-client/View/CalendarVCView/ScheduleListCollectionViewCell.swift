@@ -24,7 +24,7 @@ class ScheduleListCollectionViewCell: UICollectionViewCell {
     
     let detailBtn: UIButton = {
         let button = UIButton(type: .system)
-        button.setImage(UIImage(named: "detail_icon"), for: .normal)
+        button.setImage(UIImage(named: "icon_more"), for: .normal)
         button.tintColor = .black
         return button
     }()

@@ -63,7 +63,7 @@ class SettingVC: UIViewController {
     }
     
     private func configureProfileView() {
-        profilUserNameEditBtn.setImage(UIImage(named: "userNameEdit"), for: .normal)
+        profilUserNameEditBtn.setImage(UIImage(named: "icon_edit"), for: .normal)
         profilUserNameEditBtn.addTarget(self, action: #selector(changeEditUserNameVC(_:)), for: .touchUpInside)
         
         profileUserId.text = "@\(UserDefaults.standard.string(forKey: "uid")!)"

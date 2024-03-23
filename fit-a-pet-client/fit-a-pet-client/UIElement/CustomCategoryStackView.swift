@@ -34,7 +34,7 @@ class CustomCategoryStackView: UIStackView {
         }
         
         imageView.contentMode = .scaleAspectFit
-        imageView.image = UIImage(named: "category")
+        imageView.image = UIImage(named: "icon_dropdown_arrow_down")
         
         selectedLabel.font = .systemFont(ofSize: 14, weight: .regular)
         

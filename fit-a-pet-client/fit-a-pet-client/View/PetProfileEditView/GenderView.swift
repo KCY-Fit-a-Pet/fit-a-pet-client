@@ -36,7 +36,7 @@ class GenderView: UIView {
         selectedGenderLabel.font = .systemFont(ofSize: 14)
         selectedGenderLabel.text = "수컷"
 
-        genderChangeBtn.setImage(UIImage(named: "category"), for: .normal)
+        genderChangeBtn.setImage(UIImage(named: "icon_dropdown_arrow_down"), for: .normal)
 
         genderLabel.text = "성별"
         genderLabel.font = .boldSystemFont(ofSize: 18)
