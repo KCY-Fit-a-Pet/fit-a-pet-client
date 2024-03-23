@@ -299,7 +299,7 @@ extension CalendarRegistrationVC: UITextFieldDelegate{
         if newText.isEmpty {
             customView.textInputField.layer.borderColor = UIColor(named: "Gray3")?.cgColor
         } else {
-            customView.textInputField.layer.borderColor = UIColor(named: "PrimaryColor")?.cgColor
+            customView.textInputField.layer.borderColor = UIColor(named: "Primary")?.cgColor
         }
     }
     

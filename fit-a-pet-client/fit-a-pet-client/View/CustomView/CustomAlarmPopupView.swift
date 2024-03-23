@@ -14,7 +14,7 @@ class CustomAlarmPopupView: UIView {
         let button = UIButton()
         button.setTitle("확인", for: .normal)
         button.setTitleColor(.white, for: .normal)
-        button.backgroundColor = UIColor(named: "PrimaryColor")
+        button.backgroundColor = UIColor(named: "Primary")
         button.layer.cornerRadius = 8
         return button
     }()

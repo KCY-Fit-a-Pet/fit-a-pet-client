@@ -32,7 +32,7 @@ class CareDateCollectionViewCell: UICollectionViewCell {
         didSet {
             if isSelected {
                 label.textColor = .white
-                contentView.backgroundColor = UIColor(named: "PrimaryColor")
+                contentView.backgroundColor = UIColor(named: "Primary")
                 
             }else{
                 label.textColor = .black

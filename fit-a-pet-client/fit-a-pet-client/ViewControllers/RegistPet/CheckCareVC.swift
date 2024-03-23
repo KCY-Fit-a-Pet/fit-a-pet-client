@@ -136,7 +136,7 @@ extension CheckCareVC: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let cell = collectionView.cellForItem(at: indexPath) as? CheckCareCollectionViewCell
         cell?.isSelected = true
-        cell!.layer.borderColor = UIColor(named: "PrimaryColor")?.cgColor
+        cell!.layer.borderColor = UIColor(named: "Primary")?.cgColor
     }
     
     func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {

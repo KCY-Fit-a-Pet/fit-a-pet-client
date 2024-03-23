@@ -21,7 +21,7 @@ class MainInitView: UIView {
         let button = UIButton(type: .system)
         button.titleLabel?.font = UIFont.systemFont(ofSize: 14)
         button.setTitleColor(.white, for: .normal)
-        button.backgroundColor = UIColor(named: "PrimaryColor")
+        button.backgroundColor = UIColor(named: "Primary")
         button.layer.cornerRadius = 8
         button.titleEdgeInsets = UIEdgeInsets(top: 15, left: 10, bottom: 15, right: 10)
         return button

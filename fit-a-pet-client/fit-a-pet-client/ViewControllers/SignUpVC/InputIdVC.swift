@@ -108,7 +108,7 @@ extension InputIdVC: UITextFieldDelegate{
         if updatedText.isEmpty{
             inputId.layer.borderColor = UIColor(named: "Gray3")?.cgColor
         }else{
-            inputId.layer.borderColor = UIColor(named: "PrimaryColor")?.cgColor
+            inputId.layer.borderColor = UIColor(named: "Primary")?.cgColor
         }
         
         return true

@@ -9,6 +9,7 @@ class MainVC: UIViewController {
     private let mainInitView = MainInitView()
     private let petDataMethod = PetDataCollectionViewMethod()
     private let petCareMethod = PetCareCollectionViewMethod()
+    private let alarmButton = UIButton()
     
     private let mainView = UIView()
     private let petCollectionView: UICollectionView = {
@@ -35,10 +36,12 @@ class MainVC: UIViewController {
         return cv
     }()
     
-    
     private var petCareCollectionViewHeightConstraint: NSLayoutConstraint!
+   
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        alarmButton.addTarget(self, action: #selector(alarmButtonTapped), for: .touchUpInside)
         
         petListView.petCollectionView.delegate = petDataMethod
         petListView.petCollectionView.dataSource = petDataMethod
@@ -100,12 +103,15 @@ class MainVC: UIViewController {
     
     private func initView(){
         
+        alarmButton.setImage(UIImage(named: "icon_notification_none_32px"), for: .normal)
+        
 //        mainView.addSubview(mainInitView)
         mainView.addSubview(petListView)
         mainView.addSubview(petCareCollectionView)
         mainView.addSubview(petCollectionView)
         mainInitViewConfigurations()
         
+        layoutScrollView.addSubview(alarmButton)
         layoutScrollView.addSubview(mainView)
         view.addSubview(layoutScrollView)
         
@@ -115,13 +121,19 @@ class MainVC: UIViewController {
         
         petCareCollectionView.backgroundColor = .white
         
-        layoutScrollView.backgroundColor = UIColor(named: "PrimaryColor")
+        layoutScrollView.backgroundColor = UIColor(named: "Primary")
         
         layoutScrollView.snp.makeConstraints{ make in
             make.top.equalTo(view.snp.top)
             make.bottom.equalTo(view.snp.bottom)
             make.leading.equalTo(view.snp.leading)
             make.trailing.equalTo(view.snp.trailing)
+        }
+        
+        alarmButton.snp.makeConstraints{ make in
+            make.top.equalTo(layoutScrollView.snp.top)
+            make.trailing.equalTo(view).offset(-8)
+            make.width.height.equalTo(48)
         }
 //
 //        mainInitView.snp.makeConstraints{ make in
@@ -160,6 +172,15 @@ class MainVC: UIViewController {
         mainInitView.commentLabel.text = "아직 등록된 반려동물이 없어요"
         mainInitView.registerButton.setTitle("반려동물 등록하기", for: .normal)
         mainInitView.registerButton.addTarget(self, action: #selector(changeInputSpeciesVC(_:)), for: .touchUpInside)
+    }
+    
+    @objc func alarmButtonTapped() {
+        //self.navigationController?.navigationBar.topItem?.title = ""
+        //self.navigationController?.navigationBar.tintColor = .black
+        
+        let nextVC = AlarmVC()
+        nextVC.hidesBottomBarWhenPushed = true
+        self.navigationController?.pushViewController(nextVC, animated: false)
     }
     
     @objc func changeInputSpeciesVC(_ sender: UIButton){
@@ -279,7 +300,7 @@ class MainVC: UIViewController {
         
         for section in 0..<petCareMethod.numberOfSections(in: petCareCollectionView) {
             let numberOfCellsInSection = petCareMethod.collectionView(petCareCollectionView, numberOfItemsInSection: section)
-            let numberOfRows = numberOfCellsInSection / 2 + numberOfCellsInSection % 2 // 짝수 개수면 그대로, 홀수 개수면 1을 더한다
+            let numberOfRows = numberOfCellsInSection / 2 + numberOfCellsInSection % 2
             totalHeight += sectionHeaderHeight + (cellHeight * CGFloat(numberOfRows))
         }
 

@@ -71,7 +71,7 @@ class EditUserPwVC: CustomEditNavigationBar {
         
         userPwData = ["prePassword": prePassword, "newPassword": newPassword]
         
-        saveButton.tintColor = allFieldsFilled ? UIColor(named: "PrimaryColor") : UIColor(named: "Gray3")
+        saveButton.tintColor = allFieldsFilled ? UIColor(named: "Primary") : UIColor(named: "Gray3")
     }
 }
 

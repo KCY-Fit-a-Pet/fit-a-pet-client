@@ -119,7 +119,7 @@ class CreateRecordVC: CustomEditNavigationBar {
         var configuration = PHPickerConfiguration(photoLibrary: .shared())
         configuration.filter = .images
         configuration.selectionLimit = 6
-        configuration.preselectedAssetIdentifiers = self.selectedAssetIdentifiers
+        configuration.preselectedAssetIdentifiers = self.selectedAssetIdentifiers      
         let picker = PHPickerViewController(configuration: configuration)
         picker.delegate = self
         self.present(picker, animated: true, completion: nil)

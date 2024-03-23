@@ -71,7 +71,7 @@ class InputGenderVC: CustomNavigationBar {
         
         maleBtn.layer.borderWidth = 1
         maleBtn.layer.cornerRadius = 5
-        maleBtn.layer.borderColor = UIColor(named: "PrimaryColor")?.cgColor
+        maleBtn.layer.borderColor = UIColor(named: "Primary")?.cgColor
         maleBtn.backgroundColor = UIColor(named: "Secondary")
         maleBtn.titleLabel?.font = UIFont.systemFont(ofSize: 14)
 
@@ -180,13 +180,13 @@ class InputGenderVC: CustomNavigationBar {
        if femaleBtn.isSelected {
            maleBtn.layer.borderColor = UIColor(named: "Gray3")?.cgColor
            maleBtn.backgroundColor = .white
-           femaleBtn.layer.borderColor = UIColor(named: "PrimaryColor")?.cgColor
+           femaleBtn.layer.borderColor = UIColor(named: "Primary")?.cgColor
            femaleBtn.backgroundColor = UIColor(named: "Secondary")
            PetRegistrationManager.shared.addInput(gender: "FEMALE")
        } else if maleBtn.isSelected {
            femaleBtn.layer.borderColor = UIColor(named: "Gray3")?.cgColor
            femaleBtn.backgroundColor = .white
-           maleBtn.layer.borderColor = UIColor(named: "PrimaryColor")?.cgColor
+           maleBtn.layer.borderColor = UIColor(named: "Primary")?.cgColor
            maleBtn.backgroundColor = UIColor(named: "Secondary")
            PetRegistrationManager.shared.addInput(gender: "MALE")
        }
@@ -199,7 +199,7 @@ class InputGenderVC: CustomNavigationBar {
     
     private func updateCheckboxColor(){
         if neuteringCheckboxButton.isSelected{
-            neuteringCheckboxButton.tintColor = UIColor(named: "PrimaryColor")
+            neuteringCheckboxButton.tintColor = UIColor(named: "Primary")
             PetRegistrationManager.shared.addInput(neutralization: true)
         }else {
             neuteringCheckboxButton.tintColor = UIColor(named: "Gray9")

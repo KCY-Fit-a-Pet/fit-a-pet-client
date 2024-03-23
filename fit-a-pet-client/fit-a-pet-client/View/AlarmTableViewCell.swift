@@ -61,7 +61,7 @@ class AlarmTableViewCell: UITableViewCell {
         if selected == false{
             alarmSegmentControl.backgroundColor = UIColor(named: "Gray3")
         }else{
-            alarmSegmentControl.backgroundColor = UIColor(named: "PrimaryColor")
+            alarmSegmentControl.backgroundColor = UIColor(named: "Primary")
         }
         print(alarmSegmentControl.selectedSegmentIndex)
     }
@@ -74,7 +74,7 @@ class AlarmTableViewCell: UITableViewCell {
         if selectedIndex == 0{
             alarmSegmentControl.backgroundColor = UIColor(named: "Gray3")
         }else{
-            alarmSegmentControl.backgroundColor = UIColor(named: "PrimaryColor")
+            alarmSegmentControl.backgroundColor = UIColor(named: "Primary")
         }
         
         if cellIndex == 0{

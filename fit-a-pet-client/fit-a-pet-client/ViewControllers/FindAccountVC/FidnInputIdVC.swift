@@ -67,7 +67,7 @@ class FindInputIdVC: CustomNavigationBar{
 
         let findIdBtn = UIButton()
         findIdBtn.setTitle("아이디 찾기", for: .normal)
-        findIdBtn.setTitleColor(UIColor(named: "PrimaryColor"), for: .normal)
+        findIdBtn.setTitleColor(UIColor(named: "Primary"), for: .normal)
         findIdBtn.titleLabel?.font = UIFont.systemFont(ofSize: 14)
 
 
@@ -131,7 +131,7 @@ extension FindInputIdVC: UITextFieldDelegate{
         if updatedText.isEmpty{
             findInputId.layer.borderColor = UIColor(named: "Gray3")?.cgColor
         }else{
-            findInputId.layer.borderColor = UIColor(named: "PrimaryColor")?.cgColor
+            findInputId.layer.borderColor = UIColor(named: "Primary")?.cgColor
         }
 
         return true

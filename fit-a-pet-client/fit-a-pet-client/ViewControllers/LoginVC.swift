@@ -27,8 +27,9 @@ class LoginVC: UIViewController{
         loginBtn.addTarget(self, action: #selector(changeTabBarVC(_:)), for: .touchUpInside)
         NotificationCenter.default.addObserver(self, selector: #selector(retryLoginNotification(_:)), name: .retryLoginNotification, object: nil)
         
-        self.navigationController?.navigationBar.tintColor = .black
-        self.navigationController?.navigationBar.topItem?.title = ""
+        let backButton = UIBarButtonItem(image: UIImage(named: "icon_arrow_left"), style: .plain, target: self, action: #selector(backButtonTapped))
+        backButton.tintColor = UIColor(named: "Black")
+        self.navigationItem.leftBarButtonItem = backButton
         
     }
     deinit {
@@ -107,7 +108,7 @@ class LoginVC: UIViewController{
             make.right.equalTo(view.snp.right).offset(-16)
         }
         
-        loginBtn.backgroundColor = UIColor(named: "PrimaryColor")
+        loginBtn.backgroundColor = UIColor(named: "Primary")
         loginBtn.setTitle("로그인", for: .normal)
         loginBtn.titleLabel?.font = UIFont.systemFont(ofSize: 14)
         loginBtn.layer.cornerRadius = 5
@@ -190,6 +191,9 @@ class LoginVC: UIViewController{
             }
         }
     }
+    @objc func backButtonTapped() {
+        navigationController?.popViewController(animated: true)
+    }
     
     @objc func changeFindIdVC(_ sender: UIButton){
         FindIdPwSwitch.findAuth = "아이디 찾기"
@@ -218,7 +222,7 @@ extension LoginVC: UITextFieldDelegate{
                 if updatedText.isEmpty{
                     inputPw.layer.borderColor = UIColor(named: "Gray3")?.cgColor
                 }else{
-                    inputPw.layer.borderColor = UIColor(named: "PrimaryColor")?.cgColor
+                    inputPw.layer.borderColor = UIColor(named: "Primary")?.cgColor
                 }
                 return true
                 
@@ -233,7 +237,7 @@ extension LoginVC: UITextFieldDelegate{
                 inputId.layer.borderColor = UIColor(named: "Gray3")?.cgColor
                 
             } else {
-                inputId.layer.borderColor = UIColor(named: "PrimaryColor")?.cgColor
+                inputId.layer.borderColor = UIColor(named: "Primary")?.cgColor
             }
         }
         return true

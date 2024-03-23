@@ -128,7 +128,7 @@ extension FindInputAuthNumVC: UITextFieldDelegate{
         if updatedText.isEmpty{
             inputAuthNum.layer.borderColor = UIColor(named: "Gray3")?.cgColor
         }else{
-            inputAuthNum.layer.borderColor = UIColor(named: "PrimaryColor")?.cgColor
+            inputAuthNum.layer.borderColor = UIColor(named: "Primary")?.cgColor
         }
         
         return true

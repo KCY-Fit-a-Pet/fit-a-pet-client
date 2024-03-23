@@ -140,7 +140,7 @@ class PetProfileEditVC: CustomNavigationBar{
                     self.basicUserInofoView.genderView.neuteringCheckboxButton.isSelected = neutered
                     self.feedInputView.textInputField.text = feed
                     self.basicUserInofoView.genderView.updateCheckboxColor()
-                    self.editButton.backgroundColor = UIColor(named: "PrimaryColor")
+                    self.editButton.backgroundColor = UIColor(named: "Primary")
                     
                     let newPetEditData = PetEditData(id: id, petName: petName, petProfileImage: petProfileImage, gender: gender, neutered: neutered, birthdate: birthdate, species: species, feed: feed)
                     

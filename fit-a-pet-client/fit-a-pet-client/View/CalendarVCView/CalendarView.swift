@@ -23,17 +23,17 @@ class CalendarView: UIView, FSCalendarDelegateAppearance {
         calendar.weekdayHeight = 40
         calendar.appearance.headerTitleColor = .black
         calendar.appearance.weekdayTextColor = UIColor(named: "Gray5")
-        calendar.appearance.selectionColor = UIColor(named: "PrimaryColor")
+        calendar.appearance.selectionColor = UIColor(named: "Primary")
         calendar.appearance.headerMinimumDissolvedAlpha = 0.0
         calendar.appearance.headerTitleFont = .boldSystemFont(ofSize: 18)
 
         calendar.locale = Locale(identifier: "ko_KR")
 
-        calendar.appearance.titleTodayColor = UIColor(named: "PrimaryColor")
+        calendar.appearance.titleTodayColor = UIColor(named: "Primary")
         calendar.appearance.todayColor = UIColor(named: "Secondary")
         
         calendar.appearance.borderRadius = 0.5
-        calendar.appearance.todaySelectionColor = UIColor(named: "PrimaryColor")
+        calendar.appearance.todaySelectionColor = UIColor(named: "Primary")
 
         calendar.snp.makeConstraints { make in
             make.edges.equalToSuperview()

@@ -129,7 +129,7 @@ extension InputPwVC: UITextFieldDelegate{
                 if updatedText.isEmpty{
                     inputPwCheck.layer.borderColor = UIColor(named: "Gray3")?.cgColor
                 }else{
-                    inputPwCheck.layer.borderColor = UIColor(named: "PrimaryColor")?.cgColor
+                    inputPwCheck.layer.borderColor = UIColor(named: "Primary")?.cgColor
                 }
                 return true
                 
@@ -144,7 +144,7 @@ extension InputPwVC: UITextFieldDelegate{
                 inputPw.layer.borderColor = UIColor(named: "Gray3")?.cgColor
                 
             } else {
-                inputPw.layer.borderColor = UIColor(named: "PrimaryColor")?.cgColor
+                inputPw.layer.borderColor = UIColor(named: "Primary")?.cgColor
             }
         }
         return true

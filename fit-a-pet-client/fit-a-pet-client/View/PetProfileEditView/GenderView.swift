@@ -98,7 +98,7 @@ class GenderView: UIView {
     }
     func updateCheckboxColor(){
         if neuteringCheckboxButton.isSelected{
-            neuteringCheckboxButton.tintColor = UIColor(named: "PrimaryColor")
+            neuteringCheckboxButton.tintColor = UIColor(named: "Primary")
             PetDataManager.petEditData.neutered = true
             
         }else {

@@ -91,7 +91,7 @@ extension PetCareTableViewCell: UICollectionViewDelegate, UICollectionViewDataSo
             cell.careName.backgroundColor = UIColor(named: "Gray1")
         } else {
             cell.configure(care.careName)
-            cell.careName.textColor = UIColor(named: "PrimaryColor")
+            cell.careName.textColor = UIColor(named: "Primary")
             cell.careName.backgroundColor = UIColor(named: "Secondary")
         }
         

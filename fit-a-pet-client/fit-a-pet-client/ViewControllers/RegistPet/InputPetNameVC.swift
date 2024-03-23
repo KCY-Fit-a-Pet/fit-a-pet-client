@@ -105,7 +105,7 @@ extension InputPetNameVC: UITextFieldDelegate{
         if updatedText.isEmpty{
             inputPetName.layer.borderColor = UIColor(named: "Gray3")?.cgColor
         }else{
-            inputPetName.layer.borderColor = UIColor(named: "PrimaryColor")?.cgColor
+            inputPetName.layer.borderColor = UIColor(named: "Primary")?.cgColor
         }
 
         return true

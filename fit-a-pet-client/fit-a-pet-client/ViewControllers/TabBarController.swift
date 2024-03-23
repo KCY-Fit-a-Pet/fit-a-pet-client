@@ -11,7 +11,7 @@ class TabBarController: UITabBarController {
         navigationItem.hidesBackButton = true
         UITabBar.appearance().backgroundColor = .white
         
-        tabBar.tintColor = UIColor(named: "PrimaryColor")
+        tabBar.tintColor = UIColor(named: "Primary")
         
         let mainVC = MainVC()
         let calendarVC = CalendarVC()

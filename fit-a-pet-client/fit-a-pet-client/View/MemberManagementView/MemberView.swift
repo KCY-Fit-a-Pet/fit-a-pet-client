@@ -31,7 +31,7 @@ class MemberView: UIView {
         memberTitleLabel.font = .boldSystemFont(ofSize: 16)
 
         memberInviteBtn.setTitle("초대하기", for: .normal)
-        memberInviteBtn.setTitleColor(UIColor(named: "PrimaryColor"), for: .normal)
+        memberInviteBtn.setTitleColor(UIColor(named: "Primary"), for: .normal)
         memberInviteBtn.titleLabel?.font = UIFont.systemFont(ofSize: 14, weight: .medium)
 
         memberStackView.axis = .horizontal

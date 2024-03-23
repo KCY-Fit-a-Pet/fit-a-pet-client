@@ -6,7 +6,7 @@ class ScheduleListCollectionViewCell: UICollectionViewCell {
     let scheduleTimeLabel: UILabel = {
         let label = UILabel()
         label.font = .systemFont(ofSize: 12, weight: .regular)
-        label.textColor = UIColor(named: "PrimaryColor")
+        label.textColor = UIColor(named: "Primary")
         return label
     }()
     

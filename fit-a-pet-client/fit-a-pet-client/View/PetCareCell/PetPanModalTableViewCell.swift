@@ -50,7 +50,7 @@ class PetPanModalTableViewCell: UITableViewCell {
     }
     private func updateCellState() {
         if isSelectedState {
-            contentView.layer.borderColor = UIColor(named: "PrimaryColor")?.cgColor
+            contentView.layer.borderColor = UIColor(named: "Primary")?.cgColor
             contentView.backgroundColor = UIColor(named: "Secondary")
         } else {
             contentView.layer.borderColor = UIColor(named: "Gray3")?.cgColor

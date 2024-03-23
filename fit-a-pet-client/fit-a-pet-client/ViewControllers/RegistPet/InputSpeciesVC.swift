@@ -104,7 +104,7 @@ extension InputSpeciesVC: UITextFieldDelegate{
         if updatedText.isEmpty{
             inputPetSpecies.layer.borderColor = UIColor(named: "Gray3www")?.cgColor
         }else{
-            inputPetSpecies.layer.borderColor = UIColor(named: "PrimaryColor")?.cgColor
+            inputPetSpecies.layer.borderColor = UIColor(named: "Primary")?.cgColor
         }
 
         return true

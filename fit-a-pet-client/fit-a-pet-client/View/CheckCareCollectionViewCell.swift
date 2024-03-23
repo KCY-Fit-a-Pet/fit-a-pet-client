@@ -31,7 +31,7 @@ class CheckCareCollectionViewCell: UICollectionViewCell {
             if isSelected {
                 contentView.backgroundColor = UIColor(named: "Secondary")
                
-                careName.textColor = UIColor(named: "PrimaryColor")
+                careName.textColor = UIColor(named: "Primary")
             } else {
                 contentView.backgroundColor = UIColor.clear
                 careName.textColor = UIColor.black

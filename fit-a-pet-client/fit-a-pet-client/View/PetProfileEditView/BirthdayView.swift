@@ -161,7 +161,7 @@ class BirthdayView: UIView {
     
     func updateCheckboxColor(){
         if ageCheckboxButton.isSelected{
-            ageCheckboxButton.tintColor = UIColor(named: "PrimaryColor")
+            ageCheckboxButton.tintColor = UIColor(named: "Primary")
             ageInputTextFeild.isEnabled = true
             birthdayStackView.backgroundColor = UIColor(named: "Gray1")
             ageInputTextFeild.backgroundColor = UIColor.clear

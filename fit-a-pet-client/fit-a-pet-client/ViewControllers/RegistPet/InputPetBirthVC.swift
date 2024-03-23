@@ -236,7 +236,7 @@ class InputPetBirthVC : CustomNavigationBar {
     
     private func updateCheckboxColor(){
         if agecheckboxButton.isSelected{
-            agecheckboxButton.tintColor = UIColor(named: "PrimaryColor")
+            agecheckboxButton.tintColor = UIColor(named: "Primary")
         }else {
             agecheckboxButton.tintColor = UIColor(named: "Gray9")
         }

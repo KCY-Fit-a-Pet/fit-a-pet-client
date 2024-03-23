@@ -24,7 +24,7 @@ class CustomEditNavigationBar: UIViewController {
         cancleButton = UIBarButtonItem(title: "취소", style: .plain, target: self, action: #selector(cancelButtonTapped))
         saveButton = UIBarButtonItem(title: "저장", style: .plain, target: self, action: #selector(saveButtonTapped))
         
-        cancleButton.tintColor = UIColor(named: "PrimaryColor")
+        cancleButton.tintColor = UIColor(named: "Primary")
         saveButton.tintColor = UIColor(named: "Gray3")
 
         if let font = UIFont(name: "Helvetica-Bold", size: 16) {

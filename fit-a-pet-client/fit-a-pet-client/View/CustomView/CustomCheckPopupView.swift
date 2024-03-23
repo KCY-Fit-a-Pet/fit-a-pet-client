@@ -32,7 +32,7 @@ class CustomCheckPopupView: UIView {
         let button = UIButton()
         button.titleLabel?.font = UIFont.systemFont(ofSize: 14)
         button.setTitleColor(.white, for: .normal)
-        button.backgroundColor = UIColor(named: "PrimaryColor")
+        button.backgroundColor = UIColor(named: "Primary")
         button.layer.cornerRadius = 8
         return button
     }()
@@ -40,11 +40,11 @@ class CustomCheckPopupView: UIView {
     let customButton2: UIButton = {
         let button = UIButton()
         button.titleLabel?.font = UIFont.systemFont(ofSize: 14)
-        button.setTitleColor(UIColor(named: "PrimaryColor"), for: .normal)
+        button.setTitleColor(UIColor(named: "Primary"), for: .normal)
         button.backgroundColor = .white
         button.layer.cornerRadius = 8
         button.layer.borderWidth = 1
-        button.layer.borderColor = UIColor(named: "PrimaryColor")?.cgColor
+        button.layer.borderColor = UIColor(named: "Primary")?.cgColor
         return button
     }()
 

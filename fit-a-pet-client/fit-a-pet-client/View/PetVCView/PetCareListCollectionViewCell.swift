@@ -35,7 +35,7 @@ class PetCareListCollectionViewCell: UICollectionViewCell {
 //    override var isSelected: Bool {
 //        didSet {
 //            if isSelected {
-//                careName.textColor = UIColor(named: "PrimaryColor")
+//                careName.textColor = UIColor(named: "Primary")
 //                careName.backgroundColor = UIColor(named: "Secondary")
 //
 //            }else{

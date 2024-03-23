@@ -114,7 +114,7 @@ extension EditUserNameVC: UITextFieldDelegate{
         if updatedText.isEmpty{
             currentUserNameTextField.layer.borderColor = UIColor(named: "Gray3")?.cgColor
         }else{
-            currentUserNameTextField.layer.borderColor = UIColor(named: "PrimaryColor")?.cgColor
+            currentUserNameTextField.layer.borderColor = UIColor(named: "Primary")?.cgColor
         }
 
         return true

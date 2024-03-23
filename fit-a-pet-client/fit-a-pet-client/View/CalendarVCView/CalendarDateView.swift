@@ -100,7 +100,7 @@ class CalendarDateView: UIView {
             isDatePickerSelected.toggle()
             deselectOtherButton()
             selectedButton = datePickerBtn
-            datePickerBtn.setTitleColor(isDatePickerSelected ? UIColor(named: "PrimaryColor") : .black, for: .normal)
+            datePickerBtn.setTitleColor(isDatePickerSelected ? UIColor(named: "Primary") : .black, for: .normal)
             delegate?.datePickerButtonTapped()
         }
     }
@@ -110,7 +110,7 @@ class CalendarDateView: UIView {
             isTimePickerSelected.toggle()
             deselectOtherButton()
             selectedButton = timePickerBtn
-            timePickerBtn.setTitleColor(isTimePickerSelected ? UIColor(named: "PrimaryColor") : .black, for: .normal)
+            timePickerBtn.setTitleColor(isTimePickerSelected ? UIColor(named: "Primary") : .black, for: .normal)
             delegate?.timePickerButtonTapped()
         }
        

@@ -107,7 +107,7 @@ class FindIdCheckVC: CustomNavigationBar{
         
         let findPwBtn = UIButton()
         findPwBtn.setTitle("비밀번호 찾기", for: .normal)
-        findPwBtn.setTitleColor(UIColor(named: "PrimaryColor"), for: .normal)
+        findPwBtn.setTitleColor(UIColor(named: "Primary"), for: .normal)
         findPwBtn.titleLabel?.font = UIFont.systemFont(ofSize: 14)
         
         

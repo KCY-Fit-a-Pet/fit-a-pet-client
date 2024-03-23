@@ -106,7 +106,7 @@ extension FindInputPhoneNumVC: UITextFieldDelegate{
         if updatedText.isEmpty {
             inputPhoneNum.layer.borderColor = UIColor(named: "Gray3w")?.cgColor
         } else {
-            inputPhoneNum.layer.borderColor = UIColor(named: "PrimaryColor")?.cgColor
+            inputPhoneNum.layer.borderColor = UIColor(named: "Primary")?.cgColor
         }
         
         if !updatedText.isEmpty {

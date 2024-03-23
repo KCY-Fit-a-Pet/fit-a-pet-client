@@ -5,7 +5,7 @@ import UIKit
 class CustomNextBtn: UIButton {
     
     var GRAY3 = UIColor(named: "Gray3")
-    var PRIMARYCOLOR = UIColor(named: "PrimaryColor")
+    var PRIMARYCOLOR = UIColor(named: "Primary")
 
     init(title: String) {
        super.init(frame: .zero)

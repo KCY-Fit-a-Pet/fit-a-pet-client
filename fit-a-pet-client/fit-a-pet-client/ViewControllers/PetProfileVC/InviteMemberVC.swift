@@ -63,9 +63,9 @@ class InviteMemberVC: UIViewController{
         }
         
         inviteToggleBtn.setTitle("초대 하기", for: .normal)
-        inviteToggleBtn.setTitleColor(UIColor(named: "PrimaryColor"), for: .normal)
+        inviteToggleBtn.setTitleColor(UIColor(named: "Primary"), for: .normal)
         inviteToggleBtn.layer.borderWidth = 1
-        inviteToggleBtn.layer.borderColor = UIColor(named: "PrimaryColor")?.cgColor
+        inviteToggleBtn.layer.borderColor = UIColor(named: "Primary")?.cgColor
         inviteToggleBtn.layer.cornerRadius = 8
         inviteToggleBtn.backgroundColor = .white
         inviteToggleBtn.titleLabel?.font = UIFont.systemFont(ofSize: 14, weight: .medium)
@@ -164,8 +164,8 @@ class InviteMemberVC: UIViewController{
                                             inviteToggleBtn.isHidden = false
                                             inviteToggleBtn.isEnabled = true
                                             inviteToggleBtn.setTitle("초대 하기", for: .normal)
-                                            inviteToggleBtn.setTitleColor(UIColor(named: "PrimaryColor"), for: .normal)
-                                            inviteToggleBtn.layer.borderColor = UIColor(named: "PrimaryColor")?.cgColor
+                                            inviteToggleBtn.setTitleColor(UIColor(named: "Primary"), for: .normal)
+                                            inviteToggleBtn.layer.borderColor = UIColor(named: "Primary")?.cgColor
                                         }
                                         
                                     }
@@ -216,8 +216,8 @@ class InviteMemberVC: UIViewController{
             }
         }else{
             inviteToggleBtn.setTitle("초대 하기", for: .normal)
-            inviteToggleBtn.setTitleColor(UIColor(named: "PrimaryColor"), for: .normal)
-            inviteToggleBtn.layer.borderColor = UIColor(named: "PrimaryColor")?.cgColor
+            inviteToggleBtn.setTitleColor(UIColor(named: "Primary"), for: .normal)
+            inviteToggleBtn.layer.borderColor = UIColor(named: "Primary")?.cgColor
             
             var invitationId = 0
             let invateManager = PetManagersManager.inviteManagers

@@ -139,7 +139,7 @@ extension InputNickVC: UITextFieldDelegate{
         if updatedText.isEmpty{
             inputNick.layer.borderColor = UIColor(named: "Gray3")?.cgColor
         }else{
-            inputNick.layer.borderColor = UIColor(named: "PrimaryColor")?.cgColor
+            inputNick.layer.borderColor = UIColor(named: "Primary")?.cgColor
         }
         
         return true

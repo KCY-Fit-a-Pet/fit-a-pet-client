@@ -127,6 +127,8 @@
 		4AD354292AAF7F55004A47B3 /* RecordVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AD354282AAF7F55004A47B3 /* RecordVC.swift */; };
 		4AD3542B2AAF7F6A004A47B3 /* PetVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AD3542A2AAF7F6A004A47B3 /* PetVC.swift */; };
 		4AD3542D2AAF7F83004A47B3 /* SettingVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AD3542C2AAF7F83004A47B3 /* SettingVC.swift */; };
+		4ADE47652BAF4348008D3CE6 /* AlarmVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ADE47642BAF4348008D3CE6 /* AlarmVC.swift */; };
+		4ADE47682BAF4911008D3CE6 /* AlarmContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ADE47672BAF4911008D3CE6 /* AlarmContentView.swift */; };
 		4ADFA58F2B83DAEF003AA76C /* RecordDataListManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ADFA58E2B83DAEF003AA76C /* RecordDataListManager.swift */; };
 		4AE293F12B6FFA2800920C0B /* PetDetailProfileVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AE293F02B6FFA2800920C0B /* PetDetailProfileVC.swift */; };
 		4AE293F32B70041100920C0B /* PetProfileUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AE293F22B70041100920C0B /* PetProfileUtils.swift */; };
@@ -279,6 +281,8 @@
 		4AD354282AAF7F55004A47B3 /* RecordVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordVC.swift; sourceTree = "<group>"; };
 		4AD3542A2AAF7F6A004A47B3 /* PetVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PetVC.swift; sourceTree = "<group>"; };
 		4AD3542C2AAF7F83004A47B3 /* SettingVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingVC.swift; sourceTree = "<group>"; };
+		4ADE47642BAF4348008D3CE6 /* AlarmVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlarmVC.swift; sourceTree = "<group>"; };
+		4ADE47672BAF4911008D3CE6 /* AlarmContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlarmContentView.swift; sourceTree = "<group>"; };
 		4ADFA58E2B83DAEF003AA76C /* RecordDataListManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordDataListManager.swift; sourceTree = "<group>"; };
 		4AE293F02B6FFA2800920C0B /* PetDetailProfileVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PetDetailProfileVC.swift; sourceTree = "<group>"; };
 		4AE293F22B70041100920C0B /* PetProfileUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PetProfileUtils.swift; sourceTree = "<group>"; };
@@ -545,6 +549,7 @@
 		4ABE58582A85E8B400E22C5F /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				4ADE47632BAF4160008D3CE6 /* AlarmVC */,
 				4A1545E22B90F0F100008494 /* PopupVC */,
 				4A4B085D2B77D82500959683 /* RecordRelatedVC */,
 				4AE293EF2B6FF9EA00920C0B /* PetProfileVC */,
@@ -566,6 +571,7 @@
 		4ABE58592A85E8C100E22C5F /* View */ = {
 			isa = PBXGroup;
 			children = (
+				4ADE47662BAF4902008D3CE6 /* AlarmView */,
 				4A2D55D82B866E8E0079FDC7 /* MemberManagementView */,
 				4A8DCC952B81333D003E35E8 /* CustomView */,
 				4A0150352B7690530069AF20 /* RecordView */,
@@ -689,6 +695,22 @@
 				4AD3542C2AAF7F83004A47B3 /* SettingVC.swift */,
 			);
 			path = TabBarVC;
+			sourceTree = "<group>";
+		};
+		4ADE47632BAF4160008D3CE6 /* AlarmVC */ = {
+			isa = PBXGroup;
+			children = (
+				4ADE47642BAF4348008D3CE6 /* AlarmVC.swift */,
+			);
+			path = AlarmVC;
+			sourceTree = "<group>";
+		};
+		4ADE47662BAF4902008D3CE6 /* AlarmView */ = {
+			isa = PBXGroup;
+			children = (
+				4ADE47672BAF4911008D3CE6 /* AlarmContentView.swift */,
+			);
+			path = AlarmView;
 			sourceTree = "<group>";
 		};
 		4ADFA5902B83DBDE003AA76C /* RecordManager */ = {
@@ -934,6 +956,7 @@
 				4A9088772AC1681B000C7878 /* MainPetCollectionViewCell.swift in Sources */,
 				4A8B9B4A2AD443E6009236EC /* ApiStatusLogger.swift in Sources */,
 				4A2974AA2B7FD70700587AF8 /* TotalFolderPanModalVC.swift in Sources */,
+				4ADE47682BAF4911008D3CE6 /* AlarmContentView.swift in Sources */,
 				4A2D55DA2B866EAC0079FDC7 /* ManagerView.swift in Sources */,
 				4A01502D2B7404270069AF20 /* PetProfileEditVC.swift in Sources */,
 				4A0750D22B07D44000281A4C /* UploadPetPhotoVC.swift in Sources */,
@@ -990,6 +1013,7 @@
 				4A2D55D52B84C87F0079FDC7 /* NoRecordDataView.swift in Sources */,
 				4A9936542B64231B00B7B21A /* CalendarView.swift in Sources */,
 				4ACDD4A92ADAFFD100CD8F1A /* InputPetBirthVC.swift in Sources */,
+				4ADE47652BAF4348008D3CE6 /* AlarmVC.swift in Sources */,
 				4ABB933B2B7BD60F00E1EA73 /* RecordCreateManager.swift in Sources */,
 				4A15F2142AA8B4A50098F2F7 /* InputPwVC.swift in Sources */,
 				4A6106C62B8CF0E4000502B9 /* ManagerDelegationTableViewCell.swift in Sources */,
@@ -1100,7 +1124,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INFOPLIST_KEY_CFBundleDisplayName = "Fit A Pet";
-				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -1156,7 +1180,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INFOPLIST_KEY_CFBundleDisplayName = "Fit A Pet";
-				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;

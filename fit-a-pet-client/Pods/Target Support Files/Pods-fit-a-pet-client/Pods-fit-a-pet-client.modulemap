@@ -1,0 +1,6 @@
+framework module Pods_fit_a_pet_client {
+  umbrella header "Pods-fit-a-pet-client-umbrella.h"
+
+  export *
+  module * { export * }
+}

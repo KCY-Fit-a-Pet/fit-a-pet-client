@@ -14,7 +14,7 @@ class FirstVC: UIViewController {
     private let loginBtn = UIButton()
     private let loginView = UIView()
     
-    let PRYMARYCOLOR = UIColor(named: "PrimaryColor")
+    let PRYMARYCOLOR = UIColor(named: "Primary")
     let loginInstance = NaverThirdPartyLoginConnection.getSharedInstance()
     
     override func viewDidLoad() {
@@ -74,9 +74,9 @@ extension FirstVC{
         loginBtn.titleLabel?.font = UIFont.systemFont(ofSize: 14)
         loginBtn.backgroundColor = .white
         loginBtn.layer.cornerRadius = 5
-        loginBtn.layer.borderColor = UIColor(named: "PrimaryColor")?.cgColor
+        loginBtn.layer.borderColor = UIColor(named: "Primary")?.cgColor
         loginBtn.layer.borderWidth = 1
-        loginBtn.setTitleColor(UIColor(named: "PrimaryColor"), for: .normal)
+        loginBtn.setTitleColor(UIColor(named: "Primary"), for: .normal)
         
         loginBtn.addTarget(self, action: #selector(changeLoginVC(_:)), for: .touchUpInside)
         
