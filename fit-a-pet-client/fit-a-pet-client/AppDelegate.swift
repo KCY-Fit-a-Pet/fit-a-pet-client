@@ -131,7 +131,8 @@ extension AppDelegate: MessagingDelegate {
 //        // TODO: - 디바이스 토큰을 보내는 서버통신 구현
 //        print("APNs fcm Token: \(String(describing: fcmToken!))")
 ////       // sendDeviceTokenWithAPI(fcmToken: fcmToken ?? "")
-////        
+////
+        
 //        AuthorizationAlamofire.shared.registDeviceToken(String(describing: fcmToken!), device.systemVersion, modelName) {result in
 //            switch result {
 //            case .success(let data):

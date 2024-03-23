@@ -988,7 +988,7 @@
 				4A6106D02B8D19B1000502B9 /* UserInfoRouter.swift in Sources */,
 				4ABE53002B5AD92F000EA41D /* PetDataManager.swift in Sources */,
 				4A2D55DE2B86734D0079FDC7 /* MemberView.swift in Sources */,
-				4A11797E2BA6D4E000A9CF4C /* LocalNotiTest.swift in Sources */,
+
 				4AE7DCA12B9CC344002BA0F4 /* CustomTableView.swift in Sources */,
 				4A88D6172B53ABD2003A2D0F /* PetCareRegistrationManager.swift in Sources */,
 				4AE7DC9F2B9CC001002BA0F4 /* SelectGenderPanModalVC.swift in Sources */,

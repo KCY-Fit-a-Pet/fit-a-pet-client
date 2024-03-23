@@ -1,7 +1,9 @@
 {
   "images" : [
     {
+
       "filename" : "icon_oauth_naver.svg",
+
       "idiom" : "universal",
       "scale" : "1x"
     },

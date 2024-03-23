@@ -1,9 +1,3 @@
-//
-//  LoginVC.swift
-//  fit-a-pet-client
-//
-//  Created by 최희진 on 2023/09/10.
-//
 
 import UIKit
 import SnapKit
@@ -25,7 +19,7 @@ class LoginVC: UIViewController{
         initView()
         stackBtnView()
         
-        LocalNotificationHelper.shared.pushNotification(title: "안녕하세요", body: "푸시 알림 테스트입니다.", seconds: 2, identifier: "PUSH_TEST")
+       // LocalNotificationHelper.shared.pushNotification(title: "안녕하세요", body: "푸시 알림 테스트입니다.", seconds: 2, identifier: "PUSH_TEST")
         
         inputId.delegate = self
         inputPw.delegate = self
