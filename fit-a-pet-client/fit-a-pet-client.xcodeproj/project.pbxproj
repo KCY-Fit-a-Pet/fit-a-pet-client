@@ -58,7 +58,6 @@
 		4A4056182B52A69000A95891 /* PetPanModalVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A4056172B52A69000A95891 /* PetPanModalVC.swift */; };
 		4A40561A2B52A7D100A95891 /* PetPanModalTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A4056192B52A7D100A95891 /* PetPanModalTableViewCell.swift */; };
 		4A40561C2B52FDB000A95891 /* TimeAttackPanModalVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A40561B2B52FDB000A95891 /* TimeAttackPanModalVC.swift */; };
-		4A40561F2B52FE7900A95891 /* TimeAttackPanModalTabelViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A40561E2B52FE7900A95891 /* TimeAttackPanModalTabelViewCell.swift */; };
 		4A4B08582B77AE3200959683 /* RecordListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A4B08572B77AE3200959683 /* RecordListView.swift */; };
 		4A4B085A2B77B15400959683 /* RecordListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A4B08592B77B15400959683 /* RecordListTableViewCell.swift */; };
 		4A4B085C2B77D2DF00959683 /* RecordVCMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A4B085B2B77D2DF00959683 /* RecordVCMethod.swift */; };
@@ -78,6 +77,8 @@
 		4A73392E2B68097D00216FB5 /* CalendarScheduleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A73392D2B68097D00216FB5 /* CalendarScheduleView.swift */; };
 		4A7339302B680AEC00216FB5 /* ScheduleListCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A73392F2B680AEC00216FB5 /* ScheduleListCollectionViewCell.swift */; };
 		4A7339322B68139700216FB5 /* SchedulePetImageCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A7339312B68139700216FB5 /* SchedulePetImageCollectionViewCell.swift */; };
+		4A7F98062BAF533600F49140 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4A7F98052BAF533600F49140 /* GoogleService-Info.plist */; };
+		4A7F980A2BAF53F600F49140 /* TimeAttackPanModalTabelViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A7F98092BAF53F600F49140 /* TimeAttackPanModalTabelViewCell.swift */; };
 		4A80E4D12B487DF600CD5D05 /* TokenHandling.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A80E4D02B487DF600CD5D05 /* TokenHandling.swift */; };
 		4A80E4D42B49BA7800CD5D05 /* AnonymousAlamofire.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A80E4D32B49BA7800CD5D05 /* AnonymousAlamofire.swift */; };
 		4A828D8B2B618DF7006AE70A /* DateFormatterUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A828D8A2B618DF7006AE70A /* DateFormatterUtils.swift */; };
@@ -106,7 +107,6 @@
 		4AA9999B2A8485A600E495FA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4AA9999A2A8485A600E495FA /* Assets.xcassets */; };
 		4AA9999E2A8485A600E495FA /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4AA9999C2A8485A600E495FA /* LaunchScreen.storyboard */; };
 		4AB6178E2B1CFAF300CED98E /* FindIdCheckVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AB6178D2B1CFAF300CED98E /* FindIdCheckVC.swift */; };
-		4ABB93352B7BA35800E1EA73 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4ABB93342B7BA35800E1EA73 /* GoogleService-Info.plist */; };
 		4ABB933B2B7BD60F00E1EA73 /* RecordCreateManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ABB933A2B7BD60F00E1EA73 /* RecordCreateManager.swift */; };
 		4ABB93402B7BDCB900E1EA73 /* ButtonStackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ABB933F2B7BDCB900E1EA73 /* ButtonStackView.swift */; };
 		4ABE53002B5AD92F000EA41D /* PetDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ABE52FF2B5AD92F000EA41D /* PetDataManager.swift */; };
@@ -209,7 +209,6 @@
 		4A4056172B52A69000A95891 /* PetPanModalVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PetPanModalVC.swift; sourceTree = "<group>"; };
 		4A4056192B52A7D100A95891 /* PetPanModalTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PetPanModalTableViewCell.swift; sourceTree = "<group>"; };
 		4A40561B2B52FDB000A95891 /* TimeAttackPanModalVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeAttackPanModalVC.swift; sourceTree = "<group>"; };
-		4A40561E2B52FE7900A95891 /* TimeAttackPanModalTabelViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = TimeAttackPanModalTabelViewCell.swift; path = ../../../../../../Documents/TimeAttackPanModalTabelViewCell.swift; sourceTree = "<group>"; };
 		4A4B08572B77AE3200959683 /* RecordListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordListView.swift; sourceTree = "<group>"; };
 		4A4B08592B77B15400959683 /* RecordListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordListTableViewCell.swift; sourceTree = "<group>"; };
 		4A4B085B2B77D2DF00959683 /* RecordVCMethod.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordVCMethod.swift; sourceTree = "<group>"; };
@@ -229,6 +228,8 @@
 		4A73392D2B68097D00216FB5 /* CalendarScheduleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarScheduleView.swift; sourceTree = "<group>"; };
 		4A73392F2B680AEC00216FB5 /* ScheduleListCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleListCollectionViewCell.swift; sourceTree = "<group>"; };
 		4A7339312B68139700216FB5 /* SchedulePetImageCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SchedulePetImageCollectionViewCell.swift; sourceTree = "<group>"; };
+		4A7F98052BAF533600F49140 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
+		4A7F98092BAF53F600F49140 /* TimeAttackPanModalTabelViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimeAttackPanModalTabelViewCell.swift; sourceTree = "<group>"; };
 		4A80E4D02B487DF600CD5D05 /* TokenHandling.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenHandling.swift; sourceTree = "<group>"; };
 		4A80E4D22B4882B500CD5D05 /* fit-a-pet-client.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "fit-a-pet-client.entitlements"; sourceTree = "<group>"; };
 		4A80E4D32B49BA7800CD5D05 /* AnonymousAlamofire.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnonymousAlamofire.swift; sourceTree = "<group>"; };
@@ -260,7 +261,6 @@
 		4AA9999D2A8485A600E495FA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		4AA9999F2A8485A600E495FA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4AB6178D2B1CFAF300CED98E /* FindIdCheckVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindIdCheckVC.swift; sourceTree = "<group>"; };
-		4ABB93342B7BA35800E1EA73 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		4ABB933A2B7BD60F00E1EA73 /* RecordCreateManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordCreateManager.swift; sourceTree = "<group>"; };
 		4ABB933F2B7BDCB900E1EA73 /* ButtonStackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonStackView.swift; sourceTree = "<group>"; };
 		4ABE52FF2B5AD92F000EA41D /* PetDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PetDataManager.swift; sourceTree = "<group>"; };
@@ -406,7 +406,7 @@
 				4A3D7BF92B4F120900E3BBF8 /* CareDateCollectionViewCell.swift */,
 				4A3D7C002B51BB1F00E3BBF8 /* CareDateTableViewCell.swift */,
 				4A4056192B52A7D100A95891 /* PetPanModalTableViewCell.swift */,
-				4A40561E2B52FE7900A95891 /* TimeAttackPanModalTabelViewCell.swift */,
+				4A7F98092BAF53F600F49140 /* TimeAttackPanModalTabelViewCell.swift */,
 			);
 			path = PetCareCell;
 			sourceTree = "<group>";
@@ -532,7 +532,7 @@
 				4AA9999C2A8485A600E495FA /* LaunchScreen.storyboard */,
 				4A24406F2B36A9D20086D2AB /* Secrets.xcconfig */,
 				4AA9999F2A8485A600E495FA /* Info.plist */,
-				4ABB93342B7BA35800E1EA73 /* GoogleService-Info.plist */,
+				4A7F98052BAF533600F49140 /* GoogleService-Info.plist */,
 			);
 			path = "fit-a-pet-client";
 			sourceTree = "<group>";
@@ -861,7 +861,7 @@
 			files = (
 				4AA9999E2A8485A600E495FA /* LaunchScreen.storyboard in Resources */,
 				4AA9999B2A8485A600E495FA /* Assets.xcassets in Resources */,
-				4ABB93352B7BA35800E1EA73 /* GoogleService-Info.plist in Resources */,
+				4A7F98062BAF533600F49140 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1003,6 +1003,7 @@
 				4A2D55D72B8663FE0079FDC7 /* MemberManagementVC.swift in Sources */,
 				4A9936582B642B7E00B7B21A /* CustomVerticalView.swift in Sources */,
 				4A1B5E492B79476A00A076A7 /* PetImageCollectionViewCell.swift in Sources */,
+				4A7F980A2BAF53F600F49140 /* TimeAttackPanModalTabelViewCell.swift in Sources */,
 				4A6106D02B8D19B1000502B9 /* UserInfoRouter.swift in Sources */,
 				4ABE53002B5AD92F000EA41D /* PetDataManager.swift in Sources */,
 				4A2D55DE2B86734D0079FDC7 /* MemberView.swift in Sources */,
@@ -1044,7 +1045,6 @@
 				4A6106CE2B8D1607000502B9 /* AdminRouter.swift in Sources */,
 				4ACDD4A72AD9B3F600CD8F1A /* CheckCareVC.swift in Sources */,
 				4A8662D62B2629F500D8DDE8 /* EditUserNameVC.swift in Sources */,
-				4A40561F2B52FE7900A95891 /* TimeAttackPanModalTabelViewCell.swift in Sources */,
 				4AE293F62B713E9A00920C0B /* PetDetailCareListView.swift in Sources */,
 				4AF2409C2B88BDB000E224AE /* InviteWaitingView.swift in Sources */,
 				4A54A0BB2B5858440024B940 /* PetCareListView.swift in Sources */,
