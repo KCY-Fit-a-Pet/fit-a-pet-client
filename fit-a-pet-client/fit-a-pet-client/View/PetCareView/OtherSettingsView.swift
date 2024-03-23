@@ -39,7 +39,7 @@ class OtherSettingsView: UIView {
         carePetLabel.font = .boldSystemFont(ofSize: 16)
         carePetStackView.addArrangedSubview(carePetLabel)
 
-        carePetButton.setImage(UIImage(named: "right_icon"), for: .normal)
+        carePetButton.setImage(UIImage(named: "icon_arrow_small_right"), for: .normal)
         carePetStackView.addArrangedSubview(carePetButton)
 
         addSubview(carePetStackView)
@@ -59,7 +59,7 @@ class OtherSettingsView: UIView {
         timeAttackLabel.font = .boldSystemFont(ofSize: 16)
         timeAttackStackView.addArrangedSubview(timeAttackLabel)
 
-        timeAttackButton.setImage(UIImage(named: "right_icon"), for: .normal)
+        timeAttackButton.setImage(UIImage(named: "icon_arrow_small_right"), for: .normal)
         timeAttackStackView.addArrangedSubview(timeAttackButton)
 
         addSubview(timeAttackStackView)

@@ -174,6 +174,7 @@
 		4A0CC3612B810C6E004A9D77 /* RootFolderPanModalVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootFolderPanModalVC.swift; sourceTree = "<group>"; };
 		4A0FEA482B1B5F6F0084CA6C /* FindInputPhoneNumVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindInputPhoneNumVC.swift; sourceTree = "<group>"; };
 		4A0FEA4A2B1B5F820084CA6C /* FindInputAuthNumVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindInputAuthNumVC.swift; sourceTree = "<group>"; };
+		4A11797D2BA6D4E000A9CF4C /* LocalNotiTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalNotiTest.swift; sourceTree = "<group>"; };
 		4A1545E32B90F14200008494 /* CancellationPopupVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CancellationPopupVC.swift; sourceTree = "<group>"; };
 		4A15F2062AA641910098F2F7 /* CustomNextBtn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomNextBtn.swift; sourceTree = "<group>"; };
 		4A15F2082AA790D60098F2F7 /* CustomProgressBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomProgressBar.swift; sourceTree = "<group>"; };
@@ -258,7 +259,6 @@
 		4AA9999F2A8485A600E495FA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4AB6178D2B1CFAF300CED98E /* FindIdCheckVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindIdCheckVC.swift; sourceTree = "<group>"; };
 		4ABB93342B7BA35800E1EA73 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
-		4ABB93392B7BA78600E1EA73 /* fit-a-pet-clientRelease.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "fit-a-pet-clientRelease.entitlements"; sourceTree = "<group>"; };
 		4ABB933A2B7BD60F00E1EA73 /* RecordCreateManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordCreateManager.swift; sourceTree = "<group>"; };
 		4ABB933F2B7BDCB900E1EA73 /* ButtonStackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonStackView.swift; sourceTree = "<group>"; };
 		4ABE52FF2B5AD92F000EA41D /* PetDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PetDataManager.swift; sourceTree = "<group>"; };
@@ -301,7 +301,7 @@
 		4AF2409F2B88C45D00E224AE /* InviteMemberTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InviteMemberTableViewCell.swift; sourceTree = "<group>"; };
 		4AF240A12B8A4E2600E224AE /* PetManagersManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PetManagersManager.swift; sourceTree = "<group>"; };
 		4AFBBBAE2B66DDFF00166643 /* ScheduleRegistrationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleRegistrationManager.swift; sourceTree = "<group>"; };
-		A8CCF3AF04A53824C263132B /* Pods-fit-a-pet-client.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-fit-a-pet-client.debug.xcconfig"; path = "Target Support Files/Pods-fit-a-pet-client/Pods-fit-a-pet-client.debug.xcconfig"; sourceTree = "<group>"; };
+		8AAC3DBDE42E08A7E145CA8E /* Pods-fit-a-pet-client.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-fit-a-pet-client.debug.xcconfig"; path = "Target Support Files/Pods-fit-a-pet-client/Pods-fit-a-pet-client.debug.xcconfig"; sourceTree = "<group>"; };
 		AB1D3740B0C5A796E5D597B2 /* Pods_fit_a_pet_client.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_fit_a_pet_client.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -513,7 +513,6 @@
 		4AA999902A8485A500E495FA /* fit-a-pet-client */ = {
 			isa = PBXGroup;
 			children = (
-				4ABB93392B7BA78600E1EA73 /* fit-a-pet-clientRelease.entitlements */,
 				4A80E4D22B4882B500CD5D05 /* fit-a-pet-client.entitlements */,
 				4AD3541E2AAF7BA2004A47B3 /* UIElement */,
 				4ABE585F2A85E93100E22C5F /* Resource */,
@@ -559,6 +558,7 @@
 				4AA999952A8485A500E495FA /* FirstVC.swift */,
 				4A9936552B642A0800B7B21A /* CalendarRegistrationVC.swift */,
 				4AD354212AAF7E62004A47B3 /* TabBarController.swift */,
+				4A11797D2BA6D4E000A9CF4C /* LocalNotiTest.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -771,8 +771,8 @@
 		8EF8644275BA065FBAA31F2B /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				A8CCF3AF04A53824C263132B /* Pods-fit-a-pet-client.debug.xcconfig */,
 				1BE018CCB6881B4EFC5C6D84 /* Pods-fit-a-pet-client.release.xcconfig */,
+				8AAC3DBDE42E08A7E145CA8E /* Pods-fit-a-pet-client.debug.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -795,8 +795,6 @@
 			dependencies = (
 			);
 			name = "fit-a-pet-client";
-			packageProductDependencies = (
-			);
 			productName = "fit-a-pet-client";
 			productReference = 4AA9998E2A8485A500E495FA /* fit-a-pet-client.app */;
 			productType = "com.apple.product-type.application";
@@ -825,8 +823,6 @@
 				Base,
 			);
 			mainGroup = 4AA999852A8485A500E495FA;
-			packageReferences = (
-			);
 			productRefGroup = 4AA9998F2A8485A500E495FA /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -1103,6 +1099,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = "Fit A Pet";
 				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
@@ -1158,6 +1155,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = "Fit A Pet";
 				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
@@ -1170,7 +1168,7 @@
 		};
 		4AA999A32A8485A600E495FA /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = A8CCF3AF04A53824C263132B /* Pods-fit-a-pet-client.debug.xcconfig */;
+			baseConfigurationReference = 8AAC3DBDE42E08A7E145CA8E /* Pods-fit-a-pet-client.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;

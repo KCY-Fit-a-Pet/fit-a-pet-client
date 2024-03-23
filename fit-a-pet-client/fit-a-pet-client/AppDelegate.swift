@@ -7,8 +7,10 @@ import NaverThirdPartyLogin
 import Firebase
 import FirebaseCore
 
+import UserNotifications
+
 @main
-class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
@@ -41,6 +43,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         instance?.consumerSecret = naverClientSecret // pw
         instance?.appName = "Fit a Pet" // app name
         
+        UNUserNotificationCenter.current().delegate = self
+        
+        let authOptions: UNAuthorizationOptions = [.alert, .badge, .sound] // 필요한 알림 권한을 설정
+        UNUserNotificationCenter.current().requestAuthorization(
+            options: authOptions,
+            completionHandler: { _, _ in }
+        )
 
         return true
     }
@@ -96,25 +105,33 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 
 }
 
+extension AppDelegate: UNUserNotificationCenterDelegate {
+    
+    // Foreground(앱 켜진 상태)에서도 알림 오는 설정
+    func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+        completionHandler([.list, .banner])
+    }
+}
+
 extension AppDelegate: MessagingDelegate {
     // 현재 등록 토큰 가져오기.
     func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String?) {
-        
-        let device = UIDevice.current
-        print("os: \(device.systemVersion)")
-        var modelName = ""
-        let selName = "_\("deviceInfo")ForKey:"
-                let selector = NSSelectorFromString(selName)
-                
-                if device.responds(to: selector) { // [옵셔널 체크 실시]
-                    modelName = String(describing: device.perform(selector, with: "marketing-name").takeRetainedValue())
-                }
-        print("devieModel: \(modelName)")
-
-        // TODO: - 디바이스 토큰을 보내는 서버통신 구현
-        print("APNs fcm Token: \(String(describing: fcmToken!))")
-       // sendDeviceTokenWithAPI(fcmToken: fcmToken ?? "")
 //        
+//        let device = UIDevice.current
+//        print("os: \(device.systemVersion)")
+//        var modelName = ""
+//        let selName = "_\("deviceInfo")ForKey:"
+//                let selector = NSSelectorFromString(selName)
+//                
+//                if device.responds(to: selector) { // [옵셔널 체크 실시]
+//                    modelName = String(describing: device.perform(selector, with: "marketing-name").takeRetainedValue())
+//                }
+//        print("devieModel: \(modelName)")
+//
+//        // TODO: - 디바이스 토큰을 보내는 서버통신 구현
+//        print("APNs fcm Token: \(String(describing: fcmToken!))")
+////       // sendDeviceTokenWithAPI(fcmToken: fcmToken ?? "")
+////
 //        AuthorizationAlamofire.shared.registDeviceToken(String(describing: fcmToken!), device.systemVersion, modelName) {result in
 //            switch result {
 //            case .success(let data):

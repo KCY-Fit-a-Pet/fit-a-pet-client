@@ -1,0 +1,15 @@
+{
+  "images" : [
+    {
+      "filename" : "icon_folder_gray5_16px.svg",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  },
+  "properties" : {
+    "preserves-vector-representation" : true
+  }
+}

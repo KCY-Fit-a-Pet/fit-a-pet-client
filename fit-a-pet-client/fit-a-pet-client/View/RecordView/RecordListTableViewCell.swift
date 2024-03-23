@@ -43,7 +43,7 @@ class RecordListTableViewCell: UITableViewCell {
     let folderImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFit
-        imageView.image = UIImage(named: "listFolder")
+        imageView.image = UIImage(named: "icon_folder_gray5_16px")
         imageView.tintColor = UIColor(named: "Gray5")
         return imageView
     }()

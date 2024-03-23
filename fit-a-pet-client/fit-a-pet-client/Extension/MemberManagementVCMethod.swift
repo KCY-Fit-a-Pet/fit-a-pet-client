@@ -12,7 +12,7 @@ class MemberListTableViewMethod: NSObject, UITableViewDataSource, UITableViewDel
     var managerList = PetManagersManager.subManagers
    
     func didTapChangeName(_ userId: Int) {
-  
+
         AuthorizationAlamofire.shared.userNicknameCheck(userId){ result in
             switch result {
             case .success(let data):

@@ -44,7 +44,7 @@ class ManagerView: UIView {
             make.leading.equalToSuperview().inset(16)
         }
         
-        menuButton.setImage(UIImage(named: "detail_icon"), for: .normal)
+        menuButton.setImage(UIImage(named: "icon_more"), for: .normal)
         
         menuButton.snp.makeConstraints { make in
             make.trailing.equalToSuperview().inset(16)
