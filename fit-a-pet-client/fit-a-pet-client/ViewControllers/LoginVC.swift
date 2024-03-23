@@ -25,6 +25,8 @@ class LoginVC: UIViewController{
         initView()
         stackBtnView()
         
+        LocalNotificationHelper.shared.pushNotification(title: "안녕하세요", body: "푸시 알림 테스트입니다.", seconds: 2, identifier: "PUSH_TEST")
+        
         inputId.delegate = self
         inputPw.delegate = self
         

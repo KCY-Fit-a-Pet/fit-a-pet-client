@@ -27,6 +27,7 @@
 		4A0CC3622B810C6E004A9D77 /* RootFolderPanModalVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A0CC3612B810C6E004A9D77 /* RootFolderPanModalVC.swift */; };
 		4A0FEA492B1B5F6F0084CA6C /* FindInputPhoneNumVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A0FEA482B1B5F6F0084CA6C /* FindInputPhoneNumVC.swift */; };
 		4A0FEA4B2B1B5F820084CA6C /* FindInputAuthNumVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A0FEA4A2B1B5F820084CA6C /* FindInputAuthNumVC.swift */; };
+		4A11797E2BA6D4E000A9CF4C /* LocalNotiTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A11797D2BA6D4E000A9CF4C /* LocalNotiTest.swift */; };
 		4A1545E42B90F14200008494 /* CancellationPopupVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A1545E32B90F14200008494 /* CancellationPopupVC.swift */; };
 		4A15F2072AA641910098F2F7 /* CustomNextBtn.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A15F2062AA641910098F2F7 /* CustomNextBtn.swift */; };
 		4A15F2092AA790D60098F2F7 /* CustomProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A15F2082AA790D60098F2F7 /* CustomProgressBar.swift */; };
@@ -174,6 +175,7 @@
 		4A0CC3612B810C6E004A9D77 /* RootFolderPanModalVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootFolderPanModalVC.swift; sourceTree = "<group>"; };
 		4A0FEA482B1B5F6F0084CA6C /* FindInputPhoneNumVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindInputPhoneNumVC.swift; sourceTree = "<group>"; };
 		4A0FEA4A2B1B5F820084CA6C /* FindInputAuthNumVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindInputAuthNumVC.swift; sourceTree = "<group>"; };
+		4A11797D2BA6D4E000A9CF4C /* LocalNotiTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalNotiTest.swift; sourceTree = "<group>"; };
 		4A1545E32B90F14200008494 /* CancellationPopupVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CancellationPopupVC.swift; sourceTree = "<group>"; };
 		4A15F2062AA641910098F2F7 /* CustomNextBtn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomNextBtn.swift; sourceTree = "<group>"; };
 		4A15F2082AA790D60098F2F7 /* CustomProgressBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomProgressBar.swift; sourceTree = "<group>"; };
@@ -258,7 +260,6 @@
 		4AA9999F2A8485A600E495FA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4AB6178D2B1CFAF300CED98E /* FindIdCheckVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindIdCheckVC.swift; sourceTree = "<group>"; };
 		4ABB93342B7BA35800E1EA73 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
-		4ABB93392B7BA78600E1EA73 /* fit-a-pet-clientRelease.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "fit-a-pet-clientRelease.entitlements"; sourceTree = "<group>"; };
 		4ABB933A2B7BD60F00E1EA73 /* RecordCreateManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordCreateManager.swift; sourceTree = "<group>"; };
 		4ABB933F2B7BDCB900E1EA73 /* ButtonStackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonStackView.swift; sourceTree = "<group>"; };
 		4ABE52FF2B5AD92F000EA41D /* PetDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PetDataManager.swift; sourceTree = "<group>"; };
@@ -513,7 +514,6 @@
 		4AA999902A8485A500E495FA /* fit-a-pet-client */ = {
 			isa = PBXGroup;
 			children = (
-				4ABB93392B7BA78600E1EA73 /* fit-a-pet-clientRelease.entitlements */,
 				4A80E4D22B4882B500CD5D05 /* fit-a-pet-client.entitlements */,
 				4AD3541E2AAF7BA2004A47B3 /* UIElement */,
 				4ABE585F2A85E93100E22C5F /* Resource */,
@@ -559,6 +559,7 @@
 				4AA999952A8485A500E495FA /* FirstVC.swift */,
 				4A9936552B642A0800B7B21A /* CalendarRegistrationVC.swift */,
 				4AD354212AAF7E62004A47B3 /* TabBarController.swift */,
+				4A11797D2BA6D4E000A9CF4C /* LocalNotiTest.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -987,6 +988,7 @@
 				4A6106D02B8D19B1000502B9 /* UserInfoRouter.swift in Sources */,
 				4ABE53002B5AD92F000EA41D /* PetDataManager.swift in Sources */,
 				4A2D55DE2B86734D0079FDC7 /* MemberView.swift in Sources */,
+				4A11797E2BA6D4E000A9CF4C /* LocalNotiTest.swift in Sources */,
 				4AE7DCA12B9CC344002BA0F4 /* CustomTableView.swift in Sources */,
 				4A88D6172B53ABD2003A2D0F /* PetCareRegistrationManager.swift in Sources */,
 				4AE7DC9F2B9CC001002BA0F4 /* SelectGenderPanModalVC.swift in Sources */,
@@ -1103,6 +1105,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = "Fit A Pet";
 				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
@@ -1158,6 +1161,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = "Fit A Pet";
 				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;

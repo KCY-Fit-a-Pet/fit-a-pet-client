@@ -28,11 +28,11 @@ class TabBarController: UITabBarController {
         
         setViewControllers([navigationCalendar, navigationRecord, navigationMain, navigationPet, navigationSetting ], animated: false)
         
-        navigationMain.tabBarItem.image = UIImage(named: "home_icon")
-        navigationCalendar.tabBarItem.image = UIImage(named: "calendar_icon")
-        navigationRecord.tabBarItem.image = UIImage(named: "daily_icon")
-        navigationPet.tabBarItem.image = UIImage(named: "pet_icon")
-        navigationSetting.tabBarItem.image = UIImage(named: "setting_icon")
+        navigationMain.tabBarItem.image = UIImage(named: "icon_tabbar_home")
+        navigationCalendar.tabBarItem.image = UIImage(named: "icon_tabbar_calendar")
+        navigationRecord.tabBarItem.image = UIImage(named: "icon_tabbar_note")
+        navigationPet.tabBarItem.image = UIImage(named: "icon_tabbar_pets")
+        navigationSetting.tabBarItem.image = UIImage(named: "icon_tabbar_settings")
         
         
         //각 tab bar의 viewcontroller 타이틀 설정
