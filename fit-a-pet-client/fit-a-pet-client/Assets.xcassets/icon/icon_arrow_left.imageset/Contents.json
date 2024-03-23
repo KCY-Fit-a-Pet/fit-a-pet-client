@@ -1,9 +1,11 @@
 {
   "images" : [
     {
+
       "filename" : "icon_arrow_left.svg",
       "idiom" : "universal"
     }
+
   ],
   "info" : {
     "author" : "xcode",
@@ -13,4 +15,3 @@
     "preserves-vector-representation" : true
   }
 }
-
